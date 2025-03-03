@@ -1,0 +1,66 @@
+<?php
+
+return [
+    'welcome' => 'हमारे एप्लिकेशन में आपका स्वागत है!',
+    'login' => 'लॉगिन',
+    'register' => 'रजिस्टर करें',
+    'logout' => 'लॉगआउट',
+    'partner_updated_successfully' => 'पार्टनर सफलतापूर्वक अपडेट किया गया',
+    'failed_to_update_partner'=>'पार्टनर को अपडेट करने में विफल',
+    'partner_not_found'=>'पार्टनर नहीं मिला',
+    'partner_found'=>'पार्टनर मिला',
+    'partner_added_successfully'=>'पार्टनर सफलतापूर्वक जोड़ा गया',
+    'partner_center_added_successfully'=>'पार्टनर केंद्र सफलतापूर्वक जोड़ा गया',
+    'failed_to_add_partner_center'=>'पार्टनर केंद्र जोड़ने में असफल',
+    'partner_deleted_successfully'=>'पार्टनर सफलतापूर्वक हटा दिया गया',
+    'partner_center_deleted_successfully'=>'पार्टनर केंद्र सफलतापूर्वक हटा दिया गया',
+    'partner_center_not_found'=>'पार्टनर केंद्र नहीं मिला',
+    'partner_center_found'=>'पार्टनर केंद्र मिला',
+    'failed_to_delete_partner'=>'पार्टनर को हटाने में विफल',
+    'edit_partner'=>'अपडेट पार्टनर',
+    'add_new_partner'=>'नया पार्टनर',
+    'edit_partner_center'=>'अपडेट पार्टनर केंद्र',
+    'add_new_partner_center'=>'पार्टनर केंद्र',
+
+    'opportunity_added_successfully'=>'अवसर सफलतापूर्वक जोड़ा गया',
+    'opportunity_updated_successfully'=>'अवसर सफलतापूर्वक अपडेट किया गया',
+    'the_opportunity_with_title'=>'शीर्षक के साथ अवसर ',
+    'already_exists'=>' पहले से ही मौजूद है',
+    'opportunities_not_found'=>'अवसर नहीं मिला',
+    'opportunities_deleted_successfully'=>'अवसर सफलतापूर्वक हटा दिया गया',
+    'failed_to_delete_opportunity'=>'अवसर को हटाने में विफल',
+    'item_already_exists' => 'आइटम पहले से मौजूद है',
+    'item_added_successfully'=>'आइटम सफलतापूर्वक जोड़ा गया',
+    'add_new_opportunity'=>'नया अवसर',
+
+
+    'pathway_added_successfully'=>'मार्ग सफलतापूर्वक जोड़ा गया',
+    'pathway_updated_successfully'=>'मार्ग सफलतापूर्वक अपडेट किया गया',
+    'pathway_not_found'=>'मार्ग नहीं मिला',
+    'pathway_deleted_successfully'=>'मार्ग सफलतापूर्वक हटा दिया गया',
+    'failed_to_add_pathway'=>'मार्ग अपडेट करने में विफल',
+    // Add other translations here
+
+    'promotion_added_successfully'=>'प्रमोशन सफलतापूर्वक जोड़ा गया',
+    'promotion_updated_successfully'=>'प्रमोशन सफलतापूर्वक अपडेट किया गया',
+    'promotion_not_found'=>'प्रमोशन नहीं मिला',
+    'promotion_deleted_successfully'=>'प्रमोशन सफलतापूर्वक हटा दिया गया',
+    'failed_to_delete_promotion'=>'प्रमोशन सफलतापूर्वक हटा दिया गया',
+    'failed_to_add_promotion'=>'प्रमोशन अपडेट करने में विफल',
+    'promotion_recently_added'=>'प्रमोशन_हाल ही में_जोड़ा गया या डुप्लिकेट डेटा',
+    'add_new_promotion'=>'Add New प्रमोशन_हाल',
+    'edit_new_promotion'=>'Update प्रमोशन_हाल',
+    'promotion'=>'प्रमोशन_हाल',
+    // Add other translations here
+
+
+    'yuwaahsakhi_added_successfully'=>'युवाह सखी सफलतापूर्वक जोड़ा गया',
+    'yuwaahsakhi_updated_successfully'=>'युवा सखी सफलतापूर्वक अपडेट की गई',
+    'yuwaahsakhi_not_found'=>'युवा सखी नहीं मिली',
+    'yuwaahsakhi_found'=>'युवा सखी मिली',
+    'yuwaahsakhi_deleted_successfully'=>'युवाह सखी सफलतापूर्वक हटा दिया गया',
+    'failed_to_add_yuwaahsakhi'=>'युवा सखी को जोड़ने में विफल',
+    'yuwaahsakhi_recently_added'=>'युवा सखी द्वारा हाल ही में जोड़ा गया या डुप्लिकेट डेटा',
+     'add_yuwaah_sakhi'=>'युवा सखी जोड़ने'
+    
+];
