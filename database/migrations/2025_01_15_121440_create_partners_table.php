@@ -17,10 +17,6 @@ return new class extends Migration
             $table->string('name'); // Partner name
             $table->string('contact_number'); // Contact number
             $table->string('email')->unique(); // Unique email
-            $table->string('district')->nullable(); // Unique email
-            $table->string('city')->nullable(); // Unique email
-            $table->string('state')->nullable(); // Unique email
-            //$table->string('address')->nullable(); // Unique email
             $table->dateTime('onboard_date'); // Onboard date
             $table->boolean('status')->default(1); // Status with default value true
             $table->timestamp('modified_at')->useCurrent()->useCurrentOnUpdate(); // Modified timestamp
