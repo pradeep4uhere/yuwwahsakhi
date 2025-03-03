@@ -19,10 +19,6 @@ return new class extends Migration
             $table->string('email')->unique(); // Unique email
             $table->dateTime('onboard_date'); // Onboard Date
             $table->boolean('status')->default(1); // Status (active/inactive) with default value 1
-            $table->text('address')->nullable();
-            $table->string('district')->nullable(); // Replace 'column_name' with the name of the column after which you want to add these fields
-            $table->string('city')->nullable();
-            $table->string('state')->nullable();
             $table->timestamps(); // created_at and updated_at
             $table->timestamp('modified_at')->useCurrent()->useCurrentOnUpdate();
         });
