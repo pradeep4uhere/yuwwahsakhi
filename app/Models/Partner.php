@@ -29,6 +29,18 @@ class Partner extends Authenticatable
     ];
 
 
+    /**
+     * All Pater Count For Admin Panel
+     */
+    public static function getAllCount(){
+        return self::count();
+    }
+
+
+
+
+
+
     public static function allPartnerList(Request $request){
         $perPage = env('PAGINATION');
         $query = Partner::query()

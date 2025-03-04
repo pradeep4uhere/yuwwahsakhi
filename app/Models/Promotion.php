@@ -33,6 +33,15 @@ class Promotion extends Model
 
     
 
+
+    /**
+     * All Pater Count For Admin Panel
+     */
+    public static function getAllCount(){
+        return self::count();
+    }
+
+
     public static function getFormatedData(Promotion $promotion)
     {
         if ($promotion) {

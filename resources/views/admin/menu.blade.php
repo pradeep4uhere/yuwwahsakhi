@@ -14,7 +14,7 @@
             <ul class="nav-links">
                 <span class="dashmobile" style="font-weight:600; font-size: 20px; line-height: 24.38px;">Dashboard</span>
                 <li style="margin-top: 1rem;" class="{{ request()->is('admin/overview') ? 'activelink' : '' }}">
-                    <a href="overview.html" id="overview-link">
+                    <a href="{{route('admin.dashboard')}}" id="overview-link">
                         <i class="uil uil-files-landscapes {{ request()->is('admin/overview') ? 'activelink' : '' }}"></i>
                         <span class="link-name {{ request()->is('admin/overview') ? 'activelink' : '' }}">Overview</span>
                     </a></li>

@@ -24,37 +24,37 @@
                 <div class="boxes">
                     <div class="box box1">
                         <span class="text">Partners</span>
-                        <span class="number">322</span>
-                        <a href="partner.html"> <img src="{{asset('asset/images/Editiconmain.png')}}" alt="" style="height: 100px; width: 120px; cursor: pointer;"" id="edit-icon"></a>
+                        <span class="number">{{$dashboard['partner']}}</span>
+                        <a href="{{route('admin.partner')}}"> <img src="{{asset('asset/images/Editiconmain.png')}}" alt="" style="height: 100px; width: 120px; cursor: pointer;"" id="edit-icon"></a>
 
                     </div>
                     <div class="box box2">
                         <span class="text">Partner Centers</span>
-                        <span class="number">34</span>
-                        <a href="partnercenter.html"> <img src="{{asset('asset/images/Editiconmain.png')}}" alt="" style="height: 100px; width: 120px; cursor: pointer;"></a>
+                        <span class="number">{{$dashboard['partnerCenter']}}</span>
+                        <a href="{{route('admin.partnercenter')}}"> <img src="{{asset('asset/images/Editiconmain.png')}}" alt="" style="height: 100px; width: 120px; cursor: pointer;"></a>
 
 
                     </div>
                     <div class="box box3">
                         <span class="text">Yuwaah Sakhi</span>
-                        <span class="number">645</span>
-                        <a href="yuwaahsakhi.html"> <img src="{{asset('asset/images/Editiconmain.png')}}" alt="" style="height: 100px; width: 120px; cursor: pointer;"></a>
+                        <span class="number">{{$dashboard['YuwaahSakhi']}}</span>
+                        <a href="{{route('admin.yuwaahsakhi.list')}}"> <img src="{{asset('asset/images/Editiconmain.png')}}" alt="" style="height: 100px; width: 120px; cursor: pointer;"></a>
 
 
                     </div>
                     <div class="box box4">
                         <span class="text">Opportunities</span>
-                        <span class="number">1001</span>
-                        <a href="opportunities.html"> <img src="{{asset('asset/images/Editiconmain.png')}}" alt="" style="height: 100px; width: 120px; cursor: pointer;"></a>
+                        <span class="number">{{$dashboard['Opportunities']}}</span>
+                        <a href="{{route('admin.opportunities.list')}}"> <img src="{{asset('asset/images/Editiconmain.png')}}" alt="" style="height: 100px; width: 120px; cursor: pointer;"></a>
 
 
                     </div>
                     <div class="box box5">
                         <span class="text">Promotions</span>
-                        <span class="number">23</span>
+                        <span class="number">{{$dashboard['Promotions']}}</span>
                         <div class="editclass">
 
-                        <a href="promotions.html"> <img src="{{asset('asset/images/Editiconmain.png')}}" alt="" style="height: 100px; width: 120px; cursor: pointer;"></a>
+                        <a href="{{route('admin.promotions.list')}}"> <img src="{{asset('asset/images/Editiconmain.png')}}" alt="" style="height: 100px; width: 120px; cursor: pointer;"></a>
 
 </div>
                     </div>

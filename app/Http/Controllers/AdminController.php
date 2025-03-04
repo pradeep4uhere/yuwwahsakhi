@@ -23,8 +23,22 @@ class AdminController extends Controller
      */
     public function dashboard(Request $request)
     {
+        $partner = Partner::getAllCount();
+        $partnerCenter = partnerCenter::getAllCount();
+        $YuwaahSakhi = YuwaahSakhi::getAllCount();
+        $Opportunities = Opportunity::getAllCount();
+        $Promotions = Promotion::getAllCount();
+
+        $dashboard = [
+            'partner' => $partner,
+            'partnerCenter'=>$partnerCenter,
+            'YuwaahSakhi'=>$YuwaahSakhi,
+            'Opportunities'=>$Opportunities,
+            'Promotions'=>$Promotions
+        ];
         return view('admin.dashboard', [
             'title' => 'Dashboard',
+            'dashboard'=>$dashboard,
         ]);
     }
 
