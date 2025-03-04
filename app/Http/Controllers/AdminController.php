@@ -203,7 +203,11 @@ class AdminController extends Controller
         
             // Optionally, dump the response for debugging
             if ($responseArray['status'] === false) {
-                $errors = $responseArray['errors'];
+                if(is_array($responseArray['errors'])){
+                    $errors = $responseArray['errors'];
+                }else{
+                    $errors = array($responseArray['errors']);
+                }
                 $success = [];
             }
             if ($responseArray['status'] === true) {
