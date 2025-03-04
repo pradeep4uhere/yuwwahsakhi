@@ -26,7 +26,7 @@ class IpWhitelistMiddleware
     public function handle(Request $request, Closure $next): Response
     {
 
-        if (in_array('*', config('yourconfig.ips')) || in_array(request()->ip(), config('yourconfig.ips'))) {
+        if (in_array('*', $this->whitelistedIps) || in_array(request()->ip(), $this->whitelistedIps)) {
             return $next($request);
         }
         // Check if the IP address is in the whitelist
