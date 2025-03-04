@@ -359,6 +359,7 @@ class ApiAuthController extends Controller
                'email' => $request->email,
                'contact_number' => $request->contact_number,
                'address' => $request->address,
+               'password' => Hash::make('password@123'),
                'status' => $request->status,
                'onboard_date' => now(),
            ]);
