@@ -221,7 +221,7 @@ class AdminController extends Controller
             }
             
         }
-        dd($responseArray);
+        //dd($responseArray);
         $partnerList = Partner::where('status','=',1)->get();
         // Call the 'getPartnerList' method
         return view('admin.partnercenter.add', [
