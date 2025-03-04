@@ -199,7 +199,7 @@ class AdminController extends Controller
         
             // If the response is a JsonResponse, you can convert it into an array
             $responseArray = $response->getData(true);  // Convert to array
-            //dd($responseArray);
+            
         
             // Optionally, dump the response for debugging
             if ($responseArray['status'] === false) {
@@ -210,12 +210,14 @@ class AdminController extends Controller
                 }
                 $success = [];
             }
+           
             if ($responseArray['status'] === true) {
                 $errors = [];
                 $success = $responseArray['message'];
             }
             
         }
+        dd($responseArray);
         $partnerList = Partner::where('status','=',1)->get();
         // Call the 'getPartnerList' method
         return view('admin.partnercenter.add', [
