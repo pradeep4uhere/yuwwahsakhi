@@ -206,7 +206,7 @@ class AdminController extends Controller
                 if(is_array($responseArray['errors'])){
                     $errors = $responseArray['errors'];
                 }else{
-                    $errors = array($responseArray['errors']);
+                    $errors = array("Error"=>$responseArray['errors']);
                 }
                 $success = [];
             }
