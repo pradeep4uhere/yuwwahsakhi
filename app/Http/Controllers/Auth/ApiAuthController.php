@@ -348,7 +348,7 @@ class ApiAuthController extends Controller
        
 
        if ($validator->fails()) {
-           return response()->json([ 'status'=>false,'error' => $validator->errors()], 422);
+           return response()->json([ 'status'=>false,'errors' => $validator->errors()], 422);
        }
 
        try {
@@ -372,7 +372,7 @@ class ApiAuthController extends Controller
            return response()->json([
                'status'=>false,
                'message' => __('messages.failed_to_add_partner_center'),
-               'error' => $e->getMessage(),
+               'errors' => $e->getMessage(),
            ], 500);
        }
    }
