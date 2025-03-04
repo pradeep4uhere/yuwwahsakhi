@@ -25,10 +25,14 @@ class IpWhitelistMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-        // Check if the IP address is in the whitelist
-        if (!in_array($request->ip(), $this->whitelistedIps)) {
-            abort(403, 'Unauthorized access.');
+
+        if (in_array('*', config('yourconfig.ips')) || in_array(request()->ip(), config('yourconfig.ips'))) {
+            return $next($request);
         }
+        // Check if the IP address is in the whitelist
+        //if (!in_array($request->ip(), $this->whitelistedIps)) {
+        //    abort(403, 'Unauthorized access.');
+        //}
         return $next($request);
     }
 }
