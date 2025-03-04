@@ -199,17 +199,21 @@ class AdminController extends Controller
         
             // If the response is a JsonResponse, you can convert it into an array
             $responseArray = $response->getData(true);  // Convert to array
-            
+            $errors = [];
+            $success = null;
+
         
             // Optionally, dump the response for debugging
             if ($responseArray['status'] === false) {
-                if(is_array($responseArray['errors'])){
-                    $errors = $responseArray['errors'];
-                }else{
-                    $errors = array("Error"=>$responseArray['errors']);
+                if (isset($responseArray['errors'])) {
+                    if (is_array($responseArray['errors'])) {
+                        $errors = $responseArray['errors'];
+                    } else {
+                        $errors = ['error' => [$responseArray['errors']]]; // Convert string error to an array
+                    }
                 }
-                $success = [];
             }
+            
            
             if ($responseArray['status'] === true) {
                 $errors = [];

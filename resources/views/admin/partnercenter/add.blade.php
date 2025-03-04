@@ -24,20 +24,25 @@
                     <button class="add-partner-btn" id="addPartnerBtn">All Partner Center</button>
                     </a>
                 </div>
-                @if(isset($errors) && ($errors!=null))
+                @if (!empty($errors))
                 <div class="alert alert-danger">
                     @foreach ($errors as $field => $fieldErrors)
+                        @if(is_array($fieldErrors))
                             @foreach ($fieldErrors as $error)
                                 <small>{{ ucfirst($field) }}: {{ $error }}</small><br/>
                             @endforeach
+                        @else
+                            <small>{{ ucfirst($field) }}: {{ $fieldErrors }}</small><br/>
+                        @endif
                     @endforeach
                 </div>
-                @endif
-                @if(isset($success) && ($success!=null))
+            @endif
+
+            @if (!empty($success))
                 <div class="alert alert-success">
-                    <small>{{$success}}</small>
+                    <small>{{ $success }}</small>
                 </div>
-                @endif
+            @endif
 
 
 
