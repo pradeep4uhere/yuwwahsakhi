@@ -24,6 +24,7 @@ class PartnerCenter extends Model
         'state',
         'status',
         'address',
+        'password',
         'onboard_date',
     ];
 
