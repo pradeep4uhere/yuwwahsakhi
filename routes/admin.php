@@ -56,7 +56,7 @@ Route::middleware('auth:admin')->group(function () {
     Route::any('/delete/{id}', [AdminController::class, 'deleteYuwaahSakhi'])->name('admin.yuwaahsakhi.delete');
     Route::get('/getyuwaahdetails/{id}', [AdminController::class, 'getYuwaahDetails'])->name('admin.yuwaahsakhi.details');
     Route::get('/getyuwaahlist', [AdminController::class, 'getYuwaahList'])->name('admin.yuwaahsakhi.list');
-
-  
+    Route::get('/getyuwaahlist', [AdminController::class, 'getYuwaahList'])->name('admin.yuwaahsakhi.list');
+    Route::get('/get-partner-centers', [AdminController::class, 'getPartnerCenters'])->name('admin.get_partner_centers');
 
 });

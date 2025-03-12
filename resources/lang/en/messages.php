@@ -61,7 +61,11 @@ return [
     'yuwaahsakhi_deleted_successfully'=>'Yuwaah Sakhi deleted successfully',
     'failed_to_add_yuwaahsakhi'=>'Failed to add Yuwaah Sakhi',
     'yuwaahsakhi_recently_added'=>'Yuwaah Sakhi recently added or duplicate data',
-    'add_yuwaah_sakhi'=>'Add Yuwaah Sakhi'
+    'add_yuwaah_sakhi'=>'Add Yuwaah Sakhi',
+    'edit_yuwaahsakhi'=>'Update Yuwaah Sakhi',
+
+    'choose_partner'=>'Choose Partner',
+    'choose_partner_center'=>'Choose Partner Center'
 
 
 ];

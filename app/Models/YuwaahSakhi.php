@@ -38,6 +38,8 @@ class YuwaahSakhi extends Model
         'city',
         'address',
         'status',
+        'partner_id',
+        'partner_center_id',
         'center_picture',
         'profile_picture',
     ];
@@ -53,6 +55,7 @@ class YuwaahSakhi extends Model
 
 
     public static function getFormatedData(YuwaahSakhi $yuwaahSakhi){
+        //dd($yuwaahSakhi);
         $data = [
             'id'=>$yuwaahSakhi['id'],
             'sakhiId'=>$yuwaahSakhi['sakhi_id'],
@@ -78,6 +81,8 @@ class YuwaahSakhi extends Model
             'State'=>$yuwaahSakhi['state'],
             'City'=>$yuwaahSakhi['city'],
             'Address'=>$yuwaahSakhi['address'],
+            'Partner'=>$yuwaahSakhi['Partner']['name'],
+            'PartnerCenter'=>$yuwaahSakhi['PartnerCenter']['center_name'],
             'Status'=>($yuwaahSakhi['status']==1)?'Active':'InActive',
             'CenterPicture'=>asset('/storage/'.$yuwaahSakhi['center_picture']),
             'ProfilePicture'=>asset('/storage/'.$yuwaahSakhi['profile_picture'])
@@ -108,6 +113,18 @@ class YuwaahSakhi extends Model
         ];
     }
 
+
+
+    public function Partner()
+    {
+        return $this->belongsTo(Partner::class, 'partner_id');
+    }
+
+
+    public function partnerCenter()
+    {
+        return $this->belongsTo(PartnerCenter::class, 'partner_center_id');
+    }
 
 
 }

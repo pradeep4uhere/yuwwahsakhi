@@ -32,6 +32,8 @@
                             <tr>
                                 <th>SN</th>
                                 <th>YS Name</th>
+                                <th>Partner</th>
+                                <th>Partner Center</th>
                                 <th>Contact Number</th>
                                 <th>YS Email</th>
                                 <th>Date Of Birth</th>
@@ -47,6 +49,8 @@
                             <tr>
                                 <td>{{$count}}</td>
                                 <td>{{$item['Name']}}</td>
+                                <td>{{ucwords($item['Partner'])}}</td>
+                                <td>{{ucwords($item['PartnerCenter'])}}</td>
                                 <td>{{$item['ContactNumber']}}</td>
                                 <td>{{$item['Email']}}</td>
                                 <td>{{$item['DateOfBirth']}}</td>

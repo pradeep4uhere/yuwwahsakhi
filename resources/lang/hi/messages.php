@@ -61,6 +61,11 @@ return [
     'yuwaahsakhi_deleted_successfully'=>'युवाह सखी सफलतापूर्वक हटा दिया गया',
     'failed_to_add_yuwaahsakhi'=>'युवा सखी को जोड़ने में विफल',
     'yuwaahsakhi_recently_added'=>'युवा सखी द्वारा हाल ही में जोड़ा गया या डुप्लिकेट डेटा',
-     'add_yuwaah_sakhi'=>'युवा सखी जोड़ने'
+    'add_yuwaah_sakhi'=>'युवा सखी जोड़ने',
+    'edit_yuwaahsakhi'=>'Update Yuwaah Sakhi',
+
+     'choose_partner'=>'Choose Partner',
+    'choose_partner_center'=>'Choose Partner Center'
+
     
 ];

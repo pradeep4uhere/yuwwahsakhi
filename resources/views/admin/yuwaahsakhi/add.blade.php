@@ -181,6 +181,22 @@
               <input type="file" name="profile_photo"/>
             </div>
             <div class="input-container">
+            <label for="partner">{{__('messages.choose_partner')}}</label>
+            <select id="partner" name="partner_id">
+                <option value="">Choose Partner</option>
+                <?php foreach($partnerList as $item111){ ?>
+                    <option value="{{$item111['id']}}">{{$item111['name']}}</option>
+                <?php } ?>
+            </select>
+        </div>
+
+        <div class="input-container">
+            <label for="partner_center">{{__('messages.choose_partner_center')}}</label>
+            <select id="partner_center" name="partner_center_id">
+                <option value="">Choose Partner Center</option>
+            </select>
+        </div>
+            <div class="input-container">
               <label for="field5">{{__('status')}}</label>
               <select id="field5" name="status">
                <option value="1" {{ old('status') == '1' ? 'selected' : '' }}>Active</option>
@@ -198,6 +214,7 @@
         </form>
         </div>
     </section>
+
 
 @endsection
 

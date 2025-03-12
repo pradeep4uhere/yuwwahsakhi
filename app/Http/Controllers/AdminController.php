@@ -646,10 +646,14 @@ class AdminController extends Controller
             }
         }
 
-        
+        //All Partner List
+        $partnerList = Partner::where('status',1)->get()->toArray();
+        //dd( $partnerList);
         // Call the 'getPartnerList' method
+
         return view('admin.yuwaahsakhi.add', [
             'response'=>$responseArray,
+            'partnerList'=>$partnerList,
             'title' => __('messages.add_yuwaah_sakhi'),
         ]);
     }
@@ -683,17 +687,26 @@ class AdminController extends Controller
         }
 
         $details = YuwaahSakhi::find($id);
-
+        //All Partner List
+        $partnerList = Partner::where('status',1)->get()->toArray();
         return view('admin.yuwaahsakhi.edit', [
             'response' => $responseArray,
             'success' => session('success'), // ✅ Fetch success message from session
             'yuwaahsakhi' => $details,
             'errors'=>$errors,
+            'partnerList'=>$partnerList,
             'title' => __('messages.edit_yuwaahsakhi'),
             'page_title' => __('messages.yuwaahsakhi'),
         ]);
     }
 
+
+    public function getPartnerCenters(Request $request)
+    {
+        $partnerId = $request->partner_id;
+        $centers = PartnerCenter::where('partner_id', $partnerId)->get(['id', 'center_name']);
+        return response()->json($centers);
+    }
     
 
 

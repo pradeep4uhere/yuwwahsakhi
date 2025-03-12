@@ -1381,7 +1381,7 @@ public function updatePromotion(Request $request, $id)
             'type_of_loan' => 'required|integer|min:1',
             'loan_amount' => 'required|numeric|min:0',
             'loan_balance' => 'required|numeric|min:0|lte:loan_amount',
-            'english_proficiency' => 'required|in:Basic,Intermediate,Advanced',
+           'english_proficiency' => 'required|in:Basic,Conversational,Fluent,Native',
             'years_of_work_exp' => 'required|integer|min:0',
             'work_hour_per_day' => 'required|integer|min:1|max:24',
             'infrastructure_available' => 'required|integer|min:1',
@@ -1389,6 +1389,8 @@ public function updatePromotion(Request $request, $id)
             'course_completed' => 'required|integer|min:1',
             'digital_proficiency' => 'required|integer|min:1',
             'status' => 'required|integer|min:0|max:1',
+            'partner_id' => 'required|integer|min:1',
+            'partner_center_id' => 'required|integer|min:1',
             'center_photo' => 'required|file|image|mimes:jpeg,png,jpg,gif|max:2048',
             'profile_photo' => 'required|file|image|mimes:jpeg,png,jpg,gif|max:2048',
         ], [
@@ -1430,6 +1432,8 @@ public function updatePromotion(Request $request, $id)
                 'courses_completed' => $validatedData['course_completed'],
                 'digital_proficiency' => $validatedData['digital_proficiency'],
                 'status' => $validatedData['status'],
+                'partner_id' => $validatedData['partner_id'],
+                'partner_center_id' => $validatedData['partner_center_id'],
                 'center_picture' => $centerPhotoPath,
                 'profile_picture' => $profilePhotoPath,
                 'onboard_date'=>now()
@@ -1473,7 +1477,7 @@ public function updatePromotion(Request $request, $id)
         'type_of_loan' => 'nullable|integer|min:1',
         'loan_amount' => 'nullable|numeric|min:0',
         'loan_balance' => 'nullable|numeric|min:0|lte:loan_amount',
-        'english_proficiency' => 'required|in:Basic,Intermediate,Advanced',
+        'english_proficiency' => 'required|in:Basic,Conversational,Fluent,Native',
         'years_of_work_exp' => 'required|integer|min:0',
         'work_hour_per_day' => 'required|integer|min:1|max:24',
         'infrastructure_available' => 'required|integer|min:1',
@@ -1481,6 +1485,8 @@ public function updatePromotion(Request $request, $id)
         'course_completed' => 'required|integer|min:1',
         'digital_proficiency' => 'required|integer|min:1',
         'status' => 'required|integer|min:0|max:1',
+        'partner_id' => 'required|integer|min:1',
+        'partner_center_id' => 'required|integer|min:1',
         'center_photo' => 'nullable|file|image|mimes:jpeg,png,jpg,gif|max:2048',
         'profile_photo' => 'nullable|file|image|mimes:jpeg,png,jpg,gif|max:2048',
     ], [
@@ -1527,6 +1533,8 @@ public function updatePromotion(Request $request, $id)
         'courses_completed' => $request->course_completed,
         'digital_proficiency' => $request->digital_proficiency,
         'status' => $request->status,
+        'partner_id' => $request->partner_id,
+        'partner_center_id' => $request->partner_center_id,
         'center_picture' => $centerPhotoPath,
         'profile_picture' => $profilePhotoPath,
         'updated_at' => now(),
@@ -1602,7 +1610,7 @@ public function updatePromotion(Request $request, $id)
 
     public function getYuwaahList(Request $request){
         // Initialize the query
-        $query = YuwaahSakhi::query();
+        $query = YuwaahSakhi::query()->with(['Partner', 'PartnerCenter']);
         // Filter by status if provided in the request
         if ($request->has('status')) {
             $query->where('status', $request->status);

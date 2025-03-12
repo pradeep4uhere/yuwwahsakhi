@@ -29,5 +29,32 @@
             }
         }
         </script>
+        <script>
+            $(document).ready(function () {
+                $('#partner').change(function () {
+                    var partnerId = $(this).val();
+                    $('#partner_center').html('<option value="">Loading...</option>');
+
+                    if (partnerId) {
+                        $.ajax({
+                            url: "{{route('admin.get_partner_centers')}}", // Update with your actual API route
+                            type: 'GET',
+                            data: { partner_id: partnerId },
+                            success: function (response) {
+                                $('#partner_center').html('<option value="">Choose Partner Center</option>');
+                                $.each(response, function (key, value) {
+                                    $('#partner_center').append('<option value="' + value.id + '">' + value.center_name + '</option>');
+                                });
+                            },
+                            error: function () {
+                                $('#partner_center').html('<option value="">No Data Found</option>');
+                            }
+                        });
+                    } else {
+                        $('#partner_center').html('<option value="">Choose Partner Center</option>');
+                    }
+                });
+            });
+        </script>
     </body>
 </html>

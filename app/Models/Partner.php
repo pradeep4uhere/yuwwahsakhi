@@ -108,4 +108,11 @@ class Partner extends Authenticatable
         return $this->hasMany(PartnerCenter::class, 'partner_id');
     }
 
+
+
+    public function YuwwahSakhi()
+    {
+        return $this->hasMany(YuwaahSakhi::class, 'partner_center_id');
+    }
+
 }
