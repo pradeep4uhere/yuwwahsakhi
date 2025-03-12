@@ -195,7 +195,9 @@
                 <label for="partner_center">{{__('messages.choose_partner_center')}}</label>
                 <select id="partner_center" name="partner_center_id">
                     <option value="">Choose Partner Center</option>
-                    <option value="<?php $yuwaahsakhi['partner_center_id']; ?>" selected="selected">{{$yuwaahsakhi['PartnerCenter']['center_name']}}</option>
+                    <option value="{{ $yuwaahsakhi['partner_center_id'] ?? '' }}" selected="selected">
+                      {{ optional($yuwaahsakhi['PartnerCenter'])->center_name ?? 'N/A' }}
+                  </option>
                 </select>
             </div>
             <div class="input-container">
