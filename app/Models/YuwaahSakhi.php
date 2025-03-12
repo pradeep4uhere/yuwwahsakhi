@@ -81,8 +81,8 @@ class YuwaahSakhi extends Model
             'State'=>$yuwaahSakhi['state'],
             'City'=>$yuwaahSakhi['city'],
             'Address'=>$yuwaahSakhi['address'],
-            'Partner'=>$yuwaahSakhi['Partner']['name'],
-            'PartnerCenter'=>$yuwaahSakhi['PartnerCenter']['center_name'],
+            'Partner'=>optional($yuwaahSakhi->Partner)->name ?? 'N/A',
+            'PartnerCenter'=>optional($yuwaahSakhi->PartnerCenter)->center_name ?? 'N/A',
             'Status'=>($yuwaahSakhi['status']==1)?'Active':'InActive',
             'CenterPicture'=>asset('/storage/'.$yuwaahSakhi['center_picture']),
             'ProfilePicture'=>asset('/storage/'.$yuwaahSakhi['profile_picture'])
