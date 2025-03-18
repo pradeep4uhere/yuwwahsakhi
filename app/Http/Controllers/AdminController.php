@@ -12,7 +12,12 @@ use App\Models\Opportunity;
 use App\Models\Pathway;
 use App\Models\Promotion;
 use App\Models\YuwaahSakhi;
+use App\Models\YuwaahEventMaster;
+use Illuminate\Support\Facades\Storage;
+
 use Illuminate\Support\MessageBag;
+use Illuminate\Support\Facades\Validator;
+
 
 
 class AdminController extends Controller
@@ -375,9 +380,9 @@ class AdminController extends Controller
         // Call the 'getPartnerList' method
         return view('admin.opportunites.add', [
             'response'=>$responseArray,
-            'error'=> $errors,
+            'errors'=> $errors,
             'success'=>$success,
-            'title' => __('messages.add_new_partner_center'),
+            'title' => __('messages.add_new_opportunity'),
         ]);
     }
 
@@ -418,7 +423,7 @@ class AdminController extends Controller
             'errors'=> $errors,
             'success'=>$success,
             'details'=>$details,
-            'title' => __('messages.edit_partner_center'),
+            'title' => __('messages.edit_opportunity'),
         ]);
     }
 
@@ -708,6 +713,215 @@ class AdminController extends Controller
         return response()->json($centers);
     }
     
+
+
+
+
+    /**All Event Master Methods Start Here */
+
+
+    /**
+     * Get All Partner List
+     */
+    public function allEventMasterList(Request $request){
+        // Create an instance of the controller
+        $response = YuwaahEventMaster::paginate(env('PAGINATION'));
+        //dd($response);
+       // dd($response);
+        // Call the 'getPartnerList' method
+        return view('admin.eventmaster.list', [
+            'response'=>$response,
+            'title' => 'All Event Master',
+            'Module'=> 'Event Master'
+        ]);
+    }
+
+
+
+    /**
+     * Add New Parter
+     */
+    public function addNewEventMaster(Request $request){
+        $errors = [];
+        $success = null;
+        $responseArray = [];
+       
+        if($request->isMethod('POST')) {
+
+            $validator = Validator::make($request->all(), [
+                'event_type' => 'required|in:Course,Social Protection,Jobs,Self Empl / Entrepreneurship',
+                'event_category' => 'required|string|max:255',
+                'description' => 'nullable|string',
+                'eligibility' => 'nullable|string|max:255',
+                'fee_per_completed_transaction' => 'nullable|numeric|min:0',
+                'date_event_created_in_master' => 'required|date',
+                'document_1' => 'required|file|mimes:pdf,jpg,png,doc,docx|max:2048',
+                'document_2' => 'required|file|mimes:pdf,jpg,png,doc,docx|max:2048',
+                'document_3' => 'required|file|mimes:pdf,jpg,png,doc,docx|max:2048',
+            ]);
+
+
+            // If validation fails, redirect back with errors
+            if ($validator->fails()) {
+                return redirect()->back()
+                    ->withErrors($validator) // ✅ Correctly pass validation errors
+                    ->withInput(); // ✅ Keep old input values
+            }
+            // Handle file uploads if they exist
+            $documents = [];
+            foreach (['document_1', 'document_2', 'document_3'] as $doc) {
+                if ($request->hasFile($doc)) {
+                    $documents[$doc] = $request->file($doc)->store('event_documents', 'public');
+                } else {
+                    $documents[$doc] = null;
+                }
+            }
+
+            try {
+                $eventMaster = YuwaahEventMaster::create([
+                    'event_type' => $request->event_type,
+                    'status' => 1,
+                    'event_category' => $request->event_category,
+                    'description' => $request->description ?? null,
+                    'eligibility' => $request->eligibility ?? null,
+                    'fee_per_completed_transaction' => $request->fee_per_completed_transaction ?? null,
+                    'date_event_created_in_master' => $request->date_event_created_in_master,
+                    'document_1' => $documents['document_1'],
+                    'document_2' => $documents['document_2'],
+                    'document_3' => $documents['document_3'],
+                ]);
+    
+                $success = 'Event Master added successfully!';
+                $responseArray = $eventMaster; // Pass the new event data
+               
+                return redirect()->back()
+                ->with('success', 'Event Master added successfully!');
+    
+            } catch (\Exception $e) {
+                $errors[] = 'Something went wrong! ' . $e->getMessage();
+                return redirect()->back()
+                ->withErrors(['error' => 'Something went wrong! ' . $e->getMessage()])
+                ->withInput(); // ✅ Keeps old form data
+            }
+
+        }
+
+        return view('admin.eventmaster.add', [
+            'title' => __('messages.add_new_partner'),
+            'Module' => __('Event Master')
+        ]);
+            // Return the Blade view
+        
+    }
+
+
+    public function editEventMaster(Request $request, $id)
+    {
+        $errors = [];
+        $success = null;
+        $id = decryptString($id);
+        
+        // Fetch existing event details
+        $eventMaster = YuwaahEventMaster::find($id);
+        if (!$eventMaster) {
+            return redirect()->back()->withErrors(['error' => 'Event not found.']);
+        }
+    
+        if ($request->isMethod('POST')) {
+            // Validation
+            $validator = Validator::make($request->all(), [
+                'event_type' => 'required|in:Course,Social Protection,Jobs,Self Empl / Entrepreneurship',
+                'event_category' => 'required|string|max:255',
+                'description' => 'nullable|string',
+                'eligibility' => 'nullable|string|max:255',
+                'fee_per_completed_transaction' => 'nullable|numeric|min:0',
+                'date_event_created_in_master' => 'required|date',
+                'document_1' => 'nullable|file|mimes:pdf,jpg,png,doc,docx|max:2048',
+                'document_2' => 'nullable|file|mimes:pdf,jpg,png,doc,docx|max:2048',
+                'document_3' => 'nullable|file|mimes:pdf,jpg,png,doc,docx|max:2048',
+                'status' => 'required|in:1,0', // Ensuring status is valid
+            ]);
+    
+            if ($validator->fails()) {
+                return redirect()->back()
+                    ->withErrors($validator)
+                    ->withInput();
+            }
+    
+            // Handle file uploads
+            $documents = [
+                'document_1' => $eventMaster->document_1,
+                'document_2' => $eventMaster->document_2,
+                'document_3' => $eventMaster->document_3,
+            ];
+            
+            foreach (['document_1', 'document_2', 'document_3'] as $doc) {
+                if ($request->hasFile($doc)) {
+                    $documents[$doc] = $request->file($doc)->store('event_documents', 'public');
+                }
+            }
+    
+            try {
+                // Update event
+                $eventMaster->update([
+                    'event_type' => $request->event_type,
+                    'event_category' => $request->event_category,
+                    'description' => $request->description ?? null,
+                    'eligibility' => $request->eligibility ?? null,
+                    'fee_per_completed_transaction' => $request->fee_per_completed_transaction ?? null,
+                    'date_event_created_in_master' => $request->date_event_created_in_master,
+                    'document_1' => $documents['document_1'],
+                    'document_2' => $documents['document_2'],
+                    'document_3' => $documents['document_3'],
+                    'status' => $request->status,
+                ]);
+    
+                return redirect()->back()->with('success', 'Event Master updated successfully!');
+            } catch (\Exception $e) {
+                return redirect()->back()
+                    ->withErrors(['error' => 'Something went wrong! ' . $e->getMessage()])
+                    ->withInput();
+            }
+        }
+    
+        return view('admin.eventmaster.edit', [
+            'eventDetails' => $eventMaster,
+            'title' => __('messages.edit_event_master'),
+            'Module' => __('Event Master')
+        ]);
+    }
+
+
+
+
+    /**
+     * Delete Partner
+     */
+    public function deleteEventMaster(Request $request, $id)
+    {
+        try {
+            $id = decryptString($id); // Decrypt the ID if it's encrypted
+            $eventMaster = YuwaahEventMaster::find($id);
+
+            if (!$eventMaster) {
+                return redirect()->route('admin.eventmaster.list')->with('error', 'Event Master not found.');
+            }
+
+            // Delete associated documents if they exist
+            foreach (['document_1', 'document_2', 'document_3'] as $doc) {
+                if ($eventMaster->$doc) {
+                    Storage::disk('public')->delete($eventMaster->$doc);
+                }
+            }
+
+            // Delete the record from the database
+            $eventMaster->delete();
+
+            return redirect()->route('admin.eventmaster.list')->with('success', 'Event Master deleted successfully.');
+        } catch (\Exception $e) {
+            return redirect()->route('admin.eventmaster.list')->with('error', 'Failed to delete Event Master: ' . $e->getMessage());
+        }
+    }
 
 
 

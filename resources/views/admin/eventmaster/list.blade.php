@@ -17,11 +17,11 @@
         </div>
         <!-- <section class="dashboard-partners"> -->
         <div class="dash-content">
-            <span class="texttitle">{{$title}}</span>
+            <span class="texttitle">{{$Module}}</span>
             <div class="activity">
                 <div class="activitybutton">
-                    <a href="{{route('admin.partnercenter.add')}}">
-                    <button class="add-partner-btn" id="addPartnerBtn">Add Partner Center</button>
+                    <a href="{{route('admin.eventmaster.add')}}">
+                    <button class="add-partner-btn" id="addPartnerBtn">Add {{$Module}}</button>
                     </a>
                 </div>
                     <div class="activity-data">
@@ -31,27 +31,35 @@
                         <thead>
                             <tr>
                                 <th>SN</th>
-                                <th>Partner ID</th>
-                                <th>Name</th>
-                                <th>Contact Number</th>
-                                <th>Email</th>
-                                <th>Onboarded on</th>
+                                <th>Event Type</th>
+                                <th>Category</th>
+                                <th>Description</th>
+                                <th>Eligibility</th>
+                                <th>Fee Per Transaction</th>
+                                <th>Date Event</th>
+                                <th>Documents</th>
                                 <th>Status</th>
                                 <th>Created On</th>
                                 <th>Actions</th>
                             </tr>
                         </thead>
                         <tbody>
-                        <?php if(isset($response) && count($response) > 0){ ?>
+                         <?php if(isset($response) && count($response) > 0){ ?>
                             <?php $count=1;
                                   foreach($response as $item){ //dd($item); ?>
                             <tr>
                                 <td>{{$count}}</td>
-                                <td>{{$item['partner']['name']}}</td>
-                                <td>{{$item['center_name']}}</td>
-                                <td>{{$item['contact_number']}}</td>
-                                <td>{{$item['email']}}</td>
-                                <td>{{$item['onboard_date']}}</td>
+                                <td>{{$item['event_type']}}</td>
+                                <td>{{$item['event_category']}}</td>
+                                <td>{{$item['description']}}</td>
+                                <td>{{$item['eligibility']}}</td>
+                                <td>{{$item['fee_per_completed_transaction']}}</td>
+                                <td>{{$item['date_event_created_in_master']}}</td>
+                                <td>
+                                    <a href="{{asset('/storage/' . $item['document_2'])}}">Doc-1</a></br>
+                                    <a href="{{$item['document_2']}}">Doc-2</a><br/>
+                                    <a href="{{$item['document_3']}}">Doc-3</a>
+                                </td>
                                 <td><?php if($item['status']==1){ ?>
                                    <span class="badge badge-success">Active</span>
                                 <?php }else{ ?>
@@ -60,21 +68,20 @@
                                 </td>
                                 <td>{{$item['created_at']}}</td>
                                 <td>
-                                    <a href="{{route('admin.partnercenter.edit',['id'=>encryptString($item['id'])])}}"><i class="uil uil-edit" style="color: #27272A; font-size: 15px;"></i></a>
+                                    <a href="{{route('admin.eventmaster.edit',['id'=>encryptString($item['id'])])}}"><i class="uil uil-edit" style="color: #27272A; font-size: 15px;"></i></a>
                                     <a href="javascript:void(0);" 
-                                        data-route="{{ route('admin.partnercenter.delete', ['id' => '__ID__']) }}" 
+                                        data-route="{{ route('admin.eventmaster.delete', ['id' => '__ID__']) }}" 
                                         onclick="deleteConfirm('{{ encryptString($item['id']) }}', this.getAttribute('data-route'))">
                                             <i class="uil uil-trash-alt" style="color: #27272A; font-size: 15px;"></i>
                                     </a>
                                 </td>
                             </tr>
-                            <?php $count++;}?>
+                            <?php $count++;} ?>
                             <?php } else{ ?>
                                 <tr><td colspan="11">
-                                    <div class="alert alert-danger text-center">No Partner Center Found</div>
+                                    <div class="alert alert-danger text-center">No Event Found</div>
                                 </td></tr>
                             <?php } ?>
-                           
                         </tbody>
                     </table>
                 </div>

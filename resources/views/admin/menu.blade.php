@@ -47,6 +47,23 @@
                     </a>
                 </li>
 
+
+                <li class="{{ request()->routeIs('admin.eventmaster') ? 'activelink' : '' }}">
+                    <a href="{{route('admin.eventmaster.list')}}" id="partners-link" >
+                        <i class="uil uil-users-alt 
+                        {{ request()->routeIs('admin.eventmaster.update') ? 'activelinktext' : '' }} 
+                        {{ request()->routeIs('admin.eventmaster.list') ? 'activelinktext' : '' }}
+                        {{ request()->routeIs('admin.eventmaster.add') ? 'activelinktext' : '' }}
+                        
+                        "></i>
+                        <span class="link-name 
+                         {{ request()->routeIs('admin.eventmaster.update') ? 'activelinktext' : '' }} 
+                         {{ request()->routeIs('admin.eventmaster.list') ? 'activelinktext' : '' }}
+                         {{ request()->routeIs('admin.eventmaster.add') ? 'activelinktext' : '' }}  
+                        ">Event Master</span>
+                    </a>
+                </li>
+
                 <li class="{{ request()->routeIs('admin.yuwaahsakhi') ? 'activelink' : '' }}">
                     <a href="{{route('admin.yuwaahsakhi.list')}}" id="partners-link" >
                         <i class="uil uil-users-alt 

@@ -1,10 +1,10 @@
 @extends('layouts.default')
-@section('title', 'Partner List')
+@section('title', $title)
 @section('content')
 <section class="dashboard">
         <div class="top">
             <div class="title">
-                <span class="">Dashboard > Partner</span> <br />
+                <span class="">Dashboard > {{$title}}</span> <br />
             </div>
             <div class="search-box">
                 <i class="uil uil-search"></i>
@@ -17,7 +17,7 @@
         </div>
         <!-- <section class="dashboard-partners"> -->
         <div class="dash-content">
-            <span class="texttitle">Partners</span>
+            <span class="texttitle">{{$title}}</span>
             <div class="activity">
                 <div class="activitybutton">
                     <a href="{{route('admin.opportunities.add')}}">
@@ -42,7 +42,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <?php if(!empty($response)){ ?>
+                        <?php if(isset($response['data']) && count($response['data']) > 0){ ?>
                             <?php $count=1;
                                   foreach($response['data'] as $item){ //dd($item); ?>
                             <tr>
@@ -63,7 +63,13 @@
                                     </a>
                                 </td>
                             </tr>
-                            <?php $count++;}} ?>
+                            <?php $count++;} ?>
+                            <?php } else{ ?>
+                                <tr><td colspan="11">
+                                    <div class="alert alert-danger text-center">No Opportunity Found</div>
+                                </td></tr>
+                            <?php } ?>
+                           
                            
                         </tbody>
                     </table>

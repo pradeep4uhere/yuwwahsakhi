@@ -40,7 +40,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <?php if(!empty($response)){ ?>
+                        <?php if(isset($response['data']) && count($response['data']) > 0){ ?>
                             <?php $count=1;
                                   foreach($response['data'] as $item){ //dd($item); ?>
                             <tr>
@@ -64,7 +64,12 @@
                                     </a>
                                 </td>
                             </tr>
-                            <?php $count++;}} ?>
+                            <?php $count++;} ?>
+                            <?php } else{ ?>
+                                <tr><td colspan="11">
+                                    <div class="alert alert-danger text-center">No Opportunity Found</div>
+                                </td></tr>
+                            <?php } ?>
                            
                         </tbody>
                     </table>

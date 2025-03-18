@@ -59,4 +59,13 @@ Route::middleware('auth:admin')->group(function () {
     Route::get('/getyuwaahlist', [AdminController::class, 'getYuwaahList'])->name('admin.yuwaahsakhi.list');
     Route::get('/get-partner-centers', [AdminController::class, 'getPartnerCenters'])->name('admin.get_partner_centers');
 
+
+
+     
+    //All Partner Routes Here
+    Route::get('/eventmaster', [AdminController::class, 'allEventMasterList'])->name('admin.eventmaster.list');
+    Route::any('/add-eventmaster', [AdminController::class, 'addNewEventMaster'])->name('admin.eventmaster.add');
+    Route::any('/edit-eventmaster/{id}', [AdminController::class, 'editEventMaster'])->name('admin.eventmaster.edit');
+    Route::any('/delete-eventmaster/{id}', [AdminController::class, 'deleteEventMaster'])->name('admin.eventmaster.delete');
+
 });

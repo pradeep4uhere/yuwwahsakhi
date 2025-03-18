@@ -44,7 +44,7 @@
                 <div class="popup-grid">
             <div class="input-container">
               <label for="field1">Opportunities Title</label>
-              <input type="text" name="opportunities_title" placeholder="Please enter opportunities title" value="{{}}">
+              <input type="text" name="opportunities_title" placeholder="Please enter opportunities title" >
             </div>
             <div class="input-container">
               <label for="field2">Description</label>

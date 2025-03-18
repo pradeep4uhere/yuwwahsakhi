@@ -65,7 +65,12 @@ return [
     'edit_yuwaahsakhi'=>'Update Yuwaah Sakhi',
 
      'choose_partner'=>'Choose Partner',
-    'choose_partner_center'=>'Choose Partner Center'
+    'choose_partner_center'=>'Choose Partner Center',
+
+    'edit_event_master'=>'Edit Event Master',
+    'add_event_master'=>'Add New Event Master',
+
+
 
     
 ];

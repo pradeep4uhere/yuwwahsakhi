@@ -31,6 +31,7 @@ return [
      'opportunities_deleted_successfully'=>'Opportunities deleted successfully',
      'failed_to_delete_opportunity'=>'Failed to delete opportunity',
      'add_new_opportunity'=>'Add New Opportunity',
+     
 
      'item_already_exists' => 'Item already exists',
      'item_added_successfully'=>'item added successfully',
@@ -65,7 +66,10 @@ return [
     'edit_yuwaahsakhi'=>'Update Yuwaah Sakhi',
 
     'choose_partner'=>'Choose Partner',
-    'choose_partner_center'=>'Choose Partner Center'
+    'choose_partner_center'=>'Choose Partner Center',
+
+    'edit_event_master'=>'Edit Event Master',
+    'add_event_master'=>'Add New Event Master',
 
 
 ];
