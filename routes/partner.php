@@ -47,4 +47,10 @@ Route::middleware('auth:partner')->group(function () {
     Route::get('opportunites-details/{id}', [PartnerController::class, 'getOpportunitesDetails'])->name('partner.opportunites.details');
     Route::any('updatepartnercenter/{id}', [PartnerController::class, 'udatePartnerCenterDetails'])->name('partner.partnercenter.edit');
     Route::post('update-partner-center-action', [PartnerController::class, 'udatePartnerCenterAction'])->name('partner.partnercenter.updatepartnercenter');
+    Route::get('partner.event', [PartnerController::class, 'eventList'])->name('partner.event');
+    Route::get('viewyuwaahsakhi/{id}', [PartnerController::class, 'viewAssociatedYuwaahSakhi'])->name('partner.partnercenter.viewyuwaahsakhi');
+    Route::get('viewyuwaahsakhi_details/{id}', [PartnerController::class, 'viewAssociatedYuwaahSakhi'])->name('partner.partnercenter.viewyuwaahsakhi.details');
+    
+    
+    
 });

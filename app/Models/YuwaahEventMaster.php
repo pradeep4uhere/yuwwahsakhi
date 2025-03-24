@@ -28,8 +28,14 @@ class YuwaahEventMaster extends Model
 
 
     // Fetch all events
-    public function getAllEvents(){
-        return  YuwaahEventMaster::all();
+    // public function getAllEvents(){
+    //     return  YuwaahEventMaster::all();
+    // }
+
+
+    // Fetch all events
+    public static function getAllEvents(){
+        return  YuwaahEventMaster::count();
     }
 
     // Create a new event

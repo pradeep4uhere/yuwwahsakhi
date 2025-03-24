@@ -72,6 +72,7 @@ class PartnerCenter extends Model
                     'contact_number'=>$partner->contact_number,
                     'address'=>$partner->address,
                     'status'=>$partner->status,
+                    'yuwwah_sakhi_count' => $partner->yuwwah_sakhi_count ?? 0,
                     'onboard_date'=>$partner->onboard_date,
                 ];
         }
@@ -93,6 +94,7 @@ class PartnerCenter extends Model
                     'contact_number'=>$item->contact_number,
                     'address'=>$item->address,
                     'status'=>$item->status,
+                    'yuwwah_sakhi_count' => $item->yuwwah_sakhi_count ?? 0,
                     'onboard_date'=>$item->onboard_date,
                 ];
             }
@@ -134,6 +136,7 @@ class PartnerCenter extends Model
                     'contact_number'=>$partner->contact_number,
                     'address'=>$partner->address,
                     'status'=>$partner->status,
+                    'yuwwah_sakhi_count' => $partner->yuwwah_sakhi_count ?? 0,
                     'onboard_date'=>$partner->onboard_date,
                 ];
         }
@@ -146,5 +149,11 @@ class PartnerCenter extends Model
     {
         return $this->belongsTo(Partner::class, 'partner_id');
     }
+
+    public function YuwwahSakhi()
+    {
+        return $this->hasMany(YuwaahSakhi::class, 'partner_center_id');
+    }
+
 
 }

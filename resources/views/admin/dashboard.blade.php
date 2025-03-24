@@ -49,6 +49,13 @@
 
 
                     </div>
+                    <div class="box box2">
+                        <span class="text">Event</span>
+                        <span class="number">{{$dashboard['eventcount']}}</span>
+                        <a href="{{route('admin.partnercenter')}}"> <img src="{{asset('asset/images/Editiconmain.png')}}" alt="" style="height: 100px; width: 120px; cursor: pointer;"></a>
+
+
+                    </div>
                     <div class="box box5">
                         <span class="text">Promotions</span>
                         <span class="number">{{$dashboard['Promotions']}}</span>

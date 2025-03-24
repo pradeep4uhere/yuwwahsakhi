@@ -54,12 +54,15 @@
                         {{ request()->routeIs('admin.eventmaster.update') ? 'activelinktext' : '' }} 
                         {{ request()->routeIs('admin.eventmaster.list') ? 'activelinktext' : '' }}
                         {{ request()->routeIs('admin.eventmaster.add') ? 'activelinktext' : '' }}
+                        {{ request()->routeIs('admin.eventmaster.edit') ? 'activelinktext' : '' }}
+                         
                         
                         "></i>
                         <span class="link-name 
                          {{ request()->routeIs('admin.eventmaster.update') ? 'activelinktext' : '' }} 
                          {{ request()->routeIs('admin.eventmaster.list') ? 'activelinktext' : '' }}
                          {{ request()->routeIs('admin.eventmaster.add') ? 'activelinktext' : '' }}  
+                          {{ request()->routeIs('admin.eventmaster.edit') ? 'activelinktext' : '' }}
                         ">Event Master</span>
                     </a>
                 </li>

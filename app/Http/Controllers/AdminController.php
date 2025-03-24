@@ -33,13 +33,15 @@ class AdminController extends Controller
         $YuwaahSakhi = YuwaahSakhi::getAllCount();
         $Opportunities = Opportunity::getAllCount();
         $Promotions = Promotion::getAllCount();
+        $event = YuwaahEventMaster::getAllEvents();
 
         $dashboard = [
             'partner' => $partner,
             'partnerCenter'=>$partnerCenter,
             'YuwaahSakhi'=>$YuwaahSakhi,
             'Opportunities'=>$Opportunities,
-            'Promotions'=>$Promotions
+            'Promotions'=>$Promotions,
+            'eventcount'=>$event
         ];
         return view('admin.dashboard', [
             'title' => 'Dashboard',
@@ -836,9 +838,9 @@ class AdminController extends Controller
                 'eligibility' => 'nullable|string|max:255',
                 'fee_per_completed_transaction' => 'nullable|numeric|min:0',
                 'date_event_created_in_master' => 'required|date',
-                'document_1' => 'nullable|file|mimes:pdf,jpg,png,doc,docx|max:2048',
-                'document_2' => 'nullable|file|mimes:pdf,jpg,png,doc,docx|max:2048',
-                'document_3' => 'nullable|file|mimes:pdf,jpg,png,doc,docx|max:2048',
+                'document_1' => 'required|string|max:255',
+                'document_2' => 'required|string|max:255',
+                'document_3' => 'required|string|max:255',
                 'status' => 'required|in:1,0', // Ensuring status is valid
             ]);
     
@@ -850,16 +852,16 @@ class AdminController extends Controller
     
             // Handle file uploads
             $documents = [
-                'document_1' => $eventMaster->document_1,
-                'document_2' => $eventMaster->document_2,
-                'document_3' => $eventMaster->document_3,
+                'document_1' => $request->document_1,
+                'document_2' => $request->document_2,
+                'document_3' => $request->document_3,
             ];
             
-            foreach (['document_1', 'document_2', 'document_3'] as $doc) {
-                if ($request->hasFile($doc)) {
-                    $documents[$doc] = $request->file($doc)->store('event_documents', 'public');
-                }
-            }
+            // foreach (['document_1', 'document_2', 'document_3'] as $doc) {
+            //     if ($request->hasFile($doc)) {
+            //         $documents[$doc] = $request->file($doc)->store('event_documents', 'public');
+            //     }
+            // }
     
             try {
                 // Update event

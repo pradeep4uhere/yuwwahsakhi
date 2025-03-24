@@ -56,9 +56,8 @@
                                 <td>{{$item['fee_per_completed_transaction']}}</td>
                                 <td>{{$item['date_event_created_in_master']}}</td>
                                 <td>
-                                    <a href="{{asset('/storage/' . $item['document_2'])}}">Doc-1</a></br>
-                                    <a href="{{$item['document_2']}}">Doc-2</a><br/>
-                                    <a href="{{$item['document_3']}}">Doc-3</a>
+                                {{$item['document_2']}},<br/>
+                                {{$item['document_2']}},<br/>{{$item['document_3']}}
                                 </td>
                                 <td><?php if($item['status']==1){ ?>
                                    <span class="badge badge-success">Active</span>

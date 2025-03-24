@@ -1,71 +1,75 @@
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-<x-app-layout>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
-<style>
-.text-small {
-    font-size: 0.8rem;
-}
-.text-small-1 {
-    font-size: 0.9rem;
-}
-</style>
-<x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-            {{ __('Opportunities') }}
-        </h2>
-    </x-slot>
-    <div class="py-12">
-        <div class="max-w-12xl mx-auto sm:px-6 lg:px-12">
-            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 text-gray-900 dark:text-gray-100">
-                @include('partner.tab')
-                <div class="row">
-                        <div class="col-md-12 mb-4">
-                            <div class="card" style="min-height:200px">
-                                <div class="card-body">
-                                    <table width="100%">
-                                    <tr>
-                                    <td width="85%">
-                                    <a href="{{route('partner.opportunites.details',['id'=>$data['id']])}}"><p class="card-text"><strong>{{ Str::limit(ucwords($data['opportunities_title']), 100) }}</strong></p></a></td>
-                                    <td class="mt-10"><p class="text-small-1 pt-1"><i class="bi bi-file"></i>&nbsp;View Specification Document <a href="{{$data['document']}}">
-                                        <i class="bi bi-share"></i></a>
-                                        </p></td>
-                                    </tr>
-                                    </table>
-                                    <table>  
-                                    <tr>
-                                    <td><p class="text-small">{{$data['description']}}</p></td>
-                                    <td style="background-color:#dedede;padding:5px;">₹ 650</td>
-                                    </tr>
-                                    <tr>
-                                    <td colspan="2">
-                                        
-                                    </td>
-                                    </tr>
-                                   
-                                    <table class="mt-10" style="margin-top:30px">  
-                                    <tr>
-                                        <td><p class="text-small-1 pt-1">₹ {{$data['payout_monthly']}}/month</p></td>
-                                        <td class="text-end"><p class="text-small-1 pt-1">{{$data['provider_name']}}</p></td>
-                                        <td><p class="text-small-1 pt-1"><i class="bi bi-calendar"></i>&nbsp;Start Date: {{$data['start_date']}}</p></td>
-                                        <td><p class="text-small-1 pt-1"><i class="bi bi-calendar"></i>&nbsp;End Date: {{$data['end_date']}}</p></td>
-                                    <td><p class="text-small-1 pt-1"><i class="bi bi-person"></i>&nbsp;{{$data['number_of_openings']}} Oppenings</p></td>
-                                    </tr>
-                                    </table>
-                                </div>
+@extends('layouts.list')
+@section('title', 'Partner Home Page')
+@section('content')
+@include('partner.menu')
 
-                            </div>
-                        </div>
-                </div>
+<div class="container">
+        <a href="{{route('partner.opportunites')}}" class="back-link"><i class="fas fa-arrow-left"></i>Back to Opportunities</a>
+        <h3>Opportunity Details</h3>
+        <div class="section">
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Opportunity Name</th>
+                            <th>Salary (Rs)</th>
+                            <th>Openings</th>
+                            <th>YS Incentive (Rs)</th>
+                            <th>Start Date</th>
+                            <th>End Date</th>
+                            <th>Company Name</th>
+                            <th>Associated Learners</th>
+                            <th>Specification Document</th>
+                            <th>#Learner Started</th>
+                            <th>#Pathway Opportunity</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="upper_div">
+                            <td>22356</td>
+                            <td>{{ Str::limit(ucwords($data['opportunities_title']), 100) }}</td>
+                            <td>₹ {{$data['payout_monthly']}}/month</td>
+                            <td>{{$data['number_of_openings']}}</td>
+                            <td>₹ 0</td>
+                            <td>{{$data['start_date']}}</td>
+                            <td>{{$data['end_date']}}</td>
+                            <td>{{$data['provider_name']}}</td>
+                            <td>{{$data['number_of_openings']}}</td>
+                            <td>
+                                <a href="#" class="view-doc">View Doc
+                                    <img src="{{asset('asset/images/view.png')}}" alt="View Doc Image" height="20" width="20">
+                                </a>
+                            </td>
+                            <td>0</td>
+                            <td>0</td>
+                            <td>
+                                <button class="share-button">
+                                    <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="20" height="20" viewBox="0 0 48 48">
+                                        <path d="M 36 5 C 32.151772 5 29 8.1517752 29 12 C 29 12.585766 29.198543 13.109464 29.335938 13.654297 L 17.345703 19.652344 C 16.059118 18.073938 14.181503 17 12 17 C 8.1517722 17 5 20.151775 5 24 C 5 27.848225 8.1517722 31 12 31 C 14.181503 31 16.059118 29.926062 17.345703 28.347656 L 29.335938 34.345703 C 29.198543 34.890536 29 35.414234 29 36 C 29 39.848225 32.151772 43 36 43 C 39.848228 43 43 39.848225 43 36 C 43 32.151775 39.848228 29 36 29 C 33.818497 29 31.940882 30.073938 30.654297 31.652344 L 18.664062 25.654297 C 18.801457 25.109464 19 24.585766 19 24 C 19 23.414234 18.801457 22.890536 18.664062 22.345703 L 30.654297 16.347656 C 31.940882 17.926062 33.818497 19 36 19 C 39.848228 19 43 15.848225 43 12 C 43 8.1517752 39.848228 5 36 5 z M 36 8 C 38.226909 8 40 9.7730927 40 12 C 40 14.226907 38.226909 16 36 16 C 33.773091 16 32 14.226907 32 12 C 32 9.7730927 33.773091 8 36 8 z M 12 20 C 14.226909 20 16 21.773093 16 24 C 16 26.226907 14.226909 28 12 28 C 9.7730915 28 8 26.226907 8 24 C 8 21.773093 9.7730915 20 12 20 z M 36 32 C 38.226909 32 40 33.773093 40 36 C 40 38.226907 38.226909 40 36 40 C 33.773091 40 32 38.226907 32 36 C 32 33.773093 33.773091 32 36 32 z"></path>
+                                        </svg>
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <h3>Associated Learners</h3>
+        <div class="section">
+            
+            <div class="table-container">
                 
+            </div>
+            <div class="pagination">
+               
+            </div>
+        </div>
+    </div>
 
-    <!-- Pagination -->
-   
+</div>
+@endsection
 
-</div>
-</div>
-</div>
-</x-app-layout>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
 

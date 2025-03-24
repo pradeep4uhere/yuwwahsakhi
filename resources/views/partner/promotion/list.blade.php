@@ -1,45 +1,55 @@
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"><x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-            {{ __('Promotion') }}
-        </h2>
-    </x-slot>
-    <div class="py-12">
-    <div class="max-w-12xl mx-auto sm:px-6 lg:px-12">
-            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 text-gray-900 dark:text-gray-100">
-                @include('partner.tab')
-                <div class="row">
-                    @forelse($data['data'] as $item)
-                        <div class="col-md-3 mb-4">
-                            <div class="card p-2" style="min-height:280px">
-                                <img class="card-img-top" 
+
+@extends('layouts.list')
+@section('title', 'Partner Home Page')
+@section('content')
+@include('partner.menu')
+<div class="container">
+        <h1>Promotions</h1>
+<div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Promotion Description</th>
+                        <th>Thumbnail</th>
+                        <th>Promotion Type</th>
+                        <th>Created On</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+
+              
+
+                <tbody>
+                @forelse($data['data'] as $item)
+                    <tr>
+                        <td>22356</td>
+                        <td class="description">{{ Str::limit($item['promotional_descriptions'], 100) }}</td>
+                        <td>
+                            <img 
                                     src="{{ $item['thumbnail'] ?? asset('images/placeholder.jpg') }}" 
-                                    alt="Promotion Image">
-
-                                <div class="card-body">
-                                    <p class="card-text">{{ Str::limit($item['promotional_descriptions'], 100) }}</p>
-                                </div>
-
-                                <div class="card-footer">
-                                    <small class="text-muted">Last updated {{ $item['created_at'] ?? 'N/A' }}</small>
-                                </div>
-                            </div>
-                        </div>
+                                    alt="Promotion Image"
+                                    class="thumbnail">
+                        </td>
+                        <td>Document</td>
+                        <td>Last updated {{ $item['created_at'] ?? 'N/A' }}</td>
+                        <td>
+                            <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="20" height="20" viewBox="0 0 48 48">
+                                <path d="M 36 5 C 32.151772 5 29 8.1517752 29 12 C 29 12.585766 29.198543 13.109464 29.335938 13.654297 L 17.345703 19.652344 C 16.059118 18.073938 14.181503 17 12 17 C 8.1517722 17 5 20.151775 5 24 C 5 27.848225 8.1517722 31 12 31 C 14.181503 31 16.059118 29.926062 17.345703 28.347656 L 29.335938 34.345703 C 29.198543 34.890536 29 35.414234 29 36 C 29 39.848225 32.151772 43 36 43 C 39.848228 43 43 39.848225 43 36 C 43 32.151775 39.848228 29 36 29 C 33.818497 29 31.940882 30.073938 30.654297 31.652344 L 18.664062 25.654297 C 18.801457 25.109464 19 24.585766 19 24 C 19 23.414234 18.801457 22.890536 18.664062 22.345703 L 30.654297 16.347656 C 31.940882 17.926062 33.818497 19 36 19 C 39.848228 19 43 15.848225 43 12 C 43 8.1517752 39.848228 5 36 5 z M 36 8 C 38.226909 8 40 9.7730927 40 12 C 40 14.226907 38.226909 16 36 16 C 33.773091 16 32 14.226907 32 12 C 32 9.7730927 33.773091 8 36 8 z M 12 20 C 14.226909 20 16 21.773093 16 24 C 16 26.226907 14.226909 28 12 28 C 9.7730915 28 8 26.226907 8 24 C 8 21.773093 9.7730915 20 12 20 z M 36 32 C 38.226909 32 40 33.773093 40 36 C 40 38.226907 38.226909 40 36 40 C 33.773091 40 32 38.226907 32 36 C 32 33.773093 33.773091 32 36 32 z"></path>
+                                </svg>
+                        </td>
+                    </tr>
                     @empty
-                        <p class="text-center w-100">No promotions found.</p>
+                    <tr>
+                        <td colspan="5"><p class="text-center w-100">No promotions found.</p></td>
+                    </tr>
                     @endforelse
-                </div>
-
-    <!-- Pagination -->
-    <div class="d-flex justify-content-center mt-4">
-        {{ $data['pagination_links'] ?? '' }}
-    </div>
-
-</div>
-</div>
-</div>
-</x-app-layout>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-
+                </tbody>
+            </table> 
+            <div class="pagination">
+            {{ $data['pagination_links'] ?? '' }}
+      </div>
+        </div>
+        </div>
+@endsection
 

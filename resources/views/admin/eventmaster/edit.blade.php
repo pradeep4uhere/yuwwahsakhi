@@ -73,16 +73,16 @@
               <input type="date" name="date_event_created_in_master" class="form-control" value="{{ $eventDetails['date_event_created_in_master'] }}">
             </div>
             <div class="input-container">
-              <label for="field4">Choose Document-1</label>
-              <input type="file" name="document_1" placeholder="Please Choose Event Document 1">
+              <label for="field4">Document-1 Name</label>
+              <input type="text" name="document_1" placeholder="Please Enter  Document 1 Name" value="{{ $eventDetails['document_1'] }}">
             </div>
             <div class="input-container">
-              <label for="field4">Event Date</label>
-              <input type="file" name="document_2" placeholder="Please Choose Event Document 2">
+              <label for="field4">Document-2 Name</label>
+              <input type="text" name="document_2" placeholder="Please Event Document 2 Name" value="{{ $eventDetails['document_2'] }}">
             </div>
             <div class="input-container">
-              <label for="field4">Event Date</label>
-              <input type="file" name="document_3" placeholder="Please Choose Event Document 3">
+              <label for="field4">Document-3 Name</label>
+              <input type="text" name="document_3" placeholder="Please Event Document 3" value="{{ $eventDetails['document_3'] }}">
             </div>
             <div class="input-container">
               <label for="field5">Status</label>

@@ -15,6 +15,7 @@ use App\Models\Opportunity;
 use App\Models\Pathway;
 use App\Models\Promotion;
 use App\Models\YuwaahSakhi;
+use App\Models\YuwaahEventMaster;
 use Illuminate\Support\Facades\Validator;
 
 
@@ -124,8 +125,8 @@ class PartnerController extends Controller
      * Get All Partner Center
      */
     public function getAllPartnerCenterList(Request $request){
-        $partnerCenter = PartnerCenter::paginate();
-        $fotmatedPartnerCenterlList = PartnerCenter::getFormatedPaginationData($partnerCenter);
+        $partnerCenters = PartnerCenter::withCount('YuwwahSakhi')->paginate();
+        $fotmatedPartnerCenterlList = PartnerCenter::getFormatedPaginationData($partnerCenters);
         //dd($fotmatedPartnerCenterlList);
         return view($this->dir.'.partnercenter.list', [
             'data' => $fotmatedPartnerCenterlList, // Fetch authenticated partner
@@ -152,8 +153,8 @@ class PartnerController extends Controller
      * Opportunites Details
      */
     public function getOpportunitesDetails(Request $request, $id){
+        $id = decryptString($id);
         $opportunity = Opportunity::find($id);
-       // dd($opportunity);
         return view($this->dir.'.opportunity.dertails', [
             'data' => Opportunity::getFormatedSingleData($opportunity), // Fetch authenticated partner
         ]);
@@ -229,6 +230,39 @@ class PartnerController extends Controller
                 ->withInput();
         }
     }
-    
 
+
+
+
+
+
+
+    /**
+     * All Event List
+     */
+    public function eventList(Request $request){
+        $eventList = YuwaahEventMaster::where('status','1')->paginate(env('PAGINATION'));
+        //dd($eventList);
+        return view($this->dir.'.event.list', [
+            'data' => $eventList, // Fetch authenticated partner
+        ]);
+
+    }
+
+
+
+
+    /**
+     * All Associated Yuwaah Sakhi With Partner Center
+     */
+    public function viewAssociatedYuwaahSakhi(Request $request, $id){
+        $id = decryptString($id);
+        $partnerCenterDetails = PartnerCenter::with('YuwwahSakhi')->find($id);
+        $yuwaahSakhiList = YuwaahSakhi::where('partner_center_id',$id)->paginate();
+       // dd($yuwaahSakhiList);
+        return view($this->dir.'.partnercenter.associated_yuwaahsakhi', [
+            'partnerCenterDetails' => $partnerCenterDetails, // Fetch authenticated partner
+            'data'=>$yuwaahSakhiList
+        ]);
+    }
 }
