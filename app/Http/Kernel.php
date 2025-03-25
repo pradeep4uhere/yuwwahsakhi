@@ -72,7 +72,6 @@ class Kernel extends HttpKernel
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
     ];
 
-
     protected $routeMiddleware = [
         'admin.guest' => \App\Http\Middleware\RedirectIfAdminAuthenticated::class,
         'partner.guest' => \App\Http\Middleware\RedirectIfPartnerAuthenticated::class,
@@ -80,4 +79,5 @@ class Kernel extends HttpKernel
         'set.language' => \App\Http\Middleware\SetLanguage::class,
         'partnercenter.guest' => \App\Http\Middleware\RedirectIfPartnerCenterAuthenticated::class,
     ];
+
 }

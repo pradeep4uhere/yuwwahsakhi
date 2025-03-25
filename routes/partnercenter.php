@@ -1,5 +1,4 @@
 <?php
-
 use App\Http\Controllers\PartnerCenterAuthController;
 use App\Http\Controllers\PartnerCenterController;
 use Illuminate\Support\Facades\Route;
@@ -13,20 +12,16 @@ use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\Auth\VerifyEmailController;
 
-
-
 // Admin login route
-Route::middleware('partner_center.guest')->group(function () {
+Route::middleware('partnercenter.guest')->group(function () {
     Route::get('/login', [PartnerCenterAuthController::class, 'loginForm'])->name('partnercenter.login.get');
     Route::post('/login', [PartnerCenterAuthController::class, 'login'])->name('partnercenter.login');
-    // Admin registration route
     Route::get('/register', [PartnerCenterAuthController::class, 'registerForm'])->name('partnercenter.register.get');
     Route::post('/register', [PartnerCenterAuthController::class, 'register'])->name('partnercenter.register');
 });
 
 // Admin logout route
 Route::post('/logout', [PartnerCenterAuthController::class, 'logout'])->name('partnercenter.logout');
-
 
 // Use the 'admin' guard instead of the default 'auth' guard
 Route::middleware('auth:partner_center')->group(function () {
