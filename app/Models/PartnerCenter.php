@@ -2,13 +2,18 @@
 
 namespace App\Models;
 
+
+use Illuminate\Contracts\Auth\Authenticatable;
+use Illuminate\Auth\Authenticatable as AuthenticatableTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class PartnerCenter extends Model
+class PartnerCenter extends Model implements Authenticatable
 {
-    use HasFactory;
+    use HasFactory, AuthenticatableTrait;
+    
 
+    protected $table = 'partner_centers'; // Ensure this matches your DB table name
      /**
      * The attributes that are mass assignable.
      *
@@ -26,6 +31,10 @@ class PartnerCenter extends Model
         'address',
         'password',
         'onboard_date',
+    ];
+
+    protected $hidden = [
+        'password', 'remember_token',
     ];
 
 

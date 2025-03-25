@@ -78,5 +78,6 @@ class Kernel extends HttpKernel
         'partner.guest' => \App\Http\Middleware\RedirectIfPartnerAuthenticated::class,
         'ip.whitelist' => \App\Http\Middleware\IpWhitelistMiddleware::class,
         'set.language' => \App\Http\Middleware\SetLanguage::class,
+        'partnercenter.guest' => \App\Http\Middleware\RedirectIfPartnerCenterAuthenticated::class,
     ];
 }
