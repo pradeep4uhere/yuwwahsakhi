@@ -14,6 +14,7 @@ use App\Models\Promotion;
 use App\Models\YuwaahSakhi;
 use App\Models\YuwaahEventMaster;
 use Illuminate\Support\Facades\Storage;
+use App\Models\YuwaahSakhiSetting;
 
 use Illuminate\Support\MessageBag;
 use Illuminate\Support\Facades\Validator;
@@ -757,9 +758,9 @@ class AdminController extends Controller
                 'eligibility' => 'nullable|string|max:255',
                 'fee_per_completed_transaction' => 'nullable|numeric|min:0',
                 'date_event_created_in_master' => 'required|date',
-                'document_1' => 'required|file|mimes:pdf,jpg,png,doc,docx|max:2048',
-                'document_2' => 'required|file|mimes:pdf,jpg,png,doc,docx|max:2048',
-                'document_3' => 'required|file|mimes:pdf,jpg,png,doc,docx|max:2048',
+                'document_1' => 'required|string|max:255',
+                'document_2' => 'required|string|max:255',
+                'document_3' => 'required|string|max:255',
             ]);
 
 
@@ -771,13 +772,19 @@ class AdminController extends Controller
             }
             // Handle file uploads if they exist
             $documents = [];
-            foreach (['document_1', 'document_2', 'document_3'] as $doc) {
-                if ($request->hasFile($doc)) {
-                    $documents[$doc] = $request->file($doc)->store('event_documents', 'public');
-                } else {
-                    $documents[$doc] = null;
-                }
-            }
+            $documents = [
+                'document_1' => $request->document_1,
+                'document_2' => $request->document_2,
+                'document_3' => $request->document_3,
+            ];
+            
+            // foreach (['document_1', 'document_2', 'document_3'] as $doc) {
+            //     if ($request->hasFile($doc)) {
+            //         $documents[$doc] = $request->file($doc)->store('event_documents', 'public');
+            //     } else {
+            //         $documents[$doc] = null;
+            //     }
+            // }
 
             try {
                 $eventMaster = YuwaahEventMaster::create([
@@ -932,6 +939,91 @@ class AdminController extends Controller
 
 
 
+    /***
+     * Yuwaah Sakhi Home Page Setting
+     */
+    public function yuwaahSakhiHomePageSetting(Request $request){
+        if ($request->isMethod('POST')) {
+            $request->validate([
+                'home_page_title' => 'required|string|max:255',
+                'description' => 'required|string',
+                'home_page_banner_type' => 'required|integer',
+                'youtube_url' => 'nullable|url',
+                'profile_photo.*' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            ]);
+
+            // Handle multiple banner images
+            $banners = [];
+            $existingBanners = YuwaahSakhiSetting::where('id', 1)->value('banners'); // Get existing banners
+
+            if ($request->hasFile('banners')) {
+                foreach ($request->file('banners') as $file) {
+                    $path = $file->store('banners', 'public'); // Stores in storage/app/public/banners
+                    $banners[] = $path;
+                }
+            } else {
+                $banners = json_decode($existingBanners, true) ?? []; // Keep existing banners if none are uploaded
+            }
+
+
+
+             // Save settings
+            YuwaahSakhiSetting::updateOrCreate(
+                        ['id' => 1], // Assuming a single row setup
+                        [
+                            'home_page_title' => $request->input('home_page_title'),
+                            'description' => $request->input('description'),
+                            'home_page_banner_type' => $request->input('home_page_banner_type'),
+                            'youtube_url' => $request->input('youtube_url'),
+                            'banners' => json_encode($banners), // Store as JSON
+                        ]
+                );
+            return redirect()->back()->with('success', 'Settings updated successfully!');
+                
+        }
+        $bannerArr = [];
+        $setting = YuwaahSakhiSetting::first();
+        if($setting['banners']!=''){
+            $bannerArr = json_decode($setting['banners'],true);
+        }
+        //dd($bannerArr);
+        //dd($setting);
+        $title = "Yuwaah Sakhi Setting";
+        return view('admin.yuwaahsetting.index', compact('setting','title','bannerArr'));
+    }
+
+
+
+
+    public function deleteBanner(Request $request)
+{
+    $request->validate([
+        'banner' => 'required|string'
+    ]);
+
+    $bannerPath = $request->input('banner');
+
+    // Get the current banners from the database
+    $settings = YuwaahSakhiSetting::where('id', 1)->first();
+    if (!$settings) {
+        return response()->json(['success' => false, 'message' => 'Settings not found.']);
+    }
+
+    $banners = json_decode($settings->banners, true) ?? [];
+    //dd( $banners);
+
+    // Remove the selected banner from the array
+    if (($key = array_search($bannerPath, $banners)) !== false) {
+        unset($banners[$key]);
+        // Delete the file from storage
+        Storage::disk('public')->delete($bannerPath);
+    }
+
+    // Update the database
+    $settings->update(['banners' => json_encode(array_values($banners))]);
+
+    return response()->json(['success' => true, 'message' => 'Banner deleted successfully.']);
+}
 
 
 

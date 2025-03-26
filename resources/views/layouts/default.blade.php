@@ -5,6 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="csrf-token" content="{{ csrf_token() }}">
         <title>{{ config('app.name', 'Yuwaah Sakhi') }}</title>
+        <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.bunny.net">
         <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
@@ -56,5 +57,35 @@
                 });
             });
         </script>
+       <script>
+    $(document).on("click", ".delete-banner", function () {
+        let button = $(this);
+        let bannerPath = button.data("path");
+
+        if (confirm("Are you sure you want to delete this banner?")) {
+            $.ajax({
+                url: "{{ route('admin.yuwaahsakhi.setting.deleteBanner') }}",
+                type: "POST",
+                data: {
+                    _token: "{{ csrf_token() }}",
+                    banner: bannerPath
+                },
+                success: function (response) {
+                    if (response.success) {
+                        button.closest("td").remove(); // Remove the image from the table
+
+                        // Show success message
+                        $("#success-message").text(response.message).fadeIn().delay(3000).fadeOut();
+                    } else {
+                        alert("Failed to delete the banner.");
+                    }
+                },
+                error: function () {
+                    alert("Something went wrong.");
+                }
+            });
+        }
+    });
+</script>
     </body>
 </html>

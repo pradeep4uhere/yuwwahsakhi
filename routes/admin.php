@@ -60,6 +60,9 @@ Route::middleware('auth:admin')->group(function () {
     Route::get('/get-partner-centers', [AdminController::class, 'getPartnerCenters'])->name('admin.get_partner_centers');
 
 
+    //YuwaahSakhi Setting
+    Route::any('/yuwaah_homepage_setting', [AdminController::class, 'yuwaahSakhiHomePageSetting'])->name('admin.yuwaahsakhi.homepage.setting');
+    Route::post('/yuwaahsakhi/delete-banner', [AdminController::class, 'deleteBanner'])->name('admin.yuwaahsakhi.setting.deleteBanner');
 
      
     //All Partner Routes Here

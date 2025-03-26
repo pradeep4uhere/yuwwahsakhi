@@ -343,7 +343,12 @@ if (!function_exists('getGlobalList')) {
 }
 
 
-
+if (!function_exists('getYouTubeVideoId')) {
+    function getYouTubeVideoId($url) {
+        preg_match("/(?:v=|\/embed\/|\/youtu.be\/|\/v\/|\/watch\?v=|&v=)([a-zA-Z0-9_-]{11})/", $url, $matches);
+        return $matches[1] ?? null;
+    }
+}
 
 
 

@@ -77,22 +77,22 @@
               <input type="date" name="date_event_created_in_master" class="form-control" value="{{ old('date_event_created_in_master') }}">
             </div>
             <div class="input-container">
-              <label for="field4">Choose Document-1</label>
-              <input type="file" name="document_1" placeholder="Please Choose Event Document 1">
+              <label for="field4">Document-1 Name</label>
+              <input type="text" name="document_1" placeholder="Please enter Document 1 Name">
               @error('document_1')
                 <span class="text-danger">{{ $message }}</span>
             @enderror
             </div>
             <div class="input-container">
-              <label for="field4">Event Date</label>
-              <input type="file" name="document_2" placeholder="Please Choose Event Document 2">
+              <label for="field4">Document-2 Name</label>
+              <input type="text" name="document_2" placeholder="Please enter Document 2 Name">
               @error('document_2')
                 <span class="text-danger">{{ $message }}</span>
             @enderror
             </div>
             <div class="input-container">
-              <label for="field4">Event Date</label>
-              <input type="file" name="document_3" placeholder="Please Choose Event Document 3">
+            <label for="field4">Document-3 Name</label>
+              <input type="text" name="document_3" placeholder="Please enter Document 3 Name">
               @error('document_2')
                   <span class="text-danger">{{ $message }}</span>
               @enderror

@@ -113,6 +113,20 @@
                             {{ request()->routeIs('admin.promotions.add') ? 'activelinktext' : '' }}
                             ">Promotions</span>
                     </a></li>
+
+                <li class="{{ request()->is('promotions') ? 'activelink' : '' }}">                    
+                    <a href="{{route('admin.yuwaahsakhi.homepage.setting')}}" id="promotion-link">
+                        <i class="il uil-megaphone
+                            {{ request()->routeIs('admin.yuwaahsakhi.homepage.setting') ? 'activelinktext' : '' }} 
+                            {{ request()->routeIs('admin.yuwaahsakhi.homepage.update') ? 'activelinktext' : '' }}
+                            "></i>
+                        <span class="link-name
+                            {{ request()->routeIs('admin.yuwaahsakhi.homepage.setting') ? 'activelinktext' : '' }} 
+                            {{ request()->routeIs('admin.yuwaahsakhi.homepage.update') ? 'activelinktext' : '' }}
+                            ">Yuwaah HomePage Setting</span>
+                    </a></li>
+
+
                 <li><a href="promotions.html" id="promotion-link">
                 <form method="POST" action="{{ route('admin.logout') }}">
                     @csrf
