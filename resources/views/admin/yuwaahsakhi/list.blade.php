@@ -31,6 +31,7 @@
                         <thead>
                             <tr>
                                 <th>SN</th>
+                                <th>YS ID</th>
                                 <th>YS Name</th>
                                 <th>Partner</th>
                                 <th>Partner Center</th>
@@ -48,7 +49,8 @@
                                   foreach($response['data'] as $item){ //dd($item); ?>
                             <tr>
                                 <td>{{$count}}</td>
-                                <td>{{$item['Name']}}</td>
+                                <td>{{$item['sakhiId']}}</td>
+                                 <td>{{$item['Name']}}</td>
                                 <td>{{ucwords($item['Partner'])}}</td>
                                 <td>{{ucwords($item['PartnerCenter'])}}</td>
                                 <td>{{$item['ContactNumber']}}</td>

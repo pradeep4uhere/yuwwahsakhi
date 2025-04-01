@@ -35,25 +35,25 @@ return [
     |
     */
 
-    'guards' => [
-        'web' => [
-            'driver' => 'session',
-            'provider' => 'users',
-        ],
-        'admin' => [
-            'driver' => 'session',
-            'provider' => 'admins',
-        ],
+        'guards' => [
+            'web' => [
+                'driver' => 'session',
+                'provider' => 'users',
+            ],
+            'admin' => [
+                'driver' => 'session',
+                'provider' => 'admins',
+            ],
 
-        'partner' => [
-            'driver' => 'session',
-            'provider' => 'partners',
+            'partner' => [
+                'driver' => 'session',
+                'provider' => 'partners',
+            ],
+            'partner_center' => [
+                'driver' => 'session',
+                'provider' => 'partner_centers',
+            ],
         ],
-        'partner_center' => [
-            'driver' => 'session',
-            'provider' => 'partner_centers',
-        ],
-    ],
 
     /*
     |--------------------------------------------------------------------------
@@ -75,7 +75,8 @@ return [
     'providers' => [
         'users' => [
             'driver' => 'eloquent',
-            'model' => App\Models\User::class,
+            'model' => App\Models\YuwaahSakhi::class,
+            
         ],
      
         'admins' => [

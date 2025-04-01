@@ -1412,7 +1412,8 @@ public function updatePromotion(Request $request, $id)
     
             // Create a new record
             $yuwaahSakhi = YuwaahSakhi::create([
-                'sakhi_id'=>getSakhiRandomID(),
+                'password' => Hash::make('password@123'),
+                'sakhi_id'=>'YS'.time(),
                 'name' => $validatedData['name'],
                 'email'=>$validatedData['email'],
                 'contact_number'=> $validatedData['contact_number'],
@@ -1436,7 +1437,15 @@ public function updatePromotion(Request $request, $id)
                 'partner_center_id' => $validatedData['partner_center_id'],
                 'center_picture' => $centerPhotoPath,
                 'profile_picture' => $profilePhotoPath,
-                'onboard_date'=>now()
+                'onboard_date'=>now(),
+                'state'=>$request->state,
+                'distict'=>$request->distict,
+                'address'=>$request->address,
+            ]);
+
+            // ✅ Correctly updating 'sakhi_id' after creation
+            $yuwaahSakhi->update([
+                'sakhi_id' => getYuwaahSakhiID($yuwaahSakhi->id, $validatedData['partner_id'], $validatedData['partner_center_id'])
             ]);
     
             // Return success response
@@ -1447,6 +1456,7 @@ public function updatePromotion(Request $request, $id)
             ], 201);
     
         } catch (\Exception $e) {
+            dd($e->getMessage());
             // Handle exception and return error response
             return response()->json([
                 'status' => false,
@@ -1464,6 +1474,7 @@ public function updatePromotion(Request $request, $id)
     public function updateYuwaahSakhi(Request $request)
 {
     // Validate input fields
+    //dd($request->all());
     $validator = Validator::make($request->all(), [
         'id' => 'required|exists:yuwaah_sakhi,id',
         'name' => 'required|string|max:255',
@@ -1516,6 +1527,7 @@ public function updatePromotion(Request $request, $id)
     $yuwaahSakhi->update([
         'name' => $request->name,
         'email' => $request->email,
+        'sakhi_id'=>getYuwaahSakhiID($yuwaahSakhi->id,$request->partner_id,$request->partner_center_id),
         'contact_number' => $request->contact_number,
         'dob' => $request->date_of_birth,
         'gender' => $request->gender,
@@ -1538,6 +1550,9 @@ public function updatePromotion(Request $request, $id)
         'center_picture' => $centerPhotoPath,
         'profile_picture' => $profilePhotoPath,
         'updated_at' => now(),
+        'state'=>$request->state,
+        'distict'=>$request->distict,
+        'address'=>$request->address,
     ]);
 
     // Return success response

@@ -184,10 +184,8 @@ button.delete-banner:hover {
 
         <p><strong>Uploaded You Tube<strong></p>
         @if(!empty($setting['youtube_url']))
-        
         <div class="youtube-container">
-        <iframe  width="100%"  height="315" src="https://www.youtube.com/embed/{{getYouTubeVideoId($setting['youtube_url'])}}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-           
+        <iframe  width="100%"  height="315" src="{{getYouTubeVideoId($setting['youtube_url'])}}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
         </div>
     @endif
     </section>

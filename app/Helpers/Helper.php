@@ -343,12 +343,35 @@ if (!function_exists('getGlobalList')) {
 }
 
 
-if (!function_exists('getYouTubeVideoId')) {
-    function getYouTubeVideoId($url) {
+if (!function_exists('getYouTubeVideoIds')) {
+    function getYouTubeVideoIds($url) {
         preg_match("/(?:v=|\/embed\/|\/youtu.be\/|\/v\/|\/watch\?v=|&v=)([a-zA-Z0-9_-]{11})/", $url, $matches);
         return $matches[1] ?? null;
     }
 }
+
+if (!function_exists('getYouTubeVideoId')) {
+    function getYouTubeVideoId($url) {
+        // Check if URL is empty
+        if (!$url) return '';
+    
+        // Match video ID from different YouTube URL formats
+        preg_match('/(youtu\.be\/|youtube\.com\/(watch\?v=|embed\/|v\/|shorts\/|user\/.*?v=))([^?&]+)/', $url, $matches);
+    
+        // If a match is found, return the embed URL
+        return isset($matches[3]) ? "https://www.youtube.com/embed/" . $matches[3] : '';
+    }
+}
+
+
+if (!function_exists('getYuwaahSakhiID')) {
+    function getYuwaahSakhiID($id, $partnerId, $partnerCenterId) {
+        return 'YS'.$id.$partnerId.$partnerCenterId;
+        
+    }
+}
+
+
 
 
 

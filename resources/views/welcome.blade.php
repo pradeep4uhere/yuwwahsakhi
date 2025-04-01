@@ -1,133 +1,1996 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
+<html lang="en">
 
-        <title>Laravel</title>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>YuWaah Sakhi</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- for date -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css" />
+  <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+  <!-- password icon -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
 
-        <!-- Fonts -->
-        <link rel="preconnect" href="https://fonts.bunny.net">
-        <link href="https://fonts.bunny.net/css?family=figtree:400,600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css">
+  <script src="index.js" defer></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
+    rel="stylesheet">
+  <script src="https://kit.fontawesome.com/150e97665c.js" crossorigin="anonymous"></script>
+</head>
 
-        <!-- Styles -->
-        <style>
-            /* ! tailwindcss v3.2.4 | MIT License | https://tailwindcss.com */*,::after,::before{box-sizing:border-box;border-width:0;border-style:solid;border-color:#e5e7eb}::after,::before{--tw-content:''}html{line-height:1.5;-webkit-text-size-adjust:100%;-moz-tab-size:4;tab-size:4;font-family:Figtree, sans-serif;font-feature-settings:normal}body{margin:0;line-height:inherit}hr{height:0;color:inherit;border-top-width:1px}abbr:where([title]){-webkit-text-decoration:underline dotted;text-decoration:underline dotted}h1,h2,h3,h4,h5,h6{font-size:inherit;font-weight:inherit}a{color:inherit;text-decoration:inherit}b,strong{font-weight:bolder}code,kbd,pre,samp{font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;font-size:1em}small{font-size:80%}sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}sub{bottom:-.25em}sup{top:-.5em}table{text-indent:0;border-color:inherit;border-collapse:collapse}button,input,optgroup,select,textarea{font-family:inherit;font-size:100%;font-weight:inherit;line-height:inherit;color:inherit;margin:0;padding:0}button,select{text-transform:none}[type=button],[type=reset],[type=submit],button{-webkit-appearance:button;background-color:transparent;background-image:none}:-moz-focusring{outline:auto}:-moz-ui-invalid{box-shadow:none}progress{vertical-align:baseline}::-webkit-inner-spin-button,::-webkit-outer-spin-button{height:auto}[type=search]{-webkit-appearance:textfield;outline-offset:-2px}::-webkit-search-decoration{-webkit-appearance:none}::-webkit-file-upload-button{-webkit-appearance:button;font:inherit}summary{display:list-item}blockquote,dd,dl,figure,h1,h2,h3,h4,h5,h6,hr,p,pre{margin:0}fieldset{margin:0;padding:0}legend{padding:0}menu,ol,ul{list-style:none;margin:0;padding:0}textarea{resize:vertical}input::placeholder,textarea::placeholder{opacity:1;color:#9ca3af}[role=button],button{cursor:pointer}:disabled{cursor:default}audio,canvas,embed,iframe,img,object,svg,video{display:block;vertical-align:middle}img,video{max-width:100%;height:auto}[hidden]{display:none}*, ::before, ::after{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgb(59 130 246 / 0.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: }::-webkit-backdrop{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgb(59 130 246 / 0.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: }::backdrop{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgb(59 130 246 / 0.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: }.relative{position:relative}.mx-auto{margin-left:auto;margin-right:auto}.mx-6{margin-left:1.5rem;margin-right:1.5rem}.ml-4{margin-left:1rem}.mt-16{margin-top:4rem}.mt-6{margin-top:1.5rem}.mt-4{margin-top:1rem}.-mt-px{margin-top:-1px}.mr-1{margin-right:0.25rem}.flex{display:flex}.inline-flex{display:inline-flex}.grid{display:grid}.h-16{height:4rem}.h-7{height:1.75rem}.h-6{height:1.5rem}.h-5{height:1.25rem}.min-h-screen{min-height:100vh}.w-auto{width:auto}.w-16{width:4rem}.w-7{width:1.75rem}.w-6{width:1.5rem}.w-5{width:1.25rem}.max-w-7xl{max-width:80rem}.shrink-0{flex-shrink:0}.scale-100{--tw-scale-x:1;--tw-scale-y:1;transform:translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))}.grid-cols-1{grid-template-columns:repeat(1, minmax(0, 1fr))}.items-center{align-items:center}.justify-center{justify-content:center}.gap-6{gap:1.5rem}.gap-4{gap:1rem}.self-center{align-self:center}.rounded-lg{border-radius:0.5rem}.rounded-full{border-radius:9999px}.bg-gray-100{--tw-bg-opacity:1;background-color:rgb(243 244 246 / var(--tw-bg-opacity))}.bg-white{--tw-bg-opacity:1;background-color:rgb(255 255 255 / var(--tw-bg-opacity))}.bg-red-50{--tw-bg-opacity:1;background-color:rgb(254 242 242 / var(--tw-bg-opacity))}.bg-dots-darker{background-image:url("data:image/svg+xml,%3Csvg width='30' height='30' viewBox='0 0 30 30' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1.22676 0C1.91374 0 2.45351 0.539773 2.45351 1.22676C2.45351 1.91374 1.91374 2.45351 1.22676 2.45351C0.539773 2.45351 0 1.91374 0 1.22676C0 0.539773 0.539773 0 1.22676 0Z' fill='rgba(0,0,0,0.07)'/%3E%3C/svg%3E")}.from-gray-700\/50{--tw-gradient-from:rgb(55 65 81 / 0.5);--tw-gradient-to:rgb(55 65 81 / 0);--tw-gradient-stops:var(--tw-gradient-from), var(--tw-gradient-to)}.via-transparent{--tw-gradient-to:rgb(0 0 0 / 0);--tw-gradient-stops:var(--tw-gradient-from), transparent, var(--tw-gradient-to)}.bg-center{background-position:center}.stroke-red-500{stroke:#ef4444}.stroke-gray-400{stroke:#9ca3af}.p-6{padding:1.5rem}.px-6{padding-left:1.5rem;padding-right:1.5rem}.text-center{text-align:center}.text-right{text-align:right}.text-xl{font-size:1.25rem;line-height:1.75rem}.text-sm{font-size:0.875rem;line-height:1.25rem}.font-semibold{font-weight:600}.leading-relaxed{line-height:1.625}.text-gray-600{--tw-text-opacity:1;color:rgb(75 85 99 / var(--tw-text-opacity))}.text-gray-900{--tw-text-opacity:1;color:rgb(17 24 39 / var(--tw-text-opacity))}.text-gray-500{--tw-text-opacity:1;color:rgb(107 114 128 / var(--tw-text-opacity))}.underline{-webkit-text-decoration-line:underline;text-decoration-line:underline}.antialiased{-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}.shadow-2xl{--tw-shadow:0 25px 50px -12px rgb(0 0 0 / 0.25);--tw-shadow-colored:0 25px 50px -12px var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)}.shadow-gray-500\/20{--tw-shadow-color:rgb(107 114 128 / 0.2);--tw-shadow:var(--tw-shadow-colored)}.transition-all{transition-property:all;transition-timing-function:cubic-bezier(0.4, 0, 0.2, 1);transition-duration:150ms}.selection\:bg-red-500 *::selection{--tw-bg-opacity:1;background-color:rgb(239 68 68 / var(--tw-bg-opacity))}.selection\:text-white *::selection{--tw-text-opacity:1;color:rgb(255 255 255 / var(--tw-text-opacity))}.selection\:bg-red-500::selection{--tw-bg-opacity:1;background-color:rgb(239 68 68 / var(--tw-bg-opacity))}.selection\:text-white::selection{--tw-text-opacity:1;color:rgb(255 255 255 / var(--tw-text-opacity))}.hover\:text-gray-900:hover{--tw-text-opacity:1;color:rgb(17 24 39 / var(--tw-text-opacity))}.hover\:text-gray-700:hover{--tw-text-opacity:1;color:rgb(55 65 81 / var(--tw-text-opacity))}.focus\:rounded-sm:focus{border-radius:0.125rem}.focus\:outline:focus{outline-style:solid}.focus\:outline-2:focus{outline-width:2px}.focus\:outline-red-500:focus{outline-color:#ef4444}.group:hover .group-hover\:stroke-gray-600{stroke:#4b5563}.z-10{z-index: 10}@media (prefers-reduced-motion: no-preference){.motion-safe\:hover\:scale-\[1\.01\]:hover{--tw-scale-x:1.01;--tw-scale-y:1.01;transform:translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))}}@media (prefers-color-scheme: dark){.dark\:bg-gray-900{--tw-bg-opacity:1;background-color:rgb(17 24 39 / var(--tw-bg-opacity))}.dark\:bg-gray-800\/50{background-color:rgb(31 41 55 / 0.5)}.dark\:bg-red-800\/20{background-color:rgb(153 27 27 / 0.2)}.dark\:bg-dots-lighter{background-image:url("data:image/svg+xml,%3Csvg width='30' height='30' viewBox='0 0 30 30' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1.22676 0C1.91374 0 2.45351 0.539773 2.45351 1.22676C2.45351 1.91374 1.91374 2.45351 1.22676 2.45351C0.539773 2.45351 0 1.91374 0 1.22676C0 0.539773 0.539773 0 1.22676 0Z' fill='rgba(255,255,255,0.07)'/%3E%3C/svg%3E")}.dark\:bg-gradient-to-bl{background-image:linear-gradient(to bottom left, var(--tw-gradient-stops))}.dark\:stroke-gray-600{stroke:#4b5563}.dark\:text-gray-400{--tw-text-opacity:1;color:rgb(156 163 175 / var(--tw-text-opacity))}.dark\:text-white{--tw-text-opacity:1;color:rgb(255 255 255 / var(--tw-text-opacity))}.dark\:shadow-none{--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;box-shadow:var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)}.dark\:ring-1{--tw-ring-offset-shadow:var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);--tw-ring-shadow:var(--tw-ring-inset) 0 0 0 calc(1px + var(--tw-ring-offset-width)) var(--tw-ring-color);box-shadow:var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow, 0 0 #0000)}.dark\:ring-inset{--tw-ring-inset:inset}.dark\:ring-white\/5{--tw-ring-color:rgb(255 255 255 / 0.05)}.dark\:hover\:text-white:hover{--tw-text-opacity:1;color:rgb(255 255 255 / var(--tw-text-opacity))}.group:hover .dark\:group-hover\:stroke-gray-400{stroke:#9ca3af}}@media (min-width: 640px){.sm\:fixed{position:fixed}.sm\:top-0{top:0px}.sm\:right-0{right:0px}.sm\:ml-0{margin-left:0px}.sm\:flex{display:flex}.sm\:items-center{align-items:center}.sm\:justify-center{justify-content:center}.sm\:justify-between{justify-content:space-between}.sm\:text-left{text-align:left}.sm\:text-right{text-align:right}}@media (min-width: 768px){.md\:grid-cols-2{grid-template-columns:repeat(2, minmax(0, 1fr))}}@media (min-width: 1024px){.lg\:gap-8{gap:2rem}.lg\:p-8{padding:2rem}}
-        </style>
-    </head>
-    <body class="antialiased">
-        <div class="relative sm:flex sm:justify-center sm:items-center min-h-screen bg-dots-darker bg-center bg-gray-100 dark:bg-dots-lighter dark:bg-gray-900 selection:bg-red-500 selection:text-white">
-            @if (Route::has('login'))
-                <div class="sm:fixed sm:top-0 sm:right-0 p-6 text-right z-10">
-                    @auth
-                        <a href="{{ url('/dashboard') }}" class="font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">Dashboard</a>
-                    @else
-                        <a href="{{ route('login') }}" class="font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">Log in</a>
+<body class="">
+  <!-- 1.................... Screen 1: About YuWaah ......-->
+  <div id="screen1" class="mx-auto max-w-[26rem] h-screen bg-white shadow-md relative">
+    <div class="absolute top-[44px] left-[145px]">
+    <img src="{{asset('asset/images/Yuwaahlogo.png')}}" alt="YuWaah Logo" class="h-14" width="100px" height="57px">
+    </div>
 
-                        @if (Route::has('register'))
-                            <a href="{{ route('register') }}" class="ml-4 font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">Register</a>
-                        @endif
-                    @endauth
-                </div>
-            @endif
+    
 
-            <div class="max-w-7xl mx-auto p-6 lg:p-8">
-                <div class="flex justify-center">
-                    <svg viewBox="0 0 62 65" fill="none" xmlns="http://www.w3.org/2000/svg" class="h-16 w-auto bg-gray-100 dark:bg-gray-900">
-                        <path d="M61.8548 14.6253C61.8778 14.7102 61.8895 14.7978 61.8897 14.8858V28.5615C61.8898 28.737 61.8434 28.9095 61.7554 29.0614C61.6675 29.2132 61.5409 29.3392 61.3887 29.4265L49.9104 36.0351V49.1337C49.9104 49.4902 49.7209 49.8192 49.4118 49.9987L25.4519 63.7916C25.3971 63.8227 25.3372 63.8427 25.2774 63.8639C25.255 63.8714 25.2338 63.8851 25.2101 63.8913C25.0426 63.9354 24.8666 63.9354 24.6991 63.8913C24.6716 63.8838 24.6467 63.8689 24.6205 63.8589C24.5657 63.8389 24.5084 63.8215 24.456 63.7916L0.501061 49.9987C0.348882 49.9113 0.222437 49.7853 0.134469 49.6334C0.0465019 49.4816 0.000120578 49.3092 0 49.1337L0 8.10652C0 8.01678 0.0124642 7.92953 0.0348998 7.84477C0.0423783 7.8161 0.0598282 7.78993 0.0697995 7.76126C0.0884958 7.70891 0.105946 7.65531 0.133367 7.6067C0.152063 7.5743 0.179485 7.54812 0.20192 7.51821C0.230588 7.47832 0.256763 7.43719 0.290416 7.40229C0.319084 7.37362 0.356476 7.35243 0.388883 7.32751C0.425029 7.29759 0.457436 7.26518 0.498568 7.2415L12.4779 0.345059C12.6296 0.257786 12.8015 0.211853 12.9765 0.211853C13.1515 0.211853 13.3234 0.257786 13.475 0.345059L25.4531 7.2415H25.4556C25.4955 7.26643 25.5292 7.29759 25.5653 7.32626C25.5977 7.35119 25.6339 7.37362 25.6625 7.40104C25.6974 7.43719 25.7224 7.47832 25.7523 7.51821C25.7735 7.54812 25.8021 7.5743 25.8196 7.6067C25.8483 7.65656 25.8645 7.70891 25.8844 7.76126C25.8944 7.78993 25.9118 7.8161 25.9193 7.84602C25.9423 7.93096 25.954 8.01853 25.9542 8.10652V33.7317L35.9355 27.9844V14.8846C35.9355 14.7973 35.948 14.7088 35.9704 14.6253C35.9792 14.5954 35.9954 14.5692 36.0053 14.5405C36.0253 14.4882 36.0427 14.4346 36.0702 14.386C36.0888 14.3536 36.1163 14.3274 36.1375 14.2975C36.1674 14.2576 36.1923 14.2165 36.2272 14.1816C36.2559 14.1529 36.292 14.1317 36.3244 14.1068C36.3618 14.0769 36.3942 14.0445 36.4341 14.0208L48.4147 7.12434C48.5663 7.03694 48.7383 6.99094 48.9133 6.99094C49.0883 6.99094 49.2602 7.03694 49.4118 7.12434L61.3899 14.0208C61.4323 14.0457 61.4647 14.0769 61.5021 14.1055C61.5333 14.1305 61.5694 14.1529 61.5981 14.1803C61.633 14.2165 61.6579 14.2576 61.6878 14.2975C61.7103 14.3274 61.7377 14.3536 61.7551 14.386C61.7838 14.4346 61.8 14.4882 61.8199 14.5405C61.8312 14.5692 61.8474 14.5954 61.8548 14.6253ZM59.893 27.9844V16.6121L55.7013 19.0252L49.9104 22.3593V33.7317L59.8942 27.9844H59.893ZM47.9149 48.5566V37.1768L42.2187 40.4299L25.953 49.7133V61.2003L47.9149 48.5566ZM1.99677 9.83281V48.5566L23.9562 61.199V49.7145L12.4841 43.2219L12.4804 43.2194L12.4754 43.2169C12.4368 43.1945 12.4044 43.1621 12.3682 43.1347C12.3371 43.1097 12.3009 43.0898 12.2735 43.0624L12.271 43.0586C12.2386 43.0275 12.2162 42.9888 12.1887 42.9539C12.1638 42.9203 12.1339 42.8916 12.114 42.8567L12.1127 42.853C12.0903 42.8156 12.0766 42.7707 12.0604 42.7283C12.0442 42.6909 12.023 42.656 12.013 42.6161C12.0005 42.5688 11.998 42.5177 11.9931 42.4691C11.9881 42.4317 11.9781 42.3943 11.9781 42.3569V15.5801L6.18848 12.2446L1.99677 9.83281ZM12.9777 2.36177L2.99764 8.10652L12.9752 13.8513L22.9541 8.10527L12.9752 2.36177H12.9777ZM18.1678 38.2138L23.9574 34.8809V9.83281L19.7657 12.2459L13.9749 15.5801V40.6281L18.1678 38.2138ZM48.9133 9.14105L38.9344 14.8858L48.9133 20.6305L58.8909 14.8846L48.9133 9.14105ZM47.9149 22.3593L42.124 19.0252L37.9323 16.6121V27.9844L43.7219 31.3174L47.9149 33.7317V22.3593ZM24.9533 47.987L39.59 39.631L46.9065 35.4555L36.9352 29.7145L25.4544 36.3242L14.9907 42.3482L24.9533 47.987Z" fill="#FF2D20"/>
-                    </svg>
-                </div>
+    <div class="mx-auto relative left-[px]">
+      <div class="absolute top-[120px] left-[20px]">
+        <?php if($YuwaahSakhiSetting['home_page_banner_type']==2){ ?>
+        <?php $youtubeEmbedUrl = getYouTubeVideoId($YuwaahSakhiSetting['youtube_url']);?>
+        <iframe width="380" height="200" src="{{$youtubeEmbedUrl}}">
+        </iframe>
+        <?php }else{ ?>
+          <!-- Left Arrow -->
+        <button class="absolute top-[195px] left-[16px] w-[20px] h-[20px]  text-gray-700 hover:text-black">
+          <i class="fa-solid fa-chevron-left"></i>
+        </button>
+          <img src="{{asset('asset/images/Banner.png')}}" alt=" Logo" width="330px" height="184.33px">
+        <!-- Right Arrow -->
+        <button class="absolute top-[195px] left-[378px] w-[20px] h-[20px]">
+          <i class="fa-solid fa-chevron-right"></i>
+        </button>
+        <?php } ?>
+      </div>
+    </div>
 
-                <div class="mt-16">
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
-                        <a href="https://laravel.com/docs" class="scale-100 p-6 bg-white dark:bg-gray-800/50 dark:bg-gradient-to-bl from-gray-700/50 via-transparent dark:ring-1 dark:ring-inset dark:ring-white/5 rounded-lg shadow-2xl shadow-gray-500/20 dark:shadow-none flex motion-safe:hover:scale-[1.01] transition-all duration-250 focus:outline focus:outline-2 focus:outline-red-500">
-                            <div>
-                                <div class="h-16 w-16 bg-red-50 dark:bg-red-800/20 flex items-center justify-center rounded-full">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" class="w-7 h-7 stroke-red-500">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25" />
-                                    </svg>
-                                </div>
+    <div class="">
+      <h2
+        class="w-[202px] h-[20px] absolute top-[334px] left-[100px] font-Montserrat font-[500] text-[16px] leading-[19.5px] text-center text-[#000000]">
+        {{$YuwaahSakhiSetting['home_page_title']}}</h2>
+      <p
+        class="w-[330px] h-[75px] absolute top-[364px] left-[46px] font-Montserrat font-[400] text-[12px] leading-[14.63px] text-[#000000]">
+         {!!$YuwaahSakhiSetting['description']!!}
+      </p>
+    </div>
 
-                                <h2 class="mt-6 text-xl font-semibold text-gray-900 dark:text-white">Documentation</h2>
+    <div
+      class="w-[250px] h-[40px] relative top-[461px] left-[82px] rounded-[10px] bg-[#28388F] text-center pt-1.5 font-Montserrat">
+      <a href="apply.html"
+        class="w-[79px] h-[17px] font-Montserrat font-[600] text-[14px] leading-[17.07px] text-[#FFFFFF] ">
+        Apply Now
+      </a>
+    </div>
 
-                                <p class="mt-4 text-gray-500 dark:text-gray-400 text-sm leading-relaxed">
-                                    Laravel has wonderful documentation covering every aspect of the framework. Whether you are a newcomer or have prior experience with Laravel, we recommend reading our documentation from beginning to end.
-                                </p>
-                            </div>
+    <div class="mt-2 absolute top-[500px] left-[122px] font-Montserrat">
+      <p class="text-center text-xs text-gray-600 font-Montserrat">
+        New to YuWaah? <a href="register.html" class="text-[#28388F] font-semibold hover:underline text-sm">Register</a>
+      </p>
+    </div>
+    <div class="h-48"></div>
+  </div>
 
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" class="self-center shrink-0 stroke-red-500 w-6 h-6 mx-6">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12h15m0 0l-6.75-6.75M19.5 12l-6.75 6.75" />
-                            </svg>
-                        </a>
+  <!-- 2...............  Screen 2: Apply Now.................................... -->
+  <div id="screen2" class="hidden max-w-sm mx-auto p-4 bg-white shadow-md rounded-lg relative">
+    <button onclick="showScreen1()" class="hover:text-blue-600 mb-4 text-lg">
+      &larr;
+    </button>
 
-                        <a href="https://laracasts.com" class="scale-100 p-6 bg-white dark:bg-gray-800/50 dark:bg-gradient-to-bl from-gray-700/50 via-transparent dark:ring-1 dark:ring-inset dark:ring-white/5 rounded-lg shadow-2xl shadow-gray-500/20 dark:shadow-none flex motion-safe:hover:scale-[1.01] transition-all duration-250 focus:outline focus:outline-2 focus:outline-red-500">
-                            <div>
-                                <div class="h-16 w-16 bg-red-50 dark:bg-red-800/20 flex items-center justify-center rounded-full">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" class="w-7 h-7 stroke-red-500">
-                                        <path stroke-linecap="round" d="M15.75 10.5l4.72-4.72a.75.75 0 011.28.53v11.38a.75.75 0 01-1.28.53l-4.72-4.72M4.5 18.75h9a2.25 2.25 0 002.25-2.25v-9a2.25 2.25 0 00-2.25-2.25h-9A2.25 2.25 0 002.25 7.5v9a2.25 2.25 0 002.25 2.25z" />
-                                    </svg>
-                                </div>
+    <div class="absolute top-[51px] left-[120px]">
+      <img src="Images/image.png" alt="YuWaah Logo" class="h-14" width="150px" height="86px">
+    </div>
 
-                                <h2 class="mt-6 text-xl font-semibold text-gray-900 dark:text-white">Laracasts</h2>
+    <!-- Apply Form -->
+    <h1 class="font-medium mb-4">Apply Now</h1>
 
-                                <p class="mt-4 text-gray-500 dark:text-gray-400 text-sm leading-relaxed">
-                                    Laracasts offers thousands of video tutorials on Laravel, PHP, and JavaScript development. Check them out, see for yourself, and massively level up your development skills in the process.
-                                </p>
-                            </div>
+    <form class="space-y-4" onsubmit="showScreen3(event)">
+      <div class="space-y-1 text-xs">
+        <label for="ys-id" class="text-gray-700">Enter YS ID</label>
+        <input id="ys-id" type="text" placeholder="Please Enter YS ID"
+          class="w-full border rounded px-3 py-2 focus:ring-2 focus:ring-blue-500">
+      </div>
 
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" class="self-center shrink-0 stroke-red-500 w-6 h-6 mx-6">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12h15m0 0l-6.75-6.75M19.5 12l-6.75 6.75" />
-                            </svg>
-                        </a>
+      <div class="space-y-1 text-xs">
+        <label for="email" class=" text-gray-700">Email ID</label>
+        <input id="email" type="email" placeholder="Please Enter Email ID"
+          class="w-full border rounded px-3 py-2 focus:ring-2 focus:ring-blue-500">
+      </div>
 
-                        <a href="https://laravel-news.com" class="scale-100 p-6 bg-white dark:bg-gray-800/50 dark:bg-gradient-to-bl from-gray-700/50 via-transparent dark:ring-1 dark:ring-inset dark:ring-white/5 rounded-lg shadow-2xl shadow-gray-500/20 dark:shadow-none flex motion-safe:hover:scale-[1.01] transition-all duration-250 focus:outline focus:outline-2 focus:outline-red-500">
-                            <div>
-                                <div class="h-16 w-16 bg-red-50 dark:bg-red-800/20 flex items-center justify-center rounded-full">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" class="w-7 h-7 stroke-red-500">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 7.5h1.5m-1.5 3h1.5m-7.5 3h7.5m-7.5 3h7.5m3-9h3.375c.621 0 1.125.504 1.125 1.125V18a2.25 2.25 0 01-2.25 2.25M16.5 7.5V18a2.25 2.25 0 002.25 2.25M16.5 7.5V4.875c0-.621-.504-1.125-1.125-1.125H4.125C3.504 3.75 3 4.254 3 4.875V18a2.25 2.25 0 002.25 2.25h13.5M6 7.5h3v3H6v-3z" />
-                                    </svg>
-                                </div>
+      <div class="space-y-1 text-xs">
+        <label for="full-name" class="text-gray-700">Enter Name</label>
+        <input id="full-name" type="text" placeholder="Please Enter Your Full Name"
+          class="w-full border rounded px-3 py-2 focus:ring-2 focus:ring-blue-500">
+      </div>
 
-                                <h2 class="mt-6 text-xl font-semibold text-gray-900 dark:text-white">Laravel News</h2>
+      <div class="space-y-1 text-xs">
+        <label for="mobile" class="text-gray-700">Mobile</label>
+        <input id="mobile" type="tel" placeholder="Please Enter Your Mobile Number"
+          class="w-full border rounded px-3 py-2 focus:ring-2 focus:ring-blue-500">
+      </div>
 
-                                <p class="mt-4 text-gray-500 dark:text-gray-400 text-sm leading-relaxed">
-                                    Laravel News is a community driven portal and newsletter aggregating all of the latest and most important news in the Laravel ecosystem, including new package releases and tutorials.
-                                </p>
-                            </div>
+      <div class="space-y-1 text-xs">
+        <label for="address" class="text-gray-700">Address</label>
+        <input id="address" type="text" placeholder="Please Enter Your Full Address"
+          class="w-full border rounded px-3 py-2 focus:ring-2 focus:ring-blue-500">
+      </div>
 
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" class="self-center shrink-0 stroke-red-500 w-6 h-6 mx-6">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12h15m0 0l-6.75-6.75M19.5 12l-6.75 6.75" />
-                            </svg>
-                        </a>
-
-                        <div class="scale-100 p-6 bg-white dark:bg-gray-800/50 dark:bg-gradient-to-bl from-gray-700/50 via-transparent dark:ring-1 dark:ring-inset dark:ring-white/5 rounded-lg shadow-2xl shadow-gray-500/20 dark:shadow-none flex motion-safe:hover:scale-[1.01] transition-all duration-250 focus:outline focus:outline-2 focus:outline-red-500">
-                            <div>
-                                <div class="h-16 w-16 bg-red-50 dark:bg-red-800/20 flex items-center justify-center rounded-full">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" class="w-7 h-7 stroke-red-500">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M6.115 5.19l.319 1.913A6 6 0 008.11 10.36L9.75 12l-.387.775c-.217.433-.132.956.21 1.298l1.348 1.348c.21.21.329.497.329.795v1.089c0 .426.24.815.622 1.006l.153.076c.433.217.956.132 1.298-.21l.723-.723a8.7 8.7 0 002.288-4.042 1.087 1.087 0 00-.358-1.099l-1.33-1.108c-.251-.21-.582-.299-.905-.245l-1.17.195a1.125 1.125 0 01-.98-.314l-.295-.295a1.125 1.125 0 010-1.591l.13-.132a1.125 1.125 0 011.3-.21l.603.302a.809.809 0 001.086-1.086L14.25 7.5l1.256-.837a4.5 4.5 0 001.528-1.732l.146-.292M6.115 5.19A9 9 0 1017.18 4.64M6.115 5.19A8.965 8.965 0 0112 3c1.929 0 3.716.607 5.18 1.64" />
-                                    </svg>
-                                </div>
-
-                                <h2 class="mt-6 text-xl font-semibold text-gray-900 dark:text-white">Vibrant Ecosystem</h2>
-
-                                <p class="mt-4 text-gray-500 dark:text-gray-400 text-sm leading-relaxed">
-                                    Laravel's robust library of first-party tools and libraries, such as <a href="https://forge.laravel.com" class="underline hover:text-gray-700 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">Forge</a>, <a href="https://vapor.laravel.com" class="underline hover:text-gray-700 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">Vapor</a>, <a href="https://nova.laravel.com" class="underline hover:text-gray-700 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">Nova</a>, and <a href="https://envoyer.io" class="underline hover:text-gray-700 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">Envoyer</a> help you take your projects to the next level. Pair them with powerful open source libraries like <a href="https://laravel.com/docs/billing" class="underline hover:text-gray-700 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">Cashier</a>, <a href="https://laravel.com/docs/dusk" class="underline hover:text-gray-700 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">Dusk</a>, <a href="https://laravel.com/docs/broadcasting" class="underline hover:text-gray-700 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">Echo</a>, <a href="https://laravel.com/docs/horizon" class="underline hover:text-gray-700 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">Horizon</a>, <a href="https://laravel.com/docs/sanctum" class="underline hover:text-gray-700 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">Sanctum</a>, <a href="https://laravel.com/docs/telescope" class="underline hover:text-gray-700 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">Telescope</a>, and more.
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="flex justify-center mt-16 px-0 sm:items-center sm:justify-between">
-                    <div class="text-center text-sm sm:text-left">
-                        &nbsp;
-                    </div>
-
-                    <div class="text-center text-sm text-gray-500 dark:text-gray-400 sm:text-right sm:ml-0">
-                        Laravel v{{ Illuminate\Foundation\Application::VERSION }} (PHP v{{ PHP_VERSION }})
-                    </div>
-                </div>
-            </div>
+      <!-- District and State -->
+      <div class="space-y-1 text-xs">
+        <div class="flex space-x-2">
+          <div class="w-1/2">
+            <label for="district" class=" text-gray-700">District</label>
+            <input id="district" type="text" placeholder="Please Enter District"
+              class="w-full border rounded px-3 py-2 focus:ring-2 focus:ring-blue-500">
+          </div>
+          <div class="w-1/2">
+            <label for="state" class="text-gray-700">State</label>
+            <input id="state" type="text" placeholder="Please Enter State"
+              class="w-full border rounded px-3 py-2 focus:ring-2 focus:ring-blue-500">
+          </div>
         </div>
-    </body>
+      </div>
+
+      <div class="text-xs text-gray-600">
+        By signing up, you're agreeing to our
+        <a href="#" class="text-blue-500 hover:underline">Terms & Conditions</a> and
+        <a href="#" class="text-blue-500 hover:underline">Privacy Policy</a>.
+      </div>
+
+      <div class="flex justify-center">
+        <button type="submit"
+          class="w-3/5 bg-blue-500 hover:bg-blue-600 text-white font-medium py-1 pb-[6px] rounded-lg">
+          Continue
+        </button>
+      </div>
+      <p class="text-center text-xs text-gray-600">
+        Joined us before? <a href="#" class="text-sm text-blue-500 hover:underline"
+          onclick="showScreen4(event)">Login</a>
+      </p>
+    </form>
+  </div>
+
+  <!-- 3. Screen 3:................ Register ..........-->
+  <div id="screen3" class="hidden max-w-sm mx-auto p-4 bg-white shadow-md rounded-lg relative h-[225vh]">
+    <button onclick="showScreen2()" class="hover:text-blue-600 mb-4 text-lg">
+      &larr;
+    </button>
+
+    <div class="">
+      <img src="Images/image.png" alt="YuWaah Logo" class="absolute top-[51px] left-[120px]" width="140px"
+        height="86px">
+    </div>
+
+    <!-- Register Form -->
+    <h1
+      class="w-[121px] h-[34px] absolute top-[153px] left-[30px] font-Montserrat font-[600] text-[28px] leading-[34.13px] text-[#000000]">
+      Register</h1>
+
+    <form class="space-y-4 w-[330px] h-[426px] absolute top-[230px] left-[30px]" onsubmit="showScreen4(event)">
+      <div class="space-y-1 text-xs">
+        <label for="dob"
+          class="w-[80px] h-[15px] font-Montserrat font-[400] text-[12px] leading-[14.63px] text-[#000000]">Date Of
+          Birth</label>
+        <input type="date" id="dob"
+          class="w-[330px] h-[40px] border-[1px] rounded-[10px] px-3 py-2 focus:ring-2 focus:ring-blue-500" />
+      </div>
+
+      <!-- <div class="space-y-2">
+        <label for="dob" class="text-sm font-medium text-gray-700">Date Of Birth</label>
+        <input type="text" id="dob" class="w-full border rounded px-3 py-2 text-sm focus:ring-2 focus:ring-blue-200"
+          placeholder="Select Date" required />
+      </div> -->
+
+
+      <div class="space-y-1 text-xs">
+        <label for="gender"
+          class="font-Montserrat font-[400] text-[12px] leading-[14.63px] text-[#000000]">Gender</label>
+        <select id="gender" class="w-[330px] h-[40px] border-[1px] rounded-[10px] px-3 py-2 ">
+          <option value="" disabled selected>Select Gender</option>
+          <option value="male">Male</option>
+          <option value="female">Female</option>
+          <option value="other">Other</option>
+        </select>
+      </div>
+
+      <div class="space-y-1 text-xs">
+        <label for="education" class="font-Montserrat font-[400] text-[12px] leading-[14.63px] text-[#000000]">Education
+          Level</label>
+        <select id="education" class="w-[330px] h-[40px] border-[1px] rounded-[10px] px-3 py-2">
+          <option value="" disabled selected>Select Education Level</option>
+          <option value="highschool">High School</option>
+          <option value="bachelor">Bachelor's Degree</option>
+          <option value="master">Master's Degree</option>
+          <option value="phd">Ph.D.</option>
+        </select>
+      </div>
+
+      <div class="space-y-1 text-xs">
+        <label for="qualification"
+          class="font-Montserrat font-[400] text-[12px] leading-[14.63px] text-[#000000]">Specific Qualification</label>
+        <select id="qualification" class="w-[330px] h-[40px] border-[1px] rounded-[10px] px-3 py-2">
+          <option value="" disabled selected>Select Specific Qualification</option>
+          <option value="highschool">High School</option>
+          <option value="bachelor">Bachelor's Degree</option>
+          <option value="master">Master's Degree</option>
+          <option value="phd">Ph.D.</option>
+        </select>
+      </div>
+
+      <div class="space-y-1 text-xs">
+        <label for="digital_proficiency"
+          class=" font-Montserrat font-[400] text-[12px] leading-[14.63px] text-[#000000]">Digital Proficiency</label>
+        <select id="digital_proficiency" class="w-[330px] h-[40px] border-[1px] rounded-[10px] px-3 py-2">
+          <option value="" disabled selected>Select Digital Proficiency Level</option>
+          <option value="beginner">Beginner</option>
+          <option value="intermediate">Intermediate</option>
+          <option value="advanced">Advanced</option>
+        </select>
+      </div>
+
+      <div class="space-y-1 text-xs">
+        <label for="english_proficiency"
+          class=" font-Montserrat font-[400] text-[12px] leading-[14.63px] text-[#000000]">English Proficiency</label>
+        <select id="english_proficiency" class="w-[330px] h-[40px] border-[1px] rounded-[10px] px-3 py-2">
+          <option value="" disabled selected>Select English Proficiency Level</option>
+          <option value="beginner">Beginner</option>
+          <option value="intermediate">Intermediate</option>
+          <option value="advanced">Advanced</option>
+        </select>
+      </div>
+
+      <div class="space-y-1 text-xs">
+        <label for="experience" class=" font-Montserrat font-[400] text-[12px] leading-[14.63px] text-[#000000]">Year of
+          Experience</label>
+        <select id="experience" class="w-[330px] h-[40px] border-[1px] rounded-[10px] px-3 py-2">
+          <option value="" disabled selected>Select Years of Experience</option>
+          <option value="0-1">0-1 year</option>
+          <option value="2-5">2-5 years</option>
+          <option value="6-10">6-10 years</option>
+          <option value="10+">10+ years</option>
+        </select>
+      </div>
+
+      <div class="space-y-1 text-xs">
+        <label for="work_hours" class=" font-Montserrat font-[400] text-[12px] leading-[14.63px] text-[#000000]">Number
+          of hours I can work in a day</label>
+        <select id="work_hours" class="w-[330px] h-[40px] border-[1px] rounded-[10px] px-3 py-2">
+          <option value="" disabled selected>Select Work Hours</option>
+          <option value="1-4">1-4 hours</option>
+          <option value="5-8">5-8 hours</option>
+          <option value="8+">8+ hours</option>
+        </select>
+      </div>
+
+      <div class="space-y-1 text-xs">
+        <label for="loan" class=" font-Montserrat font-[400] text-[12px] leading-[14.63px] text-[#000000]">Loan
+          Taken</label>
+        <select id="infrastructure" class="w-[330px] h-[40px] border-[1px] rounded-[10px] px-3 py-2">
+          <option value="" disabled selected>Please Select</option>
+          <option value="basic">Basic</option>
+          <option value="advanced">Advanced</option>
+        </select>
+      </div>
+
+      <div class="space-y-1 text-xs">
+        <label for="loantype" class=" font-Montserrat font-[400] text-[12px] leading-[14.63px] text-[#000000]">Type of
+          Loan</label>
+        <select id="loantype" class="w-[330px] h-[40px] border-[1px] rounded-[10px] px-3 py-2">
+          <option value="" disabled selected>Please Select Loan Type</option>
+          <option value="basic">Basic</option>
+          <option value="advanced">Advanced</option>
+        </select>
+      </div>
+
+      <div class="space-y-1 text-xs">
+        <label for="amount" class=" font-Montserrat font-[400] text-[12px] leading-[14.63px] text-[#000000]">Loan
+          Amount</label>
+        <select id="amount" class="w-[330px] h-[40px] border-[1px] rounded-[10px] px-3 py-2">
+          <option value="" disabled selected>Please Enter</option>
+          <option value="basic">Basic</option>
+          <option value="advanced">Advanced</option>
+        </select>
+      </div>
+
+      <div class="space-y-1 text-xs">
+        <label for="loanbalance" class=" font-Montserrat font-[400] text-[12px] leading-[14.63px] text-[#000000]">Loan
+          Balance</label>
+        <select id="loanamount" class="w-[330px] h-[40px] border-[1px] rounded-[10px] px-3 py-2">
+          <option value="" disabled selected>Please Enter</option>
+          <option value="basic">Basic</option>
+          <option value="advanced">Advanced</option>
+        </select>
+      </div>
+
+      <div class="space-y-4 text-xs">
+        <div class="flex flex-col gap-2">
+          <label for="upload_center_photo"
+            class="font-Montserrat font-[400] text-[12px] leading-[14.63px] text-[#000000]">Upload Center Photo</label>
+          <div class="flex items-center gap-2 justify-between">
+            <label for="upload_center_photo"
+              class="w-[210px] h-[40px] flex items-center justify-center gap-2 px-4 py-2 border rounded-[10px] cursor-pointer text-[#A7A7A7] bg-[#FFFFFF] hover:bg-gray-200">
+              <span
+                class="w-[52px] h-[12px] font-Montserrat w-[400] text-[10px] leading-[12.19px] text-center absolute top-[949px] left-[10px]">Select
+                File</span>
+              <!-- <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-blue-500" fill="none" viewBox="0 0 24 24"
+                stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+              </svg> -->
+              <i class="fa-solid fa-paperclip fa-xl absolute top-[955px] left-[184px] text-[#05A7D1]"></i>
+            </label>
+            <input type="file" id="upload_center_photo" class="hidden" />
+            <button type="button"
+              class="w-[100px] h-[40px] rounded-[10px] bg-[#28388F1A] text-[#28388F] font-Montserrat text-[14px] font-[600] leading-[17.07px] px-4 py-2 ">
+              Upload
+            </button>
+          </div>
+        </div>
+
+
+        <div class="flex flex-col gap-2 text-xs">
+          <label for="upload_profile_photo"
+            class="font-Montserrat font-[400] text-[12px] leading-[14.63px] text-[#000000]">Upload Profile Photo</label>
+
+          <div class="flex justify-between items-center gap-2">
+            <label for="upload_profile_photo"
+              class="w-[210px] h-[40px] flex items-center justify-center gap-2 px-4 py-2 border rounded-[10px] cursor-pointer text-[#A7A7A7] bg-[#FFFFFF] hover:bg-gray-200">
+              <!-- <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-blue-500" fill="none" viewBox="0 0 24 24"
+                stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+              </svg> -->
+              <span
+                class="w-[52px] h-[12px] font-Montserrat w-[400] text-[10px] leading-[12.19px] text-center absolute top-[1028px] left-[10px]">Select
+                File</span>
+              <i class="fa-solid fa-paperclip fa-xl absolute top-[1034px] left-[184px] text-[#05A7D1]"></i>
+            </label>
+            <input type="file" id="upload_profile_photo" class="hidden" />
+
+            <button type="button"
+              class="w-[100px] h-[40px] rounded-[10px] bg-[#28388F1A] text-[#28388F] font-Montserrat text-[14px] font-[600] leading-[17.07px] px-4 py-2 ">
+              Upload
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="text-sm text-gray-600 text-xs">
+        By complete the registration you are agreeing that your profile information can be shared as per our
+        <a href="#" class="text-blue-500 hover:underline">Terms & Conditions</a>
+      </div>
+
+      <div class="flex justify-center">
+        <button onclick="showScreen4(event)"
+          class="w-3/5 bg-blue-500 hover:bg-blue-600 text-white font-medium py-1 pb-[6px] rounded-lg">
+          Complete Registration
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <!-- 4. Screen 4: ............Login form........... -->
+  <div id="screen4" class="hidden max-w-sm mx-auto p-4 bg-white shadow-md rounded-lg">
+
+    <button onclick="showScreen3(event)" class="hover:text-blue-600 mb-4 text-lg">
+      &larr;
+    </button>
+
+    <div class="flex justify-center mb-4">
+      <img src="Images/image.png" alt="YuWaah Logo" class="h-14">
+    </div>
+    <h1 class="font-medium mb-4">Login</h1>
+
+    <form class="space-y-4 text-xs">
+      <div class="space-y-1">
+        <label for="username" class=" text-gray-700">Username</label>
+        <input id="username" type="text" placeholder="Enter username"
+          class="w-full border rounded px-3 py-2 focus:ring-2 focus:ring-blue-500">
+      </div>
+
+      <div class="space-y-1">
+        <label for="password" class="text-gray-700">Password</label>
+        <div class="relative">
+          <input id="password" type="password" placeholder="Enter Password"
+            class="w-full border rounded px-3 py-2 focus:ring-2 focus:ring-blue-500">
+          <button type="button" id="togglePassword" class="absolute right-3 top-2.5 text-gray-500 focus:outline-none">
+            <i id="eyeIcon" class="fas fa-eye"></i>
+          </button>
+        </div>
+      </div>
+
+      <div class="flex justify-between">
+        <span></span>
+        <a onclick="showScreen5(event)" class=" text-blue-500 hover:underline cursor-pointer">Forgot
+          Password?</a>
+      </div>
+
+      <div class="flex justify-center text-sm">
+        <button type="submit"
+          class="w-3/5 bg-blue-500 hover:bg-blue-600 text-white font-medium py-1 pb-[6px] rounded-lg">
+          Login </button>
+      </div>
+    </form>
+
+
+    <div class="mt-2 text-xs">
+      <p class="text-center text-gray-600">
+        Now to YuWaah? <a href="#" onclick="showScreen3(event)"
+          class="text-sm text-blue-500 hover:underline">Register</a>
+      </p>
+    </div>
+
+  </div>
+
+  <!-- 5. Screen 5: .............mobile number........... -->
+  <div id="screen5" class="hidden max-w-sm mx-auto p-4 bg-white shadow-md rounded-lg">
+
+    <button onclick="showScreen4(event)" class="hover:text-blue-600 mb-4 text-lg">
+      &larr;
+    </button>
+
+    <div class="flex justify-center mb-4">
+      <img src="Images/image.png" alt="YuWaah Logo" class="h-14">
+    </div>
+    <h1 class="font-medium mb-4">Login</h1>
+
+    <form class="space-y-4" onsubmit="showScreen6(event) ">
+      <div class="space-y-1 text-xs">
+        <label for="mobilenumber" class=" text-gray-700">Mobile Number</label>
+        <input id="mobilenumber" type="text" placeholder="Enter Mobile Number"
+          class="w-full border rounded px-3 py-2 focus:ring-2 focus:ring-blue-500">
+      </div>
+      <div class="flex justify-center ">
+        <button type="submit"
+          class=" w-3/5 bg-blue-500 hover:bg-blue-600 text-white font-medium py-1 pb-[6px] rounded-lg">
+          Verify Mobile Number </button>
+      </div>
+    </form>
+    <div class="mt-2">
+      <p class="text-center text-xs text-gray-600">
+        Now to YuWaah? <a href="#" onclick="showScreen3(event)"
+          class="text-sm text-blue-500 hover:underline">Register</a>
+      </p>
+    </div>
+    <div class="h-48"></div>
+  </div>
+
+  <!-- 6. Screen 6: otp -->
+  <div id="screen6" class="hidden max-w-sm mx-auto p-4 bg-white shadow-md rounded-lg">
+    <button onclick="showScreen5(event)" class="hover:text-blue-600 mb-4 text-lg">
+      &larr;
+    </button>
+
+    <div class="flex justify-center mb-4">
+      <img src="Images/image.png" alt="YuWaah Logo" class="h-14">
+    </div>
+    <h1 class="font-medium mb-4">Enter OTP</h1>
+
+    <p class="my-6 text-xs">
+      A 5-digit code has been sent to +91-8822009988
+    </p>
+
+    <form class="">
+      <div class="space-y-1 text-xs">
+        <label for="otp" class=" text-gray-700">OTP</label>
+        <div class="flex justify-between gap-2 text-sm">
+          <input type="text" maxlength="1"
+            class="w-12 h-12 border rounded text-center focus:ring-2 focus:ring-blue-500 focus:outline-none">
+          <input type="text" maxlength="1"
+            class="w-12 h-12 border rounded text-center focus:ring-2 focus:ring-blue-500 focus:outline-none">
+          <input type="text" maxlength="1"
+            class="w-12 h-12 border rounded text-center focus:ring-2 focus:ring-blue-500 focus:outline-none">
+          <input type="text" maxlength="1"
+            class="w-12 h-12 border rounded text-center focus:ring-2 focus:ring-blue-500 focus:outline-none">
+          <input type="text" maxlength="1"
+            class="w-12 h-12 border rounded text-center focus:ring-2 focus:ring-blue-500 focus:outline-none">
+          <input type="text" maxlength="1"
+            class="w-12 h-12 border rounded text-center focus:ring-2 focus:ring-blue-500 focus:outline-none">
+        </div>
+      </div>
+      <div class="flex justify-center my-6">
+        <a href="todo.html"
+          class="w-3/5 inline-block bg-blue-500 hover:bg-blue-600 text-white font-medium py-1 pb-[6px] rounded-lg text-center">
+          Submit
+        </a>
+      </div>
+    </form>
+    <div class="h-48"></div>
+  </div>
+
+  <!-- 7. .............ToDo Design Section ...........-->
+  <!-- <div class="fixed bottom-0 left-0 w-full bg-gray-100 h-12 flex items-center justify-around shadow-md bottom-0">
+    <a href="todo.html"> <img src="Images/homeicon.png" alt="home" class="h-6 w-6 activelink" /></a>
+    <img src="Images/homeicon.png" alt="home" class="h-6 w-6 filter brightness-0" />
+    <img src="Images/file-text.png" alt="home" class="h-6 w-6" />
+    <img src="Images/star.png" alt="home" class="h-6 w-6" />
+    <img src="Images/users.png" alt="home" class="h-6 w-6" />
+    <a href="promotion.html"> <img src="Images/Vector.png" alt="home" class="h-6 w-6 activelink" /></a>
+  </div> -->
+
+  <!-- 8. .............My Profile ...........-->
+  <div id="screen8" class="hidden max-w-sm mx-auto p-4 bg-white shadow-md rounded-lg">
+    <button onclick="showScreen7(event)" class="hover:text-blue-600 mb-4 text-lg">
+      &larr;
+    </button>
+
+    <div class="flex justify-center mb-4">
+      <img src="Images/image.png" alt="YuWaah Logo" class="h-14">
+    </div>
+
+    <div class="flex justify-between items-center">
+      <h1>My Profile</h1>
+      <button" class="cursor-pointer px-5 py-1 bg-blue-500 hover:bg-blue-600 text-white font-medium py-1 pb-[6px]"
+        onclick="toggleEditProfileForm()">
+        Edit Profile
+        </button>
+    </div>
+
+
+    <!-- Language Form (Initially Hidden) -->
+    <div id="EditProfileForm" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+      <div class="bg-white p-6 rounded-lg shadow-lg w-80">
+        <div class="flex justify-between items-center mb-4">
+          <h1 class="font-medium">Filter</h1>
+          <button class=" text-gray-500 hover:text-gray-700 text-2xl" onclick="toggleEditProfileForm()">
+            &times;
+          </button>
+        </div>
+        <form>
+          <div class="space-y-4">
+            <div>
+              <label class="mb-1" for="language" class="block text-xs"> Learner</label>
+              <select id="language" class="w-full border p-2 mt-1 text-xs">
+                <option value="" disabled selected>Please Select Learner</option>
+                <option value="en">English</option>
+                <option value="hi">Hindi</option>
+                <option value="es">Spanish</option>
+                <option value="fr">French</option>
+              </select>
+            </div>
+
+            <div class="text-xs">
+              <label class="mb-2" for="language" class="block text-xs">Sort By</label>
+
+              <p class="mt-2">
+                newest to oldest
+              </p>
+
+              <p class="mb-t">
+                oldest to newest
+              </p>
+
+            </div>
+
+            <div class="">
+              <button type="submit" onclick="showScreen13()"
+                class="w-full bg-blue-500 hover:bg-blue-600 text-white py-2 text-sm">
+                Apply
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <div class="flex justify-center mt-4">
+      <img src="Images/Profilelogo.png" alt="profileLogo" class="h-14">
+      <!-- <div class="rounded-full bg-blue-600 w-20 h-20">
+      </div> -->
+    </div>
+    <p class="text-center">Samay Singh </p>
+    <div class="mt-4 text-xs">
+      <div class="flex gap-4 ">
+        <p class="w-1/2 font-semibold">Date of Birth</p>
+        <p class="w-1/2 text-gray-600">17/12/1996</p>
+      </div>
+
+      <div class="flex gap-4 mt-1">
+        <p class="w-1/2 font-semibold">gender</p>
+        <p class="w-1/2 text-gray-600">Male</p>
+      </div>
+
+      <div class="flex gap-4 mt-1">
+        <p class="w-1/2 font-semibold">Email Address</p>
+        <p class="w-1/2 text-gray-600">ssingh@gmail.com</p>
+      </div>
+
+      <div class="flex gap-4 mt-1">
+        <p class="w-1/2 font-semibold">Mobile Number</p>
+        <p class="w-1/2 text-gray-600">+91-9474128739 *Verified</p>
+      </div>
+
+      <div class="flex gap-4 mt-1">
+        <p class="w-1/2 font-semibold">Address</p>
+        <p class="w-1/2 text-gray-600">255/67, CH-6,Paschim Vihar</p>
+      </div>
+
+      <div class="flex gap-4 mt-1">
+        <p class="w-1/2 font-semibold">District</p>
+        <p class="w-1/2 text-gray-600">West Delhi</p>
+      </div>
+
+      <div class="flex gap-4 mt-1">
+        <p class="w-1/2 font-semibold">State</p>
+        <p class="w-1/2 text-gray-600">Delhi</p>
+      </div>
+
+      <div class="flex gap-4 mt-1">
+        <p class="w-1/2 font-semibold">Pin Code</p>
+        <p class="w-1/2 text-gray-600">445566</p>
+      </div>
+
+      <div class="flex gap-4 mt-1">
+        <p class="w-1/2 font-semibold">YS ID</p>
+        <p class="w-1/2 text-gray-600">12345</p>
+      </div>
+
+      <div class="flex gap-4 mt-1">
+        <p class="w-1/2 font-semibold">Education level</p>
+        <p class="w-1/2 text-gray-600">General Degree</p>
+      </div>
+
+      <div class="flex gap-4 mt-1">
+        <p class="w-1/2 font-semibold">Digital Profiency</p>
+        <p class="w-1/2 text-gray-600">Excel Knowledge</p>
+      </div>
+
+      <div class="flex gap-4 mt-1">
+        <p class="w-1/2 font-semibold">English Knowledge</p>
+        <p class="w-1/2 text-gray-600">Can Read And write</p>
+      </div>
+
+      <div class="flex gap-4 mt-1">
+        <p class="w-1/2 font-semibold">Year of Experience</p>
+        <p class="w-1/2 text-gray-600">3 years</p>
+      </div>
+
+      <div class="flex gap-4 mt-1">
+        <p class="w-1/2 font-semibold">No. of Hours I can work/Day</p>
+        <p class="w-1/2 text-gray-600">7 years</p>
+      </div>
+
+      <div class="flex gap-4 mt-1">
+        <p class="w-1/2 font-semibold">Infrastructure Available</p>
+        <p class="w-1/2 text-gray-600">Laptop, Internet, Power Backup, Wifi</p>
+      </div>
+
+      <div class="flex gap-4 mt-1">
+        <p class="w-1/2 font-semibold">Service Offered</p>
+        <p class="w-1/2 text-gray-600">Data Entry, Excel Book</p>
+      </div>
+
+      <div class="flex gap-4 mt-1">
+        <p class="w-1/2 font-semibold">Course Completed</p>
+        <p class="w-1/2 text-gray-600">Computer Course</p>
+      </div>
+
+      <div class="flex gap-4 mt-1">
+        <p class="w-1/2 font-semibold">Loan Taken</p>
+        <p class="w-1/2 text-gray-600">Yes</p>
+      </div>
+
+      <div class="flex gap-4 mt-1">
+        <p class="w-1/2 font-semibold">Loan Type</p>
+        <p class="w-1/2 text-gray-600">Personal Loan</p>
+      </div>
+
+      <div class="flex gap-4 mt-1">
+        <p class="w-1/2 font-semibold">Loan Amount</p>
+        <p class="w-1/2 text-gray-600">70,000 INR</p>
+      </div>
+
+      <div class="flex gap-4 mt-1">
+        <p class="w-1/2 font-semibold">Loan Balance</p>
+        <p class="w-1/2 text-gray-600">50,000 INR</p>
+      </div>
+    </div>
+
+    <div class="flex justify-between items-center mt-8 mb-2">
+      <h1>Team Members</h1>
+      <button" class="cursor-pointer px-5 py-1 bg-blue-500 hover:bg-blue-600 text-white font-medium py-1 pb-[6px]">
+        Add Members
+        </button>
+    </div>
+
+    <div class="p-3 bg-gray-50 shadow rounded-lg text-xs flex justify-between mt-2">
+      <div class="space-y-2">
+        <div class="flex gap-4 items-center">
+          <div class="w-1/2 font-bold">Name</div>
+          <div class="w-1/2 text-gray-600">Roshni Channa</div>
+        </div>
+        <div class="flex gap-4 items-center">
+          <div class="w-1/2 font-bold">Gender</div>
+          <div class="w-1/2 text-gray-600">Female</div>
+        </div>
+        <div class="flex gap-4 items-center">
+          <div class="w-1/2 font-bold">Email Address</div>
+          <div class="w-1/2 text-gray-600">roshni.c@gmail.com</div>
+        </div>
+
+        <div class="flex gap-4 items-center">
+          <div class="w-1/2 font-bold">Mobile Number</div>
+          <div class="w-1/2 text-gray-600">+91-8733775522</div>
+        </div>
+      </div>
+      <div class="">
+        <p>
+          Edit
+        </p>
+      </div>
+    </div>
+
+    <div class="p-3 bg-gray-50 shadow rounded-lg text-xs flex justify-between mt-4">
+      <div class="space-y-2">
+        <div class="flex gap-4 items-center">
+          <div class="w-1/2 font-bold">Name</div>
+          <div class="w-1/2 text-gray-600">Roshni Channa</div>
+        </div>
+        <div class="flex gap-4 items-center">
+          <div class="w-1/2 font-bold">Gender</div>
+          <div class="w-1/2 text-gray-600">Female</div>
+        </div>
+        <div class="flex gap-4 items-center">
+          <div class="w-1/2 font-bold">Email Address</div>
+          <div class="w-1/2 text-gray-600">roshni.c@gmail.com</div>
+        </div>
+
+        <div class="flex gap-4 items-center">
+          <div class="w-1/2 font-bold">Mobile Number</div>
+          <div class="w-1/2 text-gray-600">+91-8733775522</div>
+        </div>
+      </div>
+      <div class="">
+        <p>
+          Edit
+        </p>
+      </div>
+    </div>
+
+    <div class="p-3 bg-gray-50 shadow rounded-lg text-xs flex justify-between mt-4">
+      <div class="space-y-2">
+        <div class="flex gap-4 items-center">
+          <div class="w-1/2 font-bold">Name</div>
+          <div class="w-1/2 text-gray-600">Roshni Channa</div>
+        </div>
+        <div class="flex gap-4 items-center">
+          <div class="w-1/2 font-bold">Gender</div>
+          <div class="w-1/2 text-gray-600">Female</div>
+        </div>
+        <div class="flex gap-4 items-center">
+          <div class="w-1/2 font-bold">Email Address</div>
+          <div class="w-1/2 text-gray-600">roshni.c@gmail.com</div>
+        </div>
+
+        <div class="flex gap-4 items-center">
+          <div class="w-1/2 font-bold">Mobile Number</div>
+          <div class="w-1/2 text-gray-600">+91-8733775522</div>
+        </div>
+      </div>
+      <div class="">
+        <p>
+          Edit
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 9. .............About YuWaah! ...........-->
+  <div id="screen9" class="hidden max-w-sm mx-auto p-4 bg-white shadow-md rounded-lg">
+    <button onclick="showScreen7(event)" class="hover:text-blue-600 mb-4 text-lg">
+      &larr;
+    </button>
+
+    <div class="flex justify-center mb-4">
+      <img src="Images/image.png" alt="YuWaah Logo" class="h-14">
+    </div>
+
+    <div class="mt-2 text-sm flex justify-between items-center">
+      <h1 class="">
+        Opportunities
+      </h1>
+
+      <div class="flex items-center gap-2">
+        <div>
+          <button" class="px-2 py-1 bg-blue-500 hover:bg-blue-600 text-white font-medium pb-[6px] cursor-pointer"
+            onclick="showScreen12()">Add
+            Opportunity</button>
+        </div>
+
+        <div>
+          <button" class="px-2 py-1 bg-blue-500 hover:bg-blue-600 text-white font-medium pb-[6px] cursor-pointer"
+            onclick="toggleSortPopUp()">Sort
+            By</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- visible only click on Add Opportunity button -->
+    <!-- <div id="toggleOpportunity"
+      class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+      <div class="bg-white p-6 rounded-lg shadow-lg w-80">
+        <div class="flex justify-between items-center mb-4">
+          <h1 class="font-medium">Opportunity</h1>
+          <button class=" text-gray-500 hover:text-gray-700 text-2xl" onclick="toggleOpportunityPopUp()">
+            &times;
+          </button>
+        </div>
+        <form>
+          <div class="space-y-4">
+            <div class="text-xs flex flex-col gap-1">
+              <p>New Opportunities</p>
+              <p>Earliest Ending Opportunity</p>
+              <p>Newest to Oldest</p>
+              <p>Oldest to Newest</p>
+            </div>
+            <div class="">
+              <button type="submit" class="w-full bg-blue-500 hover:bg-blue-600 text-white py-2 text-sm">
+                Apply
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div> -->
+
+    <!-- visible only click on sort by button -->
+    <div id="togglePopUp" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+      <div class="bg-white p-6 rounded-lg shadow-lg w-80">
+        <div class="flex justify-between items-center mb-4">
+          <h1 class="font-medium">Sort By</h1>
+          <button class=" text-gray-500 hover:text-gray-700 text-2xl" onclick="toggleSortPopUp()">
+            &times;
+          </button>
+        </div>
+        <form>
+          <div class="space-y-4">
+            <div class="text-xs flex flex-col gap-1">
+              <p>New Opportunities</p>
+              <p>Earliest Ending Opportunity</p>
+              <p>Newest to Oldest</p>
+              <p>Oldest to Newest</p>
+            </div>
+            <div class="">
+              <button type="submit" class="w-full bg-blue-500 hover:bg-blue-600 text-white py-2 text-sm">
+                Apply
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <div class=" mt-6 flex justify-between items-center">
+      <h1 class="font-medium text-sm">
+        Data Entry Operator Job
+      </h1>
+      <div class="flex flex-col gap-0 text-center text-xs">
+        <span>YS</span>
+        <span>
+          Incentive
+        </span>
+      </div>
+    </div>
+
+    <div class=" mt-6 flex justify-between items-center gap-6">
+      <p class="text-xs w-4/5">
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Consectetur necessitatibus, exercitationem porro est
+        dolorem ex eum fugit recusandae esse quo, aperiam et nulla officiis dolorum temporibus natus provident rem
+        deleniti.
+      </p>
+      <div class=" flex gap-1 bg-gray-200 px-4 py-2 text-sm font-medium">
+        <span>
+          <i class="fas fa-rupee-sign"></i>
+        </span>
+        <span>
+          650
+        </span>
+      </div>
+    </div>
+
+    <div class="">
+      <div class="flex gap-2 items-center my-1">
+        <span class="text-xs"><i class='far fa-file'></i></span>
+        <a class="text-xs underline underline-offset-1" href="">View Specification Document</a>
+        <span class="text-xs cursor-pointer"> <i class='fas fa-share-alt'></i></span>
+      </div>
+
+      <div class="flex gap-4 items-center justify-between">
+        <div class="flex items-center gap-[6px]">
+          <span class="font-thin text-xs">
+            <i class="fas fa-rupee-sign"></i>
+          </span>
+          <span class="text-xs">
+            1500/Month
+          </span>
+        </div>
+
+        <div class="flex items-center gap-2">
+          <span class="font-thin text-xs">
+            <i class='fas fa-book-open'></i>
+          </span>
+          <span class="text-xs">
+            AGM Enterprices
+          </span>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-[6px]">
+        <span class="font-thin text-xs">
+          <i class="material-icons text-xs ml-[-2px]">date_range</i>
+        </span>
+
+        <span class="text-xs">
+          Start Date - 20 Oct 2024
+        </span>
+
+      </div>
+
+      <div class="flex items-center gap-[6px] mt-[2px]">
+        <span class="font-thin text-xs">
+          <i class="material-icons text-xs ml-[-2px]">date_range</i>
+        </span>
+
+        <span class="text-xs">
+          End Date - 20 Oct 2025
+        </span>
+
+      </div>
+
+      <div class="mt-[-1px]">
+        <span class="font-thin text-xs">
+          <i class='fas fa-address-book'></i>
+        </span>
+
+        <span class="text-xs">
+          10 Job Openings
+        </span>
+
+      </div>
+    </div>
+
+    <div class="flex justify-between items-center mt-4">
+      <div>
+        <button" class="px-4 py-1 bg-blue-500 hover:bg-blue-600 text-white font-medium pb-[6px] cursor-pointer">Fill
+          Form</button>
+      </div>
+
+      <div>
+        <button onclick="showScreen10()"
+          class="px-4 py-1 bg-blue-500 hover:bg-blue-600 text-white font-medium pb-[6px] cursor-pointer">Assign
+          Learners</button>
+      </div>
+    </div>
+
+    <div class="p-4 bg-gray-50 shadow rounded-lg mt-6">
+      <div class="flex justify-between items-center gap-2">
+        <div class="w-full">
+          <h1 class="font-medium text-sm my-2">
+            Data Entry Operator Job
+          </h1>
+
+          <div class="flex gap-2 items-center my-1">
+            <span class="text-xs"><i class='far fa-file'></i></span>
+            <a class="text-xs underline underline-offset-1" href="">View Specification Document</a>
+            <span class="text-xs cursor-pointer"> <i class='fas fa-share-alt'></i></span>
+          </div>
+
+          <div class="flex items-center gap-[6px]">
+            <span class="font-thin text-xs">
+              <i class="fas fa-rupee-sign"></i>
+            </span>
+            <span class="text-xs">
+              1500/Month
+            </span>
+          </div>
+
+          <div class="flex items-center gap-[6px]">
+            <span class="font-thin text-xs">
+              <i class="material-icons text-xs ml-[-2px]">date_range</i>
+            </span>
+
+            <span class="text-xs">
+              Start Date - 20 Oct 2024
+            </span>
+          </div>
+
+          <div class="flex items-center gap-[6px] mt-[2px]">
+            <span class="font-thin text-xs">
+              <i class="material-icons text-xs ml-[-2px]">date_range</i>
+            </span>
+            <span class="text-xs">
+              End Date - 20 Oct 2025
+            </span>
+          </div>
+
+          <div class="mt-[-1px]">
+            <span class="font-thin text-xs">
+              <i class='fas fa-address-book'></i>
+            </span>
+            <span class="text-xs">
+              10 Job Openings
+            </span>
+          </div>
+        </div>
+
+        <div class="">
+          <div class="flex flex-col gap-0 text-center text-xs ">
+            <span>YS</span>
+            <span>
+              Incentive
+            </span>
+          </div>
+
+          <div class="bg-gray-200 px-3 py-2 text-center mt-2">
+            <div class=" flex gap-1 text-sm font-medium text-center justify-center">
+              <span class="text-center">
+                <i class="fas fa-rupee-sign"></i>
+              </span>
+              <span class="text-center">
+                650/
+              </span>
+            </div>
+            <span>Learner</span>
+          </div>
+
+
+          <div class="flex items-center gap-2 mt-2 text-xs ml-[-34px]">
+            <span class="font-thin ">
+              <i class='fas fa-book-open'></i>
+            </span>
+            <span class="">
+              AGM Enterprices
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="p-4 bg-gray-50 shadow rounded-lg mt-6">
+      <div class="flex justify-between items-center gap-2">
+        <div class="w-full">
+          <h1 class="font-medium text-sm my-2">
+            Data Entry Operator Job
+          </h1>
+
+          <div class="flex gap-2 items-center my-1">
+            <span class="text-xs"><i class='far fa-file'></i></span>
+            <a class="text-xs underline underline-offset-1" href="">View Specification Document</a>
+            <span class="text-xs cursor-pointer"> <i class='fas fa-share-alt'></i></span>
+          </div>
+
+          <div class="flex items-center gap-[6px]">
+            <span class="font-thin text-xs">
+              <i class="fas fa-rupee-sign"></i>
+            </span>
+            <span class="text-xs">
+              1500/Month
+            </span>
+          </div>
+
+          <div class="flex items-center gap-[6px]">
+            <span class="font-thin text-xs">
+              <i class="material-icons text-xs ml-[-2px]">date_range</i>
+            </span>
+
+            <span class="text-xs">
+              Start Date - 20 Oct 2024
+            </span>
+          </div>
+
+          <div class="flex items-center gap-[6px] mt-[2px]">
+            <span class="font-thin text-xs">
+              <i class="material-icons text-xs ml-[-2px]">date_range</i>
+            </span>
+            <span class="text-xs">
+              End Date - 20 Oct 2025
+            </span>
+          </div>
+
+          <div class="mt-[-1px]">
+            <span class="font-thin text-xs">
+              <i class='fas fa-address-book'></i>
+            </span>
+            <span class="text-xs">
+              10 Job Openings
+            </span>
+          </div>
+        </div>
+
+        <div class="">
+          <div class="flex flex-col gap-0 text-center text-xs ">
+            <span>YS</span>
+            <span>
+              Incentive
+            </span>
+          </div>
+
+          <div class="bg-gray-200 px-3 py-2 text-center mt-2">
+            <div class=" flex gap-1 text-sm font-medium text-center justify-center">
+              <span class="text-center">
+                <i class="fas fa-rupee-sign"></i>
+              </span>
+              <span class="text-center">
+                650/
+              </span>
+            </div>
+            <span>Learner</span>
+          </div>
+
+
+          <div class="flex items-center gap-2 mt-2 text-xs ml-[-34px]">
+            <span class="font-thin ">
+              <i class='fas fa-book-open'></i>
+            </span>
+            <span class="">
+              AGM Enterprices
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="p-4 bg-gray-50 shadow rounded-lg mt-6">
+      <div class="flex justify-between items-center gap-2">
+        <div class="w-full">
+          <h1 class="font-medium text-sm my-2">
+            Data Entry Operator Job
+          </h1>
+
+          <div class="flex gap-2 items-center my-1">
+            <span class="text-xs"><i class='far fa-file'></i></span>
+            <a class="text-xs underline underline-offset-1" href="">View Specification Document</a>
+            <span class="text-xs cursor-pointer"> <i class='fas fa-share-alt'></i></span>
+          </div>
+
+          <div class="flex items-center gap-[6px]">
+            <span class="font-thin text-xs">
+              <i class="fas fa-rupee-sign"></i>
+            </span>
+            <span class="text-xs">
+              1500/Month
+            </span>
+          </div>
+
+          <div class="flex items-center gap-[6px]">
+            <span class="font-thin text-xs">
+              <i class="material-icons text-xs ml-[-2px]">date_range</i>
+            </span>
+
+            <span class="text-xs">
+              Start Date - 20 Oct 2024
+            </span>
+          </div>
+
+          <div class="flex items-center gap-[6px] mt-[2px]">
+            <span class="font-thin text-xs">
+              <i class="material-icons text-xs ml-[-2px]">date_range</i>
+            </span>
+            <span class="text-xs">
+              End Date - 20 Oct 2025
+            </span>
+          </div>
+
+          <div class="mt-[-1px]">
+            <span class="font-thin text-xs">
+              <i class='fas fa-address-book'></i>
+            </span>
+            <span class="text-xs">
+              10 Job Openings
+            </span>
+          </div>
+        </div>
+
+        <div class="">
+          <div class="flex flex-col gap-0 text-center text-xs ">
+            <span>YS</span>
+            <span>
+              Incentive
+            </span>
+          </div>
+
+          <div class="bg-gray-200 px-3 py-2 text-center mt-2">
+            <div class=" flex gap-1 text-sm font-medium text-center justify-center">
+              <span class="text-center">
+                <i class="fas fa-rupee-sign"></i>
+              </span>
+              <span class="text-center">
+                650/
+              </span>
+            </div>
+            <span>Learner</span>
+          </div>
+
+
+          <div class="flex items-center gap-2 mt-2 text-xs ml-[-34px]">
+            <span class="font-thin ">
+              <i class='fas fa-book-open'></i>
+            </span>
+            <span class="">
+              AGM Enterprices
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- 10. .............Assign Learners ...........-->
+  <div id="screen10" class="hidden max-w-sm mx-auto p-4 bg-white shadow-md rounded-lg">
+    <button onclick="showScreen9(event)" class="hover:text-blue-600 mb-4 text-lg">
+      &larr;
+    </button>
+
+    <div class="flex justify-center mb-4">
+      <img src="Images/image.png" alt="YuWaah Logo" class="h-14">
+    </div>
+
+    <div class="mt-2 text-sm">
+      <h1 class="">
+        Assign Learners
+      </h1>
+    </div>
+
+
+    <div class="p-4 bg-gray-50 shadow rounded-lg mt-6">
+      <div class=" mt-6 flex justify-between items-center">
+        <h1 class="font-medium text-sm">
+          Data Entry Operator Job
+        </h1>
+        <div class="flex flex-col gap-0 text-center text-xs">
+          <span>YS</span>
+          <span>
+            Incentive
+          </span>
+        </div>
+      </div>
+
+      <div class=" mt-2 flex justify-between items-center gap-6">
+        <p class="text-xs w-4/5">
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Consectetur necessitatibus, exercitationem porro est
+          dolorem ex eum fugit recusandae esse quo, aperiam et nulla officiis dolorum temporibus natus provident rem
+          deleniti.
+        </p>
+        <div class=" flex gap-1 bg-gray-200 px-4 py-2 text-sm font-medium">
+          <span>
+            <i class="fas fa-rupee-sign"></i>
+          </span>
+          <span>
+            650
+          </span>
+        </div>
+      </div>
+
+      <div class="">
+        <div class="flex gap-2 items-center my-1">
+          <span class="text-xs"><i class='far fa-file'></i></span>
+          <a class="text-xs underline underline-offset-1" href="">View Specification Document</a>
+          <span class="text-xs cursor-pointer"> <i class='fas fa-share-alt'></i></span>
+        </div>
+
+        <div class="flex gap-4 items-center justify-between">
+          <div class="flex items-center gap-[6px]">
+            <span class="font-thin text-xs">
+              <i class="fas fa-rupee-sign"></i>
+            </span>
+            <span class="text-xs">
+              1500/Month
+            </span>
+          </div>
+
+          <div class="flex items-center gap-2">
+            <span class="font-thin text-xs">
+              <i class='fas fa-book-open'></i>
+            </span>
+            <span class="text-xs">
+              AGM Enterprices
+            </span>
+          </div>
+        </div>
+
+        <div class="flex items-center gap-[6px]">
+          <span class="font-thin text-xs">
+            <i class="material-icons text-xs ml-[-2px]">date_range</i>
+          </span>
+
+          <span class="text-xs">
+            Start Date - 20 Oct 2024
+          </span>
+
+        </div>
+
+        <div class="flex items-center gap-[6px] mt-[2px]">
+          <span class="font-thin text-xs">
+            <i class="material-icons text-xs ml-[-2px]">date_range</i>
+          </span>
+
+          <span class="text-xs">
+            End Date - 20 Oct 2025
+          </span>
+
+        </div>
+
+        <div class="mt-[-1px]">
+          <span class="font-thin text-xs">
+            <i class='fas fa-address-book'></i>
+          </span>
+
+          <span class="text-xs">
+            10 Job Openings
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <div class="flex justify-between items-center mt-4">
+      <div>
+        <h1 class="text-sm">
+          Assign Learners
+        </h1>
+      </div>
+      <div>
+        <button onclick="showScreen9()"
+          class="px-4 py-1 bg-blue-500 hover:bg-blue-600 text-white font-medium pb-[6px] cursor-pointer">Save
+          Learners</button>
+      </div>
+    </div>
+
+    <div class="p-4 bg-gray-50 shadow rounded-lg mt-6 flex gap-2 items-center justify-between cursor-pointer"
+      onclick="showScreen11()">
+
+      <div class="flex justify-center gap-2 items-center">
+        <div class="bg-gray-200 rounded-full p-2">
+          <i class='fas fa-address-book'></i>
+        </div>
+
+        <div class="flex flex-col items-center text-sm">
+          <div>
+            Aditya Joshi
+          </div>
+
+          <div>
+            <span>
+              <i class="material-icons text-sm">date_range</i>
+            </span>
+            <span>
+              14-Aug 2024
+            </span>
+          </div>
+        </div>
+
+      </div>
+      <div class="">
+        <input type="checkbox" name="option1" value="Option 1">
+      </div>
+    </div>
+
+    <div class="p-4 bg-gray-50 shadow rounded-lg mt-6 flex gap-2 items-center justify-between cursor-pointer"
+      onclick="showScreen11()">
+
+      <div class="flex justify-center gap-2 items-center">
+        <div class="bg-gray-200 rounded-full p-2">
+          <i class='fas fa-address-book'></i>
+        </div>
+
+        <div class="flex flex-col items-center text-sm">
+          <div>
+            Aditya Joshi
+          </div>
+
+          <div>
+            <span>
+              <i class="material-icons text-sm">date_range</i>
+            </span>
+            <span>
+              14-Aug 2024
+            </span>
+          </div>
+        </div>
+
+      </div>
+      <div class="">
+        <input type="checkbox" name="option1" value="Option 1">
+      </div>
+    </div>
+
+    <div class="p-4 bg-gray-50 shadow rounded-lg mt-6 flex gap-2 items-center justify-between cursor-pointer"
+      onclick="showScreen11()">
+
+      <div class="flex justify-center gap-2 items-center">
+        <div class="bg-gray-200 rounded-full p-2">
+          <i class='fas fa-address-book'></i>
+        </div>
+
+        <div class="flex flex-col items-center text-sm">
+          <div>
+            Aditya Joshi
+          </div>
+
+          <div>
+            <span>
+              <i class="material-icons text-sm">date_range</i>
+            </span>
+            <span>
+              14-Aug 2024
+            </span>
+          </div>
+        </div>
+
+      </div>
+      <div class="">
+        <input type="checkbox" name="option1" value="Option 1">
+      </div>
+    </div>
+
+    <div class="p-4 bg-gray-50 shadow rounded-lg mt-6 flex gap-2 items-center justify-between cursor-pointer"
+      onclick="showScreen11()">
+
+      <div class="flex justify-center gap-2 items-center">
+        <div class="bg-gray-200 rounded-full p-2">
+          <i class='fas fa-address-book'></i>
+        </div>
+
+        <div class="flex flex-col items-center text-sm">
+          <div>
+            Aditya Joshi
+          </div>
+
+          <div>
+            <span>
+              <i class="material-icons text-sm">date_range</i>
+            </span>
+            <span>
+              14-Aug 2024
+            </span>
+          </div>
+        </div>
+
+      </div>
+      <div class="">
+        <input type="checkbox" name="option1" value="Option 1">
+      </div>
+    </div>
+  </div>
+
+  <!-- 11. .............Learner Details ...........-->
+  <div id="screen11" class="hidden max-w-sm mx-auto p-4 bg-white shadow-md rounded-lg">
+    <button onclick="showScreen9(event)" class="hover:text-blue-600 mb-4 text-lg">
+      &larr;
+    </button>
+
+    <div class="flex justify-center mb-4">
+      <img src="Images/image.png" alt="YuWaah Logo" class="h-14">
+    </div>
+
+    <div class="mt-2 text-sm">
+      <h1 class="">
+        Learners Details
+      </h1>
+    </div>
+
+
+    <div class="mt-6 flex gap-2 items-center justify-between">
+      <div class="flex justify-center gap-2 items-center">
+        <div class="bg-gray-200 rounded-full p-2">
+          <i class='fas fa-address-book'></i>
+        </div>
+
+        <div class="flex flex-col items-center text-sm">
+          <div>
+            Aditya Joshi
+          </div>
+
+          <div>
+            <span>
+              <i class="material-icons text-sm">date_range</i>
+            </span>
+            <span>
+              14-Aug 2024
+            </span>
+          </div>
+        </div>
+
+      </div>
+      <div class="flex justify-center gap-3 items-center mt-2 ">
+        <div>
+          <i class="material-icons text-xl
+          ">mail_outline</i>
+        </div>
+        <div>
+          <i class="material-icons text-xl
+          ">call</i>
+        </div>
+      </div>
+    </div>
+
+    <div class="">
+      <div class="mt-4 text-xs">
+
+        <div class="flex gap-4 ">
+          <p class="w-1/2 font-semibold">Date of Birth</p>
+          <p class="w-1/2 text-gray-600">17/12/1996</p>
+        </div>
+        <div class="flex gap-4 ">
+          <p class="w-1/2 font-semibold">Learner Status</p>
+          <div class="flex gap-2 items-center w-1/2">
+            <span class="text-xs">
+              <i class='fas fa-toggle-off'></i>
+            </span>
+            <p class="text-gray-600">active</p>
+          </div>
+
+        </div>
+
+        <div class="flex gap-4 mt-1">
+          <p class="w-1/2 font-semibold">gender</p>
+          <p class="w-1/2 text-gray-600">Male</p>
+        </div>
+
+        <div class="flex gap-4 mt-1">
+          <p class="w-1/2 font-semibold">Email Address</p>
+          <p class="w-1/2 text-gray-600">ssingh@gmail.com</p>
+        </div>
+
+        <div class="flex gap-4 mt-1">
+          <p class="w-1/2 font-semibold">Institution</p>
+          <p class="w-1/2 text-gray-600">23456</p>
+        </div>
+
+        <div class="flex gap-4 mt-1">
+          <p class="w-1/2 font-semibold">Education level</p>
+          <p class="w-1/2 text-gray-600">General Degree</p>
+        </div>
+
+        <div class="flex gap-4 mt-1">
+          <p class="w-1/2 font-semibold">Address</p>
+          <p class="w-1/2 text-gray-600">255/67, CH-6,Paschim Vihar</p>
+        </div>
+
+        <div class="flex gap-4 mt-1">
+          <p class="w-1/2 font-semibold">District</p>
+          <p class="w-1/2 text-gray-600">West Delhi</p>
+        </div>
+
+        <div class="flex gap-4 mt-1">
+          <p class="w-1/2 font-semibold">State</p>
+          <p class="w-1/2 text-gray-600">Delhi</p>
+        </div>
+
+        <div class="flex gap-4 mt-1">
+          <p class="w-1/2 font-semibold">Pin Code</p>
+          <p class="w-1/2 text-gray-600">445566</p>
+        </div>
+
+        <div class="flex gap-4 mt-1">
+          <p class="w-1/2 font-semibold">YS ID</p>
+          <p class="w-1/2 text-gray-600">12345</p>
+        </div>
+
+        <div class="flex gap-4 mt-1">
+          <p class="w-1/2 font-semibold">Digital Profiency</p>
+          <p class="w-1/2 text-gray-600">Excel Knowledge</p>
+        </div>
+
+        <div class="flex gap-4 mt-1">
+          <p class="w-1/2 font-semibold">English Knowledge</p>
+          <p class="w-1/2 text-gray-600">Can Read And write</p>
+        </div>
+
+        <div class="flex gap-4 mt-1">
+          <p class="w-1/2 font-semibold">Year of Experience</p>
+          <p class="w-1/2 text-gray-600">3 years</p>
+        </div>
+
+        <div class="flex gap-4 mt-1">
+          <p class="w-1/2 font-semibold">No. of Hours I can work/Day</p>
+          <p class="w-1/2 text-gray-600">7 years</p>
+        </div>
+
+        <div class="flex gap-4 mt-1">
+          <p class="w-1/2 font-semibold">Infrastructure Available</p>
+          <p class="w-1/2 text-gray-600">Laptop, Internet, Power Backup, Wifi</p>
+        </div>
+
+        <div class="flex gap-4 mt-1">
+          <p class="w-1/2 font-semibold">Service Offered</p>
+          <p class="w-1/2 text-gray-600">Data Entry, Excel Book</p>
+        </div>
+
+        <div class="flex gap-4 mt-1">
+          <p class="w-1/2 font-semibold">Course Completed</p>
+          <p class="w-1/2 text-gray-600">Computer Course</p>
+        </div>
+
+        <div class="flex gap-4 mt-1">
+          <p class="w-1/2 font-semibold">Loan Taken</p>
+          <p class="w-1/2 text-gray-600">Yes</p>
+        </div>
+
+        <div class="flex gap-4 mt-1">
+          <p class="w-1/2 font-semibold">Loan Type</p>
+          <p class="w-1/2 text-gray-600">Personal Loan</p>
+        </div>
+
+        <div class="flex gap-4 mt-1">
+          <p class="w-1/2 font-semibold">Loan Amount</p>
+          <p class="w-1/2 text-gray-600">70,000 INR</p>
+        </div>
+
+        <div class="flex gap-4 mt-1">
+          <p class="w-1/2 font-semibold">Loan Balance</p>
+          <p class="w-1/2 text-gray-600">50,000 INR</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="mt-6">
+      <h1 class="text-sm font-semibold">
+        Opportunities
+      </h1>
+
+      <div class="flex justify-between items-center gap-4">
+        <div class="p-4 text-center bg-gray-100 shadow mt-6 w-1/2">
+          <div class="font-medium">
+            6
+          </div>
+          <div class="text-sm ">
+            Ongoing Opportunities
+          </div>
+        </div>
+
+        <div class="p-4 text-center bg-gray-200 shadow mt-6 w-1/2">
+          <div class="font-medium">12</div>
+          <div class="text-sm">
+            Completed Opportunities
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="p-4 bg-gray-50 shadow rounded-lg mt-6">
+      <div class="flex justify-between items-center gap-2">
+        <div class="w-full">
+          <h1 class="font-medium text-sm my-2">
+            Data Entry Operator Job
+          </h1>
+
+          <div class="flex gap-2 items-center my-1">
+            <span class="text-xs"><i class='far fa-file'></i></span>
+            <a class="text-xs underline underline-offset-1" href="">View Specification Document</a>
+            <span class="text-xs cursor-pointer"> <i class='fas fa-share-alt'></i></span>
+          </div>
+
+          <div class="flex items-center gap-[6px]">
+            <span class="font-thin text-xs">
+              <i class="fas fa-rupee-sign"></i>
+            </span>
+            <span class="text-xs">
+              1500/Month
+            </span>
+          </div>
+
+          <div class="flex items-center gap-[6px]">
+            <span class="font-thin text-xs">
+              <i class="material-icons text-xs ml-[-2px]">date_range</i>
+            </span>
+
+            <span class="text-xs">
+              Start Date - 20 Oct 2024
+            </span>
+          </div>
+
+          <div class="flex items-center gap-[6px] mt-[2px]">
+            <span class="font-thin text-xs">
+              <i class="material-icons text-xs ml-[-2px]">date_range</i>
+            </span>
+            <span class="text-xs">
+              End Date - 20 Oct 2025
+            </span>
+          </div>
+
+          <div class="mt-[-1px]">
+            <span class="font-thin text-xs">
+              <i class='fas fa-address-book'></i>
+            </span>
+            <span class="text-xs">
+              10 Job Openings
+            </span>
+          </div>
+        </div>
+
+        <div class="">
+          <div class="flex flex-col gap-0 text-center text-xs ">
+            <span>YS</span>
+            <span>
+              Incentive
+            </span>
+          </div>
+
+          <div class="bg-gray-200 px-3 py-2 text-center mt-2">
+            <div class=" flex gap-1 text-sm font-medium text-center justify-center">
+              <span class="text-center">
+                <i class="fas fa-rupee-sign"></i>
+              </span>
+              <span class="text-center">
+                650/
+              </span>
+            </div>
+            <span>Learner</span>
+          </div>
+
+
+          <div class="flex items-center gap-2 mt-2 text-xs ml-[-34px]">
+            <span class="font-thin ">
+              <i class='fas fa-book-open'></i>
+            </span>
+            <span class="">
+              AGM Enterprices
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="p-4 bg-gray-50 shadow rounded-lg mt-6">
+      <div class="flex justify-between items-center gap-2">
+        <div class="w-full">
+          <h1 class="font-medium text-sm my-2">
+            Data Entry Operator Job
+          </h1>
+
+          <div class="flex gap-2 items-center my-1">
+            <span class="text-xs"><i class='far fa-file'></i></span>
+            <a class="text-xs underline underline-offset-1" href="">View Specification Document</a>
+            <span class="text-xs cursor-pointer"> <i class='fas fa-share-alt'></i></span>
+          </div>
+
+          <div class="flex items-center gap-[6px]">
+            <span class="font-thin text-xs">
+              <i class="fas fa-rupee-sign"></i>
+            </span>
+            <span class="text-xs">
+              1500/Month
+            </span>
+          </div>
+
+          <div class="flex items-center gap-[6px]">
+            <span class="font-thin text-xs">
+              <i class="material-icons text-xs ml-[-2px]">date_range</i>
+            </span>
+
+            <span class="text-xs">
+              Start Date - 20 Oct 2024
+            </span>
+          </div>
+
+          <div class="flex items-center gap-[6px] mt-[2px]">
+            <span class="font-thin text-xs">
+              <i class="material-icons text-xs ml-[-2px]">date_range</i>
+            </span>
+            <span class="text-xs">
+              End Date - 20 Oct 2025
+            </span>
+          </div>
+
+          <div class="mt-[-1px]">
+            <span class="font-thin text-xs">
+              <i class='fas fa-address-book'></i>
+            </span>
+            <span class="text-xs">
+              10 Job Openings
+            </span>
+          </div>
+        </div>
+
+        <div class="">
+          <div class="flex flex-col gap-0 text-center text-xs ">
+            <span>YS</span>
+            <span>
+              Incentive
+            </span>
+          </div>
+
+          <div class="bg-gray-200 px-3 py-2 text-center mt-2">
+            <div class=" flex gap-1 text-sm font-medium text-center justify-center">
+              <span class="text-center">
+                <i class="fas fa-rupee-sign"></i>
+              </span>
+              <span class="text-center">
+                650/
+              </span>
+            </div>
+            <span>Learner</span>
+          </div>
+
+
+          <div class="flex items-center gap-2 mt-2 text-xs ml-[-34px]">
+            <span class="font-thin ">
+              <i class='fas fa-book-open'></i>
+            </span>
+            <span class="">
+              AGM Enterprices
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="p-4 bg-gray-50 shadow rounded-lg mt-6">
+      <div class="flex justify-between items-center gap-2">
+        <div class="w-full">
+          <h1 class="font-medium text-sm my-2">
+            Data Entry Operator Job
+          </h1>
+
+          <div class="flex gap-2 items-center my-1">
+            <span class="text-xs"><i class='far fa-file'></i></span>
+            <a class="text-xs underline underline-offset-1" href="">View Specification Document</a>
+            <span class="text-xs cursor-pointer"> <i class='fas fa-share-alt'></i></span>
+          </div>
+
+          <div class="flex items-center gap-[6px]">
+            <span class="font-thin text-xs">
+              <i class="fas fa-rupee-sign"></i>
+            </span>
+            <span class="text-xs">
+              1500/Month
+            </span>
+          </div>
+
+          <div class="flex items-center gap-[6px]">
+            <span class="font-thin text-xs">
+              <i class="material-icons text-xs ml-[-2px]">date_range</i>
+            </span>
+
+            <span class="text-xs">
+              Start Date - 20 Oct 2024
+            </span>
+          </div>
+
+          <div class="flex items-center gap-[6px] mt-[2px]">
+            <span class="font-thin text-xs">
+              <i class="material-icons text-xs ml-[-2px]">date_range</i>
+            </span>
+            <span class="text-xs">
+              End Date - 20 Oct 2025
+            </span>
+          </div>
+
+          <div class="mt-[-1px]">
+            <span class="font-thin text-xs">
+              <i class='fas fa-address-book'></i>
+            </span>
+            <span class="text-xs">
+              10 Job Openings
+            </span>
+          </div>
+        </div>
+
+        <div class="">
+          <div class="flex flex-col gap-0 text-center text-xs ">
+            <span>YS</span>
+            <span>
+              Incentive
+            </span>
+          </div>
+
+          <div class="bg-gray-200 px-3 py-2 text-center mt-2">
+            <div class=" flex gap-1 text-sm font-medium text-center justify-center">
+              <span class="text-center">
+                <i class="fas fa-rupee-sign"></i>
+              </span>
+              <span class="text-center">
+                650/
+              </span>
+            </div>
+            <span>Learner</span>
+          </div>
+
+
+          <div class="flex items-center gap-2 mt-2 text-xs ml-[-34px]">
+            <span class="font-thin ">
+              <i class='fas fa-book-open'></i>
+            </span>
+            <span class="">
+              AGM Enterprices
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 12. .............Add Opportunity ...........-->
+  <div id="screen12" class="hidden max-w-sm mx-auto p-4 bg-white shadow-md rounded-lg">
+    <button onclick="showScreen9(event)" class="hover:text-blue-600 mb-4 text-lg">
+      &larr;
+    </button>
+
+    <div class="flex justify-center mb-4">
+      <img src="Images/image.png" alt="YuWaah Logo" class="h-14">
+    </div>
+
+    <div class="mt-2 text-sm">
+      <h1 class="">
+        Add Opportunity
+      </h1>
+    </div>
+
+    <form class="space-y-4 mt-6">
+      <div class="space-y-1">
+        <label for="opportunity" class="text-xs text-gray-700">Opportunity Name</label>
+        <input id="opportunity" type="text" placeholder="Please Enter Opportunity Name"
+          class="text-xs w-full border rounded px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500">
+      </div>
+
+      <div class="space-y-1 mt-1">
+        <label for="opportunity" class="text-xs text-gray-700">Opportunity Name</label>
+
+        <div class="space-y-2 mt-4">
+          <label class="flex items-center space-x-2">
+            <input type="radio" name="career" value="job"
+              class="h-4 w-4 border-gray-300 text-blue-600 focus:ring-blue-500" />
+            <span class="text-gray-700 text-xs ">Job</span>
+          </label>
+
+          <label class="flex items-center space-x-2">
+            <input type="radio" name="career" value="entrepreneurship"
+              class="h-4 w-4 border-gray-300 text-blue-600 focus:ring-blue-500" checked />
+            <span class="text-gray-700 text-xs">Entrepreneurship</span>
+          </label>
+        </div>
+      </div>
+
+      <div class="space-y-1 mt-2">
+        <label for="potential" class="text-xs text-gray-700">Earning Potential (Per Month)</label>
+        <select id="potential" class="text-xs w-full border rounded px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500">
+          <option value="" disabled selected>Select Potential</option>
+          <option value="10000">10000</option>
+          <option value="20000">20000</option>
+          <option value="30000">30000</option>
+          <option value="40000">40000</option>
+        </select>
+      </div>
+
+      <div class="space-y-1">
+        <label class="text-gray-700 text-xs">Attach Documents</label>
+        <div class="flex items-center space-x-2">
+          <div class="flex items-center border border-gray-300 rounded px-2 py-2 w-full">
+            <span id="file-name" class="text-gray-700 text-xs flex-grow">No file chosen</span>
+            <label class="hover:text-blue-500 cursor-pointer">
+              <input type="file" id="file-upload" class="hidden" onchange="handleFileUpload(event)" />
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                class="w-5 h-5">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M15.172 7l-4.95 4.95a3 3 0 104.243 4.243l4.95-4.95a5 5 0 10-7.071-7.071l-5.657 5.657" />
+              </svg>
+            </label>
+          </div>
+          <button class="text-gray-500 hover:text-red-500 border border-gray-300 rounded-full p-1"
+            onclick="removeFile()">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+              class="w-4 h-4">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 12H6" />
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <div class="flex justify-center ">
+        <button class="w-3/5 my-28 bg-blue-500 hover:bg-blue-600 text-white font-medium py-1 pb-[6px]">
+          Save Opportunity
+        </button>
+      </div>
+    </form>
+  </div>
+
+</body>
+
 </html>

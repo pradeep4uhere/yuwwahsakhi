@@ -72,4 +72,11 @@ return [
     'add_event_master'=>'Add New Event Master',
 
 
+    //Yuwaah Sakhi App
+    'to_do_tasks'=>'To-Do Tasks',
+    'pending_tasks'=>'Pending Tasks',
+    'opportunities'=>'Opportunities',
+    'open_opportunities'=>'Open Opportunities',
+    'learners'=>'learners',
+    'total_learners'=>'total_learners'
 ];

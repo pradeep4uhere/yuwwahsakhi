@@ -1,0 +1,74 @@
+body {
+  font-family: 'Montserrat', sans-serif;
+}
+
+
+.hidden {
+  display: none;
+}
+
+/* for hamburger start */
+/* .sidebar {
+  position: absolute;
+  z-index: 999;
+  top: 0;
+  left: 0;
+  width: 75%;
+  height: 100%;
+  background-color: #fff;
+  transition: left 0.3s ease;
+} */
+
+.activelink {
+  color: var(--text-color);
+}
+s
+.hamburger {
+  color: #000;
+  display: none;
+}
+
+#screen7 {
+  position: relative;
+}
+
+.close-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 30px;
+  cursor: pointer;
+}
+
+.sidebar {
+  display: none;
+  position: absolute;
+  left: -250px;
+  top: 0;
+  overflow: hidden;
+  width: 250px;
+  height: 80%;
+  background: white;
+  color: black;
+  transition: left 0.3s ease-in-out;
+}
+
+@media (max-width: 1640px) {
+
+  .hamburger {
+    display: block;
+    z-index: 1000;
+  }
+
+  .sidebar.open {
+    left: 0;
+    display: block;
+    z-index: 100;
+  }
+
+  body.sidebar-open {
+    overflow: hidden;
+  }
+}
+
+/* hamburger end */

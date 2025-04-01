@@ -1,8 +1,10 @@
 <?php
-
+use Illuminate\Support\Facades\App;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LanguageController;
+use Illuminate\Http\Request;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -14,15 +16,22 @@ use App\Http\Controllers\LanguageController;
 |
 */
 
-Route::get('/', function () {
-    Log::info('Locale set to: ' . app()->getLocale());
-    Log::info('This is an info message.');
-    return view('welcome');
-});
+Route::post('/change-language', function (Request $request) {
+    $language = $request->input('language');
+    if (in_array($language, ['en', 'hi', 'es', 'fr'])) {
+        Session::put('locale', $language);
+        App::setLocale($language);
+    }
+    return back();
+})->name('change.language');
+
+Route::get('/', [ProfileController::class, 'welcome'])->name('welcome');
+Route::any('/userlogin', [ProfileController::class, 'login'])->name('user.login');
+
+
+
 Route::get('/language/{locale}', [LanguageController::class, 'switchLanguage'])->name('language.switch');
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/dashboard', [ProfileController::class, 'dashboard'])->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

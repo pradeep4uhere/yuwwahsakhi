@@ -71,6 +71,11 @@ return [
     'add_event_master'=>'Add New Event Master',
 
 
-
+    'to_do_tasks'=>'करने योग्य कार्य',
+    'pending_tasks'=>'लंबित कार्य',
+    'opportunities'=>'अवसर',
+    'open_opportunities'=>'खुले अवसर',
+    'learners'=>'शिक्षार्थियों',
+    'total_learners'=>'कुल शिक्षार्थी'
     
 ];

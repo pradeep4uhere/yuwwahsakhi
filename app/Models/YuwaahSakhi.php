@@ -4,10 +4,13 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Notifications\Notifiable; // Correct namespace
 
-class YuwaahSakhi extends Model
+class YuwaahSakhi extends Authenticatable
 {
-    use HasFactory;
+    use HasApiTokens, HasFactory, Notifiable;
 
      // Define the table name if it's not the plural form of the model
      protected $table = 'yuwaah_sakhi';
@@ -18,6 +21,7 @@ class YuwaahSakhi extends Model
         'name',
         'contact_number',
         'email',
+        'password',
         'dob',
         'gender',
         'education_level',
@@ -42,8 +46,17 @@ class YuwaahSakhi extends Model
         'partner_center_id',
         'center_picture',
         'profile_picture',
+        'remember_token',
     ];
 
+    
+    protected $hidden = [
+        'password', 'remember_token',
+    ];
+
+    protected $casts = [
+        'email_verified_at' => 'datetime',
+    ];
 
 
      /**
