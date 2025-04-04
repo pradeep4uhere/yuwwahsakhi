@@ -59,7 +59,7 @@
       <div class="min-w-[330px] w-auto min-h-[140px] h-auto py-1 bg-[#FFFFFF] mt-6" style="box-shadow: 0px 3px 10px 0px #28388F33;">
         <h1
           class="w-[310px] h-[15px] ml-[10px] mt-[6px] font-Montserrat font-[500] text-[12px] leading-[14.63px] text-[#000000]">
-          Data Entry Operator Job</h1>
+          {{$item['opportunities_title']}}</h1>
         <div class="flex justify-between">
           <div class="">
             <div class="flex mb-[3px]">

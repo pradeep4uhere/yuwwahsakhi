@@ -39,10 +39,12 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     Route::get('/opportunities-details/{id}', [ProfileController::class, 'opportunitiesDetails'])->name('opportunities.details');
-    Route::get('/opportunities', [ProfileController::class, 'opportunitiesList'])->name('opportunities.list');
+    Route::get('/opportunities', [ProfileController::class, 'opportunitiesList'])->name('opportunities');
     Route::get('/upload', [ProfileController::class, 'opportunitiesList'])->name('upload');
-    Route::get('/learner', [ProfileController::class, 'opportunitiesList'])->name('learner');
+    Route::get('/learner', [ProfileController::class, 'LearnerList'])->name('learner');
     Route::get('/promotion', [ProfileController::class, 'PromotionList'])->name('promotion');
+    Route::get('/learner_details/{id}', [ProfileController::class, 'learnerDetails'])->name('learner.details');
+    
     
     
 });

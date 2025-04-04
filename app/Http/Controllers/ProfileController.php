@@ -16,6 +16,8 @@ use App\Models\YuwaahSakhiLoginLog;
 use Illuminate\Validation\ValidationException;
 use Jenssegers\Agent\Agent;
 use App\Models\Opportunity;
+use App\Models\Promotion;
+use App\Models\Learner;
     
 
 
@@ -187,8 +189,35 @@ class ProfileController extends Controller
 
 
     public function PromotionList(Request $request){
-        $PromotionList = Promotion::where('status','1')->paginate();
-        return view($this->dir.'.opportunites_page',[
+        $promotionList = Promotion::where('status','1')->paginate();
+        //dd($promotionList);
+        return view($this->dir.'.promotion_page',[
+            'promotionList'=>$promotionList
+        ]);
+    }
+
+
+
+    public function LearnerList(Request $request){
+        $learnerList = [];
+        $learnerList = Learner::where('status','Active')->paginate();
+        //dd( $learnerList);
+        return view($this->dir.'.learner_page',[
+            'leanerList'=>$learnerList
+        ]);
+    }
+
+
+
+
+    public function learnerDetails(Request $request, $id){
+        $idStirng = decryptString($id);
+        $learnerDetails = Learner::find($idStirng);
+        $opportunitesWithPagination = Opportunity::where('status','1')->paginate();
+        $opportunitesList = (array) Opportunity::getFormatedData($opportunitesWithPagination);
+        //dd($learnerDetails);
+        return view($this->dir.'.learner_details_page',[
+            'learnerDetails'=>$learnerDetails,
             'opportunitesList'=>$opportunitesList
         ]);
     }
