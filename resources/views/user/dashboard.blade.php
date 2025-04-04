@@ -39,8 +39,12 @@
       </p>
 
       <?php if(isset($opportunites['data'])){ $count=1; ?>
-      <?php foreach($opportunites['data'] as $key=>$item){  ?>
-      <div class="w-[340px] h-[140px] absolute top-[340px] left-[37px] bg-[#FFFFFF] cursor-pointer"
+      @foreach($opportunites['data'] as $key=>$item)
+      @php
+        $top = 340 + ($loop->index * 150);
+      @endphp
+      @if($count<=2)
+      <div class="w-[340px] h-[140px] absolute top-[{{$top}}px] left-[37px] bg-[#FFFFFF] cursor-pointer"
         style="box-shadow: 0px 3px 10px 0px #28388F33;"
         onclick="window.location.href='{{route('opportunities.details',['id'=>encryptString($item['id'])])}}';"
         >
@@ -99,7 +103,9 @@
             </div>
           </div>
       </div>
-      <?php $count++;} ?>
+      @endif
+      <?php $count++; ?>
+      @endforeach
       <?php } ?>
     </div>
     <div class="">
@@ -113,7 +119,7 @@
         <div class="flex justify-between items-center mt-2">
 
           <div class="w-[104px] h-[17px] absolute top-[18px] left-[17px] font-Montserrat font-[500] text-[14px] leading-[17.07px] text-center text-[#000000]">  {{__('messages.total_learners')}}</div>
-          <div class="w-[27px] h-[34px] absolute top-[10px] left-[285px] font-Montserrat font-[600] text-[28px] leading-[34.13px] text-center text-[#05A7D1]">59</div>
+          <div class="w-[27px] h-[34px] absolute top-[10px] left-[285px] font-Montserrat font-[600] text-[28px] leading-[34.13px] text-center text-[#05A7D1]">{{$learnerCount}}</div>
 
         </div>
       </div>

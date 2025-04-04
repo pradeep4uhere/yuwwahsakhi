@@ -156,8 +156,10 @@ class ProfileController extends Controller
         $opportunitesWithPagination = Opportunity::where('status','1')->paginate();
         $opportunites = (array) Opportunity::getFormatedData($opportunitesWithPagination);
         //dd($opportunites);
+        $learnerCount = Learner::where('status','Active')->count();
         return view($this->dir.'.dashboard',[
-            'opportunites'=> $opportunites
+            'opportunites'=> $opportunites,
+            'learnerCount'=>$learnerCount 
         ]);
     }
 
