@@ -76,6 +76,9 @@ return [
     'opportunities'=>'अवसर',
     'open_opportunities'=>'खुले अवसर',
     'learners'=>'शिक्षार्थियों',
-    'total_learners'=>'कुल शिक्षार्थी'
+    'total_learners'=>'कुल शिक्षार्थी',
+    'add_opportunities'=>'अवसर जोड़ें',
+    'start'=>'शुरू',
+    'end'=>''
     
 ];

@@ -78,5 +78,8 @@ return [
     'opportunities'=>'Opportunities',
     'open_opportunities'=>'Open Opportunities',
     'learners'=>'learners',
-    'total_learners'=>'total_learners'
+    'total_learners'=>'total_learners',
+    'add_opportunities'=>'Add Opportunities',
+    'start'=>'Start',
+    'end'=>'End'
 ];

@@ -37,6 +37,14 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+    Route::get('/opportunities-details/{id}', [ProfileController::class, 'opportunitiesDetails'])->name('opportunities.details');
+    Route::get('/opportunities', [ProfileController::class, 'opportunitiesList'])->name('opportunities.list');
+    Route::get('/upload', [ProfileController::class, 'opportunitiesList'])->name('upload');
+    Route::get('/learner', [ProfileController::class, 'opportunitiesList'])->name('learner');
+    Route::get('/promotion', [ProfileController::class, 'PromotionList'])->name('promotion');
+    
+    
 });
 
 

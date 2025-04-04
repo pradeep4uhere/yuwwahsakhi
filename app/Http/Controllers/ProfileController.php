@@ -15,6 +15,7 @@ use App\Models\YuwaahSakhi;
 use App\Models\YuwaahSakhiLoginLog;
 use Illuminate\Validation\ValidationException;
 use Jenssegers\Agent\Agent;
+use App\Models\Opportunity;
     
 
 
@@ -149,6 +150,49 @@ class ProfileController extends Controller
 
 
     public function dashboard(Request $request){
-        return view($this->dir.'.dashboard');
+        $YuwaahSakhi= YuwaahSakhi::with(['Partner','PartnerCenter'])->find(Auth::user()->id);
+        $opportunitesWithPagination = Opportunity::where('status','1')->paginate();
+        $opportunites = (array) Opportunity::getFormatedData($opportunitesWithPagination);
+        //dd($opportunites);
+        return view($this->dir.'.dashboard',[
+            'opportunites'=> $opportunites
+        ]);
     }
+
+
+
+    public function opportunitiesDetails(Request $request, $id){
+        $idString = decryptString($id);
+        $opportunitesObject = Opportunity::find($idString);
+        $opportunites = (array) Opportunity::getFormatedSingleData($opportunitesObject );
+        //dd($opportunites);
+        //Other Oppotunites List
+        $opportunitesWithPagination = Opportunity::where('status','1')->paginate();
+        $opportunitesList = (array) Opportunity::getFormatedData($opportunitesWithPagination);
+        return view($this->dir.'.opportunites_details',[
+            'opportunites'=> $opportunites,
+            'opportunitesList'=>$opportunitesList
+        ]);
+    }
+
+    public function  opportunitiesList(Request $request){
+        $opportunitesWithPagination = Opportunity::where('status','1')->paginate();
+        $opportunitesList = (array) Opportunity::getFormatedData($opportunitesWithPagination);
+        return view($this->dir.'.opportunites_page',[
+            'opportunitesList'=>$opportunitesList
+        ]);
+    }
+
+
+
+
+    public function PromotionList(Request $request){
+        $PromotionList = Promotion::where('status','1')->paginate();
+        return view($this->dir.'.opportunites_page',[
+            'opportunitesList'=>$opportunitesList
+        ]);
+    }
+
+
+   
 }

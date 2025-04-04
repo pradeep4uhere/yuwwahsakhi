@@ -373,5 +373,45 @@ if (!function_exists('getYuwaahSakhiID')) {
 
 
 
+/**
+ * All Yuwaah Sakhi auth user details
+ */
+if (!function_exists('getYuwaahSakhiAuthID')) {
+    function getYuwaahSakhiAuthID() {
+        return Auth::guard('web')->user()->sakhi_id;
+    }
+}
+
+if (!function_exists('getYuwaahSakhiAuthCenterName')) {
+    function getYuwaahSakhiAuthCenterName() {
+        return Auth::guard('web')->user()->PartnerCenter->center_name;
+    }
+}
+
+if (!function_exists('getYuwaahSakhiAuthOnBoardedDate')) {
+    function getYuwaahSakhiAuthOnBoardedDate() {
+        return Auth::guard('web')->user()->onboard_date;
+    }
+}
+
+
+if (!function_exists('getYuwaahSakhiAuthProfileImage')) {
+    function getYuwaahSakhiAuthProfileImage() {
+        $profile_picture =  Auth::guard('web')->user()->profile_picture;
+        return $profile_picture;
+    }
+}
+
+
+
+if (!function_exists('getdateformate')) {
+    function getdateformate($date) {
+        return date('d M,Y',strtotime($date));
+    }
+}
+
+
+
+
 
 
