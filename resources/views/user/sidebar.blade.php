@@ -21,7 +21,7 @@
             <p class="w-[118.88px] h-[15px] absolute top-[228px] left-[111.83px] font-Montserrat font-[600] text-[12px] leading-[14.63px] text-[#000000]">{{getYuwaahSakhiAuthOnBoardedDate()}}</p>
           </div>
           <div class="flex gap-4">
-            <a href="profile.html" class="w-[60.45px] h-[15px] absolute top-[258px] left-[31.23px] font-Montserrat font-[400] text-[12px]  leading-[14.63px] text-[#000000]">My Profile</a>
+            <a href="{{route('profile.edit')}}" class="w-[60.45px] h-[15px] absolute top-[258px] left-[31.23px] font-Montserrat font-[400] text-[12px]  leading-[14.63px] text-[#000000]">My Profile</a>
           </div>
           <div class="flex gap-4">
             <a href="" class="w-[50.37px] h-[15px] absolute top-[288px] left-[31.23px] font-Montserrat font-[400] text-[12px]  leading-[14.63px] text-[#000000]">Settings</a>

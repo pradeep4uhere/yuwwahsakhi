@@ -189,7 +189,7 @@
           <div class="w-[160px] h-[80px] bg-[#FFFFFF] text-center flex justify-center flex-col items-center mt-4"
             style="box-shadow: 0px 3px 10px 0px #0000001A;">
             <div class="w-[128px] h-[29px] font-[600] text-[24px] leading-[29.26px] text-center text-[#05A7D1]">
-              6
+              {{$openOpportunites}}
             </div>
             <div class="w-[86px] h-[30px] font-[500] text-[12px] leading-[14.63px] text-center text-[#000000] mt-1">
               Ongoing Opportunities

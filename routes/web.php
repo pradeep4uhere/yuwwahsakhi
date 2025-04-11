@@ -40,10 +40,21 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/opportunities-details/{id}', [ProfileController::class, 'opportunitiesDetails'])->name('opportunities.details');
     Route::get('/opportunities', [ProfileController::class, 'opportunitiesList'])->name('opportunities');
-    Route::get('/upload', [ProfileController::class, 'opportunitiesList'])->name('upload');
+    Route::get('/upload', [ProfileController::class, 'eventTransactionList'])->name('upload');
     Route::get('/learner', [ProfileController::class, 'LearnerList'])->name('learner');
     Route::get('/promotion', [ProfileController::class, 'PromotionList'])->name('promotion');
     Route::get('/learner_details/{id}', [ProfileController::class, 'learnerDetails'])->name('learner.details');
+    Route::get('/addopportunities', [ProfileController::class, 'addNewOpportunities'])->name('addopportunities');
+    Route::any('/saveopportunites', [ProfileController::class, 'saveOpportunities'])->name('saveopportunites');
+    Route::get('/opportunitiesLearner/{id}', [ProfileController::class, 'AssignLearnerOpportunities'])->name('opportunitiesLearner');
+    Route::post('/assign-learners', [ProfileController::class, 'assignLearners'])->name('assign.learners');
+    Route::get('/fpassword', [ProfileController::class, 'ForgotPassword'])->name('recoverpassword');
+    Route::post('/storeeventtransaction', [ProfileController::class, 'storeEventTransaction'])->name('storeeventtransaction');
+    Route::post('/fetch-event-categories', [ProfileController::class, 'fetchEventCategories'])->name('fetch.event.categories');
+    Route::get('/allevents', [ProfileController::class, 'allEventTransactionList'])->name('user.allevents');
+    
+    
+    
     
     
     

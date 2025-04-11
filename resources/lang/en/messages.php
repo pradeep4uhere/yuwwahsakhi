@@ -81,5 +81,14 @@ return [
     'total_learners'=>'total_learners',
     'add_opportunities'=>'Add Opportunities',
     'start'=>'Start',
-    'end'=>'End'
+    'end'=>'End',
+    'total_learners'=>'Total Learner',
+    'assign_learners'=>'Assign Learners',
+    'learner_list'=>'Learner List',
+    'learner'=>'Learner',
+    'update_learner'=>'Assing Lerner',
+    'event'=>'Event',
+    'all_events'=>'All Events',
+    'add_event'=>'Add Event'
+
 ];

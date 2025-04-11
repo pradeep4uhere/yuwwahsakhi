@@ -41,4 +41,11 @@ class Learner extends Model
         'interested_in_opportunities' => 'boolean',
         'date_of_birth' => 'date',
     ];
+
+
+    public function OpportunitiesAssigned()
+    {
+        return $this->hasMany(OpportunitiesAssigned::class, 'learner_id');
+    }
+
 }

@@ -64,7 +64,7 @@ return [
     'add_yuwaah_sakhi'=>'युवा सखी जोड़ने',
     'edit_yuwaahsakhi'=>'Update Yuwaah Sakhi',
 
-     'choose_partner'=>'Choose Partner',
+    'choose_partner'=>'Choose Partner',
     'choose_partner_center'=>'Choose Partner Center',
 
     'edit_event_master'=>'Edit Event Master',
@@ -79,6 +79,13 @@ return [
     'total_learners'=>'कुल शिक्षार्थी',
     'add_opportunities'=>'अवसर जोड़ें',
     'start'=>'शुरू',
-    'end'=>''
-    
+    'end'=>'',
+    'total_learners'=>'कुल शिक्षार्थी',
+    'assign_learners'=>'शिक्षार्थियों को नियुक्त करें',
+    'learner_list'=>'शिक्षार्थी सूची',
+    'learner'=>'शिक्षार्थी',
+    'update_learner'=>'शिक्षार्थी को अद्यतन करें',
+    'event'=>'आयोजन',
+    'all_events'=>'कुल आयोजन',
+    'add_event'=>'आयोजन जोड़ें'
 ];

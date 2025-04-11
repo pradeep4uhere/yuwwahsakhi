@@ -227,264 +227,265 @@ function toggleIcons(active) {
   }
 }
 
-// Handle screen transitions and remember the current screen
-function showScreen1() {
-  document.getElementById("screen1").classList.remove("hidden");
-  document.getElementById("screen2").classList.add("hidden");
-  document.getElementById("screen3").classList.add("hidden");
-  document.getElementById("screen4").classList.add("hidden");
-  document.getElementById("screen5").classList.add("hidden");
-  document.getElementById("screen6").classList.add("hidden");
-  // document.getElementById("screen7").classList.add("hidden");
-  document.getElementById("screen8").classList.add("hidden");
-  document.getElementById("screen9").classList.add("hidden");
-  document.getElementById("screen10").classList.add("hidden");
-  document.getElementById("screen11").classList.add("hidden");
-  document.getElementById("screen12").classList.add("hidden");
-  document.getElementById("screen13").classList.add("hidden");
-  localStorage.setItem("currentScreen", "screen1");
-}
+// // Handle screen transitions and remember the current screen
+// function showScreen1() {
+//   document.getElementById("screen1").classList.remove("hidden");
+//   document.getElementById("screen2").classList.add("hidden");
+//   document.getElementById("screen3").classList.add("hidden");
+//   document.getElementById("screen4").classList.add("hidden");
+//   document.getElementById("screen5").classList.add("hidden");
+//   document.getElementById("screen6").classList.add("hidden");
+//   // document.getElementById("screen7").classList.add("hidden");
+//   document.getElementById("screen8").classList.add("hidden");
+//   document.getElementById("screen9").classList.add("hidden");
+//   document.getElementById("screen10").classList.add("hidden");
+//   document.getElementById("screen11").classList.add("hidden");
+//   document.getElementById("screen12").classList.add("hidden");
+//   document.getElementById("screen13").classList.add("hidden");
+//   localStorage.setItem("currentScreen", "screen1");
+// }
 
-function showScreen2() {
-  // document.getElementById("screen1").classList.add("hidden");
-  // document.getElementById("screen2").classList.remove("hidden");
-  // document.getElementById("screen3").classList.add("hidden");
-  // document.getElementById("screen4").classList.add("hidden");
-  // document.getElementById("screen5").classList.add("hidden");
-  // document.getElementById("screen6").classList.add("hidden");
-  // document.getElementById("screen7").classList.add("hidden");
-  // document.getElementById("screen8").classList.add("hidden");
-  // document.getElementById("screen9").classList.add("hidden");
-  // document.getElementById("screen10").classList.add("hidden");
-  // document.getElementById("screen11").classList.add("hidden");
-  // document.getElementById("screen12").classList.add("hidden");
-  // document.getElementById("screen13").classList.add("hidden");
-  localStorage.setItem("currentScreen", "screen2");
-}
+// function showScreen2() {
+//   // document.getElementById("screen1").classList.add("hidden");
+//   // document.getElementById("screen2").classList.remove("hidden");
+//   // document.getElementById("screen3").classList.add("hidden");
+//   // document.getElementById("screen4").classList.add("hidden");
+//   // document.getElementById("screen5").classList.add("hidden");
+//   // document.getElementById("screen6").classList.add("hidden");
+//   // document.getElementById("screen7").classList.add("hidden");
+//   // document.getElementById("screen8").classList.add("hidden");
+//   // document.getElementById("screen9").classList.add("hidden");
+//   // document.getElementById("screen10").classList.add("hidden");
+//   // document.getElementById("screen11").classList.add("hidden");
+//   // document.getElementById("screen12").classList.add("hidden");
+//   // document.getElementById("screen13").classList.add("hidden");
+//   localStorage.setItem("currentScreen", "screen2");
+// }
 
-function showScreen3(event) {
-  event.preventDefault(); // Prevent form submission
-  document.getElementById("screen1").classList.add("hidden");
-  document.getElementById("screen2").classList.add("hidden");
-  document.getElementById("screen3").classList.remove("hidden");
-  document.getElementById("screen4").classList.add("hidden");
-  document.getElementById("screen5").classList.add("hidden");
-  document.getElementById("screen6").classList.add("hidden");
-  // document.getElementById("screen7").classList.add("hidden");
-  document.getElementById("screen8").classList.add("hidden");
-  document.getElementById("screen9").classList.add("hidden");
-  document.getElementById("screen10").classList.add("hidden");
-  document.getElementById("screen11").classList.add("hidden");
-  document.getElementById("screen12").classList.add("hidden");
-  document.getElementById("screen13").classList.add("hidden");
-  localStorage.setItem("currentScreen", "screen3");
-}
+// function showScreen3(event) {
+//   event.preventDefault(); // Prevent form submission
+//   document.getElementById("screen1").classList.add("hidden");
+//   document.getElementById("screen2").classList.add("hidden");
+//   document.getElementById("screen3").classList.remove("hidden");
+//   document.getElementById("screen4").classList.add("hidden");
+//   document.getElementById("screen5").classList.add("hidden");
+//   document.getElementById("screen6").classList.add("hidden");
+//   // document.getElementById("screen7").classList.add("hidden");
+//   document.getElementById("screen8").classList.add("hidden");
+//   document.getElementById("screen9").classList.add("hidden");
+//   document.getElementById("screen10").classList.add("hidden");
+//   document.getElementById("screen11").classList.add("hidden");
+//   document.getElementById("screen12").classList.add("hidden");
+//   document.getElementById("screen13").classList.add("hidden");
+//   localStorage.setItem("currentScreen", "screen3");
+// }
 
-function showScreen4(event) {
-  event.preventDefault(); // Prevent form submission
-  document.getElementById("screen1").classList.add("hidden");
-  document.getElementById("screen2").classList.add("hidden");
-  document.getElementById("screen3").classList.add("hidden");
-  document.getElementById("screen4").classList.remove("hidden");
-  document.getElementById("screen5").classList.add("hidden");
-  document.getElementById("screen6").classList.add("hidden");
-  // document.getElementById("screen7").classList.add("hidden");
-  document.getElementById("screen8").classList.add("hidden");
-  document.getElementById("screen9").classList.add("hidden");
-  document.getElementById("screen10").classList.add("hidden");
-  document.getElementById("screen11").classList.add("hidden");
-  document.getElementById("screen12").classList.add("hidden");
-  document.getElementById("screen13").classList.add("hidden");
-  localStorage.setItem("currentScreen", "screen4");
-}
+// function showScreen4(event) {
+//   event.preventDefault(); // Prevent form submission
+//   document.getElementById("screen1").classList.add("hidden");
+//   document.getElementById("screen2").classList.add("hidden");
+//   document.getElementById("screen3").classList.add("hidden");
+//   document.getElementById("screen4").classList.remove("hidden");
+//   document.getElementById("screen5").classList.add("hidden");
+//   document.getElementById("screen6").classList.add("hidden");
+//   // document.getElementById("screen7").classList.add("hidden");
+//   document.getElementById("screen8").classList.add("hidden");
+//   document.getElementById("screen9").classList.add("hidden");
+//   document.getElementById("screen10").classList.add("hidden");
+//   document.getElementById("screen11").classList.add("hidden");
+//   document.getElementById("screen12").classList.add("hidden");
+//   document.getElementById("screen13").classList.add("hidden");
+//   localStorage.setItem("currentScreen", "screen4");
+// }
 
-function showScreen5(event) {
-  event.preventDefault(); // Prevent form submission
-  document.getElementById("screen1").classList.add("hidden");
-  document.getElementById("screen2").classList.add("hidden");
-  document.getElementById("screen3").classList.add("hidden");
-  document.getElementById("screen4").classList.add("hidden");
-  document.getElementById("screen5").classList.remove("hidden");
-  document.getElementById("screen6").classList.add("hidden");
-  // document.getElementById("screen7").classList.add("hidden");
-  document.getElementById("screen8").classList.add("hidden");
-  document.getElementById("screen9").classList.add("hidden");
-  document.getElementById("screen10").classList.add("hidden");
-  document.getElementById("screen11").classList.add("hidden");
-  document.getElementById("screen12").classList.add("hidden");
-  document.getElementById("screen13").classList.add("hidden");
-  localStorage.setItem("currentScreen", "screen5");
-}
+// function showScreen5(event) {
+//   event.preventDefault(); // Prevent form submission
+//   document.getElementById("screen1").classList.add("hidden");
+//   document.getElementById("screen2").classList.add("hidden");
+//   document.getElementById("screen3").classList.add("hidden");
+//   document.getElementById("screen4").classList.add("hidden");
+//   document.getElementById("screen5").classList.remove("hidden");
+//   document.getElementById("screen6").classList.add("hidden");
+//   // document.getElementById("screen7").classList.add("hidden");
+//   document.getElementById("screen8").classList.add("hidden");
+//   document.getElementById("screen9").classList.add("hidden");
+//   document.getElementById("screen10").classList.add("hidden");
+//   document.getElementById("screen11").classList.add("hidden");
+//   document.getElementById("screen12").classList.add("hidden");
+//   document.getElementById("screen13").classList.add("hidden");
+//   localStorage.setItem("currentScreen", "screen5");
+// }
 
-function showScreen6(event) {
-  event.preventDefault(); // Prevent form submission
-  document.getElementById("screen1").classList.add("hidden");
-  document.getElementById("screen2").classList.add("hidden");
-  document.getElementById("screen3").classList.add("hidden");
-  document.getElementById("screen4").classList.add("hidden");
-  document.getElementById("screen5").classList.add("hidden");
-  document.getElementById("screen6").classList.remove("hidden");
-  // document.getElementById("screen7").classList.add("hidden");
-  document.getElementById("screen8").classList.add("hidden");
-  document.getElementById("screen9").classList.add("hidden");
-  document.getElementById("screen10").classList.add("hidden");
-  document.getElementById("screen11").classList.add("hidden");
-  document.getElementById("screen12").classList.add("hidden");
-  document.getElementById("screen13").classList.add("hidden");
-  localStorage.setItem("currentScreen", "screen6");
-}
+// function showScreen6(event) {
+//   event.preventDefault(); // Prevent form submission
+//   document.getElementById("screen1").classList.add("hidden");
+//   document.getElementById("screen2").classList.add("hidden");
+//   document.getElementById("screen3").classList.add("hidden");
+//   document.getElementById("screen4").classList.add("hidden");
+//   document.getElementById("screen5").classList.add("hidden");
+//   document.getElementById("screen6").classList.remove("hidden");
+//   // document.getElementById("screen7").classList.add("hidden");
+//   document.getElementById("screen8").classList.add("hidden");
+//   document.getElementById("screen9").classList.add("hidden");
+//   document.getElementById("screen10").classList.add("hidden");
+//   document.getElementById("screen11").classList.add("hidden");
+//   document.getElementById("screen12").classList.add("hidden");
+//   document.getElementById("screen13").classList.add("hidden");
+//   localStorage.setItem("currentScreen", "screen6");
+// }
 
-// to-do tasks
-function showScreen7() {
-  // event.preventDefault();
-  document.getElementById("screen1").classList.add("hidden");
-  document.getElementById("screen2").classList.add("hidden");
-  document.getElementById("screen3").classList.add("hidden");
-  document.getElementById("screen4").classList.add("hidden");
-  document.getElementById("screen5").classList.add("hidden");
-  document.getElementById("screen6").classList.add("hidden");
-  document.getElementById("screen7").classList.remove("hidden");
-  document.getElementById("screen8").classList.add("hidden");
-  document.getElementById("screen9").classList.add("hidden");
-  document.getElementById("screen9").classList.add("hidden");
-  document.getElementById("screen10").classList.add("hidden");
-  document.getElementById("screen11").classList.add("hidden");
-  document.getElementById("screen12").classList.add("hidden");
-  document.getElementById("screen13").classList.add("hidden");
-  localStorage.setItem("currentScreen", "screen7");
-}
+// // to-do tasks
+// function showScreen7() {
+//   // event.preventDefault();
+//   document.getElementById("screen1").classList.add("hidden");
+//   document.getElementById("screen2").classList.add("hidden");
+//   document.getElementById("screen3").classList.add("hidden");
+//   document.getElementById("screen4").classList.add("hidden");
+//   document.getElementById("screen5").classList.add("hidden");
+//   document.getElementById("screen6").classList.add("hidden");
+//   document.getElementById("screen7").classList.remove("hidden");
+//   document.getElementById("screen8").classList.add("hidden");
+//   document.getElementById("screen9").classList.add("hidden");
+//   document.getElementById("screen9").classList.add("hidden");
+//   document.getElementById("screen10").classList.add("hidden");
+//   document.getElementById("screen11").classList.add("hidden");
+//   document.getElementById("screen12").classList.add("hidden");
+//   document.getElementById("screen13").classList.add("hidden");
+//   localStorage.setItem("currentScreen", "screen7");
+// }
 
-function showScreen8() {
-  document.getElementById("screen1").classList.add("hidden");
-  document.getElementById("screen2").classList.add("hidden");
-  document.getElementById("screen3").classList.add("hidden");
-  document.getElementById("screen4").classList.add("hidden");
-  document.getElementById("screen5").classList.add("hidden");
-  document.getElementById("screen6").classList.add("hidden");
-  // document.getElementById("screen7").classList.add("hidden");
-  document.getElementById("screen8").classList.remove("hidden");
-  document.getElementById("screen9").classList.add("hidden");
-  document.getElementById("screen10").classList.add("hidden");
-  document.getElementById("screen11").classList.add("hidden");
-  document.getElementById("screen12").classList.add("hidden");
-  document.getElementById("screen13").classList.add("hidden");
-  localStorage.setItem("currentScreen", "screen8");
-}
+// function showScreen8() {
+//   document.getElementById("screen1").classList.add("hidden");
+//   document.getElementById("screen2").classList.add("hidden");
+//   document.getElementById("screen3").classList.add("hidden");
+//   document.getElementById("screen4").classList.add("hidden");
+//   document.getElementById("screen5").classList.add("hidden");
+//   document.getElementById("screen6").classList.add("hidden");
+//   // document.getElementById("screen7").classList.add("hidden");
+//   document.getElementById("screen8").classList.remove("hidden");
+//   document.getElementById("screen9").classList.add("hidden");
+//   document.getElementById("screen10").classList.add("hidden");
+//   document.getElementById("screen11").classList.add("hidden");
+//   document.getElementById("screen12").classList.add("hidden");
+//   document.getElementById("screen13").classList.add("hidden");
+//   localStorage.setItem("currentScreen", "screen8");
+// }
 
-function showScreen9() {
-  document.getElementById("screen1").classList.add("hidden");
-  document.getElementById("screen2").classList.add("hidden");
-  document.getElementById("screen3").classList.add("hidden");
-  document.getElementById("screen4").classList.add("hidden");
-  document.getElementById("screen5").classList.add("hidden");
-  document.getElementById("screen6").classList.add("hidden");
-  // document.getElementById("screen7").classList.add("hidden");
-  document.getElementById("screen8").classList.add("hidden");
-  document.getElementById("screen9").classList.remove("hidden");
-  document.getElementById("screen10").classList.add("hidden");
-  document.getElementById("screen11").classList.add("hidden");
-  document.getElementById("screen12").classList.add("hidden");
-  document.getElementById("screen13").classList.add("hidden");
-  localStorage.setItem("currentScreen", "screen9");
-}
+// function showScreen9() {
+//   document.getElementById("screen1").classList.add("hidden");
+//   document.getElementById("screen2").classList.add("hidden");
+//   document.getElementById("screen3").classList.add("hidden");
+//   document.getElementById("screen4").classList.add("hidden");
+//   document.getElementById("screen5").classList.add("hidden");
+//   document.getElementById("screen6").classList.add("hidden");
+//   // document.getElementById("screen7").classList.add("hidden");
+//   document.getElementById("screen8").classList.add("hidden");
+//   document.getElementById("screen9").classList.remove("hidden");
+//   document.getElementById("screen10").classList.add("hidden");
+//   document.getElementById("screen11").classList.add("hidden");
+//   document.getElementById("screen12").classList.add("hidden");
+//   document.getElementById("screen13").classList.add("hidden");
+//   localStorage.setItem("currentScreen", "screen9");
+// }
 
-function showScreen10() {
-  document.getElementById("screen1").classList.add("hidden");
-  document.getElementById("screen2").classList.add("hidden");
-  document.getElementById("screen3").classList.add("hidden");
-  document.getElementById("screen4").classList.add("hidden");
-  document.getElementById("screen5").classList.add("hidden");
-  document.getElementById("screen6").classList.add("hidden");
-  // document.getElementById("screen7").classList.add("hidden");
-  document.getElementById("screen8").classList.add("hidden");
-  document.getElementById("screen9").classList.add("hidden");
-  document.getElementById("screen10").classList.remove("hidden");
-  document.getElementById("screen11").classList.add("hidden");
-  document.getElementById("screen12").classList.add("hidden");
-  document.getElementById("screen13").classList.add("hidden");
-  localStorage.setItem("currentScreen", "screen10");
-}
+// function showScreen10() {
+//   document.getElementById("screen1").classList.add("hidden");
+//   document.getElementById("screen2").classList.add("hidden");
+//   document.getElementById("screen3").classList.add("hidden");
+//   document.getElementById("screen4").classList.add("hidden");
+//   document.getElementById("screen5").classList.add("hidden");
+//   document.getElementById("screen6").classList.add("hidden");
+//   // document.getElementById("screen7").classList.add("hidden");
+//   document.getElementById("screen8").classList.add("hidden");
+//   document.getElementById("screen9").classList.add("hidden");
+//   document.getElementById("screen10").classList.remove("hidden");
+//   document.getElementById("screen11").classList.add("hidden");
+//   document.getElementById("screen12").classList.add("hidden");
+//   document.getElementById("screen13").classList.add("hidden");
+//   localStorage.setItem("currentScreen", "screen10");
+// }
 
-function showScreen11() {
-  document.getElementById("screen1").classList.add("hidden");
-  document.getElementById("screen2").classList.add("hidden");
-  document.getElementById("screen3").classList.add("hidden");
-  document.getElementById("screen4").classList.add("hidden");
-  document.getElementById("screen5").classList.add("hidden");
-  document.getElementById("screen6").classList.add("hidden");
-  // document.getElementById("screen7").classList.add("hidden");
-  document.getElementById("screen8").classList.add("hidden");
-  document.getElementById("screen9").classList.add("hidden");
-  document.getElementById("screen10").classList.add("hidden");
-  document.getElementById("screen11").classList.remove("hidden");
-  document.getElementById("screen12").classList.add("hidden");
-  document.getElementById("screen13").classList.add("hidden");
-  localStorage.setItem("currentScreen", "screen11");
-}
+// function showScreen11() {
+//   document.getElementById("screen1").classList.add("hidden");
+//   document.getElementById("screen2").classList.add("hidden");
+//   document.getElementById("screen3").classList.add("hidden");
+//   document.getElementById("screen4").classList.add("hidden");
+//   document.getElementById("screen5").classList.add("hidden");
+//   document.getElementById("screen6").classList.add("hidden");
+//   // document.getElementById("screen7").classList.add("hidden");
+//   document.getElementById("screen8").classList.add("hidden");
+//   document.getElementById("screen9").classList.add("hidden");
+//   document.getElementById("screen10").classList.add("hidden");
+//   document.getElementById("screen11").classList.remove("hidden");
+//   document.getElementById("screen12").classList.add("hidden");
+//   document.getElementById("screen13").classList.add("hidden");
+//   localStorage.setItem("currentScreen", "screen11");
+// }
 
-function showScreen12() {
-  document.getElementById("screen1").classList.add("hidden");
-  document.getElementById("screen2").classList.add("hidden");
-  document.getElementById("screen3").classList.add("hidden");
-  document.getElementById("screen4").classList.add("hidden");
-  document.getElementById("screen5").classList.add("hidden");
-  document.getElementById("screen6").classList.add("hidden");
-  // document.getElementById("screen7").classList.add("hidden");
-  document.getElementById("screen8").classList.add("hidden");
-  document.getElementById("screen9").classList.add("hidden");
-  document.getElementById("screen10").classList.add("hidden");
-  document.getElementById("screen11").classList.add("hidden");
-  document.getElementById("screen12").classList.remove("hidden");
-  document.getElementById("screen13").classList.add("hidden");
-  localStorage.setItem("currentScreen", "screen12");
-}
+// function showScreen12() {
+//   document.getElementById("screen1").classList.add("hidden");
+//   document.getElementById("screen2").classList.add("hidden");
+//   document.getElementById("screen3").classList.add("hidden");
+//   document.getElementById("screen4").classList.add("hidden");
+//   document.getElementById("screen5").classList.add("hidden");
+//   document.getElementById("screen6").classList.add("hidden");
+//   // document.getElementById("screen7").classList.add("hidden");
+//   document.getElementById("screen8").classList.add("hidden");
+//   document.getElementById("screen9").classList.add("hidden");
+//   document.getElementById("screen10").classList.add("hidden");
+//   document.getElementById("screen11").classList.add("hidden");
+//   document.getElementById("screen12").classList.remove("hidden");
+//   document.getElementById("screen13").classList.add("hidden");
+//   localStorage.setItem("currentScreen", "screen12");
+// }
 
-function showScreen13() {
-  document.getElementById("screen1").classList.add("hidden");
-  document.getElementById("screen2").classList.add("hidden");
-  document.getElementById("screen3").classList.add("hidden");
-  document.getElementById("screen4").classList.add("hidden");
-  document.getElementById("screen5").classList.add("hidden");
-  document.getElementById("screen6").classList.add("hidden");
-  // document.getElementById("screen7").classList.add("hidden");
-  document.getElementById("screen8").classList.add("hidden");
-  document.getElementById("screen9").classList.add("hidden");
-  document.getElementById("screen10").classList.add("hidden");
-  document.getElementById("screen11").classList.add("hidden");
-  document.getElementById("screen12").classList.add("hidden");
-  document.getElementById("screen13").classList.remove("hidden");
-  localStorage.setItem("currentScreen", "screen13");
-}
+// function showScreen13() {
+//   document.getElementById("screen1").classList.add("hidden");
+//   document.getElementById("screen2").classList.add("hidden");
+//   document.getElementById("screen3").classList.add("hidden");
+//   document.getElementById("screen4").classList.add("hidden");
+//   document.getElementById("screen5").classList.add("hidden");
+//   document.getElementById("screen6").classList.add("hidden");
+//   // document.getElementById("screen7").classList.add("hidden");
+//   document.getElementById("screen8").classList.add("hidden");
+//   document.getElementById("screen9").classList.add("hidden");
+//   document.getElementById("screen10").classList.add("hidden");
+//   document.getElementById("screen11").classList.add("hidden");
+//   document.getElementById("screen12").classList.add("hidden");
+//   document.getElementById("screen13").classList.remove("hidden");
+//   localStorage.setItem("currentScreen", "screen13");
+// }
 
-window.onload = function () {
-  const savedScreen = localStorage.getItem("currentScreen");
-  if (savedScreen === "screen1") {
-    showScreen1();
-  } else if (savedScreen === "screen2") {
-    showScreen2();
-  } else if (savedScreen === "screen3") {
-    showScreen3(event);
-  } else if (savedScreen === "screen4") {
-    showScreen4(event);
-  } else if (savedScreen === "screen5") {
-    showScreen5(event);
-  } else if (savedScreen === "screen6") {
-    showScreen6(event);
-    // } else if (savedScreen === "screen7") {
-    //   showScreen7();
-  } else if (savedScreen === "screen8") {
-    showScreen8();
-  } else if (savedScreen === "screen9") {
-    showScreen9();
-  } else if (savedScreen === "screen10") {
-    showScreen10();
-  } else if (savedScreen === "screen11") {
-    showScreen11();
-  } else if (savedScreen === "screen12") {
-    showScreen12();
-  } else if (savedScreen === "screen13") {
-    showScreen13();
-  } else {
-    showScreen1();
-  }
-};
+// window.onload = function () {
+//   //const savedScreen = ''
+//   //localStorage.getItem("currentScreen");
+//   if (savedScreen === "screen1") {
+//     showScreen1();
+//   } else if (savedScreen === "screen2") {
+//     showScreen2();
+//   } else if (savedScreen === "screen3") {
+//     showScreen3(event);
+//   } else if (savedScreen === "screen4") {
+//     showScreen4(event);
+//   } else if (savedScreen === "screen5") {
+//     showScreen5(event);
+//   } else if (savedScreen === "screen6") {
+//     showScreen6(event);
+//     // } else if (savedScreen === "screen7") {
+//     //   showScreen7();
+//   } else if (savedScreen === "screen8") {
+//     showScreen8();
+//   } else if (savedScreen === "screen9") {
+//     showScreen9();
+//   } else if (savedScreen === "screen10") {
+//     showScreen10();
+//   } else if (savedScreen === "screen11") {
+//     showScreen11();
+//   } else if (savedScreen === "screen12") {
+//     showScreen12();
+//   } else if (savedScreen === "screen13") {
+//     showScreen13();
+//   } else {
+//     showScreen1();
+//   }
+// };

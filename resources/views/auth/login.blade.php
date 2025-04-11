@@ -29,7 +29,7 @@
     <!-- <a href="register.html" class="hover:text-blue-600 mb-4 text-lg">
       &larr;
     </a> -->
-    <a href="register.html"
+    <a href="{{route('welcome')}}"
     class="relative top-6">
     <!-- &larr; -->
     <img src="{{asset('asset/images/arrow-left.png')}}" alt="arrow-Left" class="w-[20px] h-[20px]">
@@ -63,7 +63,7 @@
 
       <div class="flex justify-between">
         <span></span>
-        <a href="forget-password.html" class="relative right-2 w-[120px] h-[15px] font-[500] text-[12px] leading-[14.63px] text-[#05A7D1] hover:underline cursor-pointer ">Forgot
+        <a href="{{route('recoverpassword')}}" class="relative right-2 w-[120px] h-[15px] font-[500] text-[12px] leading-[14.63px] text-[#05A7D1] hover:underline cursor-pointer ">Forgot
           Password</a>
       </div>
 

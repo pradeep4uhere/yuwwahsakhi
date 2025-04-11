@@ -1,10 +1,19 @@
 <div class="flex justify-between items-center px-5 py-[1rem] mx-auto ">
-      <div id="hamburger" class="hamburger text-2xl cursor-pointer z-1000 w-[20.15px] h-[20px] absolute top-[51px] left-[31.23px]" onclick="toggleSidebar()">&#9776;</div>
-
+    @if(
+      (Route::currentRouteName() == 'profile.edit') || 
+      (Route::currentRouteName() == 'addopportunities') ||
+      (Route::currentRouteName() == 'opportunitiesLearner'))
+        <a href="{{ route('dashboard') }}" class="hover:text-blue-600 mb-4 text-lg">
+            <img src="{{ asset('asset/images/arrow-left.png') }}" alt="arrow-Left" class="w-[20px] h-[20px] mt-5 hover:text-blue-600"/>
+        </a>
+    @else
+        <div id="hamburger" class="hamburger text-2xl cursor-pointer z-1000 w-[20.15px] h-[20px] absolute top-[51px] left-[31.23px]" onclick="toggleSidebar()">&#9776;</div>
+    @endif
+  
      @include('user.sidebar')
 
       <div class="flex justify-center">
-        <a href="index.html"> <img src="{{asset('asset/images/Yuwaahlogo.png')}}" alt="YuWaah Logo" class="w-[91px] h-[56px] absolute top-[34px] left-[158px]"></a>
+        <a href="{{route('dashboard')}}"> <img src="{{asset('asset/images/Yuwaahlogo.png')}}" alt="YuWaah Logo" class="w-[91px] h-[56px] absolute top-[34px] left-[158px]"></a>
       </div>
 
       <div class="flex gap-2 items-center">

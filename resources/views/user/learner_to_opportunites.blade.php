@@ -1,25 +1,16 @@
 @extends('layouts.user')
 @section('title', 'Dashboard')
 @section('content')
-<div id="screen7" class="max-w-[26rem] mx-auto  bg-white shadow-md rounded-lg relative min-h-[100vh] h-auto">
+<div id="screen10" class="max-w-[26rem] mx-auto  bg-white shadow-md rounded-lg relative min-h-[100vh] h-auto">
     @include('user.header')
-    <div id="screen9" class=" max-w-[26rem] mx-auto p-4 bg-white mt-9 rounded-lg">
+    <div id="screen9" class=" max-w-[26rem] mx-auto p-4 bg-white  rounded-lg">
       <div class="mt-2 text-sm flex justify-between items-center">
-        <h1 class="w-[100px] h-[17px] font-[500] text-[14px] leading-[17.07px] text-[#000000]">
-        {{__('messages.opportunities')}}
+        <h1 class="w-[152px] h-[17px] font-[500] text-[14px] leading-[17.07px] text-[#000000] mb-4">
+        {{__('messages.assign_learners')}}
         </h1>
 
         <div class="flex items-center gap-2">
-          <div class="w-[120px] h-[30px] rounded-[10px] bg-[#28388F] flex items-center justify-center">
-            <a href="{{route('addopportunities')}}"
-              class="w-[100px] h-[12px] font-[600] text-[10px] leading-[12.19px] text-[#FFFFFF] cursor-pointer">{{__('messages.add_opportunities')}}</a>
-          </div>
-
-          <div class="w-[60px] h-[30px] rounded-[10px] bg-[#28388F1A] flex items-center justify-center">
-            <button" class="w-[37px] h-[12px] font-[500] text-[10px] leading-[12.19px] text-[#28388F] cursor-pointer"
-              onclick="toggleSortPopUp()">Sort
-              By</button>
-          </div>
+         
         </div>
       </div>
 
@@ -53,16 +44,13 @@
           </form>
         </div>
       </div>
-
-      <?php if(isset($opportunitesList['data'])){ $count=1; ?>
-      <?php foreach($opportunitesList['data'] as $key=>$item){  ?>
      
       <!-- Other Opportunites Start Here-->
       <div class="min-w-[330px] min-h-[260px] w-auto min-h-[50px] h-auto bg-[#FFFFFF] px-3 py-3 mt-3 overflow-auto cursor-pointer" style="box-shadow: 0px 3px 10px 0px #28388F33;" onclick="toggleButtons(event)">
         <h1
           class="w-[310px] h-[15px] ml-[10px] mt-[6px] font-Montserrat font-[500] text-[12px] leading-[14.63px] text-[#000000]" >
-          {{$item['opportunities_title']}}</h1>
-        <div class=" ml-[10px] mt-[6px] font-Montserrat font-[500] text-[12px] leading-[14.63px] text-[#000000]">{{$item['description']}}</div>
+          {{ucwords($item['opportunities_title'])}}</h1>
+        <div class=" ml-[10px] mt-[6px] font-Montserrat font-[500] text-[12px] leading-[14.63px] text-[#000000]">{!!ucfirst($item['description'])!!}</div>
         <div class="flex justify-between">
           <div class="">
             <div class="flex mb-[3px]">
@@ -126,49 +114,99 @@
               </p>
             </div>
 
+       
+
 
           </div>
+          
         </div>
-        <div  class="buttonsContainer flex mt-4 gap-2 hidden">
-            <div class="w-auto h-auto min-w-[100%] min-h-[40px] rounded-[10px] border-[1px] bg-[#F2F2F2] border-[#28388F] flex justify-center items-center gap-2">
-              <img src="{{asset('asset/images/AssignLearners Icon.png')}}" alt="Fill_Form" class="w-auto h-auto max-w-[14px] max-h-[14px]">
-              <a href="{{route('opportunitiesLearner',['id'=>encryptString($item['id'])])}}" class="w-auto h-auto font-[500] text-[12px] leading-[14.63px] text-[#28388F] cursor-pointer">Assign Learners</a>
-            </div>
+      
+    </div>
+    <div class="flex justify-between items-center mt-4">
+        <div>
+          <h1 class="w-[72px] h-[15px] font-[500] text-[12px] leading-[14.63px] text-[#000000]">
+            {{__('messages.learner_list')}}
+          </h1>
+          <!-- Success message container -->
+          <div id="successMsg" class="hidden text-green-600 text-sm mt-2">Learners assigned successfully!</div>
+
+        </div>
+        <div class="w-[150px] h-[30px] rounded-[10px] bg-[#28388F0D] flex justify-center items-center">
+          <button onclick="assignLearner(event)" class="w-[191px] h-[12px] font-[500] text-[10px] leading-[12.19px] text-[#28388F] cursor-pointer">
+            {{__('messages.update_learner')}}
+          </button>
         </div>
       </div>
-      <?php } ?>
-      <?php } ?>
-    </div>
+      <form id="learnerForm">
+        @foreach($leanerList as $item)
+        @php
+          $top = 140 + ($loop->index * 80);
+        @endphp
+
+        <div class="min-w-[320px] min-h-[70px] w-auto h-auto rounded-[10px] bg-[#FFFFFF] mt-6 flex gap-2 items-center justify-between cursor-pointer" onclick="showScreen11()" style="box-shadow: 0px 4px 10px 0px #00000026;">
+        <div class="flex justify-center gap-2 items-center">
+          <div class="w-[40px] h-[40px] ml-2">
+            <img src="{{asset('asset/images/user.jpg')}}" alt="">
+          </div>
+          <div class="flex flex-col items-center gap-1.5">
+            <div class="min-w-[86px] min-h-[17px] h-auto w-auto ml-[5px] font-Montserrat font-[500] text-[14px] leading-[17.07px] text-[#000000]">
+            {{$item['first_name']}}
+            </div>
+            <div class="flex gap-1.5 ">
+              <span>
+                <img src="{{asset('asset/images/Learner calendar.png')}}" class="w-[10px] h-[10px]" alt="">
+              </span>
+              <span class="min-w-[64px] min-h-[12px] w-auto h-auto font-[500] text-[10px] leading-[12.19px] text-[#000000]">
+              {{getdateformate($item['date_of_birth'])}}
+              </span>
+            </div>
+          </div>
+        </div>
+        <div class="mr-4 self-center">
+          <input type="checkbox" name="learner[]" value="{{ encryptString($item['id']) }}" class="w-[20px] h-[20px]" 
+          @if(in_array($item['id'], $learnerIdArr->toArray())) checked="checked" @endif>
+
+        </div>
+      </div>
+      @endforeach
+      <input type="hidden" value="{{$ysid}}" name="ysid"/>
+      <input type="hidden" value="{{$opid}}" name="opid"/>
+  </form>
   </div>
+
   <script>
-  function toggleButtons(event) {
-    // Prevent toggling if clicking inside the buttons container
-    if (event.target.closest(".buttonsContainer")) return;
+  function assignLearner(event) {
+    event.preventDefault(); // Stop form submission
 
-    const card = event.currentTarget;
-    const buttonsContainer = card.querySelector(".buttonsContainer");
+    let form = document.getElementById('learnerForm');
+    let formData = new FormData(form);
 
-    const isVisible = !buttonsContainer.classList.contains("hidden");
-
-    // Hide all other buttonsContainers
-    document.querySelectorAll(".buttonsContainer").forEach(el => el.classList.add("hidden"));
-
-    // Toggle only if it was previously hidden
-    if (!isVisible) {
-      buttonsContainer.classList.remove("hidden");
-    }
-
-    event.stopPropagation(); // Stop bubbling to document click
+    // Send AJAX request
+    fetch("{{ route('assign.learners') }}", {
+      method: "POST",
+      headers: {
+        "X-CSRF-TOKEN": '{{ csrf_token() }}'
+      },
+      body: formData
+    })
+    .then(res => res.json())
+    .then(data => {
+      if (data.success) {
+        document.getElementById('successMsg').classList.remove('hidden');
+        document.getElementById('successMsg').textContent = "Learners assigned successfully!";
+        
+        // Optionally reset form
+        // form.reset();
+      } else {
+        alert("Something went wrong.");
+      }
+    })
+    .catch(err => {
+      console.error("Error:", err);
+      alert("Failed to assign learners.");
+    });
   }
-
-  // Close when clicking outside all cards
-  document.addEventListener("click", function (event) {
-    if (!event.target.closest(".min-w-[330px]")) {
-      document.querySelectorAll(".buttonsContainer").forEach(el => el.classList.add("hidden"));
-    }
-  });
 </script>
-
 
   @include('user.bottom_menu')
 @endsection

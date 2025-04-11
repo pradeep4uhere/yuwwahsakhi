@@ -5,11 +5,8 @@ use App\Models\SpecificationQualification;
 use App\Models\ServicesOffered;
 use App\Models\LoanType;
 use Illuminate\Support\Facades\Crypt;
-
-
-
-
-
+use Illuminate\Support\Facades\Auth; 
+    
 if (!function_exists('encryptString')) {
     function encryptString($string)
     {
@@ -409,6 +406,25 @@ if (!function_exists('getdateformate')) {
         return date('d M,Y',strtotime($date));
     }
 }
+
+if (!function_exists('getUserId')) {
+    function getUserId() {
+        return Auth::user()->id;
+    }
+}
+
+
+
+if (!function_exists('getSakhiID')) {
+    function getSakhiID() {
+        return Auth::user()->sakhi_id;
+    }
+}
+
+
+
+
+
 
 
 

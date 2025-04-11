@@ -73,7 +73,7 @@
 
     <div class="mt-2 absolute top-[500px] left-[122px] font-Montserrat">
       <p class="text-center text-xs text-gray-600 font-Montserrat">
-        New to YuWaah? <a href="register.html" class="text-[#28388F] font-semibold hover:underline text-sm">Register</a>
+        Already Member ? <a href="{{route('login')}}" class="text-[#28388F] font-semibold hover:underline text-sm">Login</a>
       </p>
     </div>
     <div class="h-48"></div>

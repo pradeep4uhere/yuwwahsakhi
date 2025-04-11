@@ -21,7 +21,9 @@ class Opportunity extends Model
         'end_date',
         'number_of_openings',
         'provider_name',
+        'opportunitie_type',
         'document', // Store file path or file name here
+        'sakhi_id',
     ];
 
      // Define any necessary casts (optional)
@@ -64,7 +66,9 @@ class Opportunity extends Model
         if ($opportunity) {
             return [
                 'id' => $opportunity->id,
-                'opportunities_title' => $opportunity->opportunities_title,
+                'sakhi_id'=>$opportunity->sakhi_id,
+                'opportunities_title' => ucwords($opportunity->opportunities_title),
+                'opportunitie_type'=>$opportunity->opportunitie_type,
                 'description' => $opportunity->description,
                 'payout_monthly' => $opportunity->payout_monthly,
                 'start_date' => $opportunity->start_date,

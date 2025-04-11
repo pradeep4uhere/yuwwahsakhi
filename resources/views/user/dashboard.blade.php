@@ -6,14 +6,16 @@
     <div class="">
       <img src="{{asset('asset/images/file-textcopy.png')}}" alt="engLogo" class="w-[20px] h-[20px] absolute top-[104px] left-[34px]">
       <p class="w-[85px] h-[17px] absolute top-[106px] left-[65px] font-Montserrat font-[500] text-[14px] leading-[17.07px]">
-        {{__('messages.to_do_tasks')}}
+        {{__('messages.event')}}
       </p>
       <div class="w-[340px] h-[50px] absolute top-[140px] left-[37px] bg-[#FFFFFF]" 
       style="box-shadow: 0px 3px 10px 0px #0000001A;"
       >
         <div class="flex justify-between items-center">
-          <div class="w-[104px] h-[17px] absolute top-[18px] left-[17px] font-Montserrat font-[500] text-[14px] leading-[17.07px] text-center text-[#000000]"> {{__('messages.pending_tasks')}}</div>
-          <div class="w-[27px] h-[34px] absolute top-[10px] left-[285px] font-Montserrat font-[600] text-[28px] leading-[34.13px] text-center text-[#05A7D1]">5</div>
+          <a href="{{route('user.allevents')}}">
+            <div class="w-[104px] h-[17px] absolute top-[18px] left-[17px] font-Montserrat font-[500] text-[14px] leading-[17.07px] text-center text-[#000000]"> {{__('messages.all_events')}}</div>
+            <div class="w-[27px] h-[34px] absolute top-[10px] left-[285px] font-Montserrat font-[600] text-[28px] leading-[34.13px] text-center text-[#05A7D1]">{{$allEventCount}}</div>
+          </a>
         </div>
       </div>
     </div>
@@ -25,11 +27,12 @@
       </p>
       <div class="w-[340px] h-[50px] absolute top-[250px] left-[37px] bg-[#FFFFFF]"
         style="box-shadow: 0px 3px 10px 0px #0000001A;"
-      >
+      > <a href="{{ route('opportunities', ['filter' => 'desc', 'order_by' => 'id']) }}">
         <div class="flex justify-between items-center mt-2">
           <div class="w-[143px] h-[266px] absolute top-[18px] left-[1px] font-Montserrat font-[500] text-[14px] leading-[17.07px] text-center text-[#000000]">{{__('messages.open_opportunities')}}</div>
-          <div class="w-[36px] h-[34px] absolute top-[10px] left-[280px] font-Montserrat font-[600] text-[28px] leading-[34.13px] text-center text-[#05A7D1]">5</div>
+          <div class="w-[36px] h-[34px] absolute top-[10px] left-[280px] font-Montserrat font-[600] text-[28px] leading-[34.13px] text-center text-[#05A7D1]">{{$totalOpportunites}}</div>
         </div>
+      </a>
       </div>
     </div>
 
@@ -46,7 +49,7 @@
       @if($count<=2)
       <div class="w-[340px] h-[140px] absolute top-[{{$top}}px] left-[37px] bg-[#FFFFFF] cursor-pointer"
         style="box-shadow: 0px 3px 10px 0px #28388F33;"
-        onclick="window.location.href='{{route('opportunities.details',['id'=>encryptString($item['id'])])}}';"
+        onclick="window.location.href='{{route('opportunitiesLearner',['id'=>encryptString($item['id'])])}}';"
         >
           <h1 class="w-[310px] h-[15px] ml-[10px] mt-[6px] font-Montserrat font-[500] text-[12px] leading-[14.63px] text-[#000000]">{{$item['opportunities_title']}}</h1>
           <div class="flex justify-between">
@@ -117,10 +120,10 @@
       style="box-shadow: 0px 3px 10px 0px #0000001A;"
       >
         <div class="flex justify-between items-center mt-2">
-
-          <div class="w-[104px] h-[17px] absolute top-[18px] left-[17px] font-Montserrat font-[500] text-[14px] leading-[17.07px] text-center text-[#000000]">  {{__('messages.total_learners')}}</div>
-          <div class="w-[27px] h-[34px] absolute top-[10px] left-[285px] font-Montserrat font-[600] text-[28px] leading-[34.13px] text-center text-[#05A7D1]">{{$learnerCount}}</div>
-
+          <a href="{{route('learner')}}">
+           <div class="w-[104px] h-[17px] absolute top-[18px] left-[17px] font-Montserrat font-[500] text-[14px] leading-[17.07px] text-center text-[#000000]">  {{__('messages.total_learners')}}</div>
+           <div class="w-[27px] h-[34px] absolute top-[10px] left-[285px] font-Montserrat font-[600] text-[28px] leading-[34.13px] text-center text-[#05A7D1]">{{$learnerCount}}</div>
+          </a>
         </div>
       </div>
     </div>

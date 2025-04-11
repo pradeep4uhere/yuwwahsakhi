@@ -17,6 +17,7 @@
 <?php }else{ ?>
     <?php
 $currentRoute = request()->route()->getName();
+$uploadImg = $currentRoute === 'allevents' ? 'colorFile.png' : 'file-text.png';
 $uploadImg = $currentRoute === 'upload' ? 'colorFile.png' : 'file-text.png';
 $opportunityImg = $currentRoute === 'opportunities' ? 'Colorstar.png' : 'star.png';
 $learnerImg = $currentRoute === 'learner' ? 'Colorusers.png' : 'users.png';
