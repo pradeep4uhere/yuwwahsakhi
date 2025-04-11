@@ -11,7 +11,7 @@
 
         <div class="flex items-center gap-2">
           <div class="w-[120px] h-[30px] rounded-[10px] bg-[#28388F] flex items-center justify-center">
-            <a href="{{route('addopportunities')}}"
+            <a href="{{route('upload')}}"
               class="w-[100px] h-[12px] font-[600] text-[10px] leading-[12.19px] text-[#FFFFFF] cursor-pointer">{{__('messages.add_event')}}</a>
           </div>
 
