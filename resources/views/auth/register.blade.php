@@ -44,7 +44,7 @@
         {{ session('success') }}
       </div>
       @endif
-      <!-- @if ($errors->any())
+      @if ($errors->any())
       <div class="bg-red-100 text-red-700 p-4 rounded mb-4">
           <ul class="mb-0">
               @foreach ($errors->all() as $error)
@@ -52,7 +52,7 @@
               @endforeach
           </ul>
       </div>
-      @endif -->
+      @endif
 
      
     <form id="registrationForm" action="{{route('register')}}" method="post" enctype="multipart/form-data">
