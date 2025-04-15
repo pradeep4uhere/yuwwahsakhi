@@ -657,7 +657,7 @@ As a catalytic multi-stakeholder partnership, YuWaah is dedicated to transformin
         $stateId = $request->state_id;
     
         // Call your helper function
-        $class = "mt-2 text-xs w-full border px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 placeholder:font-[400] placeholder:text-[10px] placeholder:leading-[12.19px] placeholder:text-[#A7A7A7]";
+        $class = "w-[330px] h-[40px] bg-[#FFFFFF] border-[1px] rounded-[10px] border-[#28388F0D] font-[400] text-[10px] leading-[12.19px] pl-2.5 text-[#A7A7A7] focus:ring-1 focus:ring-blue-500";
         $dropdownHtml = getDistrict($stateId,'district_id','',$class);
     
         // Return it as JSON or plain text depending on usage

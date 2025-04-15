@@ -68,6 +68,6 @@ Route::middleware('auth')->group(function () {
 
     
 });
-Route::get('/get-districts/{state_id}', [ProfileController::class, 'getDistrictDropdown']);
-Route::get('/get-blocks', [ProfileController::class, 'getBlocksByDistrict']);
+Route::get('/get-districts/{state_id}', [ProfileController::class, 'getDistrictDropdown'])->name('getdistricts');
+Route::get('/get-blocks', [ProfileController::class, 'getBlocksByDistrict'])->name('getblock');
 require __DIR__.'/auth.php';
