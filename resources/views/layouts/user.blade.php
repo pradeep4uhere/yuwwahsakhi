@@ -26,7 +26,7 @@
     function loadDistricts(stateId) {
         if (stateId) {
             $.ajax({
-                url: '/get-districts/' + stateId,
+                url: "{{ route('getdistricts', ['state_id' => 'REPLACE_ID']) }}".replace('REPLACE_ID', stateId),
                 type: 'GET',
                 dataType: 'json',
                 success: function (data) {
@@ -50,7 +50,7 @@ $(document).ready(function() {
 
         if (districtId) {
             $.ajax({
-                url: '/get-blocks',
+                url: "{{route('getblock')}}",
                 type: 'GET',
                 data: { district_id: districtId },
                 success: function (response) {
