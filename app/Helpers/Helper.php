@@ -336,7 +336,7 @@ if (!function_exists('getGlobalList')) {
         }
        // echo $modelAttributes[$modelName];die;
         // Fetch data using Eloquent and return as an options list
-        return $models[$modelName]::where('status', 1)->whereOr('status','active')->pluck($modelAttributes[$modelName], 'id')->toArray();
+        return $models[$modelName]::where('status', 1)->orWhere('status', 'active')->pluck($modelAttributes[$modelName], 'id')->toArray();
 
         
     }
