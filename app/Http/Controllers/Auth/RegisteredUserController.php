@@ -68,9 +68,10 @@ class RegisteredUserController extends Controller
         // Handle image uploads
         $centerPhotoPath = $request->file('upload_center_photo')->store('uploads/center_photos', 'public');
         $profilePhotoPath = $request->file('upload_profile_photo')->store('uploads/profile_photos', 'public');
-
+        $sakhiId = 'YS' . str_pad(rand(1, 99999), 5, '0', STR_PAD_LEFT);
         $user = YuwaahSakhi::create([
             'name' => $request->name,
+            'sakhi_id'=>$sakhiId,
             'email' => $request->email,
             'password' => Hash::make('Password@123'),
             'contact_number'=> $request->contact_number,
