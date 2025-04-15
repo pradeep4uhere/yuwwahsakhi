@@ -645,7 +645,7 @@ As a catalytic multi-stakeholder partnership, YuWaah is dedicated to transformin
     public function profileEdit(Request $request){
         $pageTitle = 'Edit Profile';
         $user = YuwaahSakhi::getFormatedData(Auth::user());
-        return view('user.editProfile',[
+        return view('user.editprofile',[
             'userDetails'=>$user,
             'pageTitle'=>$pageTitle
         ]);
