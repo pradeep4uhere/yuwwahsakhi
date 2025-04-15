@@ -29,7 +29,7 @@
         style="box-shadow: 0px 3px 10px 0px #0000001A;"
       > <a href="{{ route('opportunities', ['filter' => 'desc', 'order_by' => 'id']) }}">
         <div class="flex justify-between items-center mt-2">
-          <div class="w-[143px] h-[266px] absolute top-[18px] left-[1px] font-Montserrat font-[500] text-[14px] leading-[17.07px] text-center text-[#000000]">{{__('messages.open_opportunities')}}</div>
+          <div class="w-[163px] h-[266px] absolute top-[18px] left-[1px] font-Montserrat font-[500] text-[14px] leading-[17.07px] text-center text-[#000000] px-2">{{__('messages.open_opportunities')}}</div>
           <div class="w-[36px] h-[34px] absolute top-[10px] left-[280px] font-Montserrat font-[600] text-[28px] leading-[34.13px] text-center text-[#05A7D1]">{{$totalOpportunites}}</div>
         </div>
       </a>
@@ -37,10 +37,12 @@
     </div>
 
     <div class="grid grid-cols-1 gap-4 ">
-      <p class="w-[106px] h-[12px] absolute top-[320px] left-[34px] font-Montserrat font-[500] text-[10px] leading-[12.19px] text-[#000000]">
+      <p class="w-[106px] h-[12px] absolute top-[320px] left-[34px] font-Montserrat font-[500] text-[14px] leading-[12.19px] text-[#000000]">
          {{__('messages.opportunities')}}
       </p>
-
+      @if($opportunites['data']->count()==0)
+      <div class="w-[340px] h-[40px] absolute top-[340px] left-[37px] bg-red-100 text-red-700 p-3 rounded mb-4 text-[12px]">No Opportunity Found</div>
+      @else
       <?php if(isset($opportunites['data'])){ $count=1; ?>
       @foreach($opportunites['data'] as $key=>$item)
       @php
@@ -109,7 +111,9 @@
       @endif
       <?php $count++; ?>
       @endforeach
+      <?php }else{ ?>
       <?php } ?>
+      @endif
     </div>
     <div class="">
       <img src="{{asset('asset/images/usersCopy.png')}}" alt="engLogo" class="w-[20px] h-[20px] absolute top-[652px] left-[34px]">

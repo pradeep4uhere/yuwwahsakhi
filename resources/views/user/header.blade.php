@@ -52,8 +52,6 @@
                 <option value="" class="w-[103px] h-[12px] font-Montserrat font-[400] text-[10px] leading-[12.19px] text-black" disabled selected>Please Select Language</option>
                   <option value="en" class="w-[103px] h-[12px] font-Montserrat font-[400] text-[10px] leading-[12.19px] text-black">English</option>
                   <option value="hi" class="w-[103px] h-[12px] font-Montserrat font-[400] text-[10px] leading-[12.19px] text-black">Hindi</option>
-                  <option value="es" class="w-[103px] h-[12px] font-Montserrat font-[400] text-[10px] leading-[12.19px] text-black">Spanish</option>
-                  <option value="fr" class="w-[103px] h-[12px] font-Montserrat font-[400] text-[10px] leading-[12.19px] text-black">French</option>
               </select>
 
               <button type="submit" class="mt-[30px] ml-[5px] rounded-[10px] w-[260px] text-center bg-[#28388F] text-white py-3 text-[14px] leading-[17.07px] font-[600] font-Montserrat">

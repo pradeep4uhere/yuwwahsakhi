@@ -53,7 +53,9 @@
           </form>
         </div>
       </div>
-
+      @if($opportunitesList['data']->count()==0)
+      <div class="w-[340px] h-[40px]  bg-red-100 text-red-700 p-3 rounded mt-5 text-[12px]">No Opportunites Found</div>  
+      @else
       <?php if(isset($opportunitesList['data'])){ $count=1; ?>
       <?php foreach($opportunitesList['data'] as $key=>$item){  ?>
      
@@ -138,6 +140,7 @@
       </div>
       <?php } ?>
       <?php } ?>
+      @endif
     </div>
   </div>
   <script>

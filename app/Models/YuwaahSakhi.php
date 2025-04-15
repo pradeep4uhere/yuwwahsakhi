@@ -43,6 +43,7 @@ class YuwaahSakhi extends Authenticatable
         'address',
         'district',
         'status',
+        'block_id',
         'pincode',
         'partner_id',
         'partner_center_id',
@@ -76,11 +77,11 @@ class YuwaahSakhi extends Authenticatable
             'sakhiId'=>$yuwaahSakhi['sakhi_id'],
             'Name'=>$yuwaahSakhi['name'],
             'ContactNumber'=>$yuwaahSakhi['contact_number'],
-            'Email'=>$yuwaahSakhi['contact_number'],
+            'Email'=>$yuwaahSakhi['email'],
             'DateOfBirth'=>$yuwaahSakhi['dob'],
             'Gender'=>$yuwaahSakhi['gender'],
             'EducationLevel'=>getGlobalValue('EducationLevel',$yuwaahSakhi['education_level']),
-            'SpecificQualification'=>getGlobalValue('EducationLevel',$yuwaahSakhi['specific_qualification']),
+            'SpecificQualification'=>getGlobalValue('SpecificationQualification',$yuwaahSakhi['specific_qualification']),
             'LoanTaken'=>$yuwaahSakhi['loan_taken'],
             'TypeOfLoan'=>$yuwaahSakhi['type_of_loan'],
             'LoanAmount'=>$yuwaahSakhi['loan_amount'],
@@ -90,12 +91,13 @@ class YuwaahSakhi extends Authenticatable
             'KnowledgeOf'=>$yuwaahSakhi['kof'],
             'WorkHourInDay'=>$yuwaahSakhi['work_hour_in_day'],
             'InfrastructureAvailable'=>($yuwaahSakhi['infrastructure_available']==1)?"Yes":"No",
-            'ServiceOffered'=>getGlobalValue('ServiceOffered',$yuwaahSakhi['service_offered']),
+            'ServiceOffered'=>getGlobalValue('ServicesOffered',$yuwaahSakhi['service_offered']),
             'CoursesCompleted'=>$yuwaahSakhi['courses_completed'],
-            'DigitalProficiency'=>getGlobalValue('DigitalProficiency',$yuwaahSakhi['digital_proficiency']),
-            'State'=>$yuwaahSakhi['state'],
+            'DigitalProficiency'=>getGlobalValue('DigitalProficiencyLevel',$yuwaahSakhi['digital_proficiency']),
+            'State'=>$yuwaahSakhi['State']['name'],
             'City'=>$yuwaahSakhi['city'],
-            'District'=>$yuwaahSakhi['district'],
+            'District'=>$yuwaahSakhi['District']['name'],
+            'Block'=>$yuwaahSakhi['Block']['name'],
             'Pincode'=>$yuwaahSakhi['pincode'],
             'Address'=>$yuwaahSakhi['address'],
             'Partner'=>optional($yuwaahSakhi->Partner)->name ?? 'N/A',
@@ -141,6 +143,21 @@ class YuwaahSakhi extends Authenticatable
     public function partnerCenter()
     {
         return $this->belongsTo(PartnerCenter::class, 'partner_center_id');
+    }
+
+    public function State()
+    {
+        return $this->belongsTo(State::class, 'state');
+    }
+
+    public function District()
+    {
+        return $this->belongsTo(District::class, 'district');
+    }
+
+    public function Block()
+    {
+        return $this->belongsTo(Block::class, 'block_id');
     }
 
 

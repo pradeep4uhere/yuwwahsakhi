@@ -37,4 +37,16 @@ class EventTransaction extends Model
     {
         return $this->belongsTo(YuwaahEventMaster::class, 'event_id'); // Assuming learners are stored in users table
     }
+
+
+
+    /**
+     * Relationship: EventTransaction has many EventAssigned
+     */
+    public function assignedEvents()
+    {
+        return $this->hasMany(EventAssigned::class, 'event_id');
+    }
+
+    
 }

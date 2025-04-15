@@ -4,6 +4,9 @@ use App\Models\EducationLevel;
 use App\Models\SpecificationQualification;
 use App\Models\ServicesOffered;
 use App\Models\LoanType;
+use App\Models\State;
+use App\Models\District;
+use App\Models\Block;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Auth; 
     
@@ -271,6 +274,7 @@ if (!function_exists('getGlobalValue')) {
      */
     function getGlobalValue($modelType, $value)
     {
+        
         // Map model types to corresponding attribute names
         $modelAttributes = [
             'EducationLevel' => 'level',
@@ -288,7 +292,6 @@ if (!function_exists('getGlobalValue')) {
             // Instantiate the model and find the record
             $modelClass = "App\\Models\\" . $modelType;
             $globalObj = $modelClass::find($value);
-    
             // Check if the object exists and return the value of the attribute
             if ($globalObj) {
                 return $globalObj->$attribute;
@@ -333,7 +336,7 @@ if (!function_exists('getGlobalList')) {
         }
        // echo $modelAttributes[$modelName];die;
         // Fetch data using Eloquent and return as an options list
-        return $models[$modelName]::where('status', 1)->pluck($modelAttributes[$modelName], 'id')->toArray();
+        return $models[$modelName]::where('status', 1)->whereOr('status','active')->pluck($modelAttributes[$modelName], 'id')->toArray();
 
         
     }
@@ -381,9 +384,26 @@ if (!function_exists('getYuwaahSakhiAuthID')) {
 
 if (!function_exists('getYuwaahSakhiAuthCenterName')) {
     function getYuwaahSakhiAuthCenterName() {
-        return Auth::guard('web')->user()->PartnerCenter->center_name;
+        $user = Auth::guard('web')->user();
+
+        if (!$user) {
+            return null; // or 'Guest'
+        }
+
+        // Check if PartnerCenter relationship is defined and not null
+        if (method_exists($user, 'PartnerCenter') && $user->PartnerCenter) {
+            return $user->PartnerCenter->center_name;
+        }
+
+        // Alternatively, fetch manually if foreign key exists (e.g. partner_center_id)
+        if (isset($user->partner_center_id)) {
+            return \App\Models\PartnerCenter::find($user->partner_center_id)?->center_name ?? null;
+        }
+
+        return null;
     }
 }
+
 
 if (!function_exists('getYuwaahSakhiAuthOnBoardedDate')) {
     function getYuwaahSakhiAuthOnBoardedDate() {
@@ -421,9 +441,97 @@ if (!function_exists('getSakhiID')) {
     }
 }
 
+if (!function_exists('getStateList')) {
+    function getStateList($name = 'state_id', $selected = null, $class = 'form-control', $onChange = '')
+    {
+        $states = State::all()->pluck('name', 'id')->toArray();
+
+        // Handle optional onchange attribute
+        $onChangeAttr = $onChange ? "onchange=\"$onChange\"" : "";
+
+        $html = "<select name=\"{$name}\" id=\"{$name}\" class=\"{$class}\" {$onChangeAttr}>";
+        $html .= "<option value=\"\">Select State</option>";
+
+        foreach ($states as $id => $stateName) {
+            $isSelected = $selected == $id ? 'selected' : '';
+            $html .= "<option value=\"{$id}\" {$isSelected}>{$stateName}</option>";
+        }
+
+        $html .= "</select>";
+
+        return $html;
+    }
+}
 
 
 
+if (!function_exists('getDistrict')) {
+    /**
+     * Returns an HTML <select> dropdown of districts for the given state ID.
+     *
+     * @param int|null $stateId
+     * @param string $name
+     * @param int|null $selected
+     * @param string $class
+     * @param string|null $onchange JS function name (e.g. getBlockList(this.value))
+     * @return string
+     */
+    function getDistrict($stateId = null, $name = 'district_id', $selected = null, $class = 'form-control', $onchange = null)
+    {
+        $onchangeAttr = $onchange ? "onchange=\"{$onchange}\"" : '';
+
+        if (!$stateId) {
+            return "<select name=\"{$name}\" class=\"{$class}\" id='district_id' {$onchangeAttr}><option value=\"\">Select State First</option></select>";
+        }
+
+        $districts = District::where('state_id', $stateId)->pluck('name', 'id')->toArray();
+
+        $html = "<select name=\"{$name}\" class=\"{$class}\" id='district_id' {$onchangeAttr}>";
+        $html .= "<option value=\"\">Select District</option>";
+
+        foreach ($districts as $id => $districtName) {
+            $isSelected = $selected == $id ? 'selected' : '';
+            $html .= "<option value=\"{$id}\" {$isSelected}>{$districtName}</option>";
+        }
+
+        $html .= "</select>";
+
+        return $html;
+    }
+}
+
+
+if (!function_exists('getBlock')) {
+    /**
+     * Returns an HTML <select> dropdown of blocks for the given district ID.
+     *
+     * @param int|null $districtId
+     * @param string $name
+     * @param int|null $selected
+     * @param string $class
+     * @return string
+     */
+    function getBlock($districtId = null, $name = 'block_id', $selected = null, $class = 'form-control')
+    {
+        if (!$districtId) {
+            return "<select name=\"{$name}\" class=\"{$class}\" id=\"block_id\"><option value=\"\">Select District First</option></select>";
+        }
+
+        $blocks = \App\Models\Block::where('district_id', $districtId)->pluck('name', 'id')->toArray();
+
+        $html = "<select name=\"{$name}\" class=\"{$class}\" id=\"block_id\">";
+        $html .= "<option value=\"\">Select Block</option>";
+
+        foreach ($blocks as $id => $blockName) {
+            $isSelected = $selected == $id ? 'selected' : '';
+            $html .= "<option value=\"{$id}\" {$isSelected}>{$blockName}</option>";
+        }
+
+        $html .= "</select>";
+
+        return $html;
+    }
+}
 
 
 

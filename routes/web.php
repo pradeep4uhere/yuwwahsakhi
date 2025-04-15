@@ -52,14 +52,22 @@ Route::middleware('auth')->group(function () {
     Route::post('/storeeventtransaction', [ProfileController::class, 'storeEventTransaction'])->name('storeeventtransaction');
     Route::post('/fetch-event-categories', [ProfileController::class, 'fetchEventCategories'])->name('fetch.event.categories');
     Route::get('/allevents', [ProfileController::class, 'allEventTransactionList'])->name('user.allevents');
+    Route::get('/eventlearner/{id}', [ProfileController::class, 'assignLearnersIntoEvent'])->name('event.assignLearner');
+    Route::post('/saveassignedeventlearner', [ProfileController::class, 'saveAssignLearnersIntoEvent'])->name('event.save.assignLearner');
+    Route::get('/termsandconditions', [ProfileController::class, 'PageTermsAndConditions'])->name('page.termsandconditions');
+    Route::get('/unicefyuthhub', [ProfileController::class, 'PageUnicefYuthHub'])->name('page.unicefyuthhub');
+    Route::get('/aboutyuwaah', [ProfileController::class, 'AboutYuwaah'])->name('page.about_yuwaah');
+    Route::get('/profileedit', [ProfileController::class, 'profileEdit'])->name('profile.profiledit');
+    Route::post('/update-profile', [ProfileController::class, 'saveEditProfile'])->name('user.updateProfile');
     
     
     
     
     
+    
+
     
 });
-
-
-
+Route::get('/get-districts/{state_id}', [ProfileController::class, 'getDistrictDropdown']);
+Route::get('/get-blocks', [ProfileController::class, 'getBlocksByDistrict']);
 require __DIR__.'/auth.php';

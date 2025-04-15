@@ -50,5 +50,7 @@ class LearnerSeeder extends Seeder
                 'business_description' => $faker->optional()->sentence(),
             ]);
         }
+
+        $this->command->info('✅ Dummy Leaner Data imported.');
     }
 }

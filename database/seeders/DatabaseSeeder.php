@@ -14,11 +14,9 @@ class DatabaseSeeder extends Seeder
     {
         $this->call(AdminSeeder::class);
         $this->call(LearnerSeeder::class);
-        // \App\Models\User::factory(10)->create();
-
-        // \App\Models\User::factory()->create([
-        //     'name' => 'Test User',
-        //     'email' => 'test@example.com',
-        // ]);
+        $this->call(StatesTableSeeder::class);
+        $this->call(DistrictSeeder::class);
+        $this->call(BlockSeeder::class);
+        $this->call(YuwaahSakhiSettingsSeeder::class);
     }
 }

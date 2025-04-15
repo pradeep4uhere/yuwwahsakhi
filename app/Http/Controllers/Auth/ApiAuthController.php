@@ -1625,7 +1625,7 @@ public function updatePromotion(Request $request, $id)
 
     public function getYuwaahList(Request $request){
         // Initialize the query
-        $query = YuwaahSakhi::query()->with(['Partner', 'PartnerCenter']);
+        $query = YuwaahSakhi::query()->with(['Partner', 'PartnerCenter','State','District','Block']);
         // Filter by status if provided in the request
         if ($request->has('status')) {
             $query->where('status', $request->status);
@@ -1640,6 +1640,7 @@ public function updatePromotion(Request $request, $id)
         $perPage = $request->get('per_page', 10);
         // Execute the query and return paginated results
         $pathwaywithPagination =  $query->paginate($perPage);
+        //dd($pathwaywithPagination);
         return YuwaahSakhi::getFormatedPaginationData($pathwaywithPagination);
     
     }

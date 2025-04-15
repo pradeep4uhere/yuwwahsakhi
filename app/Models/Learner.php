@@ -48,4 +48,10 @@ class Learner extends Model
         return $this->hasMany(OpportunitiesAssigned::class, 'learner_id');
     }
 
+
+    public function EventAssigned()
+    {
+        return $this->hasMany(EventAssigned::class, 'learner_id');
+    }
+
 }

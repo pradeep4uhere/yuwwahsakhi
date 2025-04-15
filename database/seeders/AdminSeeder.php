@@ -19,5 +19,6 @@ class AdminSeeder extends Seeder
             'email' => 'admin@example.com',
             'password' => Hash::make('password123'), // Ensure the password is hashed
         ]);
+        $this->command->info('✅ One Admin Records added.');
     }
 }

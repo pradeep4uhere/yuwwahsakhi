@@ -18,6 +18,10 @@ use Jenssegers\Agent\Agent;
 use App\Models\Opportunity;
 use App\Models\Promotion;
 use App\Models\Learner;
+use App\Models\EventAssigned;
+use App\Models\District;
+use App\Models\Block;
+
 use App\Models\OpportunitiesAssigned;
 use Exception;
 use Log;
@@ -101,7 +105,7 @@ class ProfileController extends Controller
      */
     public function edit(Request $request): View
     {
-        $user = Auth::user();
+        $user = YuwaahSakhi::with(['State','District','Block'])->find(getUserId());
         $userDetails = YuwaahSakhi::getFormatedData( $user);
         //dd($userDetails);
         return view('user.profile', [
@@ -151,7 +155,6 @@ class ProfileController extends Controller
 
     public function welcome(Request $request){
         $YuwaahSakhiSetting = YuwaahSakhiSetting::where('id',1)->first()->toArray();
-     
         return view('welcome',[
             'YuwaahSakhiSetting'=>$YuwaahSakhiSetting
         ]);
@@ -389,9 +392,10 @@ class ProfileController extends Controller
      */
     public function eventTransactionList(Request $request){
         $eventList = YuwaahEventMaster::where('status',1)->get();
+        
         //All Event Transction Count
         $allEventCount = EventTransaction::where('ys_id',getUserId())->count();
-        //dd($eventList);
+       
         return view($this->dir.'.add_event',[
             'eventList' => $eventList,
             'allEventCount'=>$allEventCount 
@@ -435,12 +439,13 @@ class ProfileController extends Controller
             EventTransaction::create([
                 'beneficiary_phone_number' => $request->input('beneficiary_phone_number'),
                 'beneficiary_name'         => $request->input('beneficiary_name'),
+                'event_id'                 => $request->input('event_type'),
                 'event_type'               => $request->input('event_type'),
                 'event_category'           => $request->input('event_category'),
                 'event_value'              => $request->input('event_value'),
                 'ys_id'                    => getUserId(),
                 'comment'                  => $request->input('comment'),
-                'uploaded_doc_links'       => json_encode($uploadedPath),
+                'uploaded_doc_links'       => $uploadedPath,
                 'event_date_created'       => now(),
                 'event_date_submitted'     => now(), // Assuming submission is same as creation
             ]);
@@ -498,6 +503,7 @@ class ProfileController extends Controller
         ->where('ys_id',getUserId())
         ->orderBy($orderBy, $filter)
         ->paginate();
+        //dd($eventList);
         return view($this->dir.'.all_event_transaction_list',[
             'eventList' => $eventList,
             'allEventCount'=>$allEventCount 
@@ -505,4 +511,257 @@ class ProfileController extends Controller
     }
 
    
+
+
+
+
+    public function assignLearnersIntoEvent(Request $request,$id){
+        $idStirng = decryptString($id);
+        $opportunities = EventTransaction::find($idStirng);
+        $learnerList = [];
+        $learnerList = Learner::with(['EventAssigned'])->where('status','Active')->paginate();
+        $learnerIdArr = EventAssigned::where('event_id', $idStirng)
+        ->where('yuwah_sakhi_id', getUserId())
+        ->pluck('learner_id');
+        //dd($learnerList);
+        return view($this->dir.'.learner_to_event',[
+            'item'=>$opportunities,
+            'leanerList'=>$learnerList,
+            'ysid'=>encryptString(getUserId()),
+            'opid'=>$id,
+            'type'=>'event',
+            'learnerIdArr'=>$learnerIdArr
+        ]);
+    }
+
+
+
+
+    public function saveAssignLearnersIntoEvent(Request $request)
+    {
+        $learnerIds = $request->input('learner');
+        $event_id = decryptString($request->input('opid'));
+        $yuwah_sakhi_id = decryptString($request->input('ysid'));
+
+        // First, decrypt all selected learner IDs
+        $selectedLearnerIds = array_map('decryptString', $learnerIds);
+        // Step 1: Remove unchecked learners
+        EventAssigned::where('event_id', $event_id)
+        ->where('yuwah_sakhi_id', $yuwah_sakhi_id)
+        ->whereNotIn('learner_id', $selectedLearnerIds)
+        ->delete();
+
+        foreach($learnerIds as $idString){
+            $id = decryptString($idString);
+            EventAssigned::updateOrCreate(
+                [
+                    'event_id' => $event_id,
+                    'yuwah_sakhi_id' => $yuwah_sakhi_id,
+                    'learner_id' => $id
+                ],
+                [
+                    'assigned_date' => now()
+                ]
+            );
+        }
+        return response()->json(['data'=> count($learnerIds) ,'success' => true,'message'=>'Learner assigned successfully.']);
+    }
+
+
+
+
+
+
+    /**
+     * Page Terms and Conditons
+     */
+    public function PageTermsAndConditions(Request $request){
+        //$page = Page::where('page','termsconditions')->first();
+        $page = 'As a catalytic multi-stakeholder partnership, YuWaah is dedicated to transforming the lives of 350 million+ young people in India. With 40% of India’s population being youth, the largest in the world, the time for change is now!
+As a catalytic multi-stakeholder partnership, YuWaah is dedicated to transforming the lives of 350 million+ young people in India. With 40% of India’s population being youth, the largest in the world, the time for change is now!
+As a catalytic multi-stakeholder partnership, YuWaah is dedicated to transforming the lives of 350 million+ young people in India. With 40% of India’s population being youth, the largest in the world, the time for change is now!
+As a catalytic multi-stakeholder partnership, YuWaah is dedicated to transforming the lives of 350 million+ young people in India. With 40% of India’s population being youth, the largest in the world, the time for change is now!
+As a catalytic multi-stakeholder partnership, YuWaah is dedicated to transforming the lives of 350 million+ young people in India. With 40% of India’s population being youth, the largest in the world, the time for change is now!
+As a catalytic multi-stakeholder partnership, YuWaah is dedicated to transforming the lives of 350 million+ young people in India. With 40% of India’s population being youth, the largest in the world, the time for change is now!
+As a catalytic multi-stakeholder partnership, YuWaah is dedicated to transforming the lives of 350 million+ young people in India. With 40% of India’s population being youth, the largest in the world, the time for change is now!
+As a catalytic multi-stakeholder partnership, YuWaah is dedicated to transforming the lives of 350 million+ young people in India. With 40% of India’s population being youth, the largest in the world, the time for change is now!
+As a catalytic multi-stakeholder partnership, YuWaah is dedicated to transforming the lives of 350 million+ young people in India. With 40% of India’s population being youth, the largest in the world, the time for change is now!
+As a catalytic multi-stakeholder partnership, YuWaah is dedicated to transforming the lives of 350 million+ young people in India. With 40% of India’s population being youth, the largest in the world, the time for change is now!
+';
+        $pageTitle = 'Terms and Conditions';
+        return view('terms-and-conditions',[
+            'page'=>$page,
+            'pageTitle'=>$pageTitle
+        ]);
+    }
+
+
+    public function PageUnicefYuthHub(Request $request){
+        //$page = Page::where('page','termsconditions')->first();
+        $page = 'As a catalytic multi-stakeholder partnership, YuWaah is dedicated to transforming the lives of 350 million+ young people in India. With 40% of India’s population being youth, the largest in the world, the time for change is now!
+                As a catalytic multi-stakeholder partnership, YuWaah is dedicated to transforming the lives of 350 million+ young people in India. With 40% of India’s population being youth, the largest in the world, the time for change is now!
+                As a catalytic multi-stakeholder partnership, YuWaah is dedicated to transforming the lives of 350 million+ young people in India. With 40% of India’s population being youth, the largest in the world, the time for change is now!
+                As a catalytic multi-stakeholder partnership, YuWaah is dedicated to transforming the lives of 350 million+ young people in India. With 40% of India’s population being youth, the largest in the world, the time for change is now!
+                As a catalytic multi-stakeholder partnership, YuWaah is dedicated to transforming the lives of 350 million+ young people in India. With 40% of India’s population being youth, the largest in the world, the time for change is now!
+                As a catalytic multi-stakeholder partnership, YuWaah is dedicated to transforming the lives of 350 million+ young people in India. With 40% of India’s population being youth, the largest in the world, the time for change is now!
+                As a catalytic multi-stakeholder partnership, YuWaah is dedicated to transforming the lives of 350 million+ young people in India. With 40% of India’s population being youth, the largest in the world, the time for change is now!
+                As a catalytic multi-stakeholder partnership, YuWaah is dedicated to transforming the lives of 350 million+ young people in India. With 40% of India’s population being youth, the largest in the world, the time for change is now!
+                As a catalytic multi-stakeholder partnership, YuWaah is dedicated to transforming the lives of 350 million+ young people in India. With 40% of India’s population being youth, the largest in the world, the time for change is now!
+                As a catalytic multi-stakeholder partnership, YuWaah is dedicated to transforming the lives of 350 million+ young people in India. With 40% of India’s population being youth, the largest in the world, the time for change is now!
+                ';
+        $pageTitle = 'Unicef Yuth Hub';
+        return view('unicefyuthhub',[
+            'page'=>$page,
+            'pageTitle'=>$pageTitle
+        ]);
+    }
+
+
+
+
+    public function AboutYuwaah(Request $request){
+        //$page = Page::where('page','termsconditions')->first();
+        $page = 'As a catalytic multi-stakeholder partnership, YuWaah is dedicated to transforming the lives of 350 million+ young people in India. With 40% of India’s population being youth, the largest in the world, the time for change is now!
+                As a catalytic multi-stakeholder partnership, YuWaah is dedicated to transforming the lives of 350 million+ young people in India. With 40% of India’s population being youth, the largest in the world, the time for change is now!
+                As a catalytic multi-stakeholder partnership, YuWaah is dedicated to transforming the lives of 350 million+ young people in India. With 40% of India’s population being youth, the largest in the world, the time for change is now!
+                As a catalytic multi-stakeholder partnership, YuWaah is dedicated to transforming the lives of 350 million+ young people in India. With 40% of India’s population being youth, the largest in the world, the time for change is now!
+                As a catalytic multi-stakeholder partnership, YuWaah is dedicated to transforming the lives of 350 million+ young people in India. With 40% of India’s population being youth, the largest in the world, the time for change is now!
+                As a catalytic multi-stakeholder partnership, YuWaah is dedicated to transforming the lives of 350 million+ young people in India. With 40% of India’s population being youth, the largest in the world, the time for change is now!
+                As a catalytic multi-stakeholder partnership, YuWaah is dedicated to transforming the lives of 350 million+ young people in India. With 40% of India’s population being youth, the largest in the world, the time for change is now!
+                As a catalytic multi-stakeholder partnership, YuWaah is dedicated to transforming the lives of 350 million+ young people in India. With 40% of India’s population being youth, the largest in the world, the time for change is now!
+                As a catalytic multi-stakeholder partnership, YuWaah is dedicated to transforming the lives of 350 million+ young people in India. With 40% of India’s population being youth, the largest in the world, the time for change is now!
+                As a catalytic multi-stakeholder partnership, YuWaah is dedicated to transforming the lives of 350 million+ young people in India. With 40% of India’s population being youth, the largest in the world, the time for change is now!
+                ';
+        $pageTitle = 'About Yuwaah';
+        return view('aboutyuwaah',[
+            'page'=>$page,
+            'pageTitle'=>$pageTitle
+        ]);
+    }
+
+
+
+
+    public function profileEdit(Request $request){
+        $pageTitle = 'Edit Profile';
+        $user = YuwaahSakhi::getFormatedData(Auth::user());
+        return view('user.editProfile',[
+            'userDetails'=>$user,
+            'pageTitle'=>$pageTitle
+        ]);
+    }
+
+
+    public function getDistrictDropdown(Request $request)
+    {
+        $stateId = $request->state_id;
+    
+        // Call your helper function
+        $class = "mt-2 text-xs w-full border px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 placeholder:font-[400] placeholder:text-[10px] placeholder:leading-[12.19px] placeholder:text-[#A7A7A7]";
+        $dropdownHtml = getDistrict($stateId,'district_id','',$class);
+    
+        // Return it as JSON or plain text depending on usage
+        return response()->json([
+            'html' => $dropdownHtml
+        ]);
+    }
+
+
+    public function getBlocksByDistrict(Request $request)
+    {
+        $districtId = $request->district_id;
+        // Call your helper function
+        $class = "w-[330px] h-[40px] bg-[#FFFFFF] border-[1px] rounded-[10px] border-[#28388F0D] font-[400] text-[10px] leading-[12.19px] pl-2.5 text-[#A7A7A7] focus:ring-1 focus:ring-blue-500";
+        if (!$districtId) {
+            return response()->json(['html' => "<select name='block_id' class='form-control' id='block_id'><option value=''>Select District First</option></select>"]);
+        }
+
+        $html = getBlock($districtId,'block_id','',$class);
+
+        return response()->json(['html' => $html]);
+    }
+    
+
+
+    public function  saveEditProfile(Request $request){
+        // Validate request (basic example; customize as needed)
+        $request->validate([
+            'name' => 'required|string',
+            'date_of_birth' => 'required|date',
+            'gender' => 'required|string',
+            'email' => 'required|email',
+            'address' => 'required|string',
+            'state_id' => 'required|exists:states,id',
+            'district_id' => 'required|exists:districts,id',
+            'pincode' => 'required|string|max:10',
+            'education_level' => 'nullable|string',
+            'digita_proficiency' => 'nullable|string',
+            'englis_proficiency' => 'nullable|string',
+            'year_of_exp' => 'nullable|numeric',
+            'WorkHourInDay' => 'nullable|numeric',
+            'InfrastructureAvailable' => 'nullable|string',
+            'ServiceOffered' => 'nullable|string',
+            'CoursesCompleted' => 'nullable|in:Yes,No',
+            'LoanTaken' => 'nullable|in:Yes,No',
+            'loantype' => 'nullable|string',
+            'LoanAmount' => 'nullable|numeric',
+            'LoanBalance' => 'nullable|numeric',
+            'profile_picture' => 'nullable|image|max:2048',
+            'specific_qualification'=>'nullable|string',
+        ]);
+
+         // Optional custom messages
+        $messages = [
+            'date_of_birth.required' => 'Date of birth is required.',
+            'email.email' => 'Please enter a valid email address.',
+            'state_id.required' => 'Please select a state.',
+            'district_id.required' => 'Please select a district.',
+            'profile_picture.image' => 'Only image files are allowed for profile picture.',
+        ];
+        // Fetch the profile
+        $id = Auth::user()->id;
+        $profile = YuwaahSakhi::findOrFail($id);
+        // Update basic fields
+        $profile->name = $request->name;
+        $profile->email = $request->email;
+        $profile->dob = $request->date_of_birth;
+        $profile->year_of_exp = $request->year_of_exp;
+        $profile->gender = $request->gender;
+        $profile->work_hour_in_day = $request->WorkHourInDay;
+        $profile->education_level = $request->education_level;
+        $profile->infrastructure_available = $request->InfrastructureAvailable;
+        $profile->specific_qualification = $request->specific_qualification;
+        $profile->service_offered = $request->ServiceOffered;
+        $profile->loan_taken = $request->LoanTaken;
+        $profile->courses_completed = $request->CoursesCompleted;
+        $profile->type_of_loan = $request->loantype;
+        $profile->digital_proficiency = $request->digita_proficiency;
+        $profile->english_proficiency = $request->english_proficiency;
+        $profile->loan_amount = $request->LoanAmount;
+        $profile->loan_balance = $request->LoanBalance;
+        $profile->address = $request->address;
+        $profile->state = $request->state_id;
+        $profile->district = $request->district_id;
+        $profile->block_id = $request->block_id;
+        $profile->pincode = $request->pincode;
+        // Handle profile picture upload
+        if ($request->hasFile('profile_picture')) {
+            $file = $request->file('profile_picture');
+
+            // Optional: delete old profile picture
+            if ($profile->profile_picture && Storage::exists($profile->profile_picture)) {
+                Storage::delete($profile->profile_picture);
+            }
+            // Save new image
+            $path = $file->store('uploads/profile_pictures', 'public');
+            $profile->profile_picture =  $path;
+        }
+        // Save profile
+        $profile->save();
+        return redirect()->back()->with('success', 'Profile updated successfully.');
+
+    }
+
+
+
 }
