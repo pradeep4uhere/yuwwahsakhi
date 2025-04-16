@@ -21,7 +21,7 @@
 
 <body class="font-sans ">
   <div id="screen6" class="mx-auto max-w-[26rem] p-10 bg-white shadow-md min-h-[100vh] h-auto">
-    <a href="forget-password.html" class="hover:text-blue-600 mb-4 text-lg">
+    <a href="{{route('recoverpassword')}}" class="hover:text-blue-600 mb-4 text-lg">
         <img src="{{asset('asset/images/arrow-left.png')}}" alt="arrow-Left" class="w-[20px] h-[20px] mt-5 hover:text-blue-600">
     </a>
 
