@@ -26,7 +26,7 @@
     </a>
 
     <div class="w-[150px] h-[86px] flex justify-center mb-4 relative left-[90px]">
-      <img src="{{asset('asset/images/yuwaahlogo.png')}}" alt="YuWaah Logo" class="h-14">
+      <img src="{{asset('asset/images/Yuwaahlogo.png')}}" alt="YuWaah Logo" class="h-14">
     </div>
     <h1 class="w-[258px] h-[34px] font-[600] text-[28px] leading-[34.13px] mb-4">Forgot Password </h1>
    
