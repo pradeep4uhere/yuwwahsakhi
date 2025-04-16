@@ -48,7 +48,6 @@ Route::middleware('auth')->group(function () {
     Route::any('/saveopportunites', [ProfileController::class, 'saveOpportunities'])->name('saveopportunites');
     Route::get('/opportunitiesLearner/{id}', [ProfileController::class, 'AssignLearnerOpportunities'])->name('opportunitiesLearner');
     Route::post('/assign-learners', [ProfileController::class, 'assignLearners'])->name('assign.learners');
-    Route::get('/fpassword', [ProfileController::class, 'ForgotPassword'])->name('recoverpassword');
     Route::post('/storeeventtransaction', [ProfileController::class, 'storeEventTransaction'])->name('storeeventtransaction');
     Route::post('/fetch-event-categories', [ProfileController::class, 'fetchEventCategories'])->name('fetch.event.categories');
     Route::get('/allevents', [ProfileController::class, 'allEventTransactionList'])->name('user.allevents');
@@ -68,6 +67,12 @@ Route::middleware('auth')->group(function () {
 
     
 });
+
+Route::any('/verifyotp', [ProfileController::class, 'verifyOTP'])->name('verify.otp.page');
+Route::post('/verifymobile', [ProfileController::class, 'verifyMobileNumber'])->name('verifymobile');
+Route::get('/fpassword', [ProfileController::class, 'VerifyMobile'])->name('recoverpassword');
 Route::get('/get-districts/{state_id}', [ProfileController::class, 'getDistrictDropdown'])->name('getdistricts');
 Route::get('/get-blocks', [ProfileController::class, 'getBlocksByDistrict'])->name('getblock');
+Route::post('/changepassword', [ProfileController::class, 'changePassword'])->name('change.password');
+
 require __DIR__.'/auth.php';

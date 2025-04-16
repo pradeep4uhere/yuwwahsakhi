@@ -21,13 +21,14 @@ use App\Models\Learner;
 use App\Models\EventAssigned;
 use App\Models\District;
 use App\Models\Block;
-
+use App\Models\MobileOtp;
 use App\Models\OpportunitiesAssigned;
 use Exception;
 use Log;
 use App\Models\EventTransaction;
 use App\Models\YuwaahEventMaster;
 use Illuminate\Support\Facades\Validator;
+use Carbon\Carbon;
     
 
 
@@ -761,6 +762,148 @@ As a catalytic multi-stakeholder partnership, YuWaah is dedicated to transformin
         return redirect()->back()->with('success', 'Profile updated successfully.');
 
     }
+
+
+
+
+    public function VerifyMobile(Request $request){
+        return view('forgot-password');
+    }
+
+
+
+    public function verifyMobileNumber(Request $request){
+       
+        $request->validate([
+            'mobilenumber' => ['required', 'regex:/^[6-9]\d{9}$/', 'digits:10'],
+        ], [
+            'mobilenumber.required' => 'Mobile number is required.',
+            'mobilenumber.regex' => 'Enter a valid 10-digit mobile number.',
+            'mobilenumber.digits' => 'Mobile number must be exactly 10 digits.',
+        ]);
+        $mobile = $request->get('mobilenumber');
+        $yuwaahsakhi = YuwaahSakhi::where('contact_number',$mobile)->first();
+        if (!$yuwaahsakhi) {
+            return redirect()->back()->withErrors(['mobilenumber' => 'This mobile number is not registered with us.'])->withInput();
+        }
+        $otp = rand(100000, 999999);
+        try {
+            MobileOtp::create([
+                'mobile_number' => $mobile,
+                'otp' => $otp,
+                'expires_at' => Carbon::now()->addMinutes(10),
+                'is_verified'=>0
+            ]);
+            // Here you can trigger your SMS API
+            // sendOtpSms($mobile, $otp);
+            return redirect()->route('verify.otp.page')
+            ->with('success', 'OTP sent successfully.')
+            ->with('mobileNumber', $mobile);
+        } catch (\Exception $e) {
+            // Log the error for debugging
+            Log::error('Failed to save OTP: ' . $e->getMessage());
+            return redirect()->back()->with('error', 'Something went wrong while sending OTP. Please try again.');
+        }
+       
+    }
+
+
+    public function verifyOTP(Request $request){
+         // On reload or GET request, retrieve the mobile number from session
+        $mobile = session('mobileNumber');
+        // Validate the OTP Generated for this Mobile Number or not
+        $mobileOTP = MobileOtp::where('mobile_number', $mobile)
+        ->where('is_verified', 0)
+        ->where('expires_at', '<', now())
+        ->where(function($query) {
+            $query->where('otp', '<>', '')
+                ->orWhereNull('otp');
+        })
+        ->orderBy('id', 'desc')
+        ->first();
+        // Optional: Retrieve success message if needed
+        $successMessage = session('success');
+        if ($request->isMethod('post')) {
+            // Store mobile number in session on POST request
+            $mobile = $request->get('mobile');
+            $request->session()->put('mobileNumber', $mobile);
+            //dd($request->all());
+            $otp1 = $request->get('d1');
+            $otp2 = $request->get('d2');
+            $otp3 = $request->get('d3');
+            $otp4 = $request->get('d4');
+            $otp5 = $request->get('d5');
+            $otp6 = $request->get('d6');
+            $otp = $otp1.$otp2.$otp3.$otp4.$otp5.$otp6;
+            $mobileOTPDetails = MobileOtp::where('mobile_number', $mobile)
+            ->where('is_verified', 0)
+            ->where('otp', $otp)
+            ->where('expires_at', '>', now())
+            ->orderBy('id', 'desc')
+            ->first();
+            if ($mobileOTPDetails) {
+                // Update the OTP status to verified
+                $mobileOTPDetails->is_verified = 1;
+                $mobileOTPDetails->save();
+                return redirect()->back()->with('verifiedotp', 'OTP Verified.');
+            }else{
+                return redirect()->back()->with('error', 'Incorrect OTP');
+            }
+            
+
+        }
+        return view('verify_otp',[
+            'mobile'=>$mobile
+        ]);
+    }
+
+
+
+
+
+    public function changePassword(Request $request){
+         // Validate input
+        $validator = Validator::make($request->all(), [
+            'password' => 'required|min:6',
+            'cpassword' => 'required|same:password',
+        ]);
+        if ($validator->fails()) {
+            return response()->json([
+                'errors' => $validator->errors()
+            ], 422);
+        }
+        try {
+            // Decrypt mobile number
+            $mobile = decryptString($request->mobile);
+    
+            // Fetch YuwaahSakhi user by mobile number
+            $sakhi = YuwaahSakhi::where('contact_number', $mobile)->first();
+    
+            if (!$sakhi) {
+                return response()->json(['status'=>false,'message' => 'Yuwaah Sakhi user not found'], 404);
+            }
+    
+            // Update password
+            $sakhi->password = Hash::make($request->password);
+            $sakhi->save();
+            return response()->json(['status'=>true,'message' => 'Password changed successfully']);
+    
+        } catch (\Exception $e) {
+            return response()->json([
+                'status'=>false,
+                'message' => 'Something went wrong!',
+                'error' => $e->getMessage()
+            ], 500);
+        }
+    
+    }
+
+
+
+
+
+
+
 
 
 
