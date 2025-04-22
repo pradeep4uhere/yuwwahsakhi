@@ -22,8 +22,8 @@
         <div class="header-right">
           <!-- Desktop Icons -->
           <div class="icons">
-            <img src="{{asset('asset/Images/Notifications.png')}}" alt="">
-            <img src="{{asset('asset/Images/Profile.png')}}" alt="">
+            <img src="{{asset('asset/images/Notifications.png')}}" alt="">
+            <img src="{{asset('asset/images/Profile.png')}}" alt="">
           </div>
     
           <!-- Hamburger Icon for Mobile -->
