@@ -18,8 +18,8 @@
     <body class="font-sans antialiased">
     @yield('content')
     @include('admin.menu')
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
-    <script src="{{asset('asset/js/script.js')}}"></script>
     <script>
       function deleteConfirm(id, route) {
             // Display confirmation alert
@@ -85,6 +85,47 @@
             });
         }
     });
+    
+    function loadDistricts(stateId) {
+        if (stateId) {
+            $.ajax({
+                url: "{{ route('getdistricts', ['state_id' => 'REPLACE_ID']) }}".replace('REPLACE_ID', stateId),
+                type: 'GET',
+                dataType: 'json',
+                success: function (data) {
+                    let districtSelect = $('#responseDistrict');
+                    districtSelect.html(data.html)
+                },
+                error: function () {
+                    alert('Failed to load districts.');
+                }
+            });
+        } else {
+            $('#district_id').empty().append('<option value="">Select District</option>');
+        }
+    }
+$(document).ready(function() {
+    // When district dropdown changes, load blocks
+    $(document).on('change', '#district_id', function () {
+        var districtId = $(this).val();
+
+        if (districtId) {
+            $.ajax({
+                url: "{{route('getblock')}}",
+                type: 'GET',
+                data: { district_id: districtId },
+                success: function (response) {
+                    $('#blockWrapper').html(response.html);
+                },
+                error: function () {
+                    alert('Error fetching blocks');
+                }
+            });
+        } else {
+            $('#blockWrapper').html("<select name='block_id' class='form-control' id='block_id'><option value=''>Select District First</option></select>");
+        }
+    });
+});
 </script>
     </body>
 </html>

@@ -38,11 +38,8 @@
                     <small>{{$success}}</small>
                 </div>
                 @endif
-
-
-
-                <form id="yuwaahForm" method="post" style="width:70%" action="{{route('admin.partner.add')}}">
-                @csrf
+          <form id="yuwaahForm" method="post" style="width:70%" action="{{route('admin.partner.add')}}">
+          @csrf
           <div class="popup-grid">
             <div class="input-container">
               <label for="field1">Name</label>
@@ -57,12 +54,32 @@
               <input type="text" name="contact_number" placeholder="Please Contact Number">
             </div>
             <div class="input-container">
+              <label for="field3">Choose State</label>
+              {!! getStateList('state_id', '', '', "loadDistricts(this.value)") !!}
+            </div>
+          <div class="input-container">
+            <label for="district" class="w-[80px] h-[15px] font-[400] text-[12px]  leading-[14.63px] text-[#000000]">District</label>
+            <?php $class = "w-[330px] h-[40px] bg-[#FFFFFF] border-[1px] rounded-[10px] border-[#28388F0D] font-[400] text-[10px] leading-[12.19px] pl-2.5 text-[#A7A7A7] focus:ring-1 focus:ring-blue-500";?>
+            <div id="responseDistrict">{!!getDistrict('', 'district_id','',$class)!!}</div>
+          </div>
+
+          <div class="input-container">
+            <label for="block" class="w-[80px] h-[15px] font-[400] text-[12px]  leading-[14.63px] text-[#000000]">Block/City</label>
+            <?php $class = "w-[330px] h-[40px] bg-[#FFFFFF] border-[1px] rounded-[10px] border-[#28388F0D] font-[400] text-[10px] leading-[12.19px] pl-2.5 text-[#A7A7A7] focus:ring-1 focus:ring-blue-500";?>
+            <div id="blockWrapper">{!!getBlock('', 'block_id','',$class)!!}</div>
+          </div>
+          
+            <div class="input-container">
               <label for="field4">Address</label>
               <input type="text" name="address" placeholder="Please address">
             </div>
             <div class="input-container">
+              <label for="field4">Pincode</label>
+              <input type="text" name="pincode" placeholder="Please pincode">
+            </div>
+            <div class="input-container">
               <label for="field5">Status</label>
-              <select id="field5" name="status">
+              <select id="field5" name="status" style="padding:12px">
                 <option value="1">Active</option>
                 <option value="0">InActive</option>
               </select>
@@ -81,7 +98,7 @@
             
         </div>
     </section>
-
+    
 @endsection
 
     

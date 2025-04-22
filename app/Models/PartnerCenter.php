@@ -24,11 +24,12 @@ class PartnerCenter extends Model implements Authenticatable
         'center_name',
         'email',
         'contact_number',
-        'district',
-        'city',
-        'state',
+        'district_id',
+        'block_id',
+        'state_id',
         'status',
         'address',
+        'pincode',
         'password',
         'onboard_date',
     ];
@@ -72,6 +73,7 @@ class PartnerCenter extends Model implements Authenticatable
      * Formate the Partner Data
      */
     public static function formatedPartnerCenterData(PartnerCenter $partner){
+        //dd($partner);
         if ($partner) {
             return [
                     'id'=>$partner->id,
@@ -79,6 +81,9 @@ class PartnerCenter extends Model implements Authenticatable
                     'partner_id'=>$partner->partner_id,
                     'email'=>$partner->email,
                     'contact_number'=>$partner->contact_number,
+                    'state'=>$partner->state->name ?? 'NA',
+                    'district'=>$partner->district->name ?? 'NA',
+                    'block'=>$partner->block->name ?? 'NA',
                     'address'=>$partner->address,
                     'status'=>$partner->status,
                     'yuwwah_sakhi_count' => $partner->yuwwah_sakhi_count ?? 0,
@@ -102,6 +107,7 @@ class PartnerCenter extends Model implements Authenticatable
                     'email'=>$item->email,
                     'contact_number'=>$item->contact_number,
                     'address'=>$item->address,
+                    'state'=>$item->state->name,
                     'status'=>$item->status,
                     'yuwwah_sakhi_count' => $item->yuwwah_sakhi_count ?? 0,
                     'onboard_date'=>$item->onboard_date,
@@ -162,6 +168,21 @@ class PartnerCenter extends Model implements Authenticatable
     public function YuwwahSakhi()
     {
         return $this->hasMany(YuwaahSakhi::class, 'partner_center_id');
+    }
+
+    public function state()
+    {
+        return $this->belongsTo(State::class, 'state_id');
+    }
+
+    public function district()
+    {
+        return $this->belongsTo(District::class, 'district_id');
+    }
+
+    public function block()
+    {
+        return $this->belongsTo(Block::class, 'block_id');
     }
 
 

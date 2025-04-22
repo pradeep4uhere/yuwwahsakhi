@@ -24,6 +24,10 @@ class Partner extends Authenticatable
         'password',
         'contact_number',
         'address',
+        'state_id',
+        'district_id',
+        'block_id',
+        'pincode',
         'status',
         'onboard_date',
     ];
@@ -66,12 +70,17 @@ class Partner extends Authenticatable
      * Formate the Partner Data
      */
     public static function formatedPartnerData(Partner $partner){
+       
         if ($partner) {
             return [
                     'name'=>$partner->name,
                     'email'=>$partner->email,
                     'contact_number'=>$partner->contact_number,
                     'address'=>$partner->address,
+                    'state'=>$partner->state->name,
+                    'district'=>$partner->district->name,
+                    'block'=>$partner->block->name,
+                    'pincode'=>$partner->pincode,
                     'status'=>$partner->status,
                     'onboard_date'=>$partner->onboard_date,
                 ];
@@ -87,12 +96,17 @@ class Partner extends Authenticatable
         $data = [];    
 
             foreach ($partners as $item) {
+                
             $data[] = [
                     'id'=>$item->id,
                     'name'=>$item->name,
                     'email'=>$item->email,
                     'contact_number'=>$item->contact_number,
                     'address'=>$item->address,
+                    'state'=>$item->state->name,
+                    'district'=>$item->district->name,
+                    'block'=>$item->block->name,
+                    'pincode'=>$item->pincode,
                     'status'=>$item->status,
                     'onboard_date'=>$item->onboard_date,
                 ];
@@ -113,6 +127,21 @@ class Partner extends Authenticatable
     public function YuwwahSakhi()
     {
         return $this->hasMany(YuwaahSakhi::class, 'partner_center_id');
+    }
+
+    public function state()
+    {
+        return $this->belongsTo(State::class);
+    }
+
+    public function district()
+    {
+        return $this->belongsTo(District::class);
+    }
+
+    public function block()
+    {
+        return $this->belongsTo(Block::class);
     }
 
 }

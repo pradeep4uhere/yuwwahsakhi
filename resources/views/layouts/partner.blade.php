@@ -10,6 +10,8 @@
     <link rel="stylesheet" href="style.css">
 <!-- <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> -->
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
 <style>
      * {
             margin: 0;
@@ -239,7 +241,7 @@
   .card .value {
     font-size: 30px;
     font-weight: 600;
-    color: #05A7D1;
+    color: #31bcf1;
     line-height: 46.32px;
   }
   .name-value-box {
@@ -269,8 +271,24 @@
     text-align: right;
   }
   .chart-container {
-    display: flex;
+    position: relative;
+    height: 400px;
+    margin-top: 20px;
   }
+
+  .chartjs-plugin-datalabels {
+    text-shadow: 0 1px 2px rgba(255,255,255,0.7);
+}
+
+  canvas {
+    width: 100% !important;
+    height: 100% !important;
+}
+
+/* Remove these old classes */
+.chart, .range, .chart div, .chart div span, .chart div p {
+    display: none !important;
+}
   .card .range {
     display: flex;
     flex-direction: column;
@@ -278,7 +296,7 @@
     align-items: flex-start;
     padding-right: 10px;
     height: 300px;
-    color: #05A7D1;
+    color: #31bcf1;
   }
   .card .range div {
     font-size: 12px;
@@ -324,7 +342,7 @@
   }
   .chart div {
     width: 4%;
-    background-color: #05A7D1;
+    background-color: #31bcf1;
     text-align: center;
     color: #333;
     position: relative;
@@ -362,7 +380,7 @@
     /* border-radius: 5px; */
   }
   .start-date{
-    color: #05A7D1;
+    color: #31bcf1;
     font-size: 14px;
   }
   /* Index.html */
@@ -383,8 +401,8 @@
       align-items: flex-start;
     }
     .chart-container {
-      flex-direction: row;
-      height: auto;
+      /* flex-direction: row; */
+      height: 350px;
     }
     .chart div {
       width: 100%;
@@ -573,15 +591,12 @@
     color: #888;
 }
 
-.back-link {
-    display: flex;
-    align-items: center;
-    margin-bottom: 20px;
-    font-weight: 600;
-    font-size: 14px;
-    color: #000000;
-    text-decoration: none;
+@media (max-width: 480px) {
+    .chart-container {
+        height: 300px;
+    }
 }
+</style>
 </style>
 </head>
 <body>
@@ -650,6 +665,122 @@ document.addEventListener("DOMContentLoaded", () => {
 
 </script>
 </script>
+<script>
+        Chart.register(ChartDataLabels); // Add this line
+        // Common responsive configuration
+        const responsiveConfig = (maxY) => ({
+            responsive: true,
+            maintainAspectRatio: false,
+            layout: {
+                padding: {
+                    top: 20,
+                    bottom: window.innerWidth < 768 ? 40 : 20
+                }
+            },
+            scales: {
+                y: {
+                    max: maxY,
+                    ticks: {
+                        stepSize: 5,
+                        color: '#0a0a0a',
+                        font: {
+                            family: 'Montserrat',
+                            size: window.innerWidth < 768 ? 10 : 12
+                        }
+                    },
+                    grid: {
+                        color: 'rgba(0, 0, 0, 0.1)',
+                        borderDash: [5, 5]
+                    }
+                },
+                x: {
+                    grid: { display: true },
+                    ticks: {
+                        autoSkip: true,
+                        maxRotation: window.innerWidth < 768 ? 45 : 0,
+                        minRotation: window.innerWidth < 768 ? 45 : 0,
+                        font: {
+                            family: 'Montserrat',
+                            size: window.innerWidth < 768 ? 10 : 12
+                        }
+                    }
+                }
+            },
+            plugins: {
+                legend: { display: false },
+                datalabels: {
+                    anchor: 'center',
+                    align: 'center',
+                    color: 'rgba(0, 0, 0, 0.5)',
+                    font: {
+                        family: 'Montserrat',
+                        weight: 'bold',
+                        size: window.innerWidth < 768 ? 10 : 12
+                    },
+                    formatter: value => value
+                }
+            }
+        });
+        const chartsData = @json($chartsData);
+        // Initialize all charts with responsive config
+        function initializeChart(chartId, data, maxY) {
+            new Chart(document.getElementById(chartId), {
+                type: 'bar',
+                data: {
+                    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 
+                            'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+                    datasets: [{
+                        data: data,
+                        backgroundColor: '#31bcf1',
+                        borderWidth: 1,
+                        categoryPercentage: 0.8,
+                        barPercentage: 0.9
+                    }]
+                },
+                options: responsiveConfig(maxY)
+            });
+        }
+
+        // Initialize charts
+       
+        document.addEventListener('DOMContentLoaded', () => {
+          initializeChart('partnerCenter', chartsData.partnerCenter, chartsData.partnerCenterMaxY);
+          initializeChart('yuwaahChart', chartsData.yuwaahChart, chartsData.yuwaahChartMaxY);
+          initializeChart('coursesCompleted', chartsData.coursesCompleted, chartsData.coursesCompletedMaxY);
+          initializeChart('opportunitiesVerified', chartsData.opportunitiesVerified, chartsData.opportunitiesVerifiedMaxY);
+      });
+
+        // Handle window resize
+        let resizeTimer;
+        window.addEventListener('resize', () => {
+            clearTimeout(resizeTimer);
+            resizeTimer = setTimeout(() => {
+                Chart.helpers.each(Chart.instances, instance => instance.destroy());
+                initializeCharts();
+            }, 100);
+        });
+        function toggleSidebar() {
+          const drawer = document.getElementById("drawer");
+          const body = document.body;
+          drawer.classList.toggle("active"); // Toggle the active class on the drawer (menu)
+          body.classList.toggle("sidebar-open"); // Optionally, toggle a class on the body for any styling changes
+    
+          console.log("Drawer toggle: ", drawer.classList.contains("active"));
+        }
+    
+        document.addEventListener("DOMContentLoaded", () => {
+          const hamburgerBtn = document.getElementById("hamburger-btn");
+          
+    
+    
+          if (hamburgerBtn) {
+            hamburgerBtn.addEventListener("click", toggleSidebar); // Call toggleSidebar on button click
+          } else {
+            console.error("Error: 'hamburger-btn' element not found.");
+          }
+        });
+        
+      </script>
 </body>
 
 </html>

@@ -71,7 +71,10 @@ class ApiAuthController extends Controller
      */
     public function getPartnerList(Request $request){
          // Initialize the query
-        $query = Partner::query();
+         $query = Partner::with(['state', 'district', 'block']);
+         if ($request->has('status')) {
+            $query->where('status', $request->status);
+        }
 
         // Filter by status if provided in the request
         if ($request->has('status')) {
@@ -99,12 +102,16 @@ class ApiAuthController extends Controller
      * Add New Partner In Admin section
      */
     public function addNewPartner(Request $request){
+        //dd($request->all());
          // Validate incoming request
          $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:partners,email',
             'contact_number' => 'nullable|string|max:15',
             'address' => 'nullable|string|max:255',
+            'state_id'=>'required|string|max:255',
+            'district_id'=>'required|string|max:255',
+            'block_id'=>'required|string|max:255',
             'status' => 'required|boolean',
         ]);
         
@@ -121,7 +128,11 @@ class ApiAuthController extends Controller
                 'email' => $request->email,
                 'password' => Hash::make('password@123'),
                 'contact_number' => $request->contact_number,
+                'state_id' => $request->state_id,
+                'district_id' => $request->district_id,
+                'block_id' => $request->block_id,
                 'address' => $request->address,
+                'pincode' => $request->pincode,
                 'status' => $request->status,
                 'onboard_date' => now(),
             ]);
@@ -150,12 +161,15 @@ class ApiAuthController extends Controller
     {
        
         Log::info('Locale set to: ' . app()->getLocale());
-
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:partners,email,'. $partnerId,
             'contact_number' => 'nullable|string|max:15',
             'address' => 'nullable|string|max:255',
+            'state_id' => 'nullable|string|max:255',
+            'district_id' => 'nullable|string|max:255',
+            'pincode' => 'nullable|string|max:255',
+            'block_id' => 'nullable|string|max:255',
             'status' => 'required|boolean',
         ]);
         if ($validator->fails()) {
@@ -178,6 +192,10 @@ class ApiAuthController extends Controller
                 'name' => $request->name,
                 'email' => $request->email,
                 'contact_number' => $request->contact_number,
+                'state_id'=> $request->state_id,
+                'district_id'=>$request->district_id,
+                'block_id'=>$request->block_id,
+                'pincode'=>$request->pincode,
                 'address' => $request->address,
                 'status' => $request->status,
             ]);
@@ -310,7 +328,9 @@ class ApiAuthController extends Controller
      */
     public function getPartnerCenterList(Request $request){
         // Initialize the query
-       $query = PartnerCenter::query();
+       $query = PartnerCenter::with(['state', 'district', 'block','partner']);
+       //dd(App\Models\PartnerCenter::with(['state', 'district', 'block'])->find(1));
+
 
        // Filter by status if provided in the request
        if ($request->has('status')) {
@@ -328,7 +348,7 @@ class ApiAuthController extends Controller
        $perPage = $request->get('per_page', 10);
 
        // Execute the query and return paginated results
-       return $query->with('partner')->paginate($perPage);
+       return $query->paginate($perPage);
 
    }
 
@@ -343,6 +363,11 @@ class ApiAuthController extends Controller
            'email' => 'required|email|unique:partner_centers,email',
            'contact_number' => 'nullable|string|max:15',
            'address' => 'nullable|string|max:255',
+           'state_id' => 'nullable|string|max:255',
+           'district_id' => 'nullable|string|max:255',
+           'block_id' => 'nullable|string|max:255',
+           'address' => 'nullable|string|max:255',
+           'pincode' => 'nullable|string|max:6',
            'status' => 'required|boolean',
        ]);
        
@@ -358,6 +383,10 @@ class ApiAuthController extends Controller
                'center_name' => $request->center_name,
                'email' => $request->email,
                'contact_number' => $request->contact_number,
+               'state_id' => $request->state_id,
+               'district_id' => $request->district_id,
+               'block_id' => $request->block_id,
+               'pincode' => $request->pincode,
                'address' => $request->address,
                'password' => Hash::make('password@123'),
                'status' => $request->status,
@@ -392,6 +421,9 @@ class ApiAuthController extends Controller
            'email' => 'required|email|unique:partner_centers,email,'. $partnerId,
            'contact_number' => 'nullable|string|max:15',
            'address' => 'nullable|string|max:255',
+           'state_id' => 'nullable|string|max:255',
+           'district_id' => 'nullable|string|max:255',
+           'block_id' => 'nullable|string|max:255',
            'status' => 'required|boolean',
        ]);
        if ($validator->fails()) {
@@ -401,7 +433,7 @@ class ApiAuthController extends Controller
        }
        try {
            // Find the partner by ID
-           $partner = PartnerCenter::find($partnerId);
+           $partner = PartnerCenter::with(['state','district','block'])->find($partnerId);
            if (!$partner) {
                return response()->json([
                    'status'=>false,
@@ -415,6 +447,10 @@ class ApiAuthController extends Controller
                'partner_id' => $request->partner_id,
                'email' => $request->email,
                'contact_number' => $request->contact_number,
+               'state_id' => $request->state_id,
+               'district_id' => $request->district_id,
+               'block_id' => $request->block_id,
+               'pincode' => $request->pincode,
                'address' => $request->address,
                'status' => $request->status,
            ]);
@@ -429,7 +465,7 @@ class ApiAuthController extends Controller
        } catch (\Exception $e) {
            return response()->json([
                'status'=>false,
-               'message' => _('message.failed_to_update_partner_center'),
+               'message' => _('message.failed_to_update_partner_center').$e->getMessage(),
                'error' => $e->getMessage(),
            ], 500);
        }

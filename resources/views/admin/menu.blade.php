@@ -20,7 +20,7 @@
                     </a></li>
                 <li class="{{ request()->routeIs('admin.partner') ? 'activelink' : '' }}">
                     <a href="{{route('admin.partner')}}" id="partners-link" >
-                        <i class="uil uil-users-alt 
+                        <i class="uil uil-user-check
                             {{ request()->routeIs('admin.partner') ? 'activelinktext' : '' }} 
                             {{ request()->routeIs('admin.partner.edit') ? 'activelinktext' : '' }}
                             {{ request()->routeIs('admin.partner.add') ? 'activelinktext' : '' }}
@@ -33,7 +33,7 @@
                     </a></li>
                 <li class="{{ request()->routeIs('admin.partnercenter') ? 'activelink' : '' }}">
                     <a href="{{route('admin.partnercenter')}}" id="partners-link" >
-                        <i class="uil uil-users-alt 
+                        <i class="uil uil-estate 
                         {{ request()->routeIs('admin.partnercenter.edit') ? 'activelinktext' : '' }} 
                         {{ request()->routeIs('admin.partnercenter') ? 'activelinktext' : '' }}
                         {{ request()->routeIs('admin.partnercenter.add') ? 'activelinktext' : '' }}
@@ -50,7 +50,7 @@
 
                 <li class="{{ request()->routeIs('admin.eventmaster') ? 'activelink' : '' }}">
                     <a href="{{route('admin.eventmaster.list')}}" id="partners-link" >
-                        <i class="uil uil-users-alt 
+                        <i class="uil uil-calendar-alt 
                         {{ request()->routeIs('admin.eventmaster.update') ? 'activelinktext' : '' }} 
                         {{ request()->routeIs('admin.eventmaster.list') ? 'activelinktext' : '' }}
                         {{ request()->routeIs('admin.eventmaster.add') ? 'activelinktext' : '' }}
@@ -116,15 +116,36 @@
 
                 <li class="{{ request()->is('promotions') ? 'activelink' : '' }}">                    
                     <a href="{{route('admin.yuwaahsakhi.homepage.setting')}}" id="promotion-link">
-                        <i class="il uil-megaphone
+                        <i class="il uil-sliders-v-alt
                             {{ request()->routeIs('admin.yuwaahsakhi.homepage.setting') ? 'activelinktext' : '' }} 
                             {{ request()->routeIs('admin.yuwaahsakhi.homepage.update') ? 'activelinktext' : '' }}
                             "></i>
                         <span class="link-name
                             {{ request()->routeIs('admin.yuwaahsakhi.homepage.setting') ? 'activelinktext' : '' }} 
                             {{ request()->routeIs('admin.yuwaahsakhi.homepage.update') ? 'activelinktext' : '' }}
-                            ">Yuwaah HomePage Setting</span>
-                    </a></li>
+                            ">Yuwaah Setting</span>
+                    </a>
+                </li>
+                <li class="{{ request()->is('promotions') ? 'activelink' : '' }}">                    
+                    <a href="{{route('admin.learner')}}" id="promotion-link">
+                        <i class="uil uil-user
+                            {{ request()->routeIs('admin.yuwaahsakhi.homepage.update') ? 'activelinktext' : '' }}
+                            "></i>
+                        <span class="link-name
+                            {{ request()->routeIs('admin.yuwaahsakhi.homepage.update') ? 'activelinktext' : '' }}
+                            ">All Learner</span>
+                    </a>
+                </li>
+                <li class="{{ request()->is('promotions') ? 'activelink' : '' }}">                    
+                    <a href="{{route('admin.import.learner')}}" id="promotion-link">
+                        <i class="uil uil-import
+                            {{ request()->routeIs('admin.yuwaahsakhi.homepage.update') ? 'activelinktext' : '' }}
+                            "></i>
+                        <span class="link-name
+                            {{ request()->routeIs('admin.yuwaahsakhi.homepage.update') ? 'activelinktext' : '' }}
+                            ">Import Learner</span>
+                    </a>
+                </li>
 
 
                 <li><a href="promotions.html" id="promotion-link">

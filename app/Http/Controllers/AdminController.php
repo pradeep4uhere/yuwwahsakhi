@@ -15,6 +15,14 @@ use App\Models\YuwaahSakhi;
 use App\Models\YuwaahEventMaster;
 use Illuminate\Support\Facades\Storage;
 use App\Models\YuwaahSakhiSetting;
+use App\Models\Learner;
+use App\Exports\LearnersExport;
+use App\Exports\PartnersExport;
+use App\Imports\LearnersImport;
+
+use Maatwebsite\Excel\Facades\Excel;
+
+
 
 use Illuminate\Support\MessageBag;
 use Illuminate\Support\Facades\Validator;
@@ -123,13 +131,10 @@ class AdminController extends Controller
         if($request->isMethod('POST')) {
             // Create an instance of the ApiAuthController
             $authApiController = new ApiAuthController();
-
             // Call the 'addNewPartner' method and capture the response
             $response = $authApiController->updatePartner($request, $id);  // Get the response directly
             // If the response is a JsonResponse, you can convert it into an array
             $responseArray = $response->getData(true);  // Convert to array
-           
-        
             // Optionally, dump the response for debugging
             if ($responseArray['status'] === false) {
                 $errors = $responseArray['errors'];
@@ -139,7 +144,6 @@ class AdminController extends Controller
                 $errors = [];
                 $success = $responseArray['message'];
             }
-            
         }
 
         
@@ -273,7 +277,7 @@ class AdminController extends Controller
             $response = $authApiController->updatePartnerCenter($request, $id);  // Get the response directly
             // If the response is a JsonResponse, you can convert it into an array
             $responseArray = $response->getData(true);  // Convert to array
-           //dd($responseArray);
+            //dd($responseArray);
             // Optionally, dump the response for debugging
             if ($responseArray['status'] === false) {
                 $errors = $responseArray['errors'];
@@ -287,7 +291,7 @@ class AdminController extends Controller
         }
 
         
-        $partnerDetails = PartnerCenter::find($id);
+        $partnerDetails = PartnerCenter::with(['state','district','block'])->find($id);
         //dd($partnerDetails);
         $partnerList = Partner::where('status','=',1)->get();
         // Call the 'getPartnerList' method
@@ -1030,7 +1034,51 @@ class AdminController extends Controller
 
 
 
+/**
+ * All Learnser List
+ */
+public function allLearnerList(Request $request){
+    $response = Learner::paginate();
+    return view('admin.learner.list', [
+        'response'=>$response,
+        'title' => 'All Learner',
+    ]);
+}
 
 
+
+
+public function exportLearnersCSV()
+{
+    return Excel::download(new LearnersExport, 'learners.csv');
+}
+
+
+public function exportPartners()
+{
+    return Excel::download(new PartnersExport, 'partners.csv');
+}
+
+
+
+
+
+public function importLearnerForm(Request $request){
+    return view('admin.learner.importform', [
+        'title' => 'Learner Import',
+    ]);
+}
+
+    public function importLearners(Request $request)
+    {
+       
+        $request->validate([
+            'file' => 'required|mimes:csv,xlsx'
+        ]);
+
+        $s= Excel::import(new LearnersImport, $request->file('file'));
+        dd($s);
+        return back()->with('success', 'Learners imported successfully!');
+    }
 
 }

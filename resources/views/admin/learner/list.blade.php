@@ -17,16 +17,12 @@
         </div>
         <!-- <section class="dashboard-partners"> -->
         <div class="dash-content">
-            <span class="texttitle">Partners</span>
+            <span class="texttitle">All Learners</span>
             <div class="activity">
                 <div class="activitybutton">
-                   <a href="{{route('partners.export')}}" >
-                    <button class="add-partner-btn" id="addPartnerBtn">Partner Export</button>
-                    </a>&nbsp;&nbsp;
-                    <a href="{{route('admin.partner.add')}}" style="margin-right:5px">
-                    <button class="add-partner-btn" id="addPartnerBtn">Add Partner</button>
+                    <a href="{{route('admin.learner.export')}}">
+                    <button class="add-partner-btn" id="addPartnerBtn">Export Learner</button>
                     </a>
-                   
                 </div>
                     <div class="activity-data">
                         <x-alert />
@@ -36,14 +32,11 @@
                         <thead>
                             <tr>
                                 <th>SN</th>
-                                <th>Partner ID</th>
-                                <th>Name</th>
-                                <th>Contact Number</th>
+                                <th>First Name</th>
+                                <th>Last Name</th>
+                                <th>Date Of Birth</th>
                                 <th>Email</th>
-                                <th>State</th>
-                                <th>District</th>
-                                <th>Block</th>
-                                <th>Onboarded on</th>
+                                <th>Gender</th>
                                 <th>Status</th>
                                 <th>Created On</th>
                                 <th>Actions</th>
@@ -56,15 +49,12 @@
                                   foreach($response as $item){ //dd($item); ?>
                             <tr>
                                 <td>{{$count}}</td>
-                                <td>{{$item['partner_id']}}</td>
-                                <td>{{$item['name']}}</td>
-                                <td>{{$item['contact_number']}}</td>
+                                <td>{{$item['first_name']}}</td>
+                                <td>{{$item['last_name']}}</td>
+                                <td>{{getdateformate($item['date_of_birth'])}}</td>
                                 <td>{{$item['email']}}</td>
-                                <td>{{ optional($item->state)->name ?? 'N/A' }}</td>
-                                <td>{{ optional($item->district)->name ?? 'N/A' }}</td>
-                                <td>{{ optional($item->block)->name ?? 'N/A' }}</td>
-                                <td>{{$item['onboard_date']}}</td>
-                                <td><?php if($item['status']==1){ ?>
+                                <td>{{$item['gender']}}</td>
+                                <td><?php if($item['status']=='Active'){ ?>
                                    <span class="badge badge-success">Active</span>
                                 <?php }else{ ?>
                                     <span class="badge badge-danger">InActive</span>

@@ -17,6 +17,11 @@ use App\Models\Promotion;
 use App\Models\YuwaahSakhi;
 use App\Models\YuwaahEventMaster;
 use Illuminate\Support\Facades\Validator;
+use App\Exports\PartnersExport;
+use Maatwebsite\Excel\Facades\Excel;
+use DB;
+use Carbon\Carbon;
+
 
 
 
@@ -26,13 +31,119 @@ class PartnerController extends Controller
 
     public $dir = 'partner';
 
+        // Method to get monthly counts for YuwwahSakhi based on a date range
+    public function yuwwahSakhiMonthly($start, $end)
+    {
+        // Example query using these dates for YuwwahSakhi
+        $yuwwahSakhiMonthly = YuwaahSakhi::whereBetween('created_at', [$start, $end])
+            ->selectRaw('MONTH(created_at) as month, COUNT(*) as count')
+            ->groupBy('month')
+            ->pluck('count', 'month');
+
+        // Check if no records were found
+        if ($yuwwahSakhiMonthly->isEmpty()) {
+            // No records found, return default monthly counts (12 months, all 0)
+            return collect(range(1, 12))->mapWithKeys(function ($month) {
+                return [
+                    $month => array_fill(0, 12, 0)  // Default to 0 for all months
+                ];
+            });
+        } else {
+            // Fill missing months with 0
+            return collect(range(1, 12))->mapWithKeys(function ($month) use ($yuwwahSakhiMonthly) {
+                return [
+                    $month => $yuwwahSakhiMonthly->get($month, 0) // Default 0 if month not present
+                ];
+            });
+        }
+    }
+
+    // Method to get monthly counts based on a date range
+    public function partnerCenterMonthly($start, $end)
+    {
+        // Example query using these dates
+        $partnerCenterMonthly = PartnerCenter::whereBetween('created_at', [$start, $end])
+            ->selectRaw('MONTH(created_at) as month, COUNT(*) as count')
+            ->groupBy('month')
+            ->pluck('count', 'month');
+
+        // Check if no records were found
+        if ($partnerCenterMonthly->isEmpty()) {
+            // No records found, return default monthly counts (12 months, all 0)
+            return collect(range(1, 12))->mapWithKeys(function ($month) {
+                return [
+                    $month => array_fill(0, 12, 0)  // Default to 0 for all months
+                ];
+            });
+        } else {
+            // Fill missing months with 0
+            return collect(range(1, 12))->mapWithKeys(function ($month) use ($partnerCenterMonthly) {
+                return [
+                    $month => $partnerCenterMonthly->get($month, 0) // Default 0 if month not present
+                ];
+            });
+        }
+    }
+
     /**
      * Display the user's profile form.
      */
     public function dashboard(Request $request)
     {
+                
+        if ($request->query('start_date') != '') {
+            // Use provided start and end dates from the query
+            $startDate = $request->query('start_date');
+            $endDate = $request->query('end_date');
+        } else {
+            // Set default to the last 12 months
+            $endDate = Carbon::now(); // Current date
+            $startDate = Carbon::now()->subMonths(12); // 12 months ago
+        }
+        // Optional: Convert to Carbon for date manipulation
+        $start = \Carbon\Carbon::parse($startDate);
+        $end = \Carbon\Carbon::parse($endDate)->endOfDay();
+        $partnerCenterMonthly = $this->partnerCenterMonthly($start,$end);
+        //dd($partnerCenterMonthly);
+        $totalPartnerCenter = PartnerCenter::count();
+
+        //Yuwwash Sakhi
+        $monthlyYuwwahSakhiCounts = $this->yuwwahSakhiMonthly($start, $end);
+        $totalYuwwahSakhi = YuwaahSakhi::count();
+        $totalYuwaahSakhi = '1023';
+        $opportunitiesVerified = '3423';
+       
+         $chartsData = [
+            'partnerCenter' => array_values($partnerCenterMonthly->toArray()),
+            'yuwaahChart' => array_values($monthlyYuwwahSakhiCounts->toArray()),
+            'youthRegistered' => [15,8,22,18,12,17,13,15,4,16,18,22],
+            'coursesCompleted' => [10,6,12,18,17,13,9,11,4,16,18,22],
+            'opportunitiesVerified' => [14,16,12,18,17,13,14,16,14,16,18,22],
+        ];
+        //dd($chartsData);
+        // Compute maxY values dynamically and attach to the array
+        foreach ($chartsData as $key => $values) {
+            //$chartsData[$key . 'MaxY'] = ceil(max($values) / 5) * 5 + 15 ;
+        }
+        // Compute maxY values dynamically and attach to the array
+        foreach ($chartsData as $key => $values) {
+            // Check if the array is not empty
+            if (!empty($values)) {
+                // Calculate maxY if the array is not empty
+                $chartsData[$key . 'MaxY'] = ceil(max($values) / 5) * 5 + 15;
+            } else {
+                // Handle the case when the array is empty (set a default value for maxY)
+                $chartsData[$key . 'MaxY'] = 15; // or any default value you want to set
+            }
+        }
+        $totalCount = array();
+        $totalCount['totalPartnerCenter'] = $totalPartnerCenter;
+        $totalCount['totalYuwaahSakhi'] = $totalYuwwahSakhi;
+        $totalCount['totalOpportunities'] = $opportunitiesVerified;
         return view('partner.dashboard', [
             'title' => 'Dashboard',
+            'chartsData'=>$chartsData,
+            'totalCount'=>$totalCount
         ]);
     }
 
@@ -265,4 +376,14 @@ class PartnerController extends Controller
             'data'=>$yuwaahSakhiList
         ]);
     }
+
+
+
+
+    public function exportPartners()
+    {
+        return Excel::download(new PartnersExport, 'partners.csv');
+    }
+
+
 }

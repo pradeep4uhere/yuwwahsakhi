@@ -35,6 +35,9 @@
                                 <th>Name</th>
                                 <th>Contact Number</th>
                                 <th>Email</th>
+                                <th>State</th>
+                                <th>District</th>
+                                <th>Block</th>
                                 <th>Onboarded on</th>
                                 <th>Status</th>
                                 <th>Created On</th>
@@ -51,6 +54,9 @@
                                 <td>{{$item['center_name']}}</td>
                                 <td>{{$item['contact_number']}}</td>
                                 <td>{{$item['email']}}</td>
+                                 <td>{{ optional($item->state)->name ?? 'N/A' }}</td>
+                                <td>{{ optional($item->district)->name ?? 'N/A' }}</td>
+                                <td>{{ optional($item->block)->name ?? 'N/A' }}</td>
                                 <td>{{$item['onboard_date']}}</td>
                                 <td><?php if($item['status']==1){ ?>
                                    <span class="badge badge-success">Active</span>

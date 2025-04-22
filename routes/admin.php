@@ -71,4 +71,13 @@ Route::middleware('auth:admin')->group(function () {
     Route::any('/edit-eventmaster/{id}', [AdminController::class, 'editEventMaster'])->name('admin.eventmaster.edit');
     Route::any('/delete-eventmaster/{id}', [AdminController::class, 'deleteEventMaster'])->name('admin.eventmaster.delete');
 
+    Route::get('/learner', [AdminController::class, 'allLearnerList'])->name('admin.learner');
+    Route::get('/export-learners', [AdminController::class, 'exportLearnersCSV'])->name('admin.learner.export');
+    Route::get('/export-partners', [AdminController::class, 'exportPartners'])->name('partners.export');
+    Route::any('/import-learners', [AdminController::class, 'importLearnerForm'])->name('admin.import.learner');
+    Route::post('/importlearners', [AdminController::class, 'importLearners'])->name('admin.import.learner.action');
+    
+
+    
+
 });
