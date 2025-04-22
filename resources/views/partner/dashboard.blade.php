@@ -73,7 +73,7 @@
                 <div class="section">
                   <div class="section-title">Age Group</div>
                   <div class="donut-chart">
-                    <img src="img/PieChartAge.png" alt="Image 1">
+                    <img src="{{asset('asset/image/PieChartAge.png')}}" alt="Image 1">
                   </div>
                 </div>
               
@@ -81,7 +81,7 @@
                 <div class="section">
                   <div class="section-title">Gender</div>
                   <div class="donut-chart">
-                    <img src="img/PieChartGender.png" alt="Image 2">
+                    <img src="{{asset('asset/image/PieChartGender.png')}}" alt="Image 2">
                   </div>
                 </div>
               
@@ -89,7 +89,7 @@
                 <div class="section">
                   <div class="section-title">Youth Covered</div>
                   <div class="donut-chart">
-                    <img src="map.png" alt="Image 3">
+                    <img src="{{asset('asset/image/map.png')}}" alt="Image 3">
                   </div>
                 </div>
               </div>
