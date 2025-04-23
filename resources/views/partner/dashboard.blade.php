@@ -69,29 +69,35 @@
                 Opportunities Verified (Per Month for {{date('Y')}})
             </div>
             <div class="dashboard">
-                <!-- Section 1 -->
+                    <!-- Section 1 -->
+                    <div class="section">
+                    <div class="section-title">Age Group</div>
+                        <canvas id="donutChartId"></canvas>
+                    </div>
+                
+                    <!-- Section 2 -->
+                    <div class="section">
+                    <div class="section-title">Gender</div>
+                    <canvas id="genderdonutChartId"></canvas>
+                    </div>
+                
+                    <!-- Section 3 -->
+                    <div class="section">
+                    <div class="section-title">Opportunites / Event</div>
+                    <canvas id="otherdonutChartId"></canvas>
+                    </div>
+
+              </div>
+              <div class="dashboard">
                 <div class="section">
-                  <div class="section-title">Age Group</div>
-                  <div class="donut-chart">
-                    <img src="{{asset('asset/images/PieChartAge.png')}}" alt="Image 1">
-                  </div>
+                    <div class="section-title">Opportunites / Event</div>
+                    <canvas id="lineChart"></canvas>
                 </div>
-              
-                <!-- Section 2 -->
                 <div class="section">
-                  <div class="section-title">Gender</div>
-                  <div class="donut-chart">
-                    <img src="{{asset('asset/images/PieChartGender.png')}}" alt="Image 2">
-                  </div>
+                    <div class="section-title">Assigned Opportunites</div>
+                    <canvas id="barChart"></canvas>
                 </div>
-              
-                <!-- Section 3 -->
-                <div class="section">
-                  <div class="section-title">Youth Covered</div>
-                  <div class="donut-chart">
-                    <img src="{{asset('asset/images/map.png')}}" alt="Image 3">
-                  </div>
-                </div>
+                
               </div>
         </div>
 

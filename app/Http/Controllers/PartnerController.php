@@ -16,6 +16,8 @@ use App\Models\Pathway;
 use App\Models\Promotion;
 use App\Models\YuwaahSakhi;
 use App\Models\YuwaahEventMaster;
+use App\Models\State;
+
 use Illuminate\Support\Facades\Validator;
 use App\Exports\PartnersExport;
 use Maatwebsite\Excel\Facades\Excel;
@@ -90,7 +92,7 @@ class PartnerController extends Controller
      */
     public function dashboard(Request $request)
     {
-                
+        $labels = [];
         if ($request->query('start_date') != '') {
             // Use provided start and end dates from the query
             $startDate = $request->query('start_date');
@@ -99,7 +101,13 @@ class PartnerController extends Controller
             // Set default to the last 12 months
             $endDate = Carbon::now(); // Current date
             $startDate = Carbon::now()->subMonths(12); // 12 months ago
+            $today = Carbon::now();
+            for ($i = 11; $i >= 0; $i--) {
+                $date = $today->copy()->subMonths($i);
+                $labels[] = $date->format("M[Y]"); // This gives you strings like Apr['24']
+            }
         }
+
         // Optional: Convert to Carbon for date manipulation
         $start = \Carbon\Carbon::parse($startDate);
         $end = \Carbon\Carbon::parse($endDate)->endOfDay();
@@ -140,10 +148,13 @@ class PartnerController extends Controller
         $totalCount['totalPartnerCenter'] = $totalPartnerCenter;
         $totalCount['totalYuwaahSakhi'] = $totalYuwwahSakhi;
         $totalCount['totalOpportunities'] = $opportunitiesVerified;
+        $states = State::all(); // Fetch state data (
         return view('partner.dashboard', [
             'title' => 'Dashboard',
             'chartsData'=>$chartsData,
-            'totalCount'=>$totalCount
+            'totalCount'=>$totalCount,
+            'labels'=>$labels,
+            'states'=>$states
         ]);
     }
 
