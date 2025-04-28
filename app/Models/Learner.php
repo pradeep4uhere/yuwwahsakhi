@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class Learner extends Model
 {
@@ -53,5 +54,64 @@ class Learner extends Model
     {
         return $this->hasMany(EventAssigned::class, 'learner_id');
     }
+
+
+     /**
+     * All Pater Count For Admin Panel
+     */
+    public static function getAllCount(){
+        return self::count();
+    }
+
+    public static function getLearnerAgeGroup(){
+        $ageGroups = DB::table('learners')
+        ->select(DB::raw('
+            SUM(CASE WHEN TIMESTAMPDIFF(YEAR, date_of_birth, CURDATE()) BETWEEN 14 AND 20 THEN 1 ELSE 0 END) as age_group_14_20,
+            SUM(CASE WHEN TIMESTAMPDIFF(YEAR, date_of_birth, CURDATE()) BETWEEN 21 AND 30 THEN 1 ELSE 0 END) as age_group_21_30,
+            SUM(CASE WHEN TIMESTAMPDIFF(YEAR, date_of_birth, CURDATE()) BETWEEN 31 AND 40 THEN 1 ELSE 0 END) as age_group_31_40,
+            SUM(CASE WHEN TIMESTAMPDIFF(YEAR, date_of_birth, CURDATE()) > 40 THEN 1 ELSE 0 END) as age_group_40_plus
+        '))
+        ->first();
+        
+        // Check if there are no records in the learners table
+        if (!$ageGroups) {
+            return [
+                "14-20" => 0,
+                "21-30" => 0,
+                "31-40" => 0,
+                "40+" => 0
+            ];
+        }
+        return [
+                "14-20" => $ageGroups->age_group_14_20,
+                "21-30" => $ageGroups->age_group_21_30,
+                "31-40"=>  $ageGroups->age_group_31_40,
+                "40+" =>   $ageGroups->age_group_40_plus
+        ];
+    }
+
+
+
+
+    public static function getGenderCount()
+    {
+        // Get the counts for each gender group
+        $genderCounts = DB::table('learners')
+            ->select(DB::raw('
+                SUM(CASE WHEN gender = "Male" THEN 1 ELSE 0 END) as male_count,
+                SUM(CASE WHEN gender = "Female" THEN 1 ELSE 0 END) as female_count,
+                SUM(CASE WHEN gender = "Other" THEN 1 ELSE 0 END) as other_count
+            '))
+            ->first();
+    
+        return [
+            "Male" => $genderCounts->male_count,
+            "Female" => $genderCounts->female_count,
+            "Other" => $genderCounts->other_count
+        ];
+    }
+    
+    
+    
 
 }

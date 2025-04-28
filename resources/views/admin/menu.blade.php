@@ -148,7 +148,7 @@
                 </li>
 
 
-                <li><a href="promotions.html" id="promotion-link">
+                <li>
                 <form method="POST" action="{{ route('admin.logout') }}">
                     @csrf
                     <a href="route('admin.logout')"
@@ -158,7 +158,7 @@
                     <span class="link-name">SignOut</span>
                     </a>
                     </form>
-                </a></li>
+                </li>
                    
                            
                         

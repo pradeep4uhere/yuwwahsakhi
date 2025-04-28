@@ -19,7 +19,22 @@
           <!-- Desktop Icons -->
           <div class="icons">
             <img src="{{asset('asset/images/Notifications.png')}}" alt="">
-            <img src="{{asset('asset/images/Profile.png')}}" alt="">
+            <img src="{{asset('asset/images/Profile.png')}}" alt="" id="profilePic" class="profile-pic">
+            <div id="menu" class="menu">
+              <ul>
+                  <li><a href="#">View Profile</a></li>
+                  <li><a href="#">Settings</a></li>
+                  <li><form method="POST" action="{{ route('partnercenter.logout') }}">
+                    @csrf
+                    <a href="route('admin.logout')"
+                                    onclick="event.preventDefault();
+                                                this.closest('form').submit();">
+                    <i class="il uil-megaphone"></i>
+                    <span class="link-name">Sign Out</span>
+                    </a>
+                    </form></li>
+              </ul>
+          </div>
           </div>
     
           <!-- Hamburger Icon for Mobile -->

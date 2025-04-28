@@ -598,7 +598,49 @@
         height: 300px;
     }
 }
-</style>
+.profile {
+    position: relative;
+}
+
+.profile-pic {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.menu {
+    display: none; /* Hide the menu by default */
+    position: absolute;
+    top: 60px; /* Position the menu below the profile picture */
+    right: 0;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 10px;
+    border-radius: 5px;
+    z-index: 10;
+}
+
+.menu ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.menu ul li {
+    padding: 5px 10px;
+}
+
+.menu ul li a {
+    text-decoration: none;
+    color: #333;
+    display: block;
+}
+
+.menu ul li a:hover {
+    background-color: #f1f1f1;
+}
 </style>
 </head>
 <body>
@@ -734,8 +776,15 @@ function deleteConfirm(id, route) {
 
 
         //
-        const labelsdonut = ['14-20','21-30','31-40','40+'];
-        const valuesdonut = [560,340,300,450,100];
+        const ageGroup = @json($learnerAgeGroup);
+        const labelsdonut = ['14-20', '21-30', '31-40', '40+'];
+        const valuesdonut = [
+            ageGroup['14-20'], 
+            ageGroup['21-30'], 
+            ageGroup['31-40'], 
+            ageGroup['40+']
+        ];
+
         const colorsdonut = ['#13c2c2', '#b83d00','#771166','#52c41a'];
         function createDonutData(labels, values, colors) {
           return {
@@ -784,8 +833,13 @@ function deleteConfirm(id, route) {
       //Gender
 
         //
+        const learnerGenderGroup = @json($learnerGenderGroup);
         const genderlabelsdonut = ['Male','Female','Other'];
-        const gendervaluesdonut = [560,140,1];
+        const gendervaluesdonut = [
+          learnerGenderGroup['Male'],
+          learnerGenderGroup['Female'],
+          learnerGenderGroup['Other']
+        ];
         const gendercolorsdonut = ['#1677ff','#f316a2','#faad14'];
         function createGenderDonutData(labels, values, colors) {
           return {
@@ -822,17 +876,21 @@ function deleteConfirm(id, route) {
 
 
 
-       //
-        const otherlabelsdonut = ['Opportunites','Event'];
-        const othervaluesdonut = [560,140];
-        const othercolorsdonut = ['#13c2c2','#ffbac6'];
+        const learnerGendercount = @json($learnerGenderGroup);
+        const otherlabelsdonut = ['Male','Female','Other'];
+        const othervaluesdonut = [
+          learnerGendercount['Male'],
+          learnerGendercount['Female'],
+          learnerGendercount['Other']
+        ];
+        const othercolorsdonut = ['#1677ff','#f316a2','#faad14'];
         function createOtherDonutData(labels, values, colors) {
           return {
             labels: labels,
             datasets: [{
               data: values,
               backgroundColor: colors,
-              hoverOffset: 4
+              hoverOffset: 40
             }]
           };
         }
@@ -1025,6 +1083,25 @@ function initializeBarChart(chartId, chartData) {
 
 // Call the method to initialize the bar chart
 initializeBarChart('barChart', dataArr);
+</script>
+<script>
+  // Get the profile picture and menu elements
+const profilePic = document.getElementById('profilePic');
+const menu = document.getElementById('menu');
+
+// Add click event listener to the profile picture
+profilePic.addEventListener('click', () => {
+    // Toggle the menu visibility
+    menu.style.display = (menu.style.display === 'block') ? 'none' : 'block';
+});
+
+// Optional: Close the menu if clicked outside
+window.addEventListener('click', (event) => {
+    if (!profilePic.contains(event.target) && !menu.contains(event.target)) {
+        menu.style.display = 'none';
+    }
+});
+
 </script>
 </body>
 </html>

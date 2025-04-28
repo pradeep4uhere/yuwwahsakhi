@@ -93,38 +93,36 @@
                 </div>
             </div>
             @if ($response->lastPage() > 1)
-            <!-- pagination code start -->
-            <div class="pagination">
-            <table>
-                <tr>
-                    {{-- Previous Page Link --}}
-                    <td>
-                        @if ($response->onFirstPage())
-                            <span class="disabled"><i class="uil uil-angle-left"></i></span>
-                        @else
-                            <a href="{{ $response->previousPageUrl() }}"><i class="uil uil-angle-left"></i></a>
-                        @endif
-                    </td>
+                <!-- Pagination code start -->
+                <div class="pagination">
+                    <table>
+                        <tr>
+                            {{-- Previous Page Link --}}
+                            <td>
+                                @if ($response->onFirstPage())
+                                    <span class="disabled"><i class="uil uil-angle-left"></i></span>
+                                @else
+                                    <a href="{{ $response->previousPageUrl() }}"><i class="uil uil-angle-left"></i></a>
+                                @endif
+                            </td>
 
-                    {{-- Page Numbers --}}
-                    @foreach ($response->getUrlRange(1, $response->lastPage()) as $page => $url)
-                        <td class="page-number @if ($response->currentPage() == $page) active @endif">
-                            <a href="{{ $url }}">{{ $page }}</a>
-                        </td>
-                    @endforeach
+                            {{-- Current Page --}}
+                            <td class="current-page">
+                                <span>{{ $response->currentPage() }}</span>
+                            </td>
 
-                    {{-- Next Page Link --}}
-                    <td>
-                        @if ($response->hasMorePages())
-                            <a href="{{ $response->nextPageUrl() }}"><i class="uil uil-angle-right"></i></a>
-                        @else
-                            <span class="disabled"><i class="uil uil-angle-right"></i></span>
-                        @endif
-                    </td>
-                </tr>
-            </table>
-        </div>
-        @endif
+                            {{-- Next Page Link --}}
+                            <td>
+                                @if ($response->hasMorePages())
+                                    <a href="{{ $response->nextPageUrl() }}"><i class="uil uil-angle-right"></i></a>
+                                @else
+                                    <span class="disabled"><i class="uil uil-angle-right"></i></span>
+                                @endif
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            @endif
         </div>
     </section>
 

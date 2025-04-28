@@ -19,11 +19,8 @@ use App\Models\Learner;
 use App\Exports\LearnersExport;
 use App\Exports\PartnersExport;
 use App\Imports\LearnersImport;
-
+use GuzzleHttp\Client;
 use Maatwebsite\Excel\Facades\Excel;
-
-
-
 use Illuminate\Support\MessageBag;
 use Illuminate\Support\Facades\Validator;
 
@@ -43,6 +40,9 @@ class AdminController extends Controller
         $Opportunities = Opportunity::getAllCount();
         $Promotions = Promotion::getAllCount();
         $event = YuwaahEventMaster::getAllEvents();
+        $learner = Learner::getAllCount();
+        $learnerAgeGroup = Learner::getLearnerAgeGroup();
+       
 
         $dashboard = [
             'partner' => $partner,
@@ -50,7 +50,9 @@ class AdminController extends Controller
             'YuwaahSakhi'=>$YuwaahSakhi,
             'Opportunities'=>$Opportunities,
             'Promotions'=>$Promotions,
-            'eventcount'=>$event
+            'eventcount'=>$event,
+            'Learner'=>$learner,
+            'learnerAgeGroup'=>$learnerAgeGroup
         ];
         return view('admin.dashboard', [
             'title' => 'Dashboard',
@@ -1071,14 +1073,31 @@ public function importLearnerForm(Request $request){
 
     public function importLearners(Request $request)
     {
-       
+        ini_set('memory_limit', '512M');
+        set_time_limit(600); 
         $request->validate([
             'file' => 'required|mimes:csv,xlsx'
         ]);
-
-        $s= Excel::import(new LearnersImport, $request->file('file'));
-        dd($s);
-        return back()->with('success', 'Learners imported successfully!');
+        //dd($request->all());
+        // Store the uploaded file
+        $filePath = $request->file('file')->storeAs('imports', 'learners.csv','public');
+        //echo  asset('storage/'.$filePath);
+        //echo $absoluteFilePath = asset('storage/' . $filePath); die;
+        //dd($absoluteFilePath);
+        // Send the file path to Node.js server
+        $client = new Client();
+        // $response = $client->post('http://127.0.0.1:3000/process', [
+        //     'json' => [
+        //         'filePath' => storage_path('app/' . $filePath, 'public') // send local path
+        //     ]
+        // ]);
+        $absFilePath = storage_path('app/public/' . $filePath);
+        return response()->json(['success' => true, 'message' => 'file Uploaded successfully.','filepath'=>$absFilePath]);
+       
+        //return back()->with('success', $response);
+        // Import the file and process it in chunks
+        //Excel::import(new LearnersImport, $request->file('file'));
+        //return back()->with('success', 'Learners imported successfully!');
     }
 
 }

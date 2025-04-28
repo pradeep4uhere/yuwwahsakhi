@@ -14,6 +14,7 @@ use App\Http\Controllers\Auth\VerifyEmailController;
 
 // Admin login route
 Route::middleware('partnercenter.guest')->group(function () {
+    Route::post('/logout', [PartnerCenterAuthController::class, 'logout'])->name('partnercenter.logout');
     Route::get('/login', [PartnerCenterAuthController::class, 'loginForm'])->name('partnercenter.login.get');
     Route::post('/login', [PartnerCenterAuthController::class, 'login'])->name('partnercenter.login');
     Route::get('/register', [PartnerCenterAuthController::class, 'registerForm'])->name('partnercenter.register.get');

@@ -106,21 +106,21 @@ class PartnerCenterAuthController extends Controller
         Auth::guard('partner_center')->logout();
 
         // Redirect to the login page
-        return redirect('/partner_center/login');
+        return redirect('/partnercenter/login');
     }
 
 
 
     public function loginForm(Request $request){
         if (Auth::guard('partner_center')->attempt($request->only('email', 'password'))) {
-            return redirect()->intended('/partner_center/dashboard');
+            return redirect()->intended('/partnercenter/dashboard');
         }
         return view('partner_center.login');
     }
 
 
     public function registerForm(){
-        return view('partner_center.register');
+        return view('partnercenter.register');
     }
 
 }

@@ -17,6 +17,7 @@ use App\Models\Promotion;
 use App\Models\YuwaahSakhi;
 use App\Models\YuwaahEventMaster;
 use App\Models\State;
+use App\Models\Learner;
 
 use Illuminate\Support\Facades\Validator;
 use App\Exports\PartnersExport;
@@ -33,7 +34,7 @@ class PartnerController extends Controller
 
     public $dir = 'partner';
 
-        // Method to get monthly counts for YuwwahSakhi based on a date range
+    // Method to get monthly counts for YuwwahSakhi based on a date range
     public function yuwwahSakhiMonthly($start, $end)
     {
         // Example query using these dates for YuwwahSakhi
@@ -64,7 +65,8 @@ class PartnerController extends Controller
     public function partnerCenterMonthly($start, $end)
     {
         // Example query using these dates
-        $partnerCenterMonthly = PartnerCenter::whereBetween('created_at', [$start, $end])
+        $partnerCenterMonthly = PartnerCenter::where('partner_id',getUserId())
+            ->whereBetween('created_at', [$start, $end])
             ->selectRaw('MONTH(created_at) as month, COUNT(*) as count')
             ->groupBy('month')
             ->pluck('count', 'month');
@@ -86,6 +88,24 @@ class PartnerController extends Controller
             });
         }
     }
+
+
+     // Method to get monthly counts for opportunitiesMonthly based on a date range
+     public function opportunitiesMonthly($start, $end, $sakhiIds)
+     {
+         $yuwaahSakhiMonthly = Opportunity::whereBetween('created_at', [$start, $end])
+             ->whereIn('sakhi_id', $sakhiIds)
+             ->selectRaw('MONTH(created_at) as month, COUNT(*) as count')
+             ->groupBy('month')
+             ->pluck('count', 'month');
+     
+         // Always return 12 months data (even if no records)
+         return collect(range(1, 12))->mapWithKeys(function ($month) use ($yuwaahSakhiMonthly) {
+             return [
+                 $month => $yuwaahSakhiMonthly->get($month, 0) // Default to 0 if no data
+             ];
+         });
+     }
 
     /**
      * Display the user's profile form.
@@ -113,20 +133,24 @@ class PartnerController extends Controller
         $end = \Carbon\Carbon::parse($endDate)->endOfDay();
         $partnerCenterMonthly = $this->partnerCenterMonthly($start,$end);
         //dd($partnerCenterMonthly);
-        $totalPartnerCenter = PartnerCenter::count();
+        $totalPartnerCenter = PartnerCenter::where('partner_id',getUserId())->count();
 
         //Yuwwash Sakhi
         $monthlyYuwwahSakhiCounts = $this->yuwwahSakhiMonthly($start, $end);
-        $totalYuwwahSakhi = YuwaahSakhi::count();
-        $totalYuwaahSakhi = '1023';
-        $opportunitiesVerified = '3423';
+        $totalYuwwahSakhi = YuwaahSakhi::where('partner_id',getUserId())->count();
+        
+        // Step 1: Get all YuwaahSakhi IDs for the current partner
+        $totalYuwaahSakhiIds = YuwaahSakhi::where('partner_id', getUserId())->pluck('id');
+        // Step 2: Count Opportunities where sakhi_id is in the above IDs
+        $opportunitiesVerified = Opportunity::whereIn('sakhi_id', $totalYuwaahSakhiIds)->count();
        
-         $chartsData = [
+        $monthlyopportunitiesCounts = $this->opportunitiesMonthly($start, $end, $totalYuwaahSakhiIds);
+        $chartsData = [
             'partnerCenter' => array_values($partnerCenterMonthly->toArray()),
             'yuwaahChart' => array_values($monthlyYuwwahSakhiCounts->toArray()),
-            'youthRegistered' => [15,8,22,18,12,17,13,15,4,16,18,22],
-            'coursesCompleted' => [10,6,12,18,17,13,9,11,4,16,18,22],
-            'opportunitiesVerified' => [14,16,12,18,17,13,14,16,14,16,18,22],
+            'youthRegistered' => array_values($monthlyopportunitiesCounts->toArray()),
+            'coursesCompleted' => array_values($monthlyopportunitiesCounts->toArray()),
+            'opportunitiesVerified' => array_values($monthlyopportunitiesCounts->toArray()),
         ];
         //dd($chartsData);
         // Compute maxY values dynamically and attach to the array
@@ -149,12 +173,20 @@ class PartnerController extends Controller
         $totalCount['totalYuwaahSakhi'] = $totalYuwwahSakhi;
         $totalCount['totalOpportunities'] = $opportunitiesVerified;
         $states = State::all(); // Fetch state data (
+
+
+        $learnerAgeGroup = Learner::getLearnerAgeGroup();
+        $learnerGenderGroup = Learner::getGenderCount();
+        
+
         return view('partner.dashboard', [
             'title' => 'Dashboard',
             'chartsData'=>$chartsData,
             'totalCount'=>$totalCount,
             'labels'=>$labels,
-            'states'=>$states
+            'states'=>$states,
+            'learnerAgeGroup'=>$learnerAgeGroup,
+            'learnerGenderGroup'=>$learnerGenderGroup
         ]);
     }
 
@@ -395,6 +427,16 @@ class PartnerController extends Controller
     {
         return Excel::download(new PartnersExport, 'partners.csv');
     }
+
+
+    public function logout(Request $request)
+    {
+        auth('partner')->logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+        return redirect()->route('partner.login')->with('success', 'Logged out successfully.');
+    }
+
 
 
 }

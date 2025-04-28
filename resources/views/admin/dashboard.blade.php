@@ -60,10 +60,15 @@
                         <span class="text">Promotions</span>
                         <span class="number">{{$dashboard['Promotions']}}</span>
                         <div class="editclass">
-
                         <a href="{{route('admin.promotions.list')}}"> <img src="{{asset('asset/images/Editiconmain.png')}}" alt="" style="height: 100px; width: 120px; cursor: pointer;"></a>
-
-</div>
+                        </div>
+                    </div>
+                    <div class="box box5">
+                        <span class="text">Learner</span>
+                        <span class="number">{{$dashboard['Learner']}}</span>
+                        <div class="editclass">
+                        <a href="{{route('admin.learner')}}"> <img src="{{asset('asset/images/Editiconmain.png')}}" alt="" style="height: 100px; width: 120px; cursor: pointer;"></a>
+                        </div>
                     </div>
 
                 </div>

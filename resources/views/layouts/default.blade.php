@@ -14,6 +14,8 @@
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
         <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
+        <script src="https://cdn.socket.io/4.0.0/socket.io.min.js"></script>
+        
     </head>
     <body class="font-sans antialiased">
     @yield('content')
@@ -21,6 +23,14 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
     <script>
+    const socket = io('http://127.0.0.1:4000');
+    // Listen for progress updates
+    socket.on('progress', (data) => {
+        const progress = Math.round((data.processedRows / data.totalRows) * 100);
+        document.getElementById('progress-bar').value = progress;
+        document.getElementById('loadingSpinner').style.display = 'block';
+    });
+
       function deleteConfirm(id, route) {
             // Display confirmation alert
             var confirmDelete = confirm("Are you sure you want to delete this data?");

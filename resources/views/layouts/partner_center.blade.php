@@ -575,6 +575,51 @@
     margin: 0 5px;
     color: #888;
 }
+
+
+.profile {
+    position: relative;
+}
+
+.profile-pic {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.menu {
+    display: none; /* Hide the menu by default */
+    position: absolute;
+    top: 60px; /* Position the menu below the profile picture */
+    right: 0;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 10px;
+    border-radius: 5px;
+    z-index: 10;
+}
+
+.menu ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.menu ul li {
+    padding: 5px 10px;
+}
+
+.menu ul li a {
+    text-decoration: none;
+    color: #333;
+    display: block;
+}
+
+.menu ul li a:hover {
+    background-color: #f1f1f1;
+}
 </style>
 </head>
 <body>
@@ -616,6 +661,24 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 </script>
+<script>
+  // Get the profile picture and menu elements
+const profilePic = document.getElementById('profilePic');
+const menu = document.getElementById('menu');
+
+// Add click event listener to the profile picture
+profilePic.addEventListener('click', () => {
+    // Toggle the menu visibility
+    menu.style.display = (menu.style.display === 'block') ? 'none' : 'block';
+});
+
+// Optional: Close the menu if clicked outside
+window.addEventListener('click', (event) => {
+    if (!profilePic.contains(event.target) && !menu.contains(event.target)) {
+        menu.style.display = 'none';
+    }
+});
+
 </script>
 </body>
 

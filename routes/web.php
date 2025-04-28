@@ -16,6 +16,7 @@ use Illuminate\Http\Request;
 |
 */
 
+Route::get('log-viewer', [\Rap2hpoutre\LaravelLogViewer\LogViewerController::class, 'index']);
 Route::post('/change-language', function (Request $request) {
     $language = $request->input('language');
     if (in_array($language, ['en', 'hi', 'es', 'fr'])) {

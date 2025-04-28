@@ -28,7 +28,7 @@
     <div class="flex justify-center mb-4">
       <img src="{{asset('asset/images/Yuwaahlogo.png')}}" alt="YuWaah Logo" class="w-[150px] h-[86px]">
     </div>
-    <h1 class="w-[182px] h-[34px] font-[600] text-[28px] leading-[34.13px] text-[#000000]  mb-4">Partner Login</h1>
+    <h1 class="w-[282px] h-[34px] font-[600] text-[28px] leading-[34.13px] text-[#000000]  mb-4">Partner Center Login</h1>
 
 
 
@@ -57,9 +57,9 @@
       <div class="flex justify-between">
         <span></span>
         @if (Route::has('password.request'))
-            <a class="relative right-2 w-[120px] h-[15px] font-[500] text-[12px] leading-[14.63px] text-[#05A7D1] hover:underline cursor-pointer " href="{{ route('password.request') }}">
+            <!-- <a class="relative right-2 w-[120px] h-[15px] font-[500] text-[12px] leading-[14.63px] text-[#05A7D1] hover:underline cursor-pointer " href="{{ route('password.request') }}">
                 {{ __('Forgot password?') }}
-            </a>
+            </a> -->
         @endif
        
       </div>
@@ -78,7 +78,7 @@
 
     <div class="mt-2 ">
       <p class="text-center font-[400] text-[12px] leading-[14.63px] text-[#000000]">
-        Now to YuWaah? <a href="#" class=" font-[600] text-[12px] leading-[14.63px] text-[#05A7D1] hover:underline">Register</a>
+        Now Partner Center ? <a href="#" class=" font-[600] text-[12px] leading-[14.63px] text-[#05A7D1] hover:underline">Contact Us</a>
       </p>
     </div>
   </div>

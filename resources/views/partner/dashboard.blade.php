@@ -33,7 +33,7 @@
             </div>
         </div>
         <div class="card">
-            <h2 class="name-value-box">
+            <h2 class="name-value-box" style="width:200px">
                 <span class="name">YuWaah Sakhi</span>
                 <span class="value">{{$totalCount['totalYuwaahSakhi']}}</span>
             </h2>
@@ -58,7 +58,7 @@
             </div>
         </div>
         <div class="card">
-            <h2 class="name-value-box">
+            <h2 class="name-value-box" style="width:300px">
                 <span class="name">Opportunities Verified</span>
                 <span class="value">{{$totalCount['totalOpportunities']}}</span>
             </h2>
@@ -83,12 +83,12 @@
                 
                     <!-- Section 3 -->
                     <div class="section">
-                    <div class="section-title">Opportunites / Event</div>
+                    <div class="section-title">Gender Count</div>
                     <canvas id="otherdonutChartId"></canvas>
                     </div>
 
               </div>
-              <div class="dashboard">
+              <!-- <div class="dashboard">
                 <div class="section">
                     <div class="section-title">Opportunites / Event</div>
                     <canvas id="lineChart"></canvas>
@@ -98,7 +98,7 @@
                     <canvas id="barChart"></canvas>
                 </div>
                 
-              </div>
+              </div> -->
         </div>
 
     </div>

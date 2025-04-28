@@ -5,6 +5,7 @@ use Illuminate\Http\Request;
 
 define('LARAVEL_START', microtime(true));
 error_reporting(E_ALL & ~E_DEPRECATED);
+ini_set('memory_limit', '512M');
 
 /*
 |--------------------------------------------------------------------------

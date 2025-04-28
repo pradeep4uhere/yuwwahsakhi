@@ -180,7 +180,7 @@
           <div class="flex flex-col items-center gap-1.5">
             <div
               class="w-[86px] h-[17px] ml-[5px] font-Montserrat font-[500] text-[14px] leading-[17.07px] text-[#000000]">
-             {{$item['first_name']}}&nbsp;
+             {{$item['first_name']}}
             </div>
             <div class="flex gap-1.5">
               <span>

@@ -12,7 +12,11 @@
     <!-- <link rel="preconnect" href="https://fonts.googleapis.com"> -->
     <link rel="stylesheet" href="style.css">
 <!-- <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> -->
-<link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-chart-geo"></script>
+
 <style>
      * {
             margin: 0;
@@ -575,14 +579,58 @@
     margin: 0 5px;
     color: #888;
 }
+
+.profile {
+    position: relative;
+}
+
+.profile-pic {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.menu {
+    display: none; /* Hide the menu by default */
+    position: absolute;
+    top: 60px; /* Position the menu below the profile picture */
+    right: 0;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 10px;
+    border-radius: 5px;
+    z-index: 10;
+}
+
+.menu ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.menu ul li {
+    padding: 5px 10px;
+}
+
+.menu ul li a {
+    text-decoration: none;
+    color: #333;
+    display: block;
+}
+
+.menu ul li a:hover {
+    background-color: #f1f1f1;
+}
 </style>
+
 </head>
 <body>
 @yield('content')
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 <script src="{{asset('asset/js/script.js')}}"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
 <script>
 function deleteConfirm(id, route) {
     // Display confirmation alert
@@ -616,6 +664,423 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 </script>
+<script>
+        //Chart.register(ChartDataLabels); // Add this line
+        // Common responsive configuration
+        const responsiveConfig = (maxY) => ({
+            responsive: true,
+            maintainAspectRatio: false,
+            
+            layout: {
+                padding: {
+                    top: 10,
+                    bottom: window.innerWidth < 768 ? 40 : 20
+                }
+            },
+            scales: {
+                y: {
+                    max: maxY,
+                    ticks: {
+                        stepSize: 10,
+                        color: '#0a0a0a',
+                        font: {
+                            family: 'Montserrat',
+                            size: window.innerWidth < 768 ? 10 : 12
+                        }
+                    },
+                    grid: {
+                        color: 'rgba(0, 0, 0, 0.1)',
+                        borderDash: [5, 5]
+                    }
+                },
+                x: {
+                    grid: { display: true },
+                    ticks: {
+                        autoSkip: true,
+                        maxRotation: window.innerWidth < 768 ? 45 : 0,
+                        minRotation: window.innerWidth < 768 ? 45 : 0,
+                        font: {
+                            family: 'Montserrat',
+                            size: window.innerWidth < 768 ? 10 : 12
+                        }
+                    }
+                }
+            },
+            plugins: {
+                legend: { display: false,  position: 'top' },
+                datalabels: {
+                    anchor: 'center',
+                    align: 'center',
+                    color: 'rgba(0, 0, 0, 0.5)',
+                    font: {
+                        family: 'Montserrat',
+                        weight: 'bold',
+                        size: window.innerWidth < 768 ? 10 : 15
+                    },
+                    formatter: value => value
+                }
+            }
+        });
+        const chartsData = @json($chartsData);
+        const labels = @json($labels);
+        // Initialize all charts with responsive config
+        function initializeChart(chartId, data, maxY, labels) {
+            new Chart(document.getElementById(chartId), {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        data: data,
+                        backgroundColor: '#31bcf1',
+                        borderWidth: 1,
+                        categoryPercentage: 0.8,
+                        barPercentage: 0.9
+                    }]
+                },
+                options: responsiveConfig(maxY),
+               
+                
+            });
+        }
+
+        // Initialize charts
+        const chartLabels = @json($labels);
+        document.addEventListener('DOMContentLoaded', () => {
+          initializeChart('partnerCenter', chartsData.partnerCenter, chartsData.partnerCenterMaxY,chartLabels);
+          initializeChart('yuwaahChart', chartsData.yuwaahChart, chartsData.yuwaahChartMaxY,chartLabels);
+          initializeChart('coursesCompleted', chartsData.coursesCompleted, chartsData.coursesCompletedMaxY,chartLabels);
+          initializeChart('opportunitiesVerified', chartsData.opportunitiesVerified, chartsData.opportunitiesVerifiedMaxY,chartLabels);
+      });
+
+
+
+        //
+        const ageGroup = @json($learnerAgeGroup);
+        const labelsdonut = ['14-20', '21-30', '31-40', '40+'];
+        const valuesdonut = [
+            ageGroup['14-20'], 
+            ageGroup['21-30'], 
+            ageGroup['31-40'], 
+            ageGroup['40+']
+        ];
+
+        const colorsdonut = ['#13c2c2', '#b83d00','#771166','#52c41a'];
+        function createDonutData(labels, values, colors) {
+          return {
+            labels: labels,
+            datasets: [{
+              data: values,
+              backgroundColor: colors,
+              hoverOffset: 4
+            }]
+          };
+        }
+        const chartData = createDonutData(labelsdonut, valuesdonut, colorsdonut);
+        
+        function initializeDonutChart(chartId, doughnut) {
+        new Chart(document.getElementById(chartId), {
+          type: 'doughnut',
+          data: doughnut,
+          options: {
+          responsive: true,
+            animations: {
+              tension: {
+                duration: 3000,
+                easing: 'linear',
+                from: 1,
+                to: 0,
+                loop: true
+              }
+            },
+          plugins: {
+            tooltip: {
+              callbacks: {
+                label: 'Age Group',
+              }
+            },
+            legend: {
+              position: 'bottom'
+            }
+          }
+        }
+        });
+      }
+      initializeDonutChart('donutChartId', chartData);
+
+
+
+      //Gender
+
+        //
+        const learnerGenderGroup = @json($learnerGenderGroup);
+        const genderlabelsdonut = ['Male','Female','Other'];
+        const gendervaluesdonut = [
+          learnerGenderGroup['Male'],
+          learnerGenderGroup['Female'],
+          learnerGenderGroup['Other']
+        ];
+        const gendercolorsdonut = ['#1677ff','#f316a2','#faad14'];
+        function createGenderDonutData(labels, values, colors) {
+          return {
+            labels: labels,
+            datasets: [{
+              data: values,
+              backgroundColor: colors,
+              hoverOffset: 4
+            }]
+          };
+        }
+        const genderchartData = createGenderDonutData(genderlabelsdonut, gendervaluesdonut, gendercolorsdonut);
+        
+        function initializeGenderDonutChart(chartId, doughnut) {
+        new Chart(document.getElementById(chartId), {
+          type: 'doughnut',
+          data: doughnut,
+          options: {
+          responsive: true,
+          plugins: {
+            tooltip: {
+              callbacks: {
+                label: 'Age Group',
+              }
+            },
+            legend: {
+              position: 'bottom'
+            }
+          }
+        }
+        });
+      }
+      initializeGenderDonutChart('genderdonutChartId', genderchartData);
+
+
+
+        const learnerGendercount = @json($learnerGenderGroup);
+        const otherlabelsdonut = ['Male','Female','Other'];
+        const othervaluesdonut = [
+          learnerGendercount['Male'],
+          learnerGendercount['Female'],
+          learnerGendercount['Other']
+        ];
+        const othercolorsdonut = ['#1677ff','#f316a2','#faad14'];
+        function createOtherDonutData(labels, values, colors) {
+          return {
+            labels: labels,
+            datasets: [{
+              data: values,
+              backgroundColor: colors,
+              hoverOffset: 40
+            }]
+          };
+        }
+        const otherchartData = createOtherDonutData(otherlabelsdonut, othervaluesdonut, othercolorsdonut);
+        
+        function initializeOtherDonutChart(chartId, doughnut) {
+        new Chart(document.getElementById(chartId), {
+          type: 'doughnut',
+          data: doughnut,
+          options: {
+          responsive: true,
+          plugins: {
+            tooltip: {
+              callbacks: {
+                label: 'Age Group',
+              }
+            },
+            legend: {
+              position: 'bottom'
+            }
+          }
+        }
+        });
+      }
+      initializeOtherDonutChart('otherdonutChartId', otherchartData);
+      </script>
+      <script>
+       const labelsLine = getMonthLabels(12);
+       
+       const dataLine = {
+          labels: labelsLine,
+          datasets: [
+            {
+              label: 'Opportiunites', // Label for the first line
+              data: [65, 59, 80, 81, 56, 55, 40,59, 80, 81, 56, 55, 40], // First dataset values
+              fill: false,
+              borderColor: 'rgb(75, 192, 192)', // First line color
+              tension: 0.9
+            },
+            {
+              label: 'Events', // Label for the second line
+              data: [28, 48, 40, 19, 86, 27, 90,28, 48, 40, 19, 86, 27], // Second dataset values
+              fill: false,
+              borderColor: 'rgb(255, 99, 132)', // Second line color (different from the first)
+              tension: 0.9
+            }
+          ]
+        };
+
+
+  function initializeLineChart(chartId, dataLine) {
+    new Chart(document.getElementById(chartId), {
+      type: 'line',
+      data: dataLine, // Corrected from 'doughnut' to 'dataLine'
+      options: {
+        responsive: true,
+        animations: {
+              tension: {
+                duration: 500,
+                easing: 'linear',
+                from: 1,
+                to: 0,
+                loop: false
+              }
+        },
+        plugins: {
+          tooltip: {
+          enabled: true, // Enable tooltips
+          callbacks: {
+            // Custom tooltip label
+              label: function(tooltipItem) {
+                // Tooltip formatting to show dataset label and data point value
+                return `${tooltipItem.dataset.label}: ${tooltipItem.raw}`;
+              },
+              title: function(tooltipItems) {
+                // Custom title for tooltip (e.g., show the label of the month)
+                return 'Month: ' + tooltipItems[0].label;
+              }
+            }
+          },
+          legend: {
+            position: 'bottom'
+          },
+        }
+      }
+    });
+  }
+  function getMonthLabels(count) {
+    const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+    const currentMonth = new Date().getMonth(); // Get the current month
+    const labelsArr = [];
+
+    for (let i = 0; i < count; i++) {
+      labelsArr.push(months[(currentMonth + i) % 12]);
+    }
+
+    return labelsArr;
+  }
+
+
+  initializeLineChart('lineChart', dataLine);
+      </script>
+
+
+<script>
+  // Function to generate month labels dynamically (replaces Utils.months)
+function getMonthLabels(count) {
+  const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+  const currentMonth = new Date().getMonth(); // Get the current month
+  const labels = [];
+
+  for (let i = 0; i < count; i++) {
+    labels.push(months[(currentMonth + i) % 12]);
+  }
+
+  return labels;
+}
+
+// Bar chart data configuration
+const labelsArr = getMonthLabels(12); // Generate 7 months dynamically
+const dataArr = {
+  labels: labels,
+  datasets: [{
+    label: 'Assigned Opportunites',
+    data: [65, 59, 80, 81, 56, 55, 40,80, 81, 56, 55, 40],
+    backgroundColor: [
+      'rgba(255, 99, 132, 0.2)',
+      'rgba(255, 159, 64, 0.2)',
+      'rgba(255, 205, 86, 0.2)',
+      'rgba(75, 192, 192, 0.2)',
+      'rgba(54, 162, 235, 0.2)',
+      'rgba(153, 102, 255, 0.2)',
+      'rgba(201, 203, 207, 0.2)'
+    ],
+    borderColor: [
+      'rgb(255, 99, 132)',
+      'rgb(255, 159, 64)',
+      'rgb(255, 205, 86)',
+      'rgb(75, 192, 192)',
+      'rgb(54, 162, 235)',
+      'rgb(153, 102, 255)',
+      'rgb(201, 203, 207)'
+    ],
+    borderWidth: 1
+  }]
+};
+
+// Method to initialize and render the bar chart
+function initializeBarChart(chartId, chartData) {
+  const ctx = document.getElementById(chartId).getContext('2d'); // Get the canvas context
+
+  // Check if the context is null
+  if (!ctx) {
+    console.error("Canvas element not found");
+    return;
+  }
+
+  new Chart(ctx, {
+    type: 'bar', // Bar chart type
+    data: chartData, // The data for the chart
+    options: {
+      responsive: true, // Make the chart responsive
+      scales: {
+        x: {
+          beginAtZero: true // Ensure X-axis starts from 0
+        },
+        y: {
+          beginAtZero: true // Ensure Y-axis starts from 0
+        }
+      },
+      plugins: {
+        tooltip: {
+          callbacks: {
+            // Custom tooltip label
+            label: function(tooltipItem) {
+              return tooltipItem.dataset.label + ': ' + tooltipItem.raw;
+            },
+            title: function(tooltipItems) {
+              return 'Month: ' + tooltipItems[0].label;
+            }
+          }
+        },
+        legend: {
+          position: 'bottom'
+        }
+      }
+    }
+  });
+}
+
+// Call the method to initialize the bar chart
+initializeBarChart('barChart', dataArr);
+</script>
+<script>
+  // Get the profile picture and menu elements
+const profilePic = document.getElementById('profilePic');
+const menu = document.getElementById('menu');
+
+// Add click event listener to the profile picture
+profilePic.addEventListener('click', () => {
+    // Toggle the menu visibility
+    menu.style.display = (menu.style.display === 'block') ? 'none' : 'block';
+});
+
+// Optional: Close the menu if clicked outside
+window.addEventListener('click', (event) => {
+    if (!profilePic.contains(event.target) && !menu.contains(event.target)) {
+        menu.style.display = 'none';
+    }
+});
+
 </script>
 </body>
 
