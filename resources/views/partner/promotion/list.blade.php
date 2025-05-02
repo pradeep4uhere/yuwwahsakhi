@@ -56,7 +56,7 @@
                     </tr>
                     @empty
                     <tr>
-                        <td colspan="5"><p class="text-center w-100">No promotions found.</p></td>
+                        <td colspan="7"><p class="text-center w-100">No promotions found.</p></td>
                     </tr>
                     @endforelse
                 </tbody>
