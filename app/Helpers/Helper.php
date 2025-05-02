@@ -535,6 +535,25 @@ if (!function_exists('getBlock')) {
 
 
 
+if (!function_exists('getformateDate')) {
+    /**
+     * Format a date string to a given format.
+     *
+     * @param string $date
+     * @param string $format (optional, default: 'd M, Y h:i A')
+     * @return string|null
+     */
+    function getformateDate($date, $format = 'd M, Y h:i A') {
+        if (!$date || strtotime($date) === false) {
+            return null; // or return ''; if you prefer
+        }
+
+        return date($format, strtotime($date));
+    }
+}
+
+
+
 
 
 

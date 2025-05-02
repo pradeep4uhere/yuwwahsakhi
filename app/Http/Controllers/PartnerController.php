@@ -153,21 +153,28 @@ class PartnerController extends Controller
             'opportunitiesVerified' => array_values($monthlyopportunitiesCounts->toArray()),
         ];
         //dd($chartsData);
+      
         // Compute maxY values dynamically and attach to the array
         foreach ($chartsData as $key => $values) {
-            //$chartsData[$key . 'MaxY'] = ceil(max($values) / 5) * 5 + 15 ;
-        }
-        // Compute maxY values dynamically and attach to the array
-        foreach ($chartsData as $key => $values) {
-            // Check if the array is not empty
-            if (!empty($values)) {
-                // Calculate maxY if the array is not empty
-                $chartsData[$key . 'MaxY'] = ceil(max($values) / 5) * 5 + 15;
-            } else {
-                // Handle the case when the array is empty (set a default value for maxY)
-                $chartsData[$key . 'MaxY'] = 15; // or any default value you want to set
+            //dd(max($values));
+              // Ensure $values is a flat array
+            if (!is_array($values) || !count($values)) {
+                $chartsData[$key . 'MaxY'] = 15;
+                continue;
             }
+
+             // Flatten if it's a multidimensional array (just in case)
+            $flatValues = array_map('intval', $values);
+            $max = max($flatValues);
+
+            if ($max > 0) {
+                $chartsData[$key . 'MaxY'] = ceil($max / 5) * 5 + 15;
+            } else {
+                $chartsData[$key . 'MaxY'] = 15;
+            }
+
         }
+
         $totalCount = array();
         $totalCount['totalPartnerCenter'] = $totalPartnerCenter;
         $totalCount['totalYuwaahSakhi'] = $totalYuwwahSakhi;
@@ -436,6 +443,27 @@ class PartnerController extends Controller
         $request->session()->regenerateToken();
         return redirect()->route('partner.login')->with('success', 'Logged out successfully.');
     }
+
+
+    public function settingProfile(Request $request){
+        $partner = Auth::user();
+       
+        return view($this->dir.'.setting', [
+            'partner' => $partner, // Fetch authenticated partner
+        ]);
+    }
+
+
+
+
+    public function promotionalDetails(Request $request,$id){
+        $idVal = decryptString($id);
+        $promotionDetails = Promotion::find($idVal);
+        return view($this->dir.'.promotion.details', [
+            'promotionDetails' => $promotionDetails, // Fetch authenticated partner
+        ]);
+    }
+    
 
 
 

@@ -52,4 +52,10 @@ Route::middleware('auth:partner')->group(function () {
     Route::get('partner.event', [PartnerController::class, 'eventList'])->name('partner.event');
     Route::get('viewyuwaahsakhi/{id}', [PartnerController::class, 'viewAssociatedYuwaahSakhi'])->name('partner.partnercenter.viewyuwaahsakhi');
     Route::get('viewyuwaahsakhi_details/{id}', [PartnerController::class, 'viewAssociatedYuwaahSakhi'])->name('partner.partnercenter.viewyuwaahsakhi.details');
+    Route::get('setting', [PartnerController::class, 'settingProfile'])->name('partner.setting');
+    Route::post('partner_password', [PartnerAuthController::class, 'changePassword'])->name('partner.password.change');
+    Route::get('promotion_view/{id}', [PartnerController::class, 'promotionalDetails'])->name('patner.promotion.view');
+
+    
+    
 });

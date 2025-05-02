@@ -387,4 +387,37 @@ class PartnerCenterController extends Controller
             'data'=>$yuwaahSakhiList
         ]);
     }
+
+
+
+    public function settingProfile(Request $request){
+        $partner = Auth::user();
+       
+        return view($this->dir.'.setting', [
+            'partner' => $partner, // Fetch authenticated partner
+        ]);
+    }
+
+
+
+    public function promotionalDetails(Request $request,$id){
+        $idVal = decryptString($id);
+        $promotionDetails = Promotion::find($idVal);
+        return view($this->dir.'.promotion.details', [
+            'promotionDetails' => $promotionDetails, // Fetch authenticated partner
+        ]);
+    }
+    
+
+
+
+
+
+
+
+
+
+
+
+
 }

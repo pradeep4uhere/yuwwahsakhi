@@ -7,8 +7,8 @@
 <div class="subheader">
 
             <div class="table-container">
-            <table>
-                <thead>
+                <table class="table table-striped table-bordered">
+                <thead class="table-dark">
                     <tr>
                         <th>ID</th>
                         <th>Opportunity Name</th>

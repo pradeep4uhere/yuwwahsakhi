@@ -20,17 +20,21 @@
         </div>
     
         <!-- Wrapper for Icons and Hamburger -->
-        <div class="header-right">
-          <p>{{Auth::user()->name}}</p>
+        <div class="header-right" style="width:352px">
+       
+        <div class="stat-label">
+          <p>{{ucwords(Auth::user()->name)}}&nbsp;|&nbsp;{{ucwords(Auth::user()->email)}}</p>
+       
+        </div>
           <!-- Desktop Icons -->
           <div class="icons">
-            <img src="{{asset('asset/images/Notifications.png')}}" alt="">
+            <!-- <img src="{{asset('asset/images/Notifications.png')}}" alt=""> -->
             <img src="{{asset('asset/images/Profile.png')}}" alt="" id="profilePic" class="profile-pic">
             <div id="menu" class="menu">
-              <ul>
-                  <li><a href="#">View Profile</a></li>
-                  <li><a href="#">Settings</a></li>
-                  <li><form method="POST" action="{{ route('partner.logout') }}">
+              <ul >
+                  <li class="info-item"><a href="{{route('partner.setting')}}">View Profile</a></li>
+                  <li class="info-item"><a href="{{route('partner.setting')}}">Settings</a></li>
+                  <li class="info-item"><form method="POST" action="{{ route('partner.logout') }}">
                     @csrf
                     <a href="route('admin.logout')"
                                     onclick="event.preventDefault();
@@ -40,6 +44,7 @@
                     </a>
                     </form></li>
               </ul>
+          </div>
           </div>
           </div>
     

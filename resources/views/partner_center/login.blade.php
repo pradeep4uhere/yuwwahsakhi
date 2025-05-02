@@ -17,7 +17,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
-  <body class="font-Montserrat ">
+  <body class="font-Montserrat" style="background-color: floralwhite;">
 <div id="screen4" class="mx-auto max-w-[26rem] p-10 bg-white shadow-md  h-auto" style="margin-top:200px;">
 
     <!-- <a href="register.html" class="hover:text-blue-600 mb-4 text-lg">

@@ -3,12 +3,11 @@
 @section('content')
 @include('partner.menu')
 <div class="container">
-        <h1>Opportunity</h1>
-<div class="subheader">
-
-            <div class="table-container">
-            <table>
-                <thead>
+        <h1>Opportunity [{{count($data['data'])}}]</h1>
+    <div class="subheader">
+            <div class="table-containers">
+            <table class="table table-striped table-bordered">
+                <thead class="table-dark">
                     <tr>
                         <th>ID</th>
                         <th>Opportunity Name</th>
@@ -25,9 +24,6 @@
                 </thead>
                 <tbody>
                 @forelse($data['data'] as $item)
-                  
-                  
-                   
                     <tr>
                         <td>{{$item['id']}}</td>
                         <td>
@@ -57,7 +53,9 @@
                         </td>
                     </tr>
                     @empty
-                        <p class="text-center w-100">No Opportunity found.</p>
+                    <tr>
+                        <td colspan="11"><p class="text-center w-100 alert alert-danger">No Opportunity found.</p></td>
+                    </tr>
                     @endforelse
                 </tbody>
             </table>

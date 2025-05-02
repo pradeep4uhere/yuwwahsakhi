@@ -88,6 +88,7 @@ class PartnerCenter extends Model implements Authenticatable
                     'status'=>$partner->status,
                     'yuwwah_sakhi_count' => $partner->yuwwah_sakhi_count ?? 0,
                     'onboard_date'=>$partner->onboard_date,
+                    'created_at'=>$partner->created_at,
                 ];
         }
     }
@@ -111,6 +112,7 @@ class PartnerCenter extends Model implements Authenticatable
                     'status'=>$item->status,
                     'yuwwah_sakhi_count' => $item->yuwwah_sakhi_count ?? 0,
                     'onboard_date'=>$item->onboard_date,
+                    'created_at'=>$item->created_at,
                 ];
             }
             return $data;

@@ -55,7 +55,9 @@ class PartnerAuthController extends Controller
             ]);
     
             // Authentication passed, redirect to the admin dashboard
-            return redirect()->intended('/partner/dashboard');
+            return redirect('/partner/dashboard');
+
+            
         }
 
         // Authentication failed, return back with error message
@@ -122,5 +124,29 @@ class PartnerAuthController extends Controller
         return view('partner.register');
     }
 
+
+
+    public function changePassword(Request $request)
+    {
+        $request->validate([
+            'current_password' => ['required'],
+            'new_password' => ['required', 'string', 'min:8', 'confirmed'],
+        ]);
+
+        $partner = Auth::guard('partner')->user(); // Corrected for partner guard
+
+        if (!$partner) {
+            return redirect()->route('partner.login')->withErrors(['error' => 'Unauthorized access.']);
+        }
+
+        if (!Hash::check($request->current_password, $partner->password)) {
+            return back()->withErrors(['current_password' => 'Current password is incorrect.']);
+        }
+
+        $partner->password = Hash::make($request->new_password);
+        $partner->save();
+
+        return back()->with('success', 'Password changed successfully.');
+    }
 
 }

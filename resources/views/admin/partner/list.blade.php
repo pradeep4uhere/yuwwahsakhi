@@ -7,8 +7,13 @@
                 <span class="">Dashboard > Partner</span> <br />
             </div>
             <div class="search-box">
-                <i class="uil uil-search"></i>
-                <input type="text" placeholder="Please type and search">
+                <form method="GET" action="{{ url()->current() }}" class="search-box" style="display: flex; align-items: center; gap: 10px;">
+                    @csrf
+                    <i class="uil uil-search"></i>
+                    <input type="text" name="search" value="{{ request('search') }}" placeholder="Please type and search" style="padding: 8px; width: 300px;">
+                    <button type="submit" style="background-color: white;">Search</button>
+                    
+                </form>
             </div>
 
         </div>
@@ -31,22 +36,22 @@
                     <div class="activity-data">
                         <x-alert />
                     </div>
-                    <div style="width=100%;overflow-x: auto;">
-                    <table class="custom-table">
+                    <div style="overflow-x: auto; width: 100%;">
+                    <table class="custom-table min-w-[1000px] w-full table-auto">
                         <thead>
                             <tr>
                                 <th>SN</th>
-                                <th>Partner ID</th>
-                                <th>Name</th>
-                                <th>Contact Number</th>
-                                <th>Email</th>
-                                <th>State</th>
-                                <th>District</th>
-                                <th>Block</th>
-                                <th>Onboarded on</th>
-                                <th>Status</th>
-                                <th>Created On</th>
-                                <th>Actions</th>
+                                <th nowrap="nowrap">Partner ID</th>
+                                <th nowrap="nowrap">Name</th>
+                                <th nowrap="nowrap">Contact Number</th>
+                                <th nowrap="nowrap">Email</th>
+                                <th nowrap="nowrap">State</th>
+                                <th nowrap="nowrap">District</th>
+                                <th nowrap="nowrap">Block</th>
+                                <th nowrap="nowrap">Onboarded on</th>
+                                <th nowrap="nowrap">Status</th>
+                                <th nowrap="nowrap">Created On</th>
+                                <th nowrap="nowrap">Actions</th>
                             </tr>
                         </thead>
                         
@@ -56,22 +61,22 @@
                                   foreach($response as $item){ //dd($item); ?>
                             <tr>
                                 <td>{{$count}}</td>
-                                <td>{{$item['partner_id']}}</td>
-                                <td>{{$item['name']}}</td>
-                                <td>{{$item['contact_number']}}</td>
-                                <td>{{$item['email']}}</td>
-                                <td>{{ optional($item->state)->name ?? 'N/A' }}</td>
-                                <td>{{ optional($item->district)->name ?? 'N/A' }}</td>
-                                <td>{{ optional($item->block)->name ?? 'N/A' }}</td>
-                                <td>{{$item['onboard_date']}}</td>
-                                <td><?php if($item['status']==1){ ?>
+                                <td nowrap="nowrap">{{$item['partner_id']}}</td>
+                                <td nowrap="nowrap">{{$item['name']}}</td>
+                                <td nowrap="nowrap">{{$item['contact_number']}}</td>
+                                <td nowrap="nowrap">{{$item['email']}}</td>
+                                <td nowrap="nowrap">{{ optional($item->state)->name ?? 'N/A' }}</td>
+                                <td nowrap="nowrap">{{ optional($item->district)->name ?? 'N/A' }}</td>
+                                <td nowrap="nowrap">{{ optional($item->block)->name ?? 'N/A' }}</td>
+                                <td nowrap="nowrap">{{getformateDate($item['onboard_date'],'d M, Y')}}</td>
+                                <td nowrap="nowrap"><?php if($item['status']==1){ ?>
                                    <span class="badge badge-success">Active</span>
                                 <?php }else{ ?>
                                     <span class="badge badge-danger">InActive</span>
                                 <?php } ?>
                                 </td>
-                                <td>{{$item['created_at']}}</td>
-                                <td>
+                                <td nowrap="nowrap">{{getformateDate($item['created_at'],'d M, Y H:i:s A')}}</td>
+                                <td nowrap="nowrap">
                                     <a href="{{route('admin.partner.edit',['id'=>encryptString($item['id'])])}}"><i class="uil uil-edit" style="color: #27272A; font-size: 15px;"></i></a>
                                     <a href="javascript:void(0);" 
                                         data-route="{{ route('admin.partner.delete', ['id' => '__ID__']) }}" 

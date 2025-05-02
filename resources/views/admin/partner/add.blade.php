@@ -43,30 +43,30 @@
           <div class="popup-grid">
             <div class="input-container">
               <label for="field1">Name</label>
-              <input type="text" name="name" placeholder="Please enter Partner Name">
+              <input type="text" name="name" placeholder="Please enter Partner Name" value="{{$inputs['name']}}">
             </div>
             <div class="input-container">
               <label for="field2">Email Address</label>
-              <input type="email" name="email" placeholder="Please enter Email Address">
+              <input type="email" name="email" placeholder="Please enter Email Address" value="{{$inputs['email']}}">
             </div>
             <div class="input-container">
               <label for="field3">Contact Number</label>
-              <input type="text" name="contact_number" placeholder="Please Contact Number">
+              <input type="text" name="contact_number" placeholder="Please Contact Number" value="{{$inputs['contact_number']}}">
             </div>
             <div class="input-container">
               <label for="field3">Choose State</label>
-              {!! getStateList('state_id', '', '', "loadDistricts(this.value)") !!}
+              {!! getStateList('state_id', $inputs['state_id'], '', "loadDistricts(this.value)") !!}
             </div>
           <div class="input-container">
             <label for="district" class="w-[80px] h-[15px] font-[400] text-[12px]  leading-[14.63px] text-[#000000]">District</label>
             <?php $class = "w-[330px] h-[40px] bg-[#FFFFFF] border-[1px] rounded-[10px] border-[#28388F0D] font-[400] text-[10px] leading-[12.19px] pl-2.5 text-[#A7A7A7] focus:ring-1 focus:ring-blue-500";?>
-            <div id="responseDistrict">{!!getDistrict('', 'district_id','',$class)!!}</div>
+            <div id="responseDistrict">{!!getDistrict($inputs['state_id'], 'district_id',$inputs['district_id'],$class)!!}</div>
           </div>
 
           <div class="input-container">
             <label for="block" class="w-[80px] h-[15px] font-[400] text-[12px]  leading-[14.63px] text-[#000000]">Block/City</label>
             <?php $class = "w-[330px] h-[40px] bg-[#FFFFFF] border-[1px] rounded-[10px] border-[#28388F0D] font-[400] text-[10px] leading-[12.19px] pl-2.5 text-[#A7A7A7] focus:ring-1 focus:ring-blue-500";?>
-            <div id="blockWrapper">{!!getBlock('', 'block_id','',$class)!!}</div>
+            <div id="blockWrapper">{!!getBlock($inputs['district_id'], 'block_id',$inputs['block_id'],$class)!!}</div>
           </div>
           
             <div class="input-container">

@@ -17,7 +17,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
-  <body class="font-Montserrat ">
+  <body class="font-Montserrat" style="background-color: darkslategrey;">
 <div id="screen4" class="mx-auto max-w-[26rem] p-10 bg-white shadow-md  h-auto" style="margin-top:200px;">
 
     <!-- <a href="register.html" class="hover:text-blue-600 mb-4 text-lg">
@@ -77,9 +77,9 @@
 
 
     <div class="mt-2 ">
-      <p class="text-center font-[400] text-[12px] leading-[14.63px] text-[#000000]">
+      <!-- <p class="text-center font-[400] text-[12px] leading-[14.63px] text-[#000000]">
         Now to YuWaah? <a href="#" class=" font-[600] text-[12px] leading-[14.63px] text-[#05A7D1] hover:underline">Register</a>
-      </p>
+      </p> -->
     </div>
   </div>
 </body>

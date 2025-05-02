@@ -46,4 +46,9 @@ Route::middleware('auth:partner_center')->group(function () {
     Route::get('event', [PartnerCenterController::class, 'eventList'])->name('partnercenter.event');
     Route::get('viewyuwaahsakhi/{id}', [PartnerCenterController::class, 'viewAssociatedYuwaahSakhi'])->name('partnercenter.partnercenter.viewyuwaahsakhi');
     Route::get('viewyuwaahsakhi_details/{id}', [PartnerCenterController::class, 'viewAssociatedYuwaahSakhi'])->name('partnercenter.partnercenter.viewyuwaahsakhi.details');    
+    Route::get('setting', [PartnerCenterController::class, 'settingProfile'])->name('partnercenter.setting');
+    Route::post('partner_password', [PartnerCenterAuthController::class, 'changePassword'])->name('partnercenter.password.change');
+    Route::get('promotion_view/{id}', [PartnerCenterController::class, 'promotionalDetails'])->name('patnercenter.promotion.view');
+    
+
 });

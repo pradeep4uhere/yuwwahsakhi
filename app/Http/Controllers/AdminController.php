@@ -67,9 +67,43 @@ class AdminController extends Controller
      */
     public function allPartnerList(Request $request){
         // Create an instance of the controller
+        // Optional: validate or sanitize 'search' input
+        $searchQuery = $request->input('search');
         $authApiController = new ApiAuthController();
-        $response = $authApiController->getPartnerList($request);
-        //dd($response);
+        //$response = $authApiController->getPartnerList($request);
+            // Initialize the query
+            $query = Partner::with(['state', 'district', 'block']);
+            if ($request->has('status')) {
+            $query->where('status', $request->status);
+        }
+         // Apply search filters on name, email, and contact_number
+        if (!empty($searchQuery)) {
+            $query->where(function($q) use ($searchQuery) {
+                $q->where('name', 'like', '%' . $searchQuery . '%')
+                ->orWhere('email', 'like', '%' . $searchQuery . '%')
+                ->orWhere('contact_number', 'like', '%' . $searchQuery . '%');
+            });
+        }
+
+        // Filter by status if provided in the request
+        if ($request->has('status')) {
+            $query->where('status', $request->status);
+        }
+
+        // Sorting logic based on 'sort_by' and 'sort_order' parameters
+        if ($request->has('sort_by')) {
+            $sortBy = $request->input('sort_by', 'id');  // Default sort by 'id'
+            $sortOrder = $request->input('sort_order', 'id');  // Default sort order 'asc'
+            $query->orderBy($sortBy, $sortOrder);
+        }
+
+        $query->orderBy('id','desc');
+        // Set the number of items per page from the request, or default to 10
+        $perPage = $request->get('per_page', env('PAGINATION'));
+
+        // Execute the query and return paginated results
+        $response =  $query->paginate($perPage);
+
         // Call the 'getPartnerList' method
         return view('admin.partner.list', [
             'response'=>$response,
@@ -86,6 +120,12 @@ class AdminController extends Controller
         $responseArray = [];
         $errors = [];
         $success = [];
+        $inputs['name']='';
+        $inputs['email']='';
+        $inputs['contact_number']='';
+        $inputs['state_id']='';
+        $inputs['district_id']='';
+        $inputs['block_id']='';
        
         if($request->isMethod('POST')) {
             // Create an instance of the ApiAuthController
@@ -102,10 +142,12 @@ class AdminController extends Controller
             if ($responseArray['status'] === false) {
                 $errors = $responseArray['errors'];
                 $success = [];
+                $inputs = $request->all();
             }
             if ($responseArray['status'] === true) {
                 $errors = [];
                 $success = $responseArray['message'];
+                $inputs = $request->all();
             }
             
         }
@@ -115,6 +157,7 @@ class AdminController extends Controller
             'response'=>$responseArray,
             'errors'=> $errors,
             'success'=>$success,
+            'inputs'=>$inputs,
             'title' => __('messages.add_new_partner'),
         ]);
     }
@@ -1058,7 +1101,7 @@ public function exportLearnersCSV()
 
 public function exportPartners()
 {
-    return Excel::download(new PartnersExport, 'partners.csv');
+    return Excel::download(new PartnersExport, 'partners_'.date('y_m_d_h_i_s_a').'.csv');
 }
 
 

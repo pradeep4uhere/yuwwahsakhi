@@ -16,14 +16,17 @@
     
         <!-- Wrapper for Icons and Hamburger -->
         <div class="header-right">
+        <div class="stat-label">
+          <p>{{ucwords(Auth::user()->center_name)}}&nbsp;|&nbsp;{{ucwords(Auth::user()->email)}}</p>
+        </div>
           <!-- Desktop Icons -->
           <div class="icons">
-            <img src="{{asset('asset/images/Notifications.png')}}" alt="">
+            <!-- <img src="{{asset('asset/images/Notifications.png')}}" alt=""> -->
             <img src="{{asset('asset/images/Profile.png')}}" alt="" id="profilePic" class="profile-pic">
             <div id="menu" class="menu">
               <ul>
-                  <li><a href="#">View Profile</a></li>
-                  <li><a href="#">Settings</a></li>
+              <li class="info-item"><a href="{{route('partnercenter.setting')}}">View Profile</a></li>
+              <li class="info-item"><a href="{{route('partnercenter.setting')}}">Settings</a></li>
                   <li><form method="POST" action="{{ route('partnercenter.logout') }}">
                     @csrf
                     <a href="route('admin.logout')"
