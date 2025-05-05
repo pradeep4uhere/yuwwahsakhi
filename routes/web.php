@@ -59,12 +59,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/aboutyuwaah', [ProfileController::class, 'AboutYuwaah'])->name('page.about_yuwaah');
     Route::get('/profileedit', [ProfileController::class, 'profileEdit'])->name('profile.profiledit');
     Route::post('/update-profile', [ProfileController::class, 'saveEditProfile'])->name('user.updateProfile');
-    
-    
-    
-    
-    
-    
+    Route::get('/get-event-documents', [ProfileController::class, 'getEventDocuments'])->name('user.event.document');
+
 
     
 });

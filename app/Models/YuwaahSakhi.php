@@ -15,6 +15,12 @@ class YuwaahSakhi extends Authenticatable
      // Define the table name if it's not the plural form of the model
      protected $table = 'yuwaah_sakhi';
 
+
+     public function getAuthIdentifierName()
+    {
+        return 'contact_number';
+    }
+
      // Define fillable fields
     protected $fillable = [
         'sakhi_id',

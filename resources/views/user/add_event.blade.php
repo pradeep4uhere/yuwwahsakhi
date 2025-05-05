@@ -47,7 +47,7 @@
          
         </div>
         <div class="space-y-1">
-          <select name="event_type" id="event_type" class="font-[400] text-[12px] leading-[14.63px] text-[#000000]" style="width:100%; padding:10px; border:solid 1px #ccc">
+          <select name="event_type" id="event_type" class="font-[400] text-[12px] leading-[14.63px] text-[#000000]" style="width:100%; padding:10px; border:solid 1px #ccc" onchange="fetchEventDocuments()">
             <option value="">Choose Event Type</option>
             @foreach($eventList as $item)
             <option value="{{$item['id']}}">{{$item['event_type']}}</option>
@@ -72,6 +72,12 @@
           <input id="comment" name="comment" type="text"  class="text-xs w-full border rounded px-3 py-2 text-sm  placeholder:font-[400] placeholder:text-[10px] placeholder:leading-[12.19px] placeholder:text-[#A7A7A7] rounded-[10px] placeholder:border-[1px]"   value="{{ old('comment') }}">
         </div>
         <div class="space-y-1 mt-2">
+          <label for="potential" class="font-[400] text-[12px] leading-[14.63px] text-[#000000]">Document Type</label>
+          <select name="document_type" id="document_type" class="font-[400] text-[12px] leading-[14.63px] text-[#000000]" style="width:100%; padding:10px; border:solid 1px #ccc">
+              <option value="">Choose Document Type</option>
+          </select>
+        </div>
+        <div class="space-y-1 mt-2">
           <label for="potential" class="font-[400] text-[12px] leading-[14.63px] text-[#000000]">Uploaded Doc Link(s)</label>
           <input id="uploaded_doc_links" name="uploaded_doc_links" type="file"  class="text-xs w-full border rounded px-3 py-2 text-sm  placeholder:font-[400] placeholder:text-[10px] placeholder:leading-[12.19px] placeholder:text-[#A7A7A7] rounded-[10px] placeholder:border-[1px]">
         </div>
@@ -87,7 +93,7 @@
 
     </div>
 </div>
-
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
   $('#event_type').on('change', function () {
     var eventTypeId = $(this).val();
@@ -166,5 +172,31 @@ function removefile(el) {
   if (block) block.remove();
 }
 </script>
+<script>
+$('#event_type').on('change', function () {
+        let eventTypeId = $(this).val();
+
+        if (eventTypeId) {
+            $.ajax({
+                url: "{{route('user.event.document')}}",
+                method: 'GET',
+                data: { event_type_id: eventTypeId },
+                success: function (response) {
+                    $('#document_type').empty().append('<option value="">Choose Document Type</option>');
+                    $.each(response, function (key, value) {
+                        $('#document_type').append('<option value="'+ value+'">'+ value+'</option>');
+                    });
+                },
+                error: function (xhr) {
+                    alert('Could not fetch document types.');
+                    console.log(xhr.responseText);
+                }
+            });
+        } else {
+            $('#document_type').empty().append('<option value="">Choose Document Type</option>');
+        }
+    });
+</script>
+
 @include('user.bottom_menu')
 @endsection

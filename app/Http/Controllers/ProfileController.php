@@ -46,15 +46,14 @@ class ProfileController extends Controller
      */
     public function login(Request $request)
     {
-       
+       //dd($request->all());
         // Validate the incoming login data
         $request->validate([
-            'email' => 'required|email',
-            'password' => 'required|string|min:8',
+            'email' => ['required', 'regex:/^[0-9]{10}$/'],
+            'password' => ['required', 'string', 'min:8'],
         ]);
 
-
-        $YuwaahSakhi = YuwaahSakhi::where('email', $request->email)->first();
+        $YuwaahSakhi = YuwaahSakhi::where('contact_number', $request->email)->first();
         //dd($YuwaahSakhi);
 
          // Check password
@@ -68,8 +67,9 @@ class ProfileController extends Controller
          $token = $YuwaahSakhi->createToken('YuwaahSakhi API Token')->plainTextToken;
          $YuwaahSakhi->update(['remember_token' => $token]);
 
-        $credentials = $request->only('email', 'password');
-        if (Auth::guard('web')->attempt($credentials)) {
+        $credentials = $request->only('contact_number', 'password');
+        //dd($credentials);
+        if (Auth::guard('web')->login($YuwaahSakhi)) {
             // Generate API token
             $YuwaahSakhi->update(['remember_token' => $token]);
 
@@ -393,15 +393,27 @@ class ProfileController extends Controller
      */
     public function eventTransactionList(Request $request){
         $eventList = YuwaahEventMaster::where('status',1)->get();
-        
         //All Event Transction Count
         $allEventCount = EventTransaction::where('ys_id',getUserId())->count();
-       
         return view($this->dir.'.add_event',[
             'eventList' => $eventList,
             'allEventCount'=>$allEventCount 
         ]);
     }
+
+
+    public function getEventDocuments(Request $request)
+    {
+        $eventTypeId = $request->input('event_type_id');
+        $documents = YuwaahEventMaster::find($eventTypeId);
+        $documentsArr = [
+            'doc_1'=> $documents['document_1'],
+            'doc_2'=> $documents['document_2'],
+            'doc_3'=> $documents['document_3']
+        ];
+        return response()->json($documentsArr);
+    }
+
 
 
 
@@ -419,6 +431,7 @@ class ProfileController extends Controller
             'event_value'              => 'required|numeric|min:0',
             'sakhi_id'                 => 'required|string|max:50',
             'comment'                  => 'nullable|string|max:1000',
+            'document_type'            => 'nullable|string|max:1000',
             'uploaded_doc_links'       => 'nullable|file|mimes:pdf,jpg,jpeg,png,doc,docx|max:2048',
         ]);
     
@@ -446,6 +459,7 @@ class ProfileController extends Controller
                 'event_value'              => $request->input('event_value'),
                 'ys_id'                    => getUserId(),
                 'comment'                  => $request->input('comment'),
+                'document_type'            => $request->input('document_type'),
                 'uploaded_doc_links'       => $uploadedPath,
                 'event_date_created'       => now(),
                 'event_date_submitted'     => now(), // Assuming submission is same as creation

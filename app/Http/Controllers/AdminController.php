@@ -1095,7 +1095,7 @@ public function allLearnerList(Request $request){
 
 public function exportLearnersCSV()
 {
-    return Excel::download(new LearnersExport, 'learners.csv');
+    return Excel::download(new LearnersExport, 'learners'.date('y_m_d_h_i_s_a').'.csv');
 }
 
 
