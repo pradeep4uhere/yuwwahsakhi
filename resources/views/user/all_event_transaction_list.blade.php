@@ -79,7 +79,7 @@
             </div>
 
             <div class="flex mb-[6px]">
-              <img src="{{asset('asset/images/Rupee Icon.png')}}" alt="engLogo" class="w-[9px] h-[12px] ml-[12px]  text-[#28388F0D]">
+            <img src="{{asset('asset/images/calendar.png')}}" alt="engLogo" class="w-[14px] h-[14px] ml-[10px]  text-[#28388F0D]">
               <p class="w-[195px] h-[12px]  ml-[10px] font-Montserrat font-[500] text-[10px] leading-[12.19px]">
               Event Type: {{($item['Event']!=null)?$item['Event']['event_type']:''}}
               </p>

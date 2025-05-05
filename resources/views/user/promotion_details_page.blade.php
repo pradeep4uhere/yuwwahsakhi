@@ -8,17 +8,15 @@
       <div class="dash-content">
         <div class="activity">
           <div class="activity-data">
-            @if($promotionList->count()>0)
-            @foreach($promotionList as $item)
-            <a href="{{route('user.promotion.details',['id'=>encryptString($item['id'])])}}">
+            @if($promotion)
             <div class="grid grid-cols-1 gap-4" style="margin-bottom:10px;">
               <!-- Card 1 -->
               <div class="bg-white overflow-hidden relative w-[344px]" style="box-shadow: 0px 3px 10px 8px #0000001A;">
                 
                 <div class="relative">
-                  <img src="{{ asset('storage/promotion/' . $item['banner']) }}"
+                  <img src="{{ asset('storage/promotion/' . $promotion['banner']) }}"
                       alt="Image1"
-                      class="w-full h-[100px] object-cover" />
+                      class="w-full h-full object-cover" />
 
                   <div class="absolute top-2 right-2 bg-gray-50 p-0.5 rounded-full cursor-pointer">
                     <img src="{{ asset('asset/images/share.png') }}" alt="Share" class="w-[16px] h-[16px]" />
@@ -27,7 +25,7 @@
 
                 <div class="p-2.5">
                   <p class="text-[10px] leading-[12.19px] text-[#000000]">
-                    {!! \Illuminate\Support\Str::words(strip_tags($item['promotional_descriptions']), 30, '...') !!}
+                    {!! $promotion['promotional_descriptions'] !!}
                   </p>
                 </div>
 
@@ -37,11 +35,6 @@
                 </div>
               </div>
             </div>
-            </a>
-              
-            @endforeach
-            @else
-            <div class="w-[340px] h-[40px]  bg-red-100 text-red-700 p-3 rounded mt-5 text-[12px]">No Promotions Found</div>  
             @endif
       </div>
       </div>

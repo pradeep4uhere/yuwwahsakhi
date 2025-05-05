@@ -1,7 +1,7 @@
 @extends('layouts.user')
 @section('title', 'Dashboard')
 @section('content')
-<div id="screen7" class="max-w-[26rem] mx-auto  bg-white shadow-md rounded-lg relative min-h-[100vh] h-auto">
+<div id="screen7" class="max-w-[26rem] mx-auto  bg-white shadow-md rounded-lg relative min-h-[95vh] h-auto">
     @include('user.header')
     <div class="">
       <img src="{{asset('asset/images/file-textcopy.png')}}" alt="engLogo" class="w-[20px] h-[20px] absolute top-[104px] left-[34px]">
@@ -120,13 +120,13 @@
       <p class="w-[62px] h-[17px] absolute top-[655px] left-[65px] font-Montserrat font-[500] text-[14px] leading-[17.07px] text-[#000000]">
       {{__('messages.learners')}}
       </p>
-      <div class="w-[340px] h-[50px] absolute top-[690px] left-[37px] bg-[#FFFFFF]" 
+      <div class="w-[350px] h-[50px] absolute top-[690px] left-[37px] bg-[#FFFFFF]" 
       style="box-shadow: 0px 3px 10px 0px #0000001A;"
       >
         <div class="flex justify-between items-center mt-2">
           <a href="{{route('learner')}}">
            <div class="w-[104px] h-[17px] absolute top-[18px] left-[17px] font-Montserrat font-[500] text-[14px] leading-[17.07px] text-center text-[#000000]">  {{__('messages.total_learners')}}</div>
-           <div class="w-[27px] h-[34px] absolute top-[10px] left-[285px] font-Montserrat font-[600] text-[28px] leading-[34.13px] text-center text-[#05A7D1]">{{$learnerCount}}</div>
+           <div class="w-[27px] h-[34px] absolute top-[10px] left-[245px] font-Montserrat font-[600] text-[28px] leading-[34.13px] text-center text-[#05A7D1]">{{$learnerCount}}</div>
           </a>
         </div>
       </div>

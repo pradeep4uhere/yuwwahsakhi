@@ -101,7 +101,7 @@
               class="w-[60px] h-[50px] bg-[#FAFAFA] mt-1 mr-[20px] flex items-center justify-center">
               <p
                 class="w-[60px] h-[30px] font-Montserrat font-[700] text-[12px] leading-[14.63px] text-center text-[#000000]">
-                50/ Learner
+                0/ Learner
                 <img src="{{asset('asset/images/rupeeIcon.png')}}" alt="engLogo" class="w-[8px] h-[12px] mt-[-30px] ml-[10px]">
               </p>
 
@@ -123,20 +123,25 @@
       
     </div>
     <div class="flex justify-between items-center mt-4">
+       
         <div>
-          <h1 class="w-[72px] h-[15px] font-[500] text-[12px] leading-[14.63px] text-[#000000]">
-            {{__('messages.learner_list')}}
+          <h1 class="w-[172px] h-[15px] font-[500] text-[12px] leading-[14.63px] text-[#000000]">
+            {{__('messages.learner_list')}} [{{$leanerList->total()}}]
           </h1>
           <!-- Success message container -->
           <div id="successMsg" class="hidden text-green-600 text-sm mt-2">Learners assigned successfully!</div>
 
         </div>
-        <div class="w-[150px] h-[30px] rounded-[10px] bg-[#28388F0D] flex justify-center items-center">
+        <div class="w-[100px] h-[30px] rounded-[10px] bg-[#28388F0D] flex justify-center items-center">
+          @include('user.learner_filter')
+        </div>
+        <div class="w-[100px] h-[30px] rounded-[10px] bg-[#28388F0D] flex justify-center items-center">
           <button onclick="assignLearner(event)" class="w-[191px] h-[12px] font-[500] text-[10px] leading-[12.19px] text-[#28388F] cursor-pointer">
             {{__('messages.update_learner')}}
           </button>
         </div>
       </div>
+     
       <form id="learnerForm">
         @foreach($leanerList as $item)
         @php

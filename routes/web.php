@@ -47,7 +47,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/learner_details/{id}', [ProfileController::class, 'learnerDetails'])->name('learner.details');
     Route::get('/addopportunities', [ProfileController::class, 'addNewOpportunities'])->name('addopportunities');
     Route::any('/saveopportunites', [ProfileController::class, 'saveOpportunities'])->name('saveopportunites');
-    Route::get('/opportunitiesLearner/{id}', [ProfileController::class, 'AssignLearnerOpportunities'])->name('opportunitiesLearner');
+    Route::any('/opportunitiesLearner/{id}', [ProfileController::class, 'AssignLearnerOpportunities'])->name('opportunitiesLearner');
     Route::post('/assign-learners', [ProfileController::class, 'assignLearners'])->name('assign.learners');
     Route::post('/storeeventtransaction', [ProfileController::class, 'storeEventTransaction'])->name('storeeventtransaction');
     Route::post('/fetch-event-categories', [ProfileController::class, 'fetchEventCategories'])->name('fetch.event.categories');
@@ -60,6 +60,11 @@ Route::middleware('auth')->group(function () {
     Route::get('/profileedit', [ProfileController::class, 'profileEdit'])->name('profile.profiledit');
     Route::post('/update-profile', [ProfileController::class, 'saveEditProfile'])->name('user.updateProfile');
     Route::get('/get-event-documents', [ProfileController::class, 'getEventDocuments'])->name('user.event.document');
+    Route::get('/promotion_details/{id}', [ProfileController::class, 'getPromotionDetails'])->name('user.promotion.details');
+    Route::any('/search_learner', [ProfileController::class, 'LearnerList'])->name('user.search.learner');
+    
+    
+    
 
 
     

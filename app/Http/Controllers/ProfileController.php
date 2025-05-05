@@ -200,7 +200,8 @@ class ProfileController extends Controller
         $filter = $request->query('filter', 'desc'); // default to 'desc'
         $orderBy = $request->query('order_by', 'id'); // default to 'id'
         $opportunitesWithPagination = Opportunity::where('status','1')
-        ->where('sakhi_id',getUserId())
+        ->whereOr('sakhi_id',null)
+        ->whereOr('sakhi_id',getUserId())
         ->orderBy($orderBy, $filter)
         ->paginate();
         $opportunitesList = (array) Opportunity::getFormatedData($opportunitesWithPagination);
@@ -229,14 +230,72 @@ class ProfileController extends Controller
 
 
 
-    public function LearnerList(Request $request){
-        $learnerList = [];
-        $learnerList = Learner::where('status','Active')->paginate();
-        //dd( $learnerList);
-        return view($this->dir.'.learner_page',[
-            'leanerList'=>$learnerList
+    public function LearnerList(Request $request)
+    {
+        $query = Learner::where('status', 'Active');
+
+        // Apply filters only if it's a POST or if filters are present in GET
+        $filters = $request->only([
+            'name',
+            'age',
+            'end_age',
+            'gender',
+            'education_level',
+            'digital_proficiency',
+            'english_knowledge',
+            'mobility_level',
+            'engaged_earning'
         ]);
-    }
+
+        if (!empty($filters)) {
+            if ($request->filled('name')) {
+                $query->where('first_name', 'like', '%' . $request->name . '%');
+            }
+
+            // Convert age range to date_of_birth range
+            if ($request->filled('age') || $request->filled('end_age')) {
+                $startAge = $request->input('age', 0);
+                $endAge = $request->input('end_age', 100);
+
+                $fromDate = now()->subYears($endAge)->startOfDay(); // older
+                $toDate = now()->subYears($startAge)->endOfDay();   // younger
+
+                $query->whereBetween('date_of_birth', [$fromDate, $toDate]);
+            }
+
+            if ($request->filled('gender')) {
+                $query->where('gender', $request->gender);
+            }
+
+            if ($request->filled('education_level')) {
+                $query->where('education_level', $request->education_level);
+            }
+
+            if ($request->filled('digital_proficiency')) {
+                $query->where('digital_proficiency', $request->digital_proficiency);
+            }
+
+            if ($request->filled('english_knowledge')) {
+                $query->where('english_knowledge', $request->english_knowledge);
+            }
+
+            if ($request->filled('mobility_level')) {
+                $query->where('job_mobility', $request->mobility_level);
+            }
+
+            if ($request->filled('engaged_earning')) {
+                //$query->where('engaged_earning', $request->engaged_earning);
+            }
+        }
+
+    // Paginate with query string to preserve filters in pagination
+    $learnerList = $query->paginate(10)->appends($request->query());
+
+    return view($this->dir . '.learner_page', [
+        'leanerList' => $learnerList
+    ]);
+}
+
 
 
 
@@ -308,22 +367,83 @@ class ProfileController extends Controller
 
 
 
-    public function AssignLearnerOpportunities(Request $request,$id){
+    public function AssignLearnerOpportunities(Request $request, $id)
+    {
         $idStirng = decryptString($id);
         $opportunities = Opportunity::find($idStirng);
-        $learnerList = [];
-        $learnerList = Learner::with(['OpportunitiesAssigned'])->where('status','Active')->paginate();
+
+        $query = Learner::with(['OpportunitiesAssigned'])
+            ->where('status', 'Active');
+
+        // Extract filters
+        $filters = $request->only([
+            'name',
+            'age',
+            'end_age',
+            'gender',
+            'education_level',
+            'digital_proficiency',
+            'english_knowledge',
+            'mobility_level',
+            'engaged_earning'
+        ]);
+
+        // Apply filters
+        if (!empty($filters)) {
+            if (!empty($filters['name'])) {
+                $query->where('first_name', 'like', '%' . $filters['name'] . '%');
+            }
+
+            if (!empty($filters['age']) || !empty($filters['end_age'])) {
+                $startAge = $filters['age'] ?? 0;
+                $endAge = $filters['end_age'] ?? 100;
+
+                $fromDate = now()->subYears($endAge)->startOfDay();
+                $toDate = now()->subYears($startAge)->endOfDay();
+
+                $query->whereBetween('date_of_birth', [$fromDate, $toDate]);
+            }
+
+            if (!empty($filters['gender'])) {
+                $query->where('gender', $filters['gender']);
+            }
+
+            if (!empty($filters['education_level'])) {
+                $query->where('education_level', $filters['education_level']);
+            }
+
+            if (!empty($filters['digital_proficiency'])) {
+                $query->where('digital_proficiency', $filters['digital_proficiency']);
+            }
+
+            if (!empty($filters['english_knowledge'])) {
+                $query->where('english_knowledge', $filters['english_knowledge']);
+            }
+
+            if (!empty($filters['mobility_level'])) {
+                $query->where('mobility_level', $filters['mobility_level']);
+            }
+
+            if (!empty($filters['engaged_earning'])) {
+                $query->where('engaged_earning', $filters['engaged_earning']);
+            }
+        }
+
+        $learnerList = $query->paginate(10)->appends($filters);
+
         $learnerIdArr = OpportunitiesAssigned::where('opportunites_id', $idStirng)
-        ->where('yuwah_sakhi_id', getUserId())
-        ->pluck('learner_id');
-        return view($this->dir.'.learner_to_opportunites',[
-            'item'=>$opportunities,
-            'leanerList'=>$learnerList,
-            'ysid'=>encryptString(getUserId()),
-            'opid'=>$id,
-            'learnerIdArr'=>$learnerIdArr
+            ->where('yuwah_sakhi_id', getUserId())
+            ->pluck('learner_id');
+
+        return view($this->dir . '.learner_to_opportunites', [
+            'item' => $opportunities,
+            'leanerList' => $learnerList,
+            'ysid' => encryptString(getUserId()),
+            'opid' => $id,
+            'learnerIdArr' => $learnerIdArr
         ]);
     }
+
 
 
 
@@ -914,6 +1034,27 @@ As a catalytic multi-stakeholder partnership, YuWaah is dedicated to transformin
 
 
 
+
+
+    public function getPromotionDetails(Request $request, $id)
+    {
+        try {
+            // Decrypt the encrypted ID
+            $promotionId = decryptString($id);
+
+            // Retrieve promotion or fail
+            $promotion = Promotion::findOrFail($promotionId);
+
+            // Return the view with promotion details
+            return view($this->dir . '.promotion_details_page', [
+                'promotion' => $promotion
+            ]);
+
+        } catch (\Exception $e) {
+            // Handle errors (invalid decryption, record not found, etc.)
+            return redirect()->back()->with('error', 'Invalid promotion or access denied.');
+        }
+    }
 
 
 

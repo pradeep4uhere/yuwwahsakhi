@@ -62,7 +62,7 @@
       <!-- Other Opportunites Start Here-->
       <div class="min-w-[330px] min-h-[260px] w-auto min-h-[50px] h-auto bg-[#FFFFFF] px-3 py-3 mt-3 overflow-auto cursor-pointer" style="box-shadow: 0px 3px 10px 0px #28388F33;" onclick="toggleButtons(event)">
         <h1
-          class="w-[310px] h-[15px] ml-[10px] mt-[6px] font-Montserrat font-[500] text-[12px] leading-[14.63px] text-[#000000]" >
+          class="w-[310px] h-[15px] ml-[10px] mt-[6px] font-Montserrat font-[600] text-[12px] leading-[14.63px] text-[#000000]" >
           {{$item['opportunities_title']}}</h1>
         <div class=" ml-[10px] mt-[6px] font-Montserrat font-[500] text-[12px] leading-[14.63px] text-[#000000]">{{$item['description']}}</div>
         <div class="flex justify-between">

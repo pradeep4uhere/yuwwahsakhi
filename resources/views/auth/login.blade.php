@@ -23,7 +23,7 @@
     rel="stylesheet">
 </head>
 
-<body class="font-Montserrat ">
+<body class="font-Montserrat " style="background-color: aliceblue;">
   <div id="screen4" class="mx-auto max-w-[26rem] p-10 bg-white shadow-md min-h-[100vh] h-auto">
 
     <!-- <a href="register.html" class="hover:text-blue-600 mb-4 text-lg">
@@ -47,7 +47,7 @@
       <div class="space-y-1">
         <label for="username" class="w-[63px] h-[15px] font-[400] text-[12px] leading-[14.63px] text-[#000000]">YS ID</label>
         <input id="username" type="text" placeholder="Enter username" name="email"
-          class="w-[330px] h-[40px] rounded-[10px] border-[1px] bg-[#FFFFFF] placeholder:text-[10px] placeholder:font-[400] placeholder:font-Montserrat placeholder:leading-[12.19px] placeholder:pl-3">
+          class="w-[330px] h-[40px] rounded-[10px] border-[1px] bg-[#FFFFFF] placeholder:text-[10px] placeholder:font-[400] placeholder:font-Montserrat placeholder:leading-[12.19px] placeholder:pl-0" style="padding:5px;">
           <x-input-error :messages="$errors->get('email')" class="mt-2" />
       </div>
 
@@ -55,7 +55,7 @@
         <label for="password" class="w-[63px] h-[15px] font-[400] text-[12px] leading-[14.63px] text-[#000000]">Password</label>
         <div class="relative">
           <input id="password" type="password" placeholder="Enter Password" name="password"
-            class="w-[330px] h-[40px] rounded-[10px] border-[1px] bg-[#FFFFFF] placeholder:text-[10px] placeholder:font-[400] placeholder:font-Montserrat placeholder:leading-[12.19px] placeholder:pl-3">
+            class="w-[330px] h-[40px] rounded-[10px] border-[1px] bg-[#FFFFFF] placeholder:text-[10px] placeholder:font-[400] placeholder:font-Montserrat placeholder:leading-[12.19px] placeholder:pl-0" style="padding:5px;">
             <x-input-error :messages="$errors->get('password')" class="mt-2" />
           <button type="button" id="togglePassword" class="absolute -right-[-30px] top-3 focus:outline-none">
             <i id="eyeIcon" class="fas fa-eye text-[#05A7D1] w-[16px] h-[16px]"></i>

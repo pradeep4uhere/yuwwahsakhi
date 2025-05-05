@@ -20,17 +20,10 @@
 
           <div class="flex flex-col items-center gap-1.5">
             <div
-              class="w-[86px] h-[17px] ml-[5px] font-Montserrat font-[500] text-[14px] leading-[17.07px] text-[#000000]">
+              class="w-[186px] h-[17px] ml-[5px] font-Montserrat font-[500] text-[14px] leading-[17.07px] text-[#000000]" style="margin-bottom:5px;">
              {{$learnerDetails['first_name']}}&nbsp;{{$learnerDetails['last_name']}}
             </div>
-            <div class="flex gap-1.5">
-              <span>
-                <img src="{{asset('asset/images/Learner calendar.png')}}" class="w-[10px] h-[10px] " alt="">
-              </span>
-              <span class="w-[64px] h-[12px] font-[500] text-[10px] leading-[12.19px] text-[#000000]">
-              {{getdateformate($learnerDetails['date_of_birth'])}}
-              </span>
-            </div>
+            
           </div>
         </div>
         <div class="flex justify-center gap-5 items-center mr-2.5">
@@ -64,7 +57,7 @@
 
           <div class="flex gap-[100px] mt-1">
             <p class="w-[67px] h-[12px] font-[600] text-[10px] leading-[12.19px] text-[#000000] ">Date of Birth</p>
-            <p class="w-[48px] h-[12px] font-[400] text-[10px] leading-[12.19px] text-[#000000]"> {{getdateformate($learnerDetails['date_of_birth'])}}</p>
+            <p class="w-[148px] h-[12px] font-[400] text-[10px] leading-[12.19px] text-[#000000]"> {{getdateformate($learnerDetails['date_of_birth'])}}</p>
           </div>
 
           <div class="flex gap-[128px] mt-1.5">
