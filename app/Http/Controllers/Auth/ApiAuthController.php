@@ -1474,11 +1474,13 @@ public function updatePromotion(Request $request, $id)
                 'center_picture' => $centerPhotoPath,
                 'profile_picture' => $profilePhotoPath,
                 'onboard_date'=>now(),
-                'state'=>$request->state,
-                'distict'=>$request->distict,
+                'state'=>$request->state_id,
+                'district'=>$request->district_id,
+                'block_id'=>$request->block_id,
+                'pincode'=>$request->pincode,
                 'address'=>$request->address,
             ]);
-
+            //dd($yuwaahSakhi);
             // ✅ Correctly updating 'sakhi_id' after creation
             $yuwaahSakhi->update([
                 'sakhi_id' => getYuwaahSakhiID($yuwaahSakhi->id, $validatedData['partner_id'], $validatedData['partner_center_id'])
@@ -1558,7 +1560,7 @@ public function updatePromotion(Request $request, $id)
     if ($request->hasFile('profile_photo')) {
         $profilePhotoPath = $request->file('profile_photo')->store('uploads/yuwaah_sakhi', 'public');
     }
-
+//dd($request->all());
     // Update record
     $yuwaahSakhi->update([
         'name' => $request->name,
@@ -1586,8 +1588,10 @@ public function updatePromotion(Request $request, $id)
         'center_picture' => $centerPhotoPath,
         'profile_picture' => $profilePhotoPath,
         'updated_at' => now(),
-        'state'=>$request->state,
-        'distict'=>$request->distict,
+        'state'=>$request->state_id,
+        'district'=>$request->district_id,
+        'block_id'=>$request->block_id,
+        'pincode'=>$request->pincode,
         'address'=>$request->address,
     ]);
 

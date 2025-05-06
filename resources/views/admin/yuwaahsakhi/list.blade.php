@@ -32,6 +32,7 @@
                             <tr>
                                 <th>SN</th>
                                 <th>YS ID</th>
+                                <th>Profile</th>
                                 <th>YS Name</th>
                                 <th>Partner</th>
                                 <th>Partner Center</th>
@@ -50,7 +51,8 @@
                             <tr>
                                 <td>{{$count}}</td>
                                 <td>{{$item['sakhiId']}}</td>
-                                 <td>{{$item['Name']}}</td>
+                                <td><img src="{{$item['ProfilePicture']}}" width="50px" height="50px"/></td>
+                                <td>{{$item['Name']}}</td>
                                 <td>{{ucwords($item['Partner'])}}</td>
                                 <td>{{ucwords($item['PartnerCenter'])}}</td>
                                 <td>{{$item['ContactNumber']}}</td>

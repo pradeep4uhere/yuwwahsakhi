@@ -1,6 +1,15 @@
 @extends('layouts.default')
 @section('title', 'Partner List')
 @section('content')
+<style>
+  select {
+  padding: 10px !important;
+}
+
+select option {
+  padding: 10px !important;
+}
+</style>
 <section class="dashboard">
     <div class="top">
         <div class="title">
@@ -41,7 +50,7 @@
               <input type="text" name="name" placeholder="Please enter Yuwaah sakhi name"  value="{{ old('name') }}">
             </div>
             <div class="input-container">
-              <label for="field1">{{__('contact_number')}}</label>
+              <label for="field1">{{__('messages.contact_number')}}</label>
               <input type="number" name="contact_number" placeholder="Please enter contact number" value="{{ old('contact_number') }}">
             </div>
             <div class="input-container">
@@ -49,18 +58,31 @@
               <input type="email" name="email" placeholder="Please enter Email" value="{{ old('email') }}">
             </div>
             <div class="input-container">
-              <label for="field1">{{__('state')}}</label>
-              <input type="text" name="state" placeholder="Please enter state" value="{{ old('state') }}">
+              <label for="field3">Choose State</label>
+              <?php $class = "w-[330px] h-[50px] bg-[#FFFFFF] border-[1px] rounded-[10px] border-[#28388F0D] font-[500] text-[10px] leading-[12.19px] pl-2.5 text-[#A7A7A7] focus:ring-1 focus:ring-blue-500 p-[20px]";?>
+              {!! getStateList('state_id', '', $class, "loadDistricts(this.value)") !!}
             </div>
 
             <div class="input-container">
-              <label for="field1">{{__('distict')}}</label>
-              <input type="text" name="distict" placeholder="Please enter distict" value="{{ old('distict') }}">
+              <label for="district" class="w-[80px] h-[15px] font-[400] text-[12px]  leading-[14.63px] text-[#000000]">District</label>
+              <?php $class = "w-[330px] h-[40px] bg-[#FFFFFF] border-[1px] rounded-[10px] border-[#28388F0D] font-[400] text-[10px] leading-[12.19px] pl-2.5 text-[#A7A7A7] focus:ring-1 focus:ring-blue-500 p-[20px]";?>
+              <div id="responseDistrict">{!!getDistrict('','district_id','',$class)!!}</div>
             </div>
+            <div class="input-container">
+            <label for="block" class="w-[80px] h-[15px] font-[400] text-[12px]  leading-[14.63px] text-[#000000]">Block/City</label>
+            <?php $class = "w-[330px] h-[40px] bg-[#FFFFFF] border-[1px] rounded-[10px] border-[#28388F0D] font-[400] text-[10px] leading-[12.19px] pl-2.5 text-[#A7A7A7] focus:ring-1 focus:ring-blue-500 p-[20px]";?>
+            <div id="blockWrapper">{!!getBlock('','block_id','',$class)!!}</div>
+            
+          </div>
             <div class="input-container">
               <label for="field1">{{__('address')}}</label>
               <input type="text" name="address" placeholder="Please enter address" value="{{ old('address') }}">
             </div>
+            <div class="input-container">
+              <label for="field1">{{__('Pincode')}}</label>
+              <input type="text" name="pincode" placeholder="Please enter pincode"  value="{{ old('pincode') }}">
+            </div>
+
 
             
             <div class="input-container">
@@ -106,7 +128,7 @@
               </select>
             </div>
             <div class="input-container">
-              <label for="field5">{{__('type_of_loan')}}</label>
+              <label for="field5">{{__('Type of loan')}}</label>
               <select id="field5" name="type_of_loan">
               <?php $options3 = getGlobalList('LoanType'); ?>
                 <?php foreach($options3 as $ll=>$item3){ ?>
@@ -115,15 +137,15 @@
               </select>
             </div>
             <div class="input-container">
-              <label for="field5">{{__('loan_amount')}}</label>
+              <label for="field5">{{__('Loan Amount')}}</label>
               <input type="number" name="loan_amount" value="{{ old('loan_amount') }}">
             </div>
             <div class="input-container">
-              <label for="field5">{{__('loan_balance')}}</label>
+              <label for="field5">{{__('Loan Balance')}}</label>
               <input type="number" name="loan_balance" value="{{ old('loan_balance') }}">
             </div>
             <div class="input-container">
-              <label for="field5">{{__('english_proficiency')}}</label>
+              <label for="field5">{{__('English Proficiency')}}</label>
               <select id="field5" name="english_proficiency">
                 <option value="Basic">Basic</option>
                 <option value="Conversational">Conversational</option>
@@ -132,22 +154,22 @@
               </select>
             </div>
             <div class="input-container">
-              <label for="field5">{{__('years_of_work_exp')}}</label>
+              <label for="field5">{{__('Years of work exp')}}</label>
               <input type="text" name="years_of_work_exp" value="{{ old('years_of_work_exp') }}">
             </div>
             <div class="input-container">
-              <label for="field5">{{__('work_hour_per_day')}}</label>
+              <label for="field5">{{__('Work hour per day')}}</label>
               <input type="text" name="work_hour_per_day" value="{{ old('work_hour_per_day') }}">
             </div>
             <div class="input-container">
-              <label for="field5">{{__('infrastructure_available')}}</label>
+              <label for="field5">{{__('Infrastructure available')}}</label>
               <select id="field5" name="infrastructure_available">
                 <option value="1">Yes</option>
                 <option value="0">No</option>
               </select>
             </div>
             <div class="input-container">
-              <label for="field5">{{__('service_offered')}}</label>
+              <label for="field5">{{__('Service Offered')}}</label>
               <select id="field5" name="service_offered">
               <?php $options1 = getGlobalList('ServicesOffered'); ?>
                 <?php foreach($options1 as  $gg=>$item){ ?>
@@ -156,7 +178,7 @@
               </select>
             </div>
             <div class="input-container">
-              <label for="field5">{{__('course_completed')}}</label>
+              <label for="field5">{{__('Course Completed')}}</label>
               <select id="field5" name="course_completed">
                 <option value="1">Yes</option>
                 <option value="0">No</option>
@@ -164,7 +186,7 @@
             </div>
             <div class="input-container">
              
-              <label for="field5">{{__('digital_proficiency')}}</label>
+              <label for="field5">{{__('Digital Proficiency')}}</label>
               <select id="field5" name="digital_proficiency">
               <?php $options111 = getGlobalList('DigitalProficiencyLevel'); ?>
                 <?php foreach($options111 as  $dp=>$item111){ ?>
@@ -173,11 +195,11 @@
               </select>
             </div>
             <div class="input-container">
-              <label for="field5">{{__('center_photo')}}</label>
+              <label for="field5">{{__('Center Photo')}}</label>
               <input type="file" name="center_photo"/>
             </div>
             <div class="input-container">
-              <label for="field5">{{__('profile_photo')}}</label>
+              <label for="field5">{{__('Profile Photo')}}</label>
               <input type="file" name="profile_photo"/>
             </div>
             <div class="input-container">

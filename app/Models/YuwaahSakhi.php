@@ -100,17 +100,21 @@ class YuwaahSakhi extends Authenticatable
             'ServiceOffered'=>getGlobalValue('ServicesOffered',$yuwaahSakhi['service_offered']),
             'CoursesCompleted'=>$yuwaahSakhi['courses_completed'],
             'DigitalProficiency'=>getGlobalValue('DigitalProficiencyLevel',$yuwaahSakhi['digital_proficiency']),
-            'State'=>$yuwaahSakhi['State']['name'],
-            'City'=>$yuwaahSakhi['city'],
-            'District'=>$yuwaahSakhi['District']['name'],
-            'Block'=>$yuwaahSakhi['Block']['name'],
+            'State'=>$yuwaahSakhi['State']['name']  ?? 'N/A',
+            'City'=>$yuwaahSakhi['city'] ?? 'N/A',
+            'District'=>$yuwaahSakhi['District']['name'] ?? 'N/A',
+            'Block'=>$yuwaahSakhi['Block']['name'] ?? 'N/A',
             'Pincode'=>$yuwaahSakhi['pincode'],
             'Address'=>$yuwaahSakhi['address'],
             'Partner'=>optional($yuwaahSakhi->Partner)->name ?? 'N/A',
             'PartnerCenter'=>optional($yuwaahSakhi->PartnerCenter)->center_name ?? 'N/A',
             'Status'=>($yuwaahSakhi['status']==1)?'Active':'InActive',
-            'CenterPicture'=>asset('/storage/'.$yuwaahSakhi['center_picture']),
-            'ProfilePicture'=>asset('/storage/'.$yuwaahSakhi['profile_picture'])
+            'CenterPicture' => $yuwaahSakhi['center_picture'] 
+            ? asset('/storage/' . $yuwaahSakhi['center_picture']) 
+            : asset('/asset/images/Profilelogo.png'),
+            'ProfilePicture' => $yuwaahSakhi['profile_picture'] 
+            ? asset('/storage/' . $yuwaahSakhi['profile_picture']) 
+            : asset('/asset/images/Profilelogo.png'),
         ];
 
         return $data;

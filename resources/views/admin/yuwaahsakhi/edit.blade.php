@@ -1,6 +1,15 @@
 @extends('layouts.default')
 @section('title', 'Partner List')
 @section('content')
+<style>
+  select {
+  padding: 10px !important;
+}
+
+select option {
+  padding: 10px !important;
+}
+</style>
 <section class="dashboard">
         <div class="top">
             <div class="title">
@@ -21,7 +30,7 @@
             <div class="activity">
                 <div class="activitybutton">
                   <a href="{{route('admin.yuwaahsakhi.list')}}">
-                    <button class="add-partner-btn" id="addPartnerBtn">All {{$page_title}}</button>
+                    <button class="add-partner-btn" id="addPartnerBtn">All Yuwaah Sakhi</button>
                     </a>
                 </div>
               @if(!empty($errors) && ($errors!=null))
@@ -50,25 +59,37 @@
               <input type="text" name="name" placeholder="Please enter Yuwaah sakhi name"  value="{{ $yuwaahsakhi['name'] }}">
             </div>
             <div class="input-container">
-              <label for="field1">{{__('contact_number')}}</label>
+              <label for="field1">{{__('messages.contact_number')}}</label>
               <input type="number" name="contact_number" placeholder="Please enter contact number" value="{{ $yuwaahsakhi['contact_number'] }}">
             </div>
             <div class="input-container">
-              <label for="field1">{{__('email')}}</label>
+              <label for="field1">{{__('messages.email')}}</label>
               <input type="email" name="email" placeholder="Please enter Email" value="{{ $yuwaahsakhi['email'] }}">
             </div>
             <div class="input-container">
-              <label for="field1">{{__('state')}}</label>
-              <input type="text" name="state" placeholder="Please enter state" value="{{ $yuwaahsakhi['state'] }}">
+              <label for="field3">Choose State</label>
+              <?php $class = "w-[330px] h-[50px] bg-[#FFFFFF] border-[1px] rounded-[10px] border-[#28388F0D] font-[500] text-[10px] leading-[12.19px] pl-2.5 text-[#A7A7A7] focus:ring-1 focus:ring-blue-500 p-[20px]";?>
+              {!! getStateList('state_id', $yuwaahsakhi['state'], $class, "loadDistricts(this.value)") !!}
             </div>
 
             <div class="input-container">
-              <label for="field1">{{__('distict')}}</label>
-              <input type="text" name="distict" placeholder="Please enter distict" value="{{ $yuwaahsakhi['distict'] }}">
+              <label for="district" class="w-[80px] h-[15px] font-[400] text-[12px]  leading-[14.63px] text-[#000000]">District</label>
+              <?php $class = "w-[330px] h-[40px] bg-[#FFFFFF] border-[1px] rounded-[10px] border-[#28388F0D] font-[400] text-[10px] leading-[12.19px] pl-2.5 text-[#A7A7A7] focus:ring-1 focus:ring-blue-500 p-[20px]";?>
+              <div id="responseDistrict">{!!getDistrict($yuwaahsakhi['state'],'district_id',$yuwaahsakhi['district'],$class)!!}</div>
             </div>
+            <div class="input-container">
+            <label for="block" class="w-[80px] h-[15px] font-[400] text-[12px]  leading-[14.63px] text-[#000000]">Block/City</label>
+            <?php $class = "w-[330px] h-[40px] bg-[#FFFFFF] border-[1px] rounded-[10px] border-[#28388F0D] font-[400] text-[10px] leading-[12.19px] pl-2.5 text-[#A7A7A7] focus:ring-1 focus:ring-blue-500 p-[20px]";?>
+            <div id="blockWrapper">{!!getBlock($yuwaahsakhi['district'],'block_id',$yuwaahsakhi['block_id'],$class)!!}</div>
+            
+          </div>
             <div class="input-container">
               <label for="field1">{{__('address')}}</label>
               <input type="text" name="address" placeholder="Please enter address"  value="{{ $yuwaahsakhi['address'] }}">
+            </div>
+            <div class="input-container">
+              <label for="field1">{{__('Pincode')}}</label>
+              <input type="text" name="pincode" placeholder="Please enter pincode"  value="{{ $yuwaahsakhi['pincode'] }}">
             </div>
 
             
@@ -183,7 +204,7 @@
             </div>
             <div class="input-container">
                 <label for="partner">{{__('messages.choose_partner')}}</label>
-                <select id="partner" name="partner_id">
+                <select id="partner" name="partner_id" style="padding:10px;">
                     <option value="">Choose Partner</option>
                     <?php foreach($partnerList as $item111){ ?>
                         <option value="{{$item111['id']}}" <?php if($item111['id'] == $yuwaahsakhi['partner_id']){  ?> selected <?php } ?>>{{$item111['name']}}</option>
@@ -193,7 +214,7 @@
 
             <div class="input-container">
                 <label for="partner_center">{{__('messages.choose_partner_center')}}</label>
-                <select id="partner_center" name="partner_center_id">
+                <select id="partner_center" name="partner_center_id" style="padding:10px;">
                     <option value="">Choose Partner Center</option>
                     <option value="{{ $yuwaahsakhi['partner_center_id'] ?? '' }}" selected="selected">
                       {{ optional($yuwaahsakhi['PartnerCenter'])->center_name ?? 'N/A' }}
@@ -210,7 +231,7 @@
             </div>
             <div class="input-container">
               <label for="field5">{{__('status')}}</label>
-              <select id="field5" name="status">
+              <select id="field5" name="status" style="padding:10px;">
                <option value="1" {{ $yuwaahsakhi['status'] == 1 ? 'selected' : '' }}>Active</option>
                <option value="0" {{ $yuwaahsakhi['status'] == 0 ? 'selected' : '' }}>Inactive</option>
               </select>

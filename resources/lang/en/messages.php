@@ -64,6 +64,7 @@ return [
     'yuwaahsakhi_recently_added'=>'Yuwaah Sakhi recently added or duplicate data',
     'add_yuwaah_sakhi'=>'Add Yuwaah Sakhi',
     'edit_yuwaahsakhi'=>'Update Yuwaah Sakhi',
+    'contact_number'=>'Contact Number',
 
     'choose_partner'=>'Choose Partner',
     'choose_partner_center'=>'Choose Partner Center',
