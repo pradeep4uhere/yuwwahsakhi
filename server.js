@@ -7,6 +7,7 @@ import http from 'http';
 import { Server }  from 'socket.io'; // Import socket.io
 
 const app = express();
+
 const server = http.createServer(app); // Create an HTTP server
 const io = new Server(server, {
     cors: {
@@ -19,7 +20,8 @@ const io = new Server(server, {
 app.use(cors());
 
 // Parse JSON bodies
-app.use(bodyParser.json());
+app.use(bodyParser.json({ limit: '50mb' }));
+app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
 
 // Root route to check server status
 app.get('/', (req, res) => {
