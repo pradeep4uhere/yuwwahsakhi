@@ -50,6 +50,6 @@ app.post('/process', (req, res) => {
 });
 
 // Start server
-app.listen(4000, () => {
+server.listen(4000, () => {
     console.log('Server running on http://127.0.0.1:4000');
 });
