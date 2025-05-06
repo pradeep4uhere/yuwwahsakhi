@@ -111,6 +111,21 @@ class Learner extends Model
         ];
     }
     
+
+    public function state()
+    {
+        return $this->belongsTo(State::class);
+    }
+
+    public function district()
+    {
+        return $this->belongsTo(District::class);
+    }
+
+    public function block()
+    {
+        return $this->belongsTo(Block::class);
+    }
     
     
 

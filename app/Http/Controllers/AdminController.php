@@ -241,8 +241,42 @@ class AdminController extends Controller
      */
     public function allPartnerCenterList(Request $request){
         // Create an instance of the controller
+        $searchQuery = $request->input('search');
         $authApiController = new ApiAuthController();
-        $response = $authApiController->getPartnerCenterList($request);
+        // Initialize the query
+        $query = PartnerCenter::with(['state', 'district', 'block']);
+        if ($request->has('status')) {
+            $query->where('status', $request->status);
+        }
+
+        // Apply search filters on name, email, and contact_number
+        if (!empty($searchQuery)) {
+            $query->where(function($q) use ($searchQuery) {
+                $q->where('center_name', 'like', '%' . $searchQuery . '%')
+                ->orWhere('email', 'like', '%' . $searchQuery . '%')
+                ->orWhere('contact_number', 'like', '%' . $searchQuery . '%');
+            });
+        }
+
+         // Filter by status if provided in the request
+         if ($request->has('status')) {
+            $query->where('status', $request->status);
+        }
+
+        // Sorting logic based on 'sort_by' and 'sort_order' parameters
+        if ($request->has('sort_by')) {
+            $sortBy = $request->input('sort_by', 'id');  // Default sort by 'id'
+            $sortOrder = $request->input('sort_order', 'id');  // Default sort order 'asc'
+            $query->orderBy($sortBy, $sortOrder);
+        }
+
+        $query->orderBy('id','desc');
+        // Set the number of items per page from the request, or default to 10
+        $perPage = $request->get('per_page', env('PAGINATION'));
+
+        // Execute the query and return paginated results
+        $response =  $query->paginate($perPage);
+        //$response = $authApiController->getPartnerCenterList($request);
         //dd($response);
         // Call the 'getPartnerList' method
         return view('admin.partnercenter.list', [
@@ -685,12 +719,46 @@ class AdminController extends Controller
      * All Yuwaah Sakhi Methods Here
      */
     public function getYuwaahList(Request $request){
-         // Create an instance of the controller
-         $authApiController = new ApiAuthController();
-         $response = $authApiController->getYuwaahList($request);
-         //dd($response);
-         // Call the 'getPartnerList' method
-         return view('admin.yuwaahsakhi.list', [
+        $searchQuery = $request->input('search');
+        $query = YuwaahSakhi::with(['state', 'district', 'block','partner','partnercenter']);
+            if ($request->has('status')) {
+            $query->where('status', $request->status);
+        }
+         // Apply search filters on name, email, and contact_number
+        if (!empty($searchQuery)) {
+            $query->where(function($q) use ($searchQuery) {
+                $q->where('sakhi_id', 'like', '%' . $searchQuery . '%')
+                ->orWhere('name', 'like', '%' . $searchQuery . '%')
+                ->orWhere('email', 'like', '%' . $searchQuery . '%')
+                ->orWhere('dob', 'like', '%' . $searchQuery . '%')
+                ->orWhere('address', 'like', '%' . $searchQuery . '%')
+                ->orWhere('gender', 'like', '%' . $searchQuery . '%')
+                ->orWhere('contact_number', 'like', '%' . $searchQuery . '%');
+
+            });
+        }
+
+        // Filter by status if provided in the request
+        if ($request->has('status')) {
+            $query->where('status', $request->status);
+        }
+
+        // Sorting logic based on 'sort_by' and 'sort_order' parameters
+        if ($request->has('sort_by')) {
+            $sortBy = $request->input('sort_by', 'id');  // Default sort by 'id'
+            $sortOrder = $request->input('sort_order', 'id');  // Default sort order 'asc'
+            $query->orderBy($sortBy, $sortOrder);
+        }
+
+        $query->orderBy('id','desc');
+        // Set the number of items per page from the request, or default to 10
+        $perPage = $request->get('per_page', env('PAGINATION'));
+
+        // Execute the query and return paginated results
+        $responsearr =  $query->paginate($perPage);
+        $response = YuwaahSakhi::getFormatedPaginationData($responsearr);
+        //dd($response);
+        return view('admin.yuwaahsakhi.list', [
              'response'=>$response,
              'title' => 'Yuwaah Sakhi',
          ]);
@@ -800,11 +868,38 @@ class AdminController extends Controller
      * Get All Partner List
      */
     public function allEventMasterList(Request $request){
-        // Create an instance of the controller
-        $response = YuwaahEventMaster::paginate(env('PAGINATION'));
-        //dd($response);
-       // dd($response);
-        // Call the 'getPartnerList' method
+        $searchQuery = $request->input('search');
+        $query = YuwaahEventMaster::query();
+        if ($request->has('status')) {
+            $query->where('status', $request->status);
+        }
+         // Apply search filters on name, email, and contact_number
+        if (!empty($searchQuery)) {
+            $query->where(function($q) use ($searchQuery) {
+                $q->where('event_type', 'like', '%' . $searchQuery . '%')
+                ->orWhere('event_category', 'like', '%' . $searchQuery . '%')
+                ->orWhere('description', 'like', '%' . $searchQuery . '%')
+                ->orWhere('eligibility', 'like', '%' . $searchQuery . '%')
+                ->orWhere('fee_per_completed_transaction', 'like', '%' . $searchQuery . '%');
+            });
+        }
+
+        // Filter by status if provided in the request
+        if ($request->has('status')) {
+            $query->where('status', $request->status);
+        }
+
+        // Sorting logic based on 'sort_by' and 'sort_order' parameters
+        if ($request->has('sort_by')) {
+            $sortBy = $request->input('sort_by', 'id');  // Default sort by 'id'
+            $sortOrder = $request->input('sort_order', 'id');  // Default sort order 'asc'
+            $query->orderBy($sortBy, $sortOrder);
+        }
+
+        $query->orderBy('id','desc');
+        // Set the number of items per page from the request, or default to 10
+        $perPage = $request->get('per_page', env('PAGINATION'));
+        $response =  $query->paginate($perPage);
         return view('admin.eventmaster.list', [
             'response'=>$response,
             'title' => 'All Event Master',
@@ -1107,11 +1202,45 @@ class AdminController extends Controller
  * All Learnser List
  */
 public function allLearnerList(Request $request){
-    $response = Learner::paginate();
-    return view('admin.learner.list', [
-        'response'=>$response,
-        'title' => 'All Learner',
-    ]);
+        $searchQuery = $request->input('search');
+        $query = Learner::with(['state', 'district', 'block']);
+        if ($request->has('status')) {
+            $query->where('status', $request->status);
+        }
+         // Apply search filters on name, email, and contact_number
+        if (!empty($searchQuery)) {
+            $query->where(function($q) use ($searchQuery) {
+                $q->where('first_name', 'like', '%' . $searchQuery . '%')
+                ->orWhere('last_name', 'like', '%' . $searchQuery . '%')
+                ->orWhere('date_of_birth', 'like', '%' . $searchQuery . '%')
+                ->orWhere('gender', 'like', '%' . $searchQuery . '%')
+                ->orWhere('email', 'like', '%' . $searchQuery . '%')
+                ->orWhere('primary_phone_number', 'like', '%' . $searchQuery . '%');
+            });
+        }
+
+        // Filter by status if provided in the request
+        if ($request->has('status')) {
+            $query->where('status', $request->status);
+        }
+
+        // Sorting logic based on 'sort_by' and 'sort_order' parameters
+        if ($request->has('sort_by')) {
+            $sortBy = $request->input('sort_by', 'id');  // Default sort by 'id'
+            $sortOrder = $request->input('sort_order', 'id');  // Default sort order 'asc'
+            $query->orderBy($sortBy, $sortOrder);
+        }
+
+        $query->orderBy('id','desc');
+        // Set the number of items per page from the request, or default to 10
+        $perPage = $request->get('per_page', env('PAGINATION'));
+
+        // Execute the query and return paginated results
+        $response =  $query->paginate($perPage);
+        return view('admin.learner.list', [
+            'response'=>$response,
+            'title' => 'All Learner',
+        ]);
 }
 
 

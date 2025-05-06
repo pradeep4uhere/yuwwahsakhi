@@ -9,10 +9,10 @@
             <div class="search-box">
                 <form method="GET" action="{{ url()->current() }}" class="search-box" style="display: flex; align-items: center; gap: 10px;">
                     @csrf
-                    <i class="uil uil-search"></i>
-                    <input type="text" name="search" value="{{ request('search') }}" placeholder="Please type and search" style="padding: 8px; width: 300px;">
-                    <button type="submit" style="background-color: white;">Search</button>
-                    
+                    <button class="p-2 bg-blue-600 text-black rounded hover:bg-blue-700">
+                    <i class="uil uil-search text-lg"></i>
+                    </button>
+                    <input type="text" name="search" placeholder="Please type and search">
                 </form>
             </div>
 

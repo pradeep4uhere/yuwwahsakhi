@@ -7,8 +7,13 @@
                 <span class="">Dashboard > {{$title}}</span> <br />
             </div>
             <div class="search-box">
-                <i class="uil uil-search"></i>
-                <input type="text" placeholder="Please type and search">
+                <form method="GET" action="{{ url()->current() }}" class="search-box" style="display: flex; align-items: center; gap: 10px;">
+                    @csrf
+                    <button class="p-2 bg-blue-600 text-black rounded hover:bg-blue-700">
+                    <i class="uil uil-search text-lg"></i>
+                    </button>
+                    <input type="text" name="search" placeholder="Please type and search">
+                </form>
             </div>
 
         </div>
