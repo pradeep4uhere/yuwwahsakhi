@@ -8,8 +8,13 @@ import { Server }  from 'socket.io'; // Import socket.io
 
 const app = express();
 const server = http.createServer(app); // Create an HTTP server
-const io = new Server(server); // Integrate socket.io with the HTTP serve
-
+const io = new Server(server, {
+    cors: {
+      origin: "http://65.0.175.155",  // or "*" if you want to allow all origins
+      methods: ["GET", "POST"],
+      credentials: true
+    }
+  });
 // Enable CORS for cross-origin requests
 app.use(cors());
 
