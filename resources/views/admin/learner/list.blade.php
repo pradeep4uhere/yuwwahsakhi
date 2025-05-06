@@ -4,7 +4,7 @@
 <section class="dashboard">
         <div class="top">
             <div class="title">
-                <span class="">Dashboard > Partner</span> <br />
+                <span class="">Dashboard > Learner</span> <br />
             </div>
             <div class="search-box">
                 <i class="uil uil-search"></i>
@@ -17,7 +17,7 @@
         </div>
         <!-- <section class="dashboard-partners"> -->
         <div class="dash-content">
-            <span class="texttitle">All Learners</span>
+            <span class="texttitle">All Learners [{{$response->total()}}]</span>
             <div class="activity">
                 <div class="activitybutton">
                     <a href="{{route('admin.learner.export')}}">
@@ -27,8 +27,8 @@
                     <div class="activity-data">
                         <x-alert />
                     </div>
-                    <div style="width=100%;overflow-x: auto;">
-                    <table class="custom-table">
+                    <div class="table-containers">
+                    <table class="table table-striped table-bordered">
                         <thead>
                             <tr>
                                 <th>SN</th>

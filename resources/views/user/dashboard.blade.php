@@ -70,16 +70,16 @@
                 </p>
               </div>
               
-              <div class="flex mb-[5px]">
+              <div class="flex mb-[6px]">
                 <img src="{{asset('asset/images/calendar.png')}}" alt="engLogo" class="w-[14px] h-[14px] ml-[10px]  text-[#28388F0D]">
-                <p class="w-[95px] h-[12px] ml-[6px] mt-[1px] font-[500] text-[10px] leading-[12.19px] text-[#000000]">
+                <p class="w-[100px] h-[12px] ml-[6px] mt-[1px] font-[500] text-[10px] leading-[12.19px] text-[#000000]">
                   Start - {{getdateformate($item['start_date'])}}
                 </p>
               </div>
               
               <div class="flex mb-[6px]">
                 <img src="{{asset('asset/images/calendar.png')}}" alt="engLogo" class="w-[14px] h-[14px] ml-[10px]  text-[#28388F0D]">
-                <p class="w-[95px] h-[12px] ml-[6px] mt-[1px] font-[500] text-[10px] leading-[12.19px] text-[#000000]">
+                <p class="w-[100px] h-[12px] ml-[6px] mt-[1px] font-[500] text-[10px] leading-[12.19px] text-[#000000]">
                   End - {{getdateformate($item['end_date'])}}
                 </p>
               </div>

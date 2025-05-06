@@ -423,7 +423,7 @@ if (!function_exists('getYuwaahSakhiAuthProfileImage')) {
 
 if (!function_exists('getdateformate')) {
     function getdateformate($date) {
-        return date('d M,Y',strtotime($date));
+        return date('d M, Y',strtotime($date));
     }
 }
 

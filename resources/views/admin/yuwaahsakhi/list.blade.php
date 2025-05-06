@@ -27,7 +27,8 @@
                     <div class="activity-data">
                         <x-alert />
                     </div>
-                    <table class="custom-table">
+                    <div class="table-containers">
+                        <table class="table table-striped table-bordered">
                         <thead>
                             <tr>
                                 <th>SN</th>
@@ -73,6 +74,7 @@
                                         onclick="deleteConfirm('{{ encryptString($item['id']) }}', this.getAttribute('data-route'))">
                                             <i class="uil uil-trash-alt" style="color: #27272A; font-size: 15px;"></i>
                                     </a>
+                                    <a href="{{route('admin.yuwaahsakhi.details',['id'=>encryptString($item['id'])])}}"><img src="{{asset('asset/images/view.png')}}" alt="View Doc Image" height="20" width="20"></a>
                                 </td>
                             </tr>
                             <?php $count++;} ?>
@@ -84,6 +86,7 @@
                            
                         </tbody>
                     </table>
+                </div>
                 </div>
             </div>
             @if ($response['last_page'] > 1)

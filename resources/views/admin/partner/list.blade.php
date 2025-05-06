@@ -22,7 +22,7 @@
         </div>
         <!-- <section class="dashboard-partners"> -->
         <div class="dash-content">
-            <span class="texttitle">Partners</span>
+            <span class="texttitle">Partners [{{$response->total()}}]</span>
             <div class="activity">
                 <div class="activitybutton">
                    <a href="{{route('partners.export')}}" >
@@ -36,8 +36,8 @@
                     <div class="activity-data">
                         <x-alert />
                     </div>
-                    <div style="overflow-x: auto; width: 100%;">
-                    <table class="custom-table min-w-[1000px] w-full table-auto">
+                    <div class="table-containers">
+                        <table class="table table-striped table-bordered">
                         <thead>
                             <tr>
                                 <th>SN</th>

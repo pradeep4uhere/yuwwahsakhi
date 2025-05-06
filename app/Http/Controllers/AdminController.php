@@ -438,6 +438,30 @@ class AdminController extends Controller
         ]);
     }
 
+    
+    public function getOpportunitiesDetails(Request $request, $id)
+    {
+        $idStr = decryptString($id);
+
+        // Retrieve opportunity details
+        $opportunityDetails = Opportunity::find($idStr);
+        //dd($opportunityDetails);
+        // Handle not found case
+        if (!$opportunityDetails) {
+            return redirect()->back()->with('error', 'Opportunity not found.');
+        }
+
+        // Optional: call getPartnerList() if needed
+        // $partnerList = $this->getPartnerList();
+
+        return view('admin.opportunites.details', [
+            'opportunityDetails' => $opportunityDetails,
+            'title' => __('Opportunity Details'),
+            // 'partnerList' => $partnerList, // Uncomment if needed
+        ]);
+    }
+
+
 
 
     /*
@@ -1142,5 +1166,27 @@ public function importLearnerForm(Request $request){
         //Excel::import(new LearnersImport, $request->file('file'));
         //return back()->with('success', 'Learners imported successfully!');
     }
+
+
+
+
+
+
+    /**
+     * Yuwaah Sakhi Details
+     */
+    public function getYuwaahDetails(Request $request, $id){
+        $idstr = decryptString($id);
+        $yuwaahSakhiDetails = YuwaahSakhi::findorfail($idstr);
+        $details = YuwaahSakhi::getFormatedData($yuwaahSakhiDetails);
+        return view('admin.yuwaahsakhi.details', [
+            'userDetails' => $details,
+            'title' => __('Yuwaah Sakhi Details')
+        ]);
+
+    }
+
+
+
 
 }

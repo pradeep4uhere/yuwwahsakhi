@@ -27,7 +27,8 @@
                     <div class="activity-data">
                         <x-alert />
                     </div>
-                    <table class="custom-table">
+                    <div class="table-containers">
+                    <table class="table table-striped table-bordered">
                         <thead>
                             <tr>
                                 <th>SN</th>
@@ -47,7 +48,7 @@
                                   foreach($response['data'] as $item){ //dd($item); ?>
                             <tr>
                                 <td>{{$count}}</td>
-                                <td>{{$item['opportunities_title']}}</td>
+                                <td><a href="{{route('admin.opportunities.details',['id'=>encryptString($item['id'])])}}">{{$item['opportunities_title']}}</a></td>
                                 <td>{{$item['payout_monthly']}}</td>
                                 <td>{{$item['start_date']}}</td>
                                 <td>{{$item['end_date']}}</td>
@@ -73,6 +74,7 @@
                            
                         </tbody>
                     </table>
+                </div>
                 </div>
             </div>
             @if ($response['last_page'] > 1)

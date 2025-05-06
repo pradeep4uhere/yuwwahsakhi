@@ -42,6 +42,7 @@ Route::middleware('auth:admin')->group(function () {
     Route::any('/updateopportunities/{id}', [AdminController::class, 'updateOpportunities'])->name('admin.opportunities.update');
     Route::any('/deleteopportunities/{id}', [AdminController::class, 'deleteOpportunities'])->name('admin.opportunities.delete');
     Route::get('/getopportunitiesdetails/{id}', [AdminController::class, 'getOpportunitiesDetails'])->name('admin.opportunities.details');
+    
   
     //All Promotion Route List
     Route::get('/promotionlist', [AdminController::class, 'getPromotionList'])->name('admin.promotions.list');

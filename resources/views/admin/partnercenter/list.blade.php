@@ -17,7 +17,7 @@
         </div>
         <!-- <section class="dashboard-partners"> -->
         <div class="dash-content">
-            <span class="texttitle">{{$title}}</span>
+            <span class="texttitle">{{$title}} [{{$response->total()}}]</span>
             <div class="activity">
                 <div class="activitybutton">
                     <a href="{{route('admin.partnercenter.add')}}">
@@ -27,7 +27,8 @@
                     <div class="activity-data">
                         <x-alert />
                     </div>
-                    <table class="custom-table">
+                    <div class="table-containers">
+                        <table class="table table-striped table-bordered">
                         <thead>
                             <tr>
                                 <th>SN</th>
@@ -83,6 +84,7 @@
                            
                         </tbody>
                     </table>
+                </div>
                 </div>
             </div>
             @if ($response->lastPage() > 1)

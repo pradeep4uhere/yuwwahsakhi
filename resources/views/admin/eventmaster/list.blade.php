@@ -27,7 +27,8 @@
                     <div class="activity-data">
                         <x-alert />
                     </div>
-                    <table class="custom-table">
+                    <div class="table-containers">
+                        <table class="table table-striped table-bordered">
                         <thead>
                             <tr>
                                 <th>SN</th>
@@ -83,6 +84,7 @@
                             <?php } ?>
                         </tbody>
                     </table>
+                </div>
                 </div>
             </div>
             @if ($response->lastPage() > 1)

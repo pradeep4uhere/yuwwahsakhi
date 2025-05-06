@@ -199,7 +199,7 @@ select option {
               <input type="file" name="center_photo"/>
             </div>
             <div class="input-container">
-              <label for="field5">{{__('Profile Photo')}}</label>
+              <label for="field5">{{__('Profile photo')}}</label>
               <input type="file" name="profile_photo"/>
             </div>
             <div class="input-container">
