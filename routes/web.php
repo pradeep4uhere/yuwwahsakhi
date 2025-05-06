@@ -15,6 +15,9 @@ use Illuminate\Http\Request;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+Route::get('/phpinfo', function () {
+    phpinfo();
+});
 
 Route::get('log-viewer', [\Rap2hpoutre\LaravelLogViewer\LogViewerController::class, 'index']);
 Route::post('/change-language', function (Request $request) {
