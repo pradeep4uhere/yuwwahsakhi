@@ -39,7 +39,7 @@
                                 <th>SN</th>
                                 <th>Partner ID</th>
                                 <th>Name</th>
-                                <th>Contact Number</th>
+                                <th>Mobile</th>
                                 <th>Email</th>
                                 <th>State</th>
                                 <th>District</th>
@@ -63,14 +63,14 @@
                                  <td>{{ optional($item->state)->name ?? 'N/A' }}</td>
                                 <td>{{ optional($item->district)->name ?? 'N/A' }}</td>
                                 <td>{{ optional($item->block)->name ?? 'N/A' }}</td>
-                                <td>{{$item['onboard_date']}}</td>
+                                <td>{{getdateformate($item['onboard_date'])}}</td>
                                 <td><?php if($item['status']==1){ ?>
                                    <span class="badge badge-success">Active</span>
                                 <?php }else{ ?>
                                     <span class="badge badge-danger">InActive</span>
                                 <?php } ?>
                                 </td>
-                                <td>{{$item['created_at']}}</td>
+                                <td>{{getdateformate($item['created_at'])}}</td>
                                 <td>
                                     <a href="{{route('admin.partnercenter.edit',['id'=>encryptString($item['id'])])}}"><i class="uil uil-edit" style="color: #27272A; font-size: 15px;"></i></a>
                                     <a href="javascript:void(0);" 

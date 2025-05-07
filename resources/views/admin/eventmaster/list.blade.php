@@ -32,16 +32,16 @@
                     <div class="activity-data">
                         <x-alert />
                     </div>
-                    <div class="table-containers">
+                    <div class="table-containers" style="overflow:auto">
                         <table class="table table-striped table-bordered">
                         <thead>
                             <tr>
                                 <th>SN</th>
                                 <th>Event Type</th>
-                                <th>Category</th>
+                                <th nowrap="nowrap">Category</th>
                                 <th>Description</th>
                                 <th>Eligibility</th>
-                                <th>Fee Per Transaction</th>
+                                <th nowrap="nowrap">Fee</th>
                                 <th>Date Event</th>
                                 <th>Documents</th>
                                 <th>Status</th>

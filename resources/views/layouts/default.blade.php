@@ -15,7 +15,11 @@
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
         <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
         <script src="https://cdn.socket.io/4.0.0/socket.io.min.js"></script>
-        
+        <style>
+            .table.table-striped.table-bordered {
+                font-size: 14px;
+            }
+        </style>
     </head>
     <body class="font-sans antialiased">
     @yield('content')
@@ -23,7 +27,8 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
     <script>
-    const socket = io('http://127.0.0.1:4000');
+   const isDevelopment = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1";
+   const socket = io(isDevelopment ? "http://127.0.0.1:4000" : "http://65.0.175.155:4000");
     // Listen for progress updates
     socket.on('progress', (data) => {
         const progress = Math.round((data.processedRows / data.totalRows) * 100);
