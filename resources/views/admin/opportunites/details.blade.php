@@ -28,7 +28,7 @@
                     <th style="width: 20%;">Opportunity Name</th>
                     <th style="width: 10%;">Salary (Rs)</th>
                     <th style="width: 4%;">Openings</th>
-                    <th style="width: 12%;">YS Incentive (Rs)</th>
+                    <th style="width: 12%;">Sakhi Incentive (Rs)</th>
                     <th style="width: 11%;">Start Date</th>
                     <th style="width: 11%;">End Date</th>
                     <th style="width: 15%;">Company Name</th>

@@ -22,6 +22,7 @@ class Opportunity extends Model
         'number_of_openings',
         'provider_name',
         'opportunitie_type',
+        'incentive',
         'document', // Store file path or file name here
         'sakhi_id',
     ];
@@ -73,6 +74,7 @@ class Opportunity extends Model
                 'payout_monthly' => $opportunity->payout_monthly,
                 'start_date' => $opportunity->start_date,
                 'end_date' => $opportunity->end_date,
+                'incentive'=> $opportunity->incentive,
                 'number_of_openings' => $opportunity->number_of_openings,
                 'provider_name' => $opportunity->provider_name,
                 'document' => asset('/storage/documents/' . $opportunity->document),

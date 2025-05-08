@@ -9,29 +9,27 @@
           Add Opportunity
         </h1>
       </div>
-     
+      {{-- To show success or failure --}}
+      @if (session('success'))
+          <div class="bg-green-100 text-green-700 p-4 rounded mb-4 mt-5">
+              {{ session('success') }}
+          </div>
+      @endif
 
-{{-- To show success or failure --}}
-@if (session('success'))
-    <div class="bg-green-100 text-green-700 p-4 rounded mb-4 mt-5">
-        {{ session('success') }}
-    </div>
-@endif
-
-@if (session('error'))
-    <div class="bg-red-100 text-red-700 p-4 rounded mb-4">
-        {{ session('error') }}
-    </div>
-@endif
-@if ($errors->any())
-    <div class="bg-red-100 text-red-700 p-4 rounded mb-4">
-        <ul class="list-disc list-inside text-sm">
-            @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-            @endforeach
-        </ul>
-    </div>
-@endif
+      @if (session('error'))
+          <div class="bg-red-100 text-red-700 p-4 rounded mb-4">
+              {{ session('error') }}
+          </div>
+      @endif
+      @if ($errors->any())
+          <div class="bg-red-100 text-red-700 p-4 rounded mb-4">
+              <ul class="list-disc list-inside text-sm">
+                  @foreach ($errors->all() as $error)
+                      <li>{{ $error }}</li>
+                  @endforeach
+              </ul>
+          </div>
+      @endif
       <form class="space-y-4 mt-6" action="{{route('saveopportunites')}}" method="post" enctype='multipart/form-data'>
         @csrf
         <div class="space-y-1">

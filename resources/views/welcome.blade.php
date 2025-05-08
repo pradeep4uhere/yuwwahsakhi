@@ -57,10 +57,9 @@
       <h2
         class="w-[202px] h-[20px] absolute top-[334px] left-[100px] font-Montserrat font-[500] text-[16px] leading-[19.5px] text-center text-[#000000]">
         {{$YuwaahSakhiSetting['home_page_title']}}</h2>
-      <p
-        class="w-[330px] h-[75px] absolute top-[364px] left-[46px] font-Montserrat font-[400] text-[12px] leading-[14.63px] text-[#000000]">
-         {!!$YuwaahSakhiSetting['description']!!}
-      </p>
+        <div class="absolute top-[364px] left-[46px] w-[330px] text-[12px] leading-[1.3] font-Montserrat text-[#000000] prose prose-sm max-w-none">
+          {!! $YuwaahSakhiSetting['description'] !!}
+        </div>
     </div>
 
     <div

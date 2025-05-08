@@ -1,199 +1,283 @@
 @extends('layouts.user')
 @section('title', 'Dashboard')
 @section('content')
-<div id="screen10" class="max-w-[26rem] mx-auto  bg-white shadow-md rounded-lg relative min-h-[100vh] h-auto">
+<div id="screen7" class="max-w-[26rem] mx-auto  bg-white shadow-md rounded-lg relative min-h-[100vh] h-auto">
     @include('user.header')
-    <div id="screen9" class=" max-w-[26rem] mx-auto p-4 bg-white  rounded-lg mt-10">
-      <div class="mt-2 text-sm flex justify-between items-center">
-        <h1 class="w-[152px] h-[17px] font-[500] text-[14px] leading-[17.07px] text-[#000000] mb-4">
-        {{__('messages.assign_learners')}}
+    <div id="screen12" class="max-w-sm mx-auto p-4 bg-white  rounded-lg">
+      <div class="mt-2 text-sm">
+        <h1 class="font-[500] text-[14px] leading-[17.07px] text-[#000000] ml-8 mt-3">
+           Event
         </h1>
-
-        <div class="flex items-center gap-2">
-         
-        </div>
       </div>
-
-      <!-- visible only click on sort by button -->
-      <div id="togglePopUp" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-        <div class="bg-white p-4 w-[310px] h-[220px]" style="box-shadow: 0px 3px 10px 3px #00000026;">
-          <div class="flex justify-between items-center mb-3">
-            <h1 class="w-[53px] h-[17px] font-[600]  text-[14px] leading-[17.07px] text-center">Sort By</h1>
-            <button class="text-gray-500 hover:text-gray-700 text-4xl" onclick="toggleSortPopUp()">
-              &times;
-            </button>
-          </div>
-          <form>
-            <div class="space-y-4">
-              <div class="font-[400] text-[12px] leading-[14.63px] flex flex-col gap-2">
-              <a href="{{ route('opportunities', ['filter' => 'desc', 'order_by' => 'id']) }}">
-              New Event</a>
-              <a href="{{ route('opportunities', ['filter' => 'desc', 'order_by' => 'end_date']) }}">
-              Earliest Ending Event</a>
-              <a href="{{ route('opportunities', ['filter' => 'asc', 'order_by' => 'start_date']) }}">
-              Newest to Oldest</a>
-              <a href="{{ route('opportunities', ['filter' => 'asc', 'order_by' => 'start_date']) }}">
-              Oldest to Newest</a>
-              </div>
-              <div class="w-[250px] h-[40px] rounded-[10px] bg-[#28388F] flex justify-center items-center mx-auto">
-                <button type="submit" class="w-[42px] h-[17px] font-[600] text-[14px] leading-[17.07px] text-[#FFFFFF]">
-                  Apply
-                </button>
-              </div>
-            </div>
-          </form>
+    <div class="mt-10">
+    {{-- To show success or failure --}}
+    @if (session('success'))
+        <div class="bg-green-100 text-green-700 p-4 rounded mb-4 mt-5">
+            {{ session('success') }}
         </div>
-      </div>
-     
-      <!-- Other Opportunites Start Here-->
-      <div class="min-w-[330px] min-h-[260px] w-auto min-h-[50px] h-auto bg-[#FFFFFF] px-3 py-3 mt-3 overflow-auto cursor-pointer" style="box-shadow: 0px 3px 10px 0px #28388F33;" onclick="toggleButtons(event)">
-      <h1
-          class="w-[310px] h-[15px] ml-[10px] mt-[6px] font-Montserrat font-[500] text-[12px] leading-[14.63px] text-[#000000]" >
-          Beneficiary Phone : {{$item['beneficiary_phone_number']}}</h1>
-          <h1
-          class="w-[310px] h-[15px] ml-[10px] mt-[6px] font-Montserrat font-[500] text-[12px] leading-[14.63px] text-[#000000]" >
-          Beneficiary Name : {{$item['beneficiary_name']}}</h1>
+    @endif
 
-        <div class="flex justify-between">
-          <div class="">
-            <div class="flex mb-[3px]">
-              <img src="{{asset('asset/images/file.png')}}" alt="engLogo" class="w-[14px] h-[14px] ml-[10px] mt-[8px] text-[#28388F0D]">
-              <a href="{{ asset('storage/' . $item['uploaded_doc_links']) }}"
-                target="_blank"
-                class="w-[151px] h-[12px] mt-[9px] ml-[8px] font-Montserrat font-[500] text-[10px] leading-[12.19px] text-[#28388F] text-left underline">
-                  View Uploaded Document
-              </a>
-              <img src="{{asset('asset/images/Group.png')}}" alt="engLogo" class="w-[20px] h-[20px] mt-[6px] ml-[10px] text-[#28388F0D]">
-            </div>
-
-            <div class="flex mb-[6px]">
-              <img src="{{asset('asset/images/calendar.png')}}" alt="engLogo" class="w-[14px] h-[14px] ml-[10px]  text-[#28388F0D]">
-              <p class="w-[195px] h-[12px]  ml-[10px] font-Montserrat font-[500] text-[10px] leading-[12.19px]">
-              Event Type: {{($item['Event']!=null)?$item['Event']['event_type']:''}}
-              </p>
-            </div>
-
-            <div class="flex mb-[5px]">
-              <img src="{{asset('asset/images/calendar.png')}}" alt="engLogo" class="w-[14px] h-[14px] ml-[10px]  text-[#28388F0D]">
-              <p class="w-[195px] h-[12px] ml-[6px] mt-[1px] font-[500] text-[10px] leading-[12.19px] text-[#000000]">
-              Event Category: {{($item['Event']!=null)?$item['Event']['event_category']:''}} 
-              </p>
-            </div>
-            <div class="flex mb-[6px]">
-              <img src="{{asset('asset/images/calendar.png')}}" alt="engLogo" class="w-[14px] h-[14px] ml-[10px]  text-[#28388F0D]">
-              <p class="w-[195px] h-[12px] ml-[6px] mt-[1px] font-[500] text-[10px] leading-[12.19px] text-[#000000]">
-              Created Date - {{getdateformate($item['event_date_created'])}}
-              </p>
-            </div>
-            <div class="flex mb-[6px]">
-              <img src="{{asset('asset/images/calendar.png')}}" alt="engLogo" class="w-[14px] h-[14px] ml-[10px]  text-[#28388F0D]">
-              <p class="w-[195px] h-[12px] ml-[6px] mt-[1px] font-[500] text-[10px] leading-[12.19px] text-[#000000]">
-              Submitted Date - {{getdateformate($item['event_date_submitted'])}}
-              </p>
-            </div>
-          </div>
-          <div class="">
-            <p
-              class="w-[43px] h-[22px] font-Montserrat font-[500] text-[9px] leading-[10.97px] text-center text-[#000000]  mt-[-10px] ml-[9px]">
-              Event Value
-            </p>
-            <div
-              class="w-[60px] h-[50px] bg-[#FAFAFA] mt-1 mr-[20px] flex items-center justify-center">
-              <p
-                class="w-[60px] h-[30px] font-Montserrat font-[700] text-[12px] leading-[14.63px] text-center text-[#000000]">
-                {{$item['event_value']}} 
-             </p>
-            </div>
-          </div>
+    @if (session('error'))
+        <div class="bg-red-100 text-red-700 p-4 rounded mb-4">
+            {{ session('error') }}
         </div>
+    @endif
+      @if ($errors->any())
+              <div class="bg-red-100 text-red-700 p-4 rounded mb-4">
+                  <ul class="list-disc list-inside text-sm">
+                      @foreach ($errors->all() as $error)
+                          <li>{{ $error }}</li>
+                      @endforeach
+                  </ul>
+              </div>
+          @endif
     </div>
-    <div class="flex justify-between items-center mt-4">
-        <div>
-          <h1 class="w-[72px] h-[15px] font-[500] text-[12px] leading-[14.63px] text-[#000000]">
-            {{__('messages.learner_list')}}
-          </h1>
-          <!-- Success message container -->
-          <div id="successMsg" class="hidden text-green-600 text-sm mt-2">Learners assigned successfully!</div>
-
+      <form class="space-y-4 mt-6" action="{{route('storeeventtransaction')}}" method="post" enctype='multipart/form-data'>
+        @csrf
+        <div class="space-y-1">
+          <label for="opportunity" class="font-[400] text-[12px] leading-[14.63px] text-[#000000]">Event Name</label>
+          <input value="{{$item['event_name']}}" id="event_name" type="text" name="event_name" placeholder="Please Enter Event Name" class="text-xs w-full border rounded px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 placeholder:font-[400] placeholder:text-[10px] placeholder:leading-[12.19px] placeholder:text-[#A7A7A7] rounded-[10px] placeholder:border-[1px]"  value="{{ old('event_name') }}">
         </div>
-        <div class="w-[150px] h-[30px] rounded-[10px] bg-[#28388F0D] flex justify-center items-center">
-          <button onclick="assignLearner(event)" class="w-[191px] h-[12px] font-[500] text-[10px] leading-[12.19px] text-[#28388F] cursor-pointer">
-            {{__('messages.update_learner')}}
+        
+        <div class="space-y-1 relative">
+        <label for="opportunity" class="font-[400] text-[12px] leading-[14.63px] text-[#000000]">Beneficiary Name</label>
+        <input value="{{$item['beneficiary_name']}}" id="beneficiary_name" type="text" name="beneficiary_name"
+          placeholder="Please Enter beneficiary name"
+          class="text-xs w-full border rounded px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 placeholder:font-[400] placeholder:text-[10px] placeholder:leading-[12.19px] placeholder:text-[#A7A7A7] rounded-[10px] placeholder:border-[1px]"
+          autocomplete="off" value="{{ old('beneficiary_name') }}">
+
+        <!-- Suggestions container -->
+        <div id="suggestions" class="absolute z-10 bg-white border w-full mt-1 rounded shadow-md hidden"></div>
+      </div>
+        <div class="space-y-1">
+          <label for="opportunity" class="font-[400] text-[12px] leading-[14.63px] text-[#000000]">Beneficiary Phone Number</label>
+          <input value="{{$item['beneficiary_phone_number']}}" id="beneficiary_number" type="text" name="beneficiary_phone_number" placeholder="Please Enter  phone number" class="text-xs w-full border rounded px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 placeholder:font-[400] placeholder:text-[10px] placeholder:leading-[12.19px] placeholder:text-[#A7A7A7] rounded-[10px] placeholder:border-[1px]"  value="{{ old('beneficiary_phone_number') }}">
+        </div>
+        <div class="space-y-1">
+          <label for="opportunity" class="font-[400] text-[12px] leading-[14.63px] text-[#000000]">Event Type</label>
+        <div class="space-y-1">
+          <select name="event_type" id="event_type" class="font-[400] text-[12px] leading-[14.63px] text-[#000000]" style="width:100%; padding:10px; border:solid 1px #ccc" onchange="fetchEventDocuments()">
+            <option value="">Choose Event Type</option>
+            @foreach($eventList as $itemsVal)
+            <option value="{{$itemsVal['id']}}" <?php if($item['event_id']==$itemsVal['id']){ ?> selected="selected" <?php } ?> >{{$itemsVal['event_type']}}</option>
+            @endforeach
+          </select>
+        </div>
+        <div class="space-y-1">
+          <label for="event_category" class="font-[400] text-[12px] leading-[14.63px] text-[#000000]">Event Category</label>
+          <select name="event_category" id="event_category" class="font-[400] text-[12px] leading-[14.63px] text-[#000000]" style="width:100%; padding:10px; border:solid 1px #ccc">
+              <option value="{{$item['event_category']}}">{{$item['event_category']}}</option>
+          </select>
+        </div>
+       
+        <div class="space-y-1 mt-2">
+          <label for="potential" class="font-[400] text-[12px] leading-[14.63px] text-[#000000]">Event Value</label>
+          <input value="{{$item['event_value']}}" id="event_value" name="event_value" type="text" placeholder="Please enter event value" class="text-xs w-full border rounded px-3 py-2 text-sm  placeholder:font-[400] placeholder:text-[10px] placeholder:leading-[12.19px] placeholder:text-[#A7A7A7] rounded-[10px] placeholder:border-[1px]"  value="{{ old('event_value') }}">
+        </div>
+        <div class="space-y-1 mt-2">
+          <label for="potential" class="font-[400] text-[12px] leading-[14.63px] text-[#000000]">Sakhi ID</label>
+          <input id="sakhi_id" name="sakhi_id" type="text"  class="text-xs w-full border rounded px-3 py-2 text-sm  placeholder:font-[400] placeholder:text-[10px] placeholder:leading-[12.19px] placeholder:text-[#A7A7A7] rounded-[10px] placeholder:border-[1px]" value="{{getSakhiID()}}" readonly="readonly">
+        </div>
+        <div class="space-y-1 mt-2">
+          <label for="potential" class="font-[400] text-[12px] leading-[14.63px] text-[#000000]">Comment</label>
+          <input value="{{$item['comment']}}" id="comment" name="comment" type="text"  class="text-xs w-full border rounded px-3 py-2 text-sm  placeholder:font-[400] placeholder:text-[10px] placeholder:leading-[12.19px] placeholder:text-[#A7A7A7] rounded-[10px] placeholder:border-[1px]"   value="{{ old('comment') }}">
+        </div>
+        <div id="documentInputsContainer" class="space-y-1 mt-2">
+          @foreach($documentArr as $key=>$itemVal)
+          <div class="space-y-1 mt-2">
+              <label for="document_${index+1}" class="font-[400] text-[12px] leading-[14.63px] text-[#000000]">
+                Upload Document {{$key}}
+              </label>
+              <input id="{{$key}}" name="{{$key}}" type="file"
+                class="text-xs w-full border rounded px-3 py-2 text-sm placeholder:font-[400] placeholder:text-[10px] placeholder:leading-[12.19px] placeholder:text-[#A7A7A7] rounded-[10px] placeholder:border-[1px]">
+            </div>
+          @endforeach
+          <!-- Dynamic input fields will be appended here -->
+        </div>
+        </div>
+        <div class="flex justify-center ">
+          <button name="action" type="submit" value="save" class="w-[250px] h-[40px] rounded-[1px] mt-[1rem] mr-[1rem] mb-[8rem] bg-[#1677ff] text-[#FFFFFF]  py-1 pb-[6px] text-[14px] font-[600]">
+            Save Event
+          </button>
+          <button name="action" type="submit" value="submit" class="w-[250px] h-[40px] rounded-[1px] mt-[1rem] mb-[8rem] bg-[#28388F] text-[#FFFFFF]  py-1 pb-[6px] text-[14px] font-[600]">
+            Submit Event
           </button>
         </div>
-      </div>
-      <form id="learnerForm">
-        @foreach($leanerList as $item)
-        @php
-          $top = 140 + ($loop->index * 80);
-        @endphp
+      </form>
 
-        <div class="min-w-[320px] min-h-[70px] w-auto h-auto rounded-[10px] bg-[#FFFFFF] mt-6 flex gap-2 items-center justify-between cursor-pointer" onclick="showScreen11()" style="box-shadow: 0px 4px 10px 0px #00000026;">
-        <div class="flex justify-center gap-2 items-center">
-          <div class="w-[40px] h-[40px] ml-2">
-            <img src="{{asset('asset/images/user.jpg')}}" alt="">
-          </div>
-          <div class="flex flex-col items-center gap-1.5">
-            <div class="min-w-[86px] min-h-[17px] h-auto w-auto ml-[5px] font-Montserrat font-[500] text-[14px] leading-[17.07px] text-[#000000]">
-            {{$item['first_name']}}
-            </div>
-            <div class="flex gap-1.5 ">
-              <span>
-                <img src="{{asset('asset/images/Learner calendar.png')}}" class="w-[10px] h-[10px]" alt="">
-              </span>
-              <span class="min-w-[64px] min-h-[12px] w-auto h-auto font-[500] text-[10px] leading-[12.19px] text-[#000000]">
-              {{getdateformate($item['date_of_birth'])}}
-              </span>
-            </div>
-          </div>
-        </div>
-        <div class="mr-4 self-center">
-          <input type="checkbox" name="learner[]" value="{{ encryptString($item['id']) }}" class="w-[20px] h-[20px]" 
-          @if(in_array($item['id'], $learnerIdArr->toArray())) checked="checked" @endif>
-
-        </div>
-      </div>
-      @endforeach
-      <input type="hidden" value="{{$ysid}}" name="ysid"/>
-      <input type="hidden" value="{{$opid}}" name="opid"/>
-      <input type="hidden" value="{{$type}}" name="type"/>
-      
-  </form>
-  </div>
-
-  <script>
-  function assignLearner(event) {
-    event.preventDefault(); // Stop form submission
-
-    let form = document.getElementById('learnerForm');
-    let formData = new FormData(form);
-
-    // Send AJAX request
-    fetch("{{ route('event.save.assignLearner') }}", {
-      method: "POST",
-      headers: {
-        "X-CSRF-TOKEN": '{{ csrf_token() }}'
+    </div>
+</div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+  $('#event_type').on('change', function () {
+    var eventTypeId = $(this).val();
+    $('#event_category').html('<option>Loading...</option>');
+    $.ajax({
+      url: "{{ route('fetch.event.categories') }}",
+      method: 'POST',
+      data: {
+        _token: "{{ csrf_token() }}",
+        event_type: eventTypeId
       },
-      body: formData
-    })
-    .then(res => res.json())
-    .then(data => {
-      if (data.success) {
-        document.getElementById('successMsg').classList.remove('hidden');
-        document.getElementById('successMsg').textContent = "Learners assigned successfully!";
-        
-        // Optionally reset form
-        // form.reset();
-      } else {
-        alert("Something went wrong.");
+      success: function (data) {
+        $('#event_category').val(data.category_name);
+      },
+      error: function () {
+        alert('Error fetching categories');
       }
-    })
-    .catch(err => {
-      console.error("Error:", err);
-      alert("Failed to assign learners.");
     });
-  }
+  });
+</script>
+<script>
+function handleFileUploadFile(event) {
+    const file = event.target.files[0];
+    if (file) {
+        const wrapper = event.target.closest('.flex');
+        const fileNameSpan = wrapper.querySelector('.file-name-display');
+        if (fileNameSpan) {
+        fileNameSpan.textContent = file.name;
+        fileNameSpan.classList.remove('text-[#A7A7A7]');
+        fileNameSpan.classList.add('text-black');
+        }
+    }
+}
+
+function addNewUploadFile() {
+  const container = document.getElementById('file-upload-container');
+
+  // First, change the last button (if any) to become a remove button
+  const allBlocks = container.querySelectorAll(".space-y-2");
+  allBlocks.forEach(block => {
+    const button = block.querySelector("a");
+    if (button) {
+      button.setAttribute("onclick", "removefile(this)");
+      button.innerHTML = `
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-4 h-4">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      `;
+    }
+  });
+
+  // Now create new block with the "add" button
+  const newUpload = document.createElement('div');
+  newUpload.className = "space-y-1";
+  newUpload.innerHTML = `<div class="space-y-2" style="margin-bottom:10px;">
+          <div class="flex items-center space-x-2">
+            <div class="flex items-center border border-gray-300 rounded-[10px] px-2 py-3 w-full">
+              <span id="file-name[]" class="font-[400] text-[12px] leading-[12.19px] text-[#A7A7A7]  flex-grow ">Upload Document</span>
+              <label class="hover:text-blue-500 cursor-pointer">
+                <input type="file" name=document[] id="file-upload[]" class="hidden" onchange="handleFileUploadFile(event)">
+                <img src="{{asset('asset/images/paperclip.png')}}" alt="" class="w-[16px] h-[16px]">
+              </label>
+            </div>
+            <a class="text-gray-500 hover:text-red-500 border border-gray-300 rounded-full p-1" onclick="addNewUploadFile()">
+               <img src="{{asset('asset/images/Add-plus-circle.png')}}" alt="add file" class=" h[20px] w-[20px]">
+               
+            </a>
+          </div>
+        </div>`;
+
+  container.appendChild(newUpload);
+}
+
+function removefile(el) {
+  const block = el.closest(".space-y-1");
+  if (block) block.remove();
+}
+</script>
+<script>
+$('#event_type').on('change', function () {
+        let eventTypeId = $(this).val();
+
+        if (eventTypeId) {
+            $.ajax({
+                url: "{{route('user.event.document')}}",
+                method: 'GET',
+                data: { event_type_id: eventTypeId },
+                success: function (response) {
+                  console.log(response);
+                  // Clear previous document inputs
+                  $('#documentInputsContainer').empty();
+
+                  // Dynamically create input fields
+                  $.each(response.document, function (index, value) {
+                      let inputHTML = `
+                      <div class="space-y-1 mt-2">
+                        <label for="document_${index+1}" class="font-[400] text-[12px] leading-[14.63px] text-[#000000]">
+                          Upload Document ${value}
+                        </label>
+                        <input id="document_${index+1}" name="document_${index+1}" type="file"
+                          class="text-xs w-full border rounded px-3 py-2 text-sm placeholder:font-[400] placeholder:text-[10px] placeholder:leading-[12.19px] placeholder:text-[#A7A7A7] rounded-[10px] placeholder:border-[1px]">
+                      </div>`;
+                      
+                      $('#documentInputsContainer').append(inputHTML);
+                  });
+
+                    $('#event_category').empty().append('<option value="">Choose Event Category</option>');
+                    $.each(response.category, function (key, value) {
+                        $('#event_category').append('<option value="'+ value+'">'+ value+'</option>');
+                    });
+                },
+                error: function (xhr) {
+                    alert('Could not fetch document types.');
+                    console.log(xhr.responseText);
+                }
+            });
+        } else {
+            $('#document_type').empty().append('<option value="">Choose Document Type</option>');
+        }
+    });
+</script>
+<script>
+  $(document).ready(function () {
+    $('#beneficiary_name').on('keyup', function () {
+        let query = $(this).val();
+        if (query.length > 1) {
+            $.ajax({
+                url: "{{ route('get.beneficiaries') }}", // You need to define this route
+                type: "GET",
+                data: { name: query },
+                success: function (data) {
+                    let suggestions = $('#suggestions');
+                    suggestions.empty().removeClass('hidden');
+                    
+                    if (data.length === 0) {
+                        suggestions.html('<div class="px-3 py-1 text-sm text-gray-500">No results found</div>');
+                    } else {
+                        $.each(data, function (i, item) {
+                            suggestions.append(
+                                `<div class="px-3 py-2 cursor-pointer hover:bg-blue-100 text-sm" data-name="${item.first_name}" data-number="${item.primary_phone_number}">
+                                    ${item.first_name} | ${item.primary_phone_number}
+                                </div>`
+                            );
+                        });
+                    }
+                }
+            });
+        } else {
+            $('#suggestions').addClass('hidden').empty();
+        }
+    });
+
+    // Handle click on suggestion
+    $(document).on('click', '#suggestions div', function () {
+        let name = $(this).data('name');
+        let primary_phone_number = $(this).data('number');
+        //alert(primary_phone_number);
+        $('#beneficiary_name').val(name);
+        $('#beneficiary_number').val(primary_phone_number);
+        $('#suggestions').addClass('hidden').empty();
+    });
+
+    // Optional: hide suggestions when clicking outside
+    $(document).on('click', function (e) {
+        if (!$(e.target).closest('#beneficiary_name, #suggestions').length) {
+            $('#suggestions').addClass('hidden').empty();
+        }
+    });
+});
 </script>
 
-  @include('user.bottom_menu')
+@include('user.bottom_menu')
 @endsection

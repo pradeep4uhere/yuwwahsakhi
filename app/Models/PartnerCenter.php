@@ -21,6 +21,7 @@ class PartnerCenter extends Model implements Authenticatable
      */
     protected $fillable = [
         'partner_id',
+        'partner_centers_id',
         'center_name',
         'email',
         'contact_number',
@@ -51,7 +52,7 @@ class PartnerCenter extends Model implements Authenticatable
     public static function allPartnerList(Request $request){
         $perPage = env('PAGINATION');
         $query = PartnerCenter::query()
-        ->select('id', 'name', 'email', 'contact_number', 'address', 'status', 'onboard_date');
+        ->select('id', 'name','partner_centers_id', 'email', 'contact_number', 'address', 'status', 'onboard_date');
 
         if ($request->has('status')) {
             $query->where('status', $request->status);
@@ -79,6 +80,7 @@ class PartnerCenter extends Model implements Authenticatable
                     'id'=>$partner->id,
                     'center_name'=>$partner->center_name,
                     'partner_id'=>$partner->partner_id,
+                    'partner_centers_id'=>$partner->partner_centers_id,
                     'email'=>$partner->email,
                     'contact_number'=>$partner->contact_number,
                     'state'=>$partner->state->name ?? 'NA',
@@ -105,6 +107,7 @@ class PartnerCenter extends Model implements Authenticatable
             $data[] = [
                     'id'=>$item->id,
                     'name'=>$item->name,
+                    'partner_centers_id'=>$item->partner_centers_id,
                     'email'=>$item->email,
                     'contact_number'=>$item->contact_number,
                     'address'=>$item->address,
@@ -148,6 +151,7 @@ class PartnerCenter extends Model implements Authenticatable
             return [
                     'id'=>$partner->id,
                     'center_name'=>$partner->center_name,
+                    'partner_centers_id'=>$partner->partner_centers_id,
                     'partner_id'=>$partner->partner_id,
                     'email'=>$partner->email,
                     'contact_number'=>$partner->contact_number,

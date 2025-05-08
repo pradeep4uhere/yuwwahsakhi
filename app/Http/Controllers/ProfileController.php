@@ -29,6 +29,7 @@ use App\Models\EventTransaction;
 use App\Models\YuwaahEventMaster;
 use Illuminate\Support\Facades\Validator;
 use Carbon\Carbon;
+use Illuminate\Support\Str;
     
 
 
@@ -513,10 +514,14 @@ class ProfileController extends Controller
      */
     public function eventTransactionList(Request $request){
         $eventList = YuwaahEventMaster::where('status',1)->get();
+        //$learnerList = Learner::where('status',1)->get();
+        //dd($learnerList);
+        //dd($eventList);
         //All Event Transction Count
         $allEventCount = EventTransaction::where('ys_id',getUserId())->count();
         return view($this->dir.'.add_event',[
             'eventList' => $eventList,
+            
             'allEventCount'=>$allEventCount 
         ]);
     }
@@ -526,10 +531,14 @@ class ProfileController extends Controller
     {
         $eventTypeId = $request->input('event_type_id');
         $documents = YuwaahEventMaster::find($eventTypeId);
+        $category = explode(',',$documents['event_category']);
         $documentsArr = [
-            'doc_1'=> $documents['document_1'],
-            'doc_2'=> $documents['document_2'],
-            'doc_3'=> $documents['document_3']
+            'document' =>  [
+                'doc_1'=> $documents['document_1'],
+                'doc_2'=> $documents['document_2'],
+                'doc_3'=> $documents['document_3']
+            ],
+            'category'=>$category
         ];
         return response()->json($documentsArr);
     }
@@ -542,8 +551,10 @@ class ProfileController extends Controller
 
     public function storeEventTransaction(Request $request)
     {
+        //dd($request->all());
         // Validate request input
         $validator = Validator::make($request->all(), [
+            'event_name'               => 'required|string|max:15',
             'beneficiary_phone_number' => 'required|string|max:15',
             'beneficiary_name'         => 'required|string|max:255',
             'event_type'               => 'required|string|max:255',
@@ -563,27 +574,57 @@ class ProfileController extends Controller
         }
     
         try {
-            $uploadedPath = null;
+            $uploadedPaths = [];
+              // Loop through request inputs and find any file inputs that start with 'document_doc_'
+            foreach ($request->allFiles() as $key => $file) {
+                if (Str::startsWith($key, 'document_doc_')) {
+                    $path = $file->store('uploads/eventtransaction', 'public');
+                    $uploadedPaths[$key] = $path;
+                }
+            }
+            // You can store the file paths as JSON or comma-separated values in DB
+            $uploadedDocLinks = json_encode($uploadedPaths); // Or use implode if you prefer a string
+
     
             // Handle file upload
             if ($request->hasFile('uploaded_doc_links')) {
                 $uploadedPath = $request->file('uploaded_doc_links')->store('uploads/eventtransaction', 'public');
             }
-            //dd($uploadedPath);
-            EventTransaction::create([
+            $action = $request->input('action');
+            // Unique identifiers (adjust if needed)
+            $eventName = $request->input('event_name');
+            $sakhiId = getUserId(); // Assuming current Sakhi user
+
+            $existingEvent = EventTransaction::where('event_name', $eventName)
+                ->where('ys_id', $sakhiId)
+                ->first();
+
+            $data = [
+                'event_name'               => $eventName,
                 'beneficiary_phone_number' => $request->input('beneficiary_phone_number'),
                 'beneficiary_name'         => $request->input('beneficiary_name'),
                 'event_id'                 => $request->input('event_type'),
                 'event_type'               => $request->input('event_type'),
                 'event_category'           => $request->input('event_category'),
                 'event_value'              => $request->input('event_value'),
-                'ys_id'                    => getUserId(),
+                'ys_id'                    => $sakhiId,
                 'comment'                  => $request->input('comment'),
                 'document_type'            => $request->input('document_type'),
-                'uploaded_doc_links'       => $uploadedPath,
+                'uploaded_doc_links'       => $uploadedDocLinks,
                 'event_date_created'       => now(),
-                'event_date_submitted'     => now(), // Assuming submission is same as creation
-            ]);
+            ];
+
+            if ($action === 'submit') {
+                $data['event_date_submitted'] = now(); // Only on submit
+            }
+
+            if ($existingEvent) {
+                // Update existing event
+                $existingEvent->update($data);
+            } else {
+                // Create new event
+                EventTransaction::create($data);
+            }
     
             return redirect()->back()
                 ->with('success', 'Event transaction saved successfully!');
@@ -630,15 +671,36 @@ class ProfileController extends Controller
      * All event transactions for a user.
      */
     public function allEventTransactionList(Request $request){
+        //dd($request->all());
         $eventList = [];
         $allEventCount= "";
         $filter = $request->query('filter', 'desc'); // default to 'desc'
         $orderBy = $request->query('order_by', 'id'); // default to 'id'
-        $eventList = EventTransaction::With('Event')
-        ->where('ys_id',getUserId())
-        ->orderBy($orderBy, $filter)
-        ->paginate();
-        //dd($eventList);
+        
+        // Start query
+        $query = EventTransaction::with('Event')
+        ->where('ys_id', getUserId());
+
+        // Apply search filters
+        if ($request->has('name') && !empty($request->name)) {
+            $query->where('event_name', 'like', '%' . $request->name . '%');
+        }
+
+        if ($request->has('beneficiary_name') && !empty($request->beneficiary_name)) {
+            $query->where('beneficiary_name', 'like', '%' . $request->beneficiary_name . '%');
+        }
+
+        if ($request->has('beneficiary_number') && !empty($request->beneficiary_number)) {
+            $query->where('beneficiary_phone_number', 'like', '%' . $request->beneficiary_number . '%');
+        }
+
+        if ($request->has('event_type') && !empty($request->event_type)) {
+            $query->where('event_id', $request->event_type); // exact match
+            // If partial match is needed: ->where('event_type', 'like', '%' . $request->event_type . '%');
+        }
+        // Order and paginate
+        $eventList = $query->orderBy($orderBy, $filter)->paginate();
+
         return view($this->dir.'.all_event_transaction_list',[
             'eventList' => $eventList,
             'allEventCount'=>$allEventCount 
@@ -1059,7 +1121,37 @@ As a catalytic multi-stakeholder partnership, YuWaah is dedicated to transformin
 
 
 
+    
+    public function getBeneficiaries(Request $request)
+    {
+        $query = $request->input('name');
+        $results = Learner::where('status','Active')
+            ->where('first_name', 'like', "%$query%")
+            ->select('first_name','primary_phone_number')
+            ->limit(10)
+            ->get();
+        return response()->json($results);
+    }
 
+
+
+
+    public function getEventDetails(Request $request,$id){
+        $eventList = YuwaahEventMaster::where('status',1)->get();
+      
+        $idstr = decryptString($id);
+        $eventTransactionDetails = EventTransaction::findOrFail($idstr);
+        $documentArr = json_decode($eventTransactionDetails['uploaded_doc_links'],true);
+        //dd($documentArr);
+        return view($this->dir.'.learner_to_event',[
+            'item'=>$eventTransactionDetails,
+            'ysid'=>encryptString(getUserId()),
+            'eventList'=>$eventList,
+            'documentArr'=>$documentArr,
+            'opid'=>$id,
+        ]);
+
+    }
 
 
 }

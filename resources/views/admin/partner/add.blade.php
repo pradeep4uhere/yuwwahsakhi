@@ -46,6 +46,10 @@
               <input type="text" name="name" placeholder="Please enter Partner Name" value="{{$inputs['name']}}">
             </div>
             <div class="input-container">
+              <label for="field1">Partner ID</label>
+              <input type="text" name="partner_id" placeholder="Please enter Partner Id" value="{{$inputs['partner_id']}}">
+            </div>
+            <div class="input-container">
               <label for="field2">Email Address</label>
               <input type="email" name="email" placeholder="Please enter Email Address" value="{{$inputs['email']}}">
             </div>

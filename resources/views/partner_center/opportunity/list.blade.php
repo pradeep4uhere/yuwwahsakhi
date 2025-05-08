@@ -14,7 +14,7 @@
                         <th>Opportunity Name</th>
                         <th>Salary (Rs)</th>
                         <th>Openings</th>
-                        <th>YS Incentive (Rs)</th>
+                        <th>Sakhi Incentive (Rs)</th>
                         <th>Start Date</th>
                         <th>End Date</th>
                         <th>Company Name</th>

@@ -106,6 +106,7 @@ class ApiAuthController extends Controller
          // Validate incoming request
          $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
+            'partner_id' => 'required|string|max:255',
             'email' => 'required|email|unique:partners,email',
             'contact_number' => 'nullable|string|max:15',
             'address' => 'nullable|string|max:255',
@@ -123,7 +124,7 @@ class ApiAuthController extends Controller
         try {
             // Create a new partner
             $partner = Partner::create([
-                'partner_id' => uniqid('partner_'), // Generate unique partner ID
+                'partner_id' => $request->partner_id, // Generate unique partner ID
                 'name' => $request->name,
                 'email' => $request->email,
                 'password' => Hash::make('password@123'),
@@ -163,6 +164,7 @@ class ApiAuthController extends Controller
         Log::info('Locale set to: ' . app()->getLocale());
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
+            'partner_id' => 'required|string|max:255',
             'email' => 'required|email|unique:partners,email,'. $partnerId,
             'contact_number' => 'nullable|string|max:15',
             'address' => 'nullable|string|max:255',
@@ -190,6 +192,7 @@ class ApiAuthController extends Controller
             // Update partner data
             $partner->update([
                 'name' => $request->name,
+                'partner_id'=>$request->partner_id,
                 'email' => $request->email,
                 'contact_number' => $request->contact_number,
                 'state_id'=> $request->state_id,
@@ -360,6 +363,7 @@ class ApiAuthController extends Controller
         // Validate incoming request
         $validator = Validator::make($request->all(), [
            'center_name' => 'required|string|max:255',
+           'partner_centers_id' => 'required|string|max:255',
            'email' => 'required|email|unique:partner_centers,email',
            'contact_number' => 'nullable|string|max:15',
            'address' => 'nullable|string|max:255',
@@ -381,6 +385,7 @@ class ApiAuthController extends Controller
            $partner = PartnerCenter::create([
                'partner_id' => $request->partner_id, // Generate unique partner ID
                'center_name' => $request->center_name,
+               'partner_centers_id'=>$request->partner_centers_id,
                'email' => $request->email,
                'contact_number' => $request->contact_number,
                'state_id' => $request->state_id,
@@ -418,6 +423,7 @@ class ApiAuthController extends Controller
       
        $validator = Validator::make($request->all(), [
            'center_name' => 'required|string|max:255',
+           'partner_centers_id' => 'required|string|max:255',
            'email' => 'required|email|unique:partner_centers,email,'. $partnerId,
            'contact_number' => 'nullable|string|max:15',
            'address' => 'nullable|string|max:255',
@@ -445,6 +451,7 @@ class ApiAuthController extends Controller
            $partner->update([
                'center_name' => $request->center_name,
                'partner_id' => $request->partner_id,
+               'partner_centers_id' => $request->partner_centers_id,
                'email' => $request->email,
                'contact_number' => $request->contact_number,
                'state_id' => $request->state_id,
@@ -561,6 +568,7 @@ class ApiAuthController extends Controller
             'end_date'             => 'required|date|after:start_date',
             'number_of_openings'   => 'required|integer|min:1',
             'provider_name'        => 'required|string|max:255',
+            'incentive'            => 'required|string|max:255',
             'document'             => 'required|file|mimes:pdf,doc,docx,jpg,png|max:10240', // File validation rules
         ]);
        
@@ -575,6 +583,7 @@ class ApiAuthController extends Controller
             'description',
             'payout_monthly',
             'end_date',
+            'incentive',
             'number_of_openings',
             'provider_name'
         ]);
@@ -627,6 +636,7 @@ class ApiAuthController extends Controller
         // Validate the incoming request
         $validator = Validator::make($request->all(), [
             'opportunities_title'  => 'required|string|max:255',
+            'incentive'            => 'required|string|max:255',
             'description'          => 'required|string|max:5000',
             'payout_monthly'       => 'required|numeric|min:0',
             'start_date'           => 'required|date|after_or_equal:today',
@@ -656,6 +666,7 @@ class ApiAuthController extends Controller
         $opportunity->payout_monthly = $request->payout_monthly;
         $opportunity->start_date = $request->start_date;
         $opportunity->end_date = $request->end_date;
+        $opportunity->incentive = $request->incentive;
         $opportunity->number_of_openings = $request->number_of_openings;
         $opportunity->provider_name = $request->provider_name;
 

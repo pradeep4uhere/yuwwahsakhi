@@ -54,7 +54,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/assign-learners', [ProfileController::class, 'assignLearners'])->name('assign.learners');
     Route::post('/storeeventtransaction', [ProfileController::class, 'storeEventTransaction'])->name('storeeventtransaction');
     Route::post('/fetch-event-categories', [ProfileController::class, 'fetchEventCategories'])->name('fetch.event.categories');
-    Route::get('/allevents', [ProfileController::class, 'allEventTransactionList'])->name('user.allevents');
+    Route::any('/allevents', [ProfileController::class, 'allEventTransactionList'])->name('user.allevents');
     Route::get('/eventlearner/{id}', [ProfileController::class, 'assignLearnersIntoEvent'])->name('event.assignLearner');
     Route::post('/saveassignedeventlearner', [ProfileController::class, 'saveAssignLearnersIntoEvent'])->name('event.save.assignLearner');
     Route::get('/termsandconditions', [ProfileController::class, 'PageTermsAndConditions'])->name('page.termsandconditions');
@@ -65,6 +65,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/get-event-documents', [ProfileController::class, 'getEventDocuments'])->name('user.event.document');
     Route::get('/promotion_details/{id}', [ProfileController::class, 'getPromotionDetails'])->name('user.promotion.details');
     Route::any('/search_learner', [ProfileController::class, 'LearnerList'])->name('user.search.learner');
+    Route::get('/get-beneficiaries', [ProfileController::class, 'getBeneficiaries'])->name('get.beneficiaries');
+    Route::get('/viewevent/{id}', [ProfileController::class, 'getEventDetails'])->name('viewevent');
+    
     
     
     

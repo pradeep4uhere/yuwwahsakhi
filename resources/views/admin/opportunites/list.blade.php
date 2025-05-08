@@ -42,6 +42,7 @@
                                 <th>Start Date</th>
                                 <th>End Date</th>
                                 <th>Openings</th>
+                                <th>Incentive</th>
                                 <th>Company Name</th>
                                 <th>Specification Document</th>
                                 <th>Actions</th>
@@ -58,6 +59,7 @@
                                 <td>{{$item['start_date']}}</td>
                                 <td>{{$item['end_date']}}</td>
                                 <td>{{$item['number_of_openings']}}</td>
+                                <td>{{$item['incentive']}}</td>
                                 <td>{{$item['provider_name']}}</td>
                                 <td><a href="{{$item['document']}}" target="_blank">View Document</a></td>
                                 <td>

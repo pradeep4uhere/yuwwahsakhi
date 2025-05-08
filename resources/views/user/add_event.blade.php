@@ -35,17 +35,26 @@
       <form class="space-y-4 mt-6" action="{{route('storeeventtransaction')}}" method="post" enctype='multipart/form-data'>
         @csrf
         <div class="space-y-1">
-          <label for="opportunity" class="font-[400] text-[12px] leading-[14.63px] text-[#000000]">Beneficiary Phone Number</label>
-          <input id="beneficiary_phone_number" type="text" name="beneficiary_phone_number" placeholder="Please Enter  phone number" class="text-xs w-full border rounded px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 placeholder:font-[400] placeholder:text-[10px] placeholder:leading-[12.19px] placeholder:text-[#A7A7A7] rounded-[10px] placeholder:border-[1px]"  value="{{ old('beneficiary_phone_number') }}">
+          <label for="opportunity" class="font-[400] text-[12px] leading-[14.63px] text-[#000000]">Event Name</label>
+          <input id="event_name" type="text" name="event_name" placeholder="Please Enter Event Name" class="text-xs w-full border rounded px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 placeholder:font-[400] placeholder:text-[10px] placeholder:leading-[12.19px] placeholder:text-[#A7A7A7] rounded-[10px] placeholder:border-[1px]"  value="{{ old('event_name') }}">
         </div>
+        
+        <div class="space-y-1 relative">
+        <label for="opportunity" class="font-[400] text-[12px] leading-[14.63px] text-[#000000]">Beneficiary Name</label>
+        <input id="beneficiary_name" type="text" name="beneficiary_name"
+          placeholder="Please Enter beneficiary name"
+          class="text-xs w-full border rounded px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 placeholder:font-[400] placeholder:text-[10px] placeholder:leading-[12.19px] placeholder:text-[#A7A7A7] rounded-[10px] placeholder:border-[1px]"
+          autocomplete="off" value="{{ old('beneficiary_name') }}">
+
+        <!-- Suggestions container -->
+        <div id="suggestions" class="absolute z-10 bg-white border w-full mt-1 rounded shadow-md hidden"></div>
+      </div>
         <div class="space-y-1">
-          <label for="opportunity" class="font-[400] text-[12px] leading-[14.63px] text-[#000000]">Beneficiary Name</label>
-          <input id="Description" type="text" name="beneficiary_name" placeholder="Please Enter beneficiary name" class="text-xs w-full border rounded px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 placeholder:font-[400] placeholder:text-[10px] placeholder:leading-[12.19px] placeholder:text-[#A7A7A7] rounded-[10px] placeholder:border-[1px]" value="{{ old('beneficiary_name') }}">
+          <label for="opportunity" class="font-[400] text-[12px] leading-[14.63px] text-[#000000]">Beneficiary Phone Number</label>
+          <input id="beneficiary_number" type="text" name="beneficiary_phone_number" placeholder="Please Enter  phone number" class="text-xs w-full border rounded px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 placeholder:font-[400] placeholder:text-[10px] placeholder:leading-[12.19px] placeholder:text-[#A7A7A7] rounded-[10px] placeholder:border-[1px]"  value="{{ old('beneficiary_phone_number') }}">
         </div>
         <div class="space-y-1">
           <label for="opportunity" class="font-[400] text-[12px] leading-[14.63px] text-[#000000]">Event Type</label>
-         
-        </div>
         <div class="space-y-1">
           <select name="event_type" id="event_type" class="font-[400] text-[12px] leading-[14.63px] text-[#000000]" style="width:100%; padding:10px; border:solid 1px #ccc" onchange="fetchEventDocuments()">
             <option value="">Choose Event Type</option>
@@ -56,7 +65,9 @@
         </div>
         <div class="space-y-1">
           <label for="event_category" class="font-[400] text-[12px] leading-[14.63px] text-[#000000]">Event Category</label>
-          <input id="event_category" type="text" name="event_category" placeholder="Please Enter event_category" readonly="readonly" class="text-xs w-full border rounded px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 placeholder:font-[400] placeholder:text-[10px] placeholder:leading-[12.19px] placeholder:text-[#A7A7A7] rounded-[10px] placeholder:border-[1px]"  value="{{ old('event_category') }}">
+          <select name="event_category" id="event_category" class="font-[400] text-[12px] leading-[14.63px] text-[#000000]" style="width:100%; padding:10px; border:solid 1px #ccc">
+              <option value="">Choose Event Category</option>
+          </select>
         </div>
        
         <div class="space-y-1 mt-2">
@@ -64,29 +75,23 @@
           <input id="event_value" name="event_value" type="text" placeholder="Please enter event value" class="text-xs w-full border rounded px-3 py-2 text-sm  placeholder:font-[400] placeholder:text-[10px] placeholder:leading-[12.19px] placeholder:text-[#A7A7A7] rounded-[10px] placeholder:border-[1px]"  value="{{ old('event_value') }}">
         </div>
         <div class="space-y-1 mt-2">
-          <label for="potential" class="font-[400] text-[12px] leading-[14.63px] text-[#000000]">YS ID</label>
+          <label for="potential" class="font-[400] text-[12px] leading-[14.63px] text-[#000000]">Sakhi ID</label>
           <input id="sakhi_id" name="sakhi_id" type="text"  class="text-xs w-full border rounded px-3 py-2 text-sm  placeholder:font-[400] placeholder:text-[10px] placeholder:leading-[12.19px] placeholder:text-[#A7A7A7] rounded-[10px] placeholder:border-[1px]" value="{{getSakhiID()}}" readonly="readonly">
         </div>
         <div class="space-y-1 mt-2">
           <label for="potential" class="font-[400] text-[12px] leading-[14.63px] text-[#000000]">Comment</label>
           <input id="comment" name="comment" type="text"  class="text-xs w-full border rounded px-3 py-2 text-sm  placeholder:font-[400] placeholder:text-[10px] placeholder:leading-[12.19px] placeholder:text-[#A7A7A7] rounded-[10px] placeholder:border-[1px]"   value="{{ old('comment') }}">
         </div>
-        <div class="space-y-1 mt-2">
-          <label for="potential" class="font-[400] text-[12px] leading-[14.63px] text-[#000000]">Document Type</label>
-          <select name="document_type" id="document_type" class="font-[400] text-[12px] leading-[14.63px] text-[#000000]" style="width:100%; padding:10px; border:solid 1px #ccc">
-              <option value="">Choose Document Type</option>
-          </select>
+        <div id="documentInputsContainer" class="space-y-1 mt-2">
+          <!-- Dynamic input fields will be appended here -->
         </div>
-        <div class="space-y-1 mt-2">
-          <label for="potential" class="font-[400] text-[12px] leading-[14.63px] text-[#000000]">Uploaded Doc Link(s)</label>
-          <input id="uploaded_doc_links" name="uploaded_doc_links" type="file"  class="text-xs w-full border rounded px-3 py-2 text-sm  placeholder:font-[400] placeholder:text-[10px] placeholder:leading-[12.19px] placeholder:text-[#A7A7A7] rounded-[10px] placeholder:border-[1px]">
-        </div>
-      
-      
         </div>
         <div class="flex justify-center ">
-          <button class="w-[250px] h-[40px] rounded-[8px] mt-[1rem] mb-[8rem] bg-[#28388F] text-[#FFFFFF]  py-1 pb-[6px] text-[14px] font-[600]">
+          <button name="action" type="submit" value="save" class="w-[250px] h-[40px] rounded-[1px] mt-[1rem] mr-[1rem] mb-[8rem] bg-[#1677ff] text-[#FFFFFF]  py-1 pb-[6px] text-[14px] font-[600]">
             Save Event
+          </button>
+          <button name="action" type="submit" value="submit" class="w-[250px] h-[40px] rounded-[1px] mt-[1rem] mb-[8rem] bg-[#28388F] text-[#FFFFFF]  py-1 pb-[6px] text-[14px] font-[600]">
+            Submit Event
           </button>
         </div>
       </form>
@@ -182,9 +187,27 @@ $('#event_type').on('change', function () {
                 method: 'GET',
                 data: { event_type_id: eventTypeId },
                 success: function (response) {
-                    $('#document_type').empty().append('<option value="">Choose Document Type</option>');
-                    $.each(response, function (key, value) {
-                        $('#document_type').append('<option value="'+ value+'">'+ value+'</option>');
+                  console.log(response);
+                  // Clear previous document inputs
+                  $('#documentInputsContainer').empty();
+
+                  // Dynamically create input fields
+                  $.each(response.document, function (index, value) {
+                      let inputHTML = `
+                      <div class="space-y-1 mt-2">
+                        <label for="document_${index+1}" class="font-[400] text-[12px] leading-[14.63px] text-[#000000]">
+                          Upload Document ${value}
+                        </label>
+                        <input id="document_${index+1}" name="document_${index+1}" type="file"
+                          class="text-xs w-full border rounded px-3 py-2 text-sm placeholder:font-[400] placeholder:text-[10px] placeholder:leading-[12.19px] placeholder:text-[#A7A7A7] rounded-[10px] placeholder:border-[1px]">
+                      </div>`;
+                      
+                      $('#documentInputsContainer').append(inputHTML);
+                  });
+
+                    $('#event_category').empty().append('<option value="">Choose Event Category</option>');
+                    $.each(response.category, function (key, value) {
+                        $('#event_category').append('<option value="'+ value+'">'+ value+'</option>');
                     });
                 },
                 error: function (xhr) {
@@ -196,6 +219,55 @@ $('#event_type').on('change', function () {
             $('#document_type').empty().append('<option value="">Choose Document Type</option>');
         }
     });
+</script>
+<script>
+  $(document).ready(function () {
+    $('#beneficiary_name').on('keyup', function () {
+        let query = $(this).val();
+        if (query.length > 1) {
+            $.ajax({
+                url: "{{ route('get.beneficiaries') }}", // You need to define this route
+                type: "GET",
+                data: { name: query },
+                success: function (data) {
+                    let suggestions = $('#suggestions');
+                    suggestions.empty().removeClass('hidden');
+                    
+                    if (data.length === 0) {
+                        suggestions.html('<div class="px-3 py-1 text-sm text-gray-500">No results found</div>');
+                    } else {
+                        $.each(data, function (i, item) {
+                            suggestions.append(
+                                `<div class="px-3 py-2 cursor-pointer hover:bg-blue-100 text-sm" data-name="${item.first_name}" data-number="${item.primary_phone_number}">
+                                    ${item.first_name} | ${item.primary_phone_number}
+                                </div>`
+                            );
+                        });
+                    }
+                }
+            });
+        } else {
+            $('#suggestions').addClass('hidden').empty();
+        }
+    });
+
+    // Handle click on suggestion
+    $(document).on('click', '#suggestions div', function () {
+        let name = $(this).data('name');
+        let primary_phone_number = $(this).data('number');
+        //alert(primary_phone_number);
+        $('#beneficiary_name').val(name);
+        $('#beneficiary_number').val(primary_phone_number);
+        $('#suggestions').addClass('hidden').empty();
+    });
+
+    // Optional: hide suggestions when clicking outside
+    $(document).on('click', function (e) {
+        if (!$(e.target).closest('#beneficiary_name, #suggestions').length) {
+            $('#suggestions').addClass('hidden').empty();
+        }
+    });
+});
 </script>
 
 @include('user.bottom_menu')

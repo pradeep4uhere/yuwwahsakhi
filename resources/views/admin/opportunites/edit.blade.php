@@ -4,7 +4,7 @@
 <section class="dashboard">
         <div class="top">
             <div class="title">
-                <span class="">Dashboard > {{$title}}</span> <br />
+                <span class="">Dashboard > {{_('Opportunity')}}</span> <br />
             </div>
             <div class="search-box">
                 <i class="uil uil-search"></i>
@@ -17,7 +17,7 @@
         </div>
         <!-- <section class="dashboard-partners"> -->
         <div class="dash-content" >
-            <span class="texttitle">{{$title}}</span>
+            <span class="texttitle">{{_('Edit Opportunity')}}</span>
             <div class="activity">
                 <div class="activitybutton">
                     <a href="{{route('admin.opportunities.list')}}">
@@ -60,16 +60,33 @@
               <input type="number" name="number_of_openings" placeholder="Please Enter Number Of Oppenning" value="{{$details['number_of_openings']}}">
             </div>
             <div class="input-container">
-              <label for="field4">Start Date</label>
-              <input type="date" name="start_date" placeholder="Please choose start Date" value="{{$details['start_date']}}">
-            </div>
-            <div class="input-container">
-              <label for="field4">End Date</label>
-              <input type="date" name="end_date" placeholder="Please choose end date" value="{{$details['end_date']}}">
-            </div>
+            <label for="start_date">Start Date</label>
+            <input 
+              type="date" 
+              name="start_date" 
+              id="start_date" 
+              placeholder="Please choose start date" 
+              value="{{ old('start_date', isset($details['start_date']) ? \Carbon\Carbon::parse($details['start_date'])->format('Y-m-d') : '') }}"
+            >
+          </div>
+
+          <div class="input-container">
+            <label for="end_date">End Date</label>
+            <input 
+              type="date" 
+              name="end_date" 
+              id="end_date" 
+              placeholder="Please choose end date" 
+              value="{{ old('end_date', isset($details['end_date']) ? \Carbon\Carbon::parse($details['end_date'])->format('Y-m-d') : '') }}"
+            >
+          </div>
             <div class="input-container">
               <label for="field4">Provider Name</label>
               <input type="text" name="provider_name" placeholder="Please Enter Provider Name " value="{{$details['provider_name']}}">
+            </div>
+            <div class="input-container">
+              <label for="field4">Incentive</label>
+              <input type="text" name="incentive" placeholder="Please Enter incentive " value="{{$details['incentive']}}">
             </div>
             <div class="input-container">
               <label for="field4">Document</label>

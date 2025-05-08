@@ -123,6 +123,7 @@ class AdminController extends Controller
         $inputs['name']='';
         $inputs['email']='';
         $inputs['contact_number']='';
+        $inputs['partner_id']='';
         $inputs['state_id']='';
         $inputs['district_id']='';
         $inputs['block_id']='';
@@ -528,6 +529,7 @@ class AdminController extends Controller
         }
 
         $details = Opportunity::find($id);
+        //dd($details);
         return view('admin.opportunites.edit', [
             'response'=>$responseArray,
             'errors'=> $errors,

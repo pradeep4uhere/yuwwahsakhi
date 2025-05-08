@@ -9,11 +9,11 @@
 
         <div class="my-4 mx-6 space-y-3">
           <div class="flex gap-4">
-            <p class="w-[32.24px] h-[15px] absolute top-[168px] left-[31.23px] font-Montserrat font-[400] text-[12px] leading-[14.63px] text-[#000000]">YS ID</p>
+            <p class="w-[32.24px] h-[15px] absolute top-[168px] left-[31.23px] font-Montserrat font-[400] text-[12px] leading-[14.63px] text-[#000000]">Sakhi ID</p>
             <p class="w-[37.28px] h-[15px] absolute top-[168px]  left-[111.83px] font-Montserrat font-[600] text-[12px] leading-[14.63px] text-[#000000]">{{ getYuwaahSakhiAuthID() }}</p>
           </div>
           <div class="flex gap-4">
-            <p class="w-[59.44px] h-[15px] absolute top-[198px] left-[31.23px] font-Montserrat font-[400] text-[12px]  leading-[14.63px] text-[#000000]">YS Center</p>
+            <p class="w-[59.44px] h-[15px] absolute top-[198px] left-[31.23px] font-Montserrat font-[400] text-[12px]  leading-[14.63px] text-[#000000]">Sakhi Center</p>
             <p class="w-[128.96px] h-[15px] absolute top-[198px] left-[111.83px] font-Montserrat font-[600] text-[12px] leading-[14.63px] text-[#000000]">{{getYuwaahSakhiAuthCenterName()}}</p>
           </div>
           <div class="flex gap-4">

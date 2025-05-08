@@ -76,7 +76,7 @@
         </div>
 
         <div class="flex gap-4 mt-1">
-          <p class="w-1/2 font-semibold">YS ID</p>
+          <p class="w-1/2 font-semibold">Sakhi ID</p>
           <p class="w-1/2 text-gray-600">{{$userDetails['sakhiId']}}</p>
         </div>
 

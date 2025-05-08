@@ -49,6 +49,10 @@
               <input type="text" name="center_name" placeholder="Please enter Partner Center Name" value="{{$partnerDetails['center_name']}}">
             </div>
             <div class="input-container">
+              <label for="field1">Partner Center ID</label>
+              <input type="text" name="partner_centers_id" placeholder="Please enter Partner Center Id" value="{{$partnerDetails['partner_centers_id']}}">
+            </div>
+            <div class="input-container">
               <label for="field2">Email Address</label>
               <input type="email" name="email" placeholder="Please enter Email Address" value="{{$partnerDetails['email']}}">
             </div>

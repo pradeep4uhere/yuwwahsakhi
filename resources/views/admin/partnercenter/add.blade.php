@@ -46,12 +46,16 @@
 
 
 
-                <form id="yuwaahForm" method="post" style="width:70%" action="{{route('admin.partnercenter.add')}}">
-                @csrf
+          <form id="yuwaahForm" method="post" style="width:70%" action="{{route('admin.partnercenter.add')}}">
+          @csrf
           <div class="popup-grid">
             <div class="input-container">
-              <label for="field1">Name</label>
+              <label for="field1">Center Name</label>
               <input type="text" name="center_name" placeholder="Please enter Partner Center Name">
+            </div>
+            <div class="input-container">
+              <label for="field1">Partner Center ID</label>
+              <input type="text" name="partner_centers_id" placeholder="Please enter Partner Center Id" value="{{old('partner_centers_id')}}">
             </div>
             <div class="input-container">
               <label for="field2">Email Address</label>

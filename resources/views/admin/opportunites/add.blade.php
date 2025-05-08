@@ -71,6 +71,11 @@
               <input type="text" name="provider_name" placeholder="Please Enter Provider Name ">
             </div>
             <div class="input-container">
+              <label for="field4">Incentive</label>
+              <input type="text" name="incentive" placeholder="Please Enter incentive ">
+            </div>
+            
+            <div class="input-container">
               <label for="field4">Document</label>
               <input type="file" name="document" placeholder="Please Choose Document ">
             </div>

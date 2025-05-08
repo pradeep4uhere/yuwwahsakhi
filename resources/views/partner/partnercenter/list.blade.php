@@ -13,7 +13,7 @@
                 <th>Contact Number</th>
                 <th>Email</th>
                 <th>Onboard On</th>
-                <th>Ys Associated</th>
+                <th>Sakhi Associated</th>
                 <th>Status</th>
                 <th>Created</th>
                 

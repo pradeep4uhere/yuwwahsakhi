@@ -80,6 +80,9 @@ button.delete-banner:hover {
     }
 }
 </style>
+<!-- Include CKEditor 5 -->
+<script src="https://cdn.ckeditor.com/ckeditor5/39.0.1/classic/ckeditor.js"></script>
+
 <section class="dashboard">
     <div class="top">
         <div class="title">
@@ -123,7 +126,7 @@ button.delete-banner:hover {
           </div>
           <div class="input-container">
               <label for="field1">{{__('description')}}</label>
-              <textarea name="description" rows="10">{!! $setting['description']!!}</textarea>
+              <textarea name="description" rows="10" id="editor" class="form-control">{!! $setting['description']!!}</textarea>
           </div>
           <div class="popup-grid">
             <div class="input-container">
@@ -192,6 +195,13 @@ button.delete-banner:hover {
 
    
 
+    <script>
+    ClassicEditor
+        .create(document.querySelector('#editor'))
+        .catch(error => {
+            console.error(error);
+        });
+</script>
 @endsection
 
     

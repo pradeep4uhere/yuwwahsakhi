@@ -39,14 +39,15 @@
                                 <th>SN</th>
                                 <th>Partner ID</th>
                                 <th>Name</th>
+                                <th>Center ID</th>
                                 <th>Mobile</th>
                                 <th>Email</th>
                                 <th>State</th>
                                 <th>District</th>
                                 <th>Block</th>
-                                <th>Onboarded on</th>
+                                <th>Onboarded</th>
                                 <th>Status</th>
-                                <th>Created On</th>
+                                <th>Created</th>
                                 <th>Actions</th>
                             </tr>
                         </thead>
@@ -56,21 +57,22 @@
                                   foreach($response as $item){ //dd($item); ?>
                             <tr>
                                 <td>{{$count}}</td>
-                                <td>{{ isset($item['partner']['name']) ? $item['partner']['name'] : 'No Partner Name' }}</td>
-                                <td>{{$item['center_name']}}</td>
-                                <td>{{$item['contact_number']}}</td>
-                                <td>{{$item['email']}}</td>
-                                 <td>{{ optional($item->state)->name ?? 'N/A' }}</td>
-                                <td>{{ optional($item->district)->name ?? 'N/A' }}</td>
-                                <td>{{ optional($item->block)->name ?? 'N/A' }}</td>
-                                <td>{{getdateformate($item['onboard_date'])}}</td>
-                                <td><?php if($item['status']==1){ ?>
+                                <td nowrap="nowrap">{{ isset($item['partner']['partner_id']) ? $item['partner']['partner_id'] : 'No Partner Name' }}</td>
+                                <td nowrap="nowrap">{{$item['center_name']}}</td>
+                                <td nowrap="nowrap">{{$item['partner_centers_id']}}</td>
+                                <td nowrap="nowrap">{{$item['contact_number']}}</td>
+                                <td nowrap="nowrap">{{$item['email']}}</td>
+                                <td nowrap="nowrap">{{ optional($item->state)->name ?? 'N/A' }}</td>
+                                <td nowrap="nowrap">{{ optional($item->district)->name ?? 'N/A' }}</td>
+                                <td nowrap="nowrap">{{ optional($item->block)->name ?? 'N/A' }}</td>
+                                <td nowrap="nowrap">{{getdateformate($item['onboard_date'])}}</td>
+                                <td nowrap="nowrap"><?php if($item['status']==1){ ?>
                                    <span class="badge badge-success">Active</span>
                                 <?php }else{ ?>
                                     <span class="badge badge-danger">InActive</span>
                                 <?php } ?>
                                 </td>
-                                <td>{{getdateformate($item['created_at'])}}</td>
+                                <td nowrap="nowrap">{{getdateformate($item['created_at'])}}</td>
                                 <td>
                                     <a href="{{route('admin.partnercenter.edit',['id'=>encryptString($item['id'])])}}"><i class="uil uil-edit" style="color: #27272A; font-size: 15px;"></i></a>
                                     <a href="javascript:void(0);" 

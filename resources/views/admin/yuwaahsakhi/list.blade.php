@@ -37,13 +37,13 @@
                         <thead>
                             <tr>
                                 <th>SN</th>
-                                <th>YS ID</th>
+                                <th>Sakhi ID</th>
                                 <th>Profile</th>
-                                <th>YS Name</th>
+                                <th>Sakhi Name</th>
                                 <th>Partner</th>
                                 <th>Partner Center</th>
                                 <th>Contact Number</th>
-                                <th>YS Email</th>
+                                <th>Email</th>
                                 <th>Date Of Birth</th>
                                 <th>Gender</th>
                                 <th>Created On</th>

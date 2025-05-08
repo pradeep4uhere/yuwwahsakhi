@@ -94,7 +94,7 @@
             </div>
             <div>
               <p class="w-[43px] h-[22px] mt-[22px] mr-[20px]  font-Montserrat font-[500] text-[9px] leading-[10.97px] text-center text-[#000000]">
-                YS Incentive
+              Sakhi Incentive
               </p>
               <div class="w-[60px] h-[50px] absolute top-[70px] left-[260px] bg-[#28388F] ">
                 <p class="w-[60px] h-[30px] mt-[14px] font-Montserrat font-[700] text-[12px] leading-[14.63px] text-center text-[#FFFFFF]">            

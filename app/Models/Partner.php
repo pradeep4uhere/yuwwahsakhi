@@ -48,7 +48,7 @@ class Partner extends Authenticatable
     public static function allPartnerList(Request $request){
         $perPage = env('PAGINATION');
         $query = Partner::query()
-        ->select('id', 'name', 'email', 'contact_number', 'address', 'status', 'onboard_date');
+        ->select('id','partner_id', 'name', 'email', 'contact_number', 'address', 'status', 'onboard_date');
 
         if ($request->has('status')) {
             $query->where('status', $request->status);
@@ -74,6 +74,7 @@ class Partner extends Authenticatable
         if ($partner) {
             return [
                     'name'=>$partner->name,
+                    'partner_id'=>$partner->partner_id,
                     'email'=>$partner->email,
                     'contact_number'=>$partner->contact_number,
                     'address'=>$partner->address,
@@ -99,6 +100,7 @@ class Partner extends Authenticatable
                 
             $data[] = [
                     'id'=>$item->id,
+                    'partner_id'=>$item->partner_id,
                     'name'=>$item->name,
                     'email'=>$item->email,
                     'contact_number'=>$item->contact_number,
