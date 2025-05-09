@@ -562,7 +562,6 @@ class ProfileController extends Controller
             'event_type'               => 'required|string|max:255',
             'event_category'           => 'required|string|max:255',
             'event_value'              => 'required|numeric|min:0',
-            'sakhi_id'                 => 'required|string|max:50',
             'comment'                  => 'nullable|string|max:1000',
             'document_type'            => 'nullable|string|max:1000',
             'uploaded_doc_links'       => 'nullable|file|mimes:pdf,jpg,jpeg,png,doc,docx|max:2048',
@@ -598,7 +597,7 @@ class ProfileController extends Controller
             // Unique identifiers (adjust if needed)
             $eventName = $request->input('event_name');
             $sakhiId = getUserId(); // Assuming current Sakhi user
-
+            $existingEvent = "";
             if($request->get('id')){
                 $id = $request->get('id');
                 $existingEvent = EventTransaction::where('id', $id)
@@ -614,7 +613,7 @@ class ProfileController extends Controller
                 'event_type'               => $request->input('event_type'),
                 'event_category'           => $request->input('event_category'),
                 'event_value'              => $request->input('event_value'),
-                'ys_id'                    => $sakhiId,
+                'ys_id'                    => getUserId(),
                 'comment'                  => $request->input('comment'),
                 'document_type'            => $request->input('document_type'),
                 'uploaded_doc_links'       => $uploadedDocLinks,

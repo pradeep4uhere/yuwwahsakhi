@@ -75,10 +75,7 @@
           <label for="potential" class="font-[400] text-[12px] leading-[14.63px] text-[#000000]">Event Value</label>
           <input value="{{$item['event_value']}}" id="event_value" name="event_value" type="text" placeholder="Please enter event value" class="text-xs w-full border rounded px-3 py-2 text-sm  placeholder:font-[400] placeholder:text-[10px] placeholder:leading-[12.19px] placeholder:text-[#A7A7A7] rounded-[10px] placeholder:border-[1px]"  value="{{ old('event_value') }}">
         </div>
-        <div class="space-y-1 mt-2">
-          <label for="potential" class="font-[400] text-[12px] leading-[14.63px] text-[#000000]">Sakhi ID</label>
-          <input id="sakhi_id" name="sakhi_id" type="text"  class="text-xs w-full border rounded px-3 py-2 text-sm  placeholder:font-[400] placeholder:text-[10px] placeholder:leading-[12.19px] placeholder:text-[#A7A7A7] rounded-[10px] placeholder:border-[1px]" value="{{getSakhiID()}}" readonly="readonly">
-        </div>
+        
         <div class="space-y-1 mt-2">
           <label for="potential" class="font-[400] text-[12px] leading-[14.63px] text-[#000000]">Comment</label>
           <input value="{{$item['comment']}}" id="comment" name="comment" type="text"  class="text-xs w-full border rounded px-3 py-2 text-sm  placeholder:font-[400] placeholder:text-[10px] placeholder:leading-[12.19px] placeholder:text-[#A7A7A7] rounded-[10px] placeholder:border-[1px]" >

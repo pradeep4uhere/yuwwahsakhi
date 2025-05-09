@@ -36,9 +36,16 @@
             <div class="">
               <label
                 class="w-[38px] h-[12px] font-[400] text-[10px] leading-[12.19px] text-center text-[#000000]">Name</label>
-              <input type="text" name="name"
+              <input type="text" name="gender"
                 class="w-[270px] h-[40px] border-[1px] rounded-[10px] bg-[#FFFFFF] border-[#28388F0D] text-[10px] text-[#A7A7A7] focus:ring-1 focus:ring-blue-500">
-                
+                <option value="" disabled selected
+                  class="w-[106px] h-[12px] font-[400] text-[10px] leading-[12.19px]  text-[#000000]">Please select
+                  Gender</option>
+                <option value="male"
+                  class="w-[106px] h-[12px] font-[400] text-[10px] leading-[12.19px]  text-[#000000]">Male</option>
+                <option value="female"
+                  class="w-[106px] h-[12px] font-[400] text-[10px] leading-[12.19px]  text-[#000000]">Female</option>
+              </select>
             </div>
             <div>
               
@@ -187,33 +194,27 @@
 
           <div class="flex flex-col items-center gap-1.5">
             <div
-              class="w-[186px] h-[17px] ml-[5px] font-Montserrat font-[500] text-[14px] leading-[17.07px] text-[#000000]">
-             {{$item['first_name']}}
+              class="w-[86px] h-[17px] ml-[5px] font-Montserrat font-[500] text-[12px] leading-[17.07px] text-[#000000]">
+             {{ \Illuminate\Support\Str::limit($item['first_name'], 10) }}
             </div>
-           
+          </div>
+          <div class="flex gap-1.5">
+            <div class="w-5 h-5 rounded-full bg-gray-500"></div>
+            <div class="w-5 h-5 rounded-full bg-blue-500"></div>
+            <div class="w-5 h-5 rounded-full bg-green-500"></div>
+            
           </div>
           <div class="flex gap-2.5">
             <span>
               <!-- <i class="material-icons text-sm">date_range</i> -->
               <img src="{{asset('asset/images/Learner calendar.png')}}" class="w-[10px] h-[10px] " alt="">
             </span>
-            <span class="w-[164px] h-[22px] font-[500] text-[10px] leading-[12.19px] text-[#000000]">
-            {{getdateformate($item['date_of_birth'])}}
+            <span class=" font-[500] text-[10px] leading-[12.19px] text-[#000000]">
+            {{getdateformate($item['create_date'])}}
             </span>
           </div>
         </div>
-        <div class="flex justify-center gap-5 items-center mr-2.5">
-          <div>
-            <!-- <i class="material-icons text-xl
-            ">mail_outline</i> -->
-            <img src="{{asset('asset/images/Learner mail.png')}}" class="w-[20px] h-[20px] " alt="">
-          </div>
-          <div>
-            <!-- <i class="material-icons text-xl
-            ">call</i> -->
-            <img src="{{asset('asset/images/Learner phone.png')}}" class="w-[20px] h-[20px] " alt="">
-          </div>
-        </div>
+        
       </a>
       @endforeach
       
