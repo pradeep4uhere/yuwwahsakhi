@@ -172,11 +172,13 @@ class ProfileController extends Controller
         $opportunites = (array) Opportunity::getFormatedData($opportunitesWithPagination);
         $totalOpportunites = $opportunitesWithPagination->total();
         $allEventCount = EventTransaction::where('ys_id',getUserId())->count();
+        $allsubmittedEventCount = EventTransaction::where('ys_id',getUserId())->where('event_date_submitted','<>',NULL)->count();
         $learnerCount = Learner::where('status','Active')->count();
         return view($this->dir.'.dashboard',[
             'opportunites'=> $opportunites,
             'learnerCount'=>$learnerCount,
             'allEventCount'=>$allEventCount,
+            'allsubmittedEventCount'=>$allsubmittedEventCount,
             'totalOpportunites'=> $totalOpportunites
         ]);
     }
@@ -575,6 +577,7 @@ class ProfileController extends Controller
     
         try {
             $uploadedPaths = [];
+            //dd($request->allFiles());
               // Loop through request inputs and find any file inputs that start with 'document_doc_'
             foreach ($request->allFiles() as $key => $file) {
                 if (Str::startsWith($key, 'document_doc_')) {
@@ -582,6 +585,7 @@ class ProfileController extends Controller
                     $uploadedPaths[$key] = $path;
                 }
             }
+            //dd($uploadedPaths);
             // You can store the file paths as JSON or comma-separated values in DB
             $uploadedDocLinks = json_encode($uploadedPaths); // Or use implode if you prefer a string
 
@@ -595,12 +599,15 @@ class ProfileController extends Controller
             $eventName = $request->input('event_name');
             $sakhiId = getUserId(); // Assuming current Sakhi user
 
-            $existingEvent = EventTransaction::where('event_name', $eventName)
-                ->where('ys_id', $sakhiId)
-                ->first();
+            if($request->get('id')){
+                $id = $request->get('id');
+                $existingEvent = EventTransaction::where('id', $id)
+                    ->where('ys_id', $sakhiId)
+                    ->first();
+            }
 
             $data = [
-                'event_name'               => $eventName,
+                'event_name'               => $request->input('event_name'),
                 'beneficiary_phone_number' => $request->input('beneficiary_phone_number'),
                 'beneficiary_name'         => $request->input('beneficiary_name'),
                 'event_id'                 => $request->input('event_type'),
@@ -620,6 +627,11 @@ class ProfileController extends Controller
 
             if ($existingEvent) {
                 // Update existing event
+                //dd($uploadedDocLinks);
+                //dd($data);
+                if (empty(json_decode($uploadedDocLinks, true))) {
+                    $data['uploaded_doc_links'] = $existingEvent['uploaded_doc_links'];
+                }
                 $existingEvent->update($data);
             } else {
                 // Create new event
@@ -1140,14 +1152,30 @@ As a catalytic multi-stakeholder partnership, YuWaah is dedicated to transformin
         $eventList = YuwaahEventMaster::where('status',1)->get();
       
         $idstr = decryptString($id);
-        $eventTransactionDetails = EventTransaction::findOrFail($idstr);
+        $eventTransactionDetails = EventTransaction::with('Event')->where('id',$idstr)->first();
         $documentArr = json_decode($eventTransactionDetails['uploaded_doc_links'],true);
-        //dd($documentArr);
+        $documentTypeArr = [];
+        $documentTypeArr[] = $eventTransactionDetails['Event']['document_1'];
+        $documentTypeArr[] = $eventTransactionDetails['Event']['document_2'];
+        $documentTypeArr[] = $eventTransactionDetails['Event']['document_3'];
+
+       //dd();
+       $count =0;
+       $documentNewArr = [];
+        foreach($documentArr as $key=>$val){
+            $documentNewArr[] = [
+                'doc_name' => $documentTypeArr[$count],
+                'document'=> $val
+            ];
+            $count++;
+        }
+        //dd($documentNewArr);
         return view($this->dir.'.learner_to_event',[
             'item'=>$eventTransactionDetails,
             'ysid'=>encryptString(getUserId()),
             'eventList'=>$eventList,
-            'documentArr'=>$documentArr,
+            'documentArr'=>$documentNewArr,
+            'documentTypeArr'=>$documentTypeArr,
             'opid'=>$id,
         ]);
 

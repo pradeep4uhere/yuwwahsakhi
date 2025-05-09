@@ -14,7 +14,7 @@
         <div class="flex justify-between items-center">
           <a href="{{route('user.allevents')}}">
             <div class="w-[104px] h-[17px] absolute top-[18px] left-[17px] font-Montserrat font-[500] text-[14px] leading-[17.07px] text-center text-[#000000]"> {{__('messages.all_events')}}</div>
-            <div class="w-[27px] h-[34px] absolute top-[10px] left-[285px] font-Montserrat font-[600] text-[28px] leading-[34.13px] text-center text-[#05A7D1]">{{$allEventCount}}</div>
+            <div class="w-[27px] h-[34px] absolute top-[10px] left-[285px] font-Montserrat font-[600] text-[18px] leading-[34.13px] text-center text-[#05A7D1]">{{$allEventCount}}/{{$allsubmittedEventCount}}</div>
           </a>
         </div>
       </div>
@@ -30,7 +30,7 @@
       > <a href="{{ route('opportunities', ['filter' => 'desc', 'order_by' => 'id']) }}">
         <div class="flex justify-between items-center mt-2">
           <div class="w-[163px] h-[266px] absolute top-[18px] left-[1px] font-Montserrat font-[500] text-[14px] leading-[17.07px] text-center text-[#000000] px-2">{{__('messages.open_opportunities')}}</div>
-          <div class="w-[36px] h-[34px] absolute top-[10px] left-[280px] font-Montserrat font-[600] text-[28px] leading-[34.13px] text-center text-[#05A7D1]">{{$totalOpportunites}}</div>
+          <div class="w-[36px] h-[34px] absolute top-[10px] left-[280px] font-Montserrat font-[600] text-[18px] leading-[34.13px] text-center text-[#05A7D1]">{{$totalOpportunites}}</div>
         </div>
       </a>
       </div>
@@ -93,13 +93,13 @@
               
             </div>
             <div>
-              <p class="w-[43px] h-[22px] mt-[22px] mr-[20px]  font-Montserrat font-[500] text-[9px] leading-[10.97px] text-center text-[#000000]">
+              <p class="w-[60px] h-[22px] mt-[22px] mr-[20px]  font-Montserrat font-[500] text-[9px] leading-[10.97px] text-center text-[#000000]">
               Sakhi Incentive
               </p>
-              <div class="w-[60px] h-[50px] absolute top-[70px] left-[260px] bg-[#28388F] ">
-                <p class="w-[60px] h-[30px] mt-[14px] font-Montserrat font-[700] text-[12px] leading-[14.63px] text-center text-[#FFFFFF]">            
-                  50/ Learner 
-                  <img src="{{asset('asset/images/rupeeIcon.png')}}" alt="engLogo" class="w-[8px] h-[14px] mt-[-30px] ml-[8px]">
+              <div class="w-[60px] h-[35px] absolute top-[70px] left-[260px] bg-[#28388F] ">
+                <p class="w-[60px] h-[30px] mt-[2px] font-Montserrat font-[700] text-[10px] leading-[14.63px] text-center text-[#FFFFFF]">            
+                  {{$item['incentive']}}/ Learner 
+                  <img src="{{asset('asset/images/rupeeIcon.png')}}" alt="engLogo" class="w-[8px] h-[10px] mt-[-27px] ml-[5px]">
                 </p>
               </div>
               <!-- <p>
@@ -126,7 +126,7 @@
         <div class="flex justify-between items-center mt-2">
           <a href="{{route('learner')}}">
            <div class="w-[104px] h-[17px] absolute top-[18px] left-[17px] font-Montserrat font-[500] text-[14px] leading-[17.07px] text-center text-[#000000]">  {{__('messages.total_learners')}}</div>
-           <div class="w-[27px] h-[34px] absolute top-[10px] left-[245px] font-Montserrat font-[600] text-[28px] leading-[34.13px] text-center text-[#05A7D1]">{{$learnerCount}}</div>
+           <div class="w-[27px] h-[34px] absolute top-[10px] left-[245px] font-Montserrat font-[600] text-[18px] leading-[34.13px] text-center text-[#05A7D1]">{{$learnerCount}}</div>
           </a>
         </div>
       </div>

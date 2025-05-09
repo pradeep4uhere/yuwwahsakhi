@@ -3,7 +3,7 @@
 @section('content')
 <div id="screen7" class="max-w-[26rem] mx-auto  bg-white shadow-md rounded-lg relative min-h-[100vh] h-auto">
     @include('user.header')
-    <div id="screen9" class=" max-w-[26rem] mx-auto p-4 bg-white mt-14 rounded-lg">
+    <div id="screen9" class=" max-w-[26rem] mx-auto p-4 bg-white mt-1 rounded-lg">
       <div class="mt-2 text-sm flex justify-between items-center">
         <h1 class="w-[100px] h-[17px] font-[500] text-[14px] leading-[17.07px] text-[#000000]">
         {{__('messages.all_events')}}
@@ -59,20 +59,27 @@
       </div>
       <?php if($eventList->count()>0){ $count=1; ?>
       <?php foreach($eventList as $key=>$item){  ?>
-     
+        
       <!-- Other Opportunites Start Here-->
       
         @if($item['event_date_submitted']!='')
-         <div class="min-w-[330px] min-h-[260px] w-auto min-h-[50px] h-auto bg-[#FFFFFF] px-3 py-3 mt-3 overflow-auto cursor-pointer" style="box-shadow: 0px 3px 10px 0px #cccccc;">  
+         <div class="min-w-[330px] min-h-[260px] w-auto min-h-[50px] h-auto bg-[#FFFFFF] px-3 py-3 mt-3 overflow-auto cursor-pointer" style="box-shadow: 0px 3px 10px 0px #cccccc; border: solid 1px green;">  
          @else
-        <div class="min-w-[330px] min-h-[260px] w-auto min-h-[50px] h-auto bg-[#FFFFFF] px-3 py-3 mt-3 overflow-auto cursor-pointer" style="box-shadow: 0px 3px 10px 0px #cccccc;" onclick="toggleButtons(event)">
+        <div class="min-w-[330px] min-h-[260px] w-auto min-h-[50px] h-auto bg-[#FFFFFF] px-3 py-3 mt-3 overflow-auto cursor-pointer" style="box-shadow: 0px 3px 10px 0px #cccccc; border: solid 1px red;" onclick="toggleButtons(event)">
           @endif
+          
         <p
           class="w-[310px] h-[15px] ml-[10px] mt-[6px] font-Montserrat font-[500] text-[12px] leading-[14.63px] text-[#000000]" >
           Beneficiary : {{$item['beneficiary_name']}}&nbsp;|&nbsp;{{$item['beneficiary_phone_number']}}</p>
 
         <div class="flex justify-between">
           <div class="">
+          <div class="flex mb-[6px]">
+            <img src="{{asset('asset/images/calendar.png')}}" alt="engLogo" class="w-[14px] h-[14px] mt-[5px] ml-[10px]  text-[#28388F0D]">
+              <p class="w-[295px] h-[12px]  ml-[5px] mt-[5px] font-Montserrat font-[500] text-[10px] leading-[12.19px]">
+              Event Name: {{($item['Event']!=null)?$item['event_name']:''}}
+              </p>
+            </div>
             <!-- <div class="flex mb-[3px]">
               <img src="{{asset('asset/images/file.png')}}" alt="engLogo" class="w-[14px] h-[14px] ml-[10px] mt-[8px] text-[#28388F0D]">
               <a href="{{ asset('storage/' . $item['uploaded_doc_links']) }}" target="_blank"
@@ -103,25 +110,15 @@
             </div> -->
             <div class="flex mb-[6px]">
               <img src="{{asset('asset/images/calendar.png')}}" alt="engLogo" class="w-[14px] h-[14px] ml-[10px]  text-[#28388F0D]">
-              <p class="w-[195px] h-[12px] ml-[6px] mt-[1px] font-[500] text-[10px] leading-[12.19px] text-[#000000]">
-              Created Date - {{getdateformate($item['event_date_created'])}}
-              </p>
-            </div>
-            @if($item['event_date_submitted']!='')
-            <div class="flex mb-[6px]">
-              <img src="{{asset('asset/images/calendar.png')}}" alt="engLogo" class="w-[14px] h-[14px] ml-[10px]  text-[#28388F0D]">
-              <p class="w-[195px] h-[12px] ml-[6px] mt-[1px] font-[500] text-[10px] leading-[12.19px] text-[#000000]">
+              <p class="w-[395px] h-[12px] ml-[6px] mt-[1px] font-[500] text-[10px] leading-[12.19px] text-[#000000]">
+              Created Date - {{getdateformate($item['event_date_created'])}}&nbsp;|&nbsp;
+              @if($item['event_date_submitted']!='')
               Submitted Date - {{getdateformate($item['event_date_submitted'])}}
+              @endif
               </p>
             </div>
-            @else
-           
-            @endif
           </div>
-          
-         
         </div>
-     
         <div  class="buttonsContainer flex mt-4 gap-2 hidden">
             <div class="w-auto h-auto min-w-[100%] min-h-[40px] rounded-[10px] border-[1px] bg-[#28388F1A] border-[#28388F] flex justify-center items-center gap-2">
                 <a href="{{route('viewevent',['id'=>encryptString($item['id'])])}}" class="font-[600] text-[10px] leading-[12.19px] text-[#28388F] cursor-pointer">Submit Event</a>

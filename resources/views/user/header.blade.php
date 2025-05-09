@@ -1,8 +1,9 @@
-<div class="flex justify-between items-center px-5 py-[1rem] mx-auto ">
+<div class="flex justify-between items-center px-5 py-[2rem] mx-auto" style="padding-bottom:0px">
     @if(
       (Route::currentRouteName() == 'profile.edit') || 
       (Route::currentRouteName() == 'addopportunities') ||
-      (Route::currentRouteName() == 'opportunitiesLearner'))
+      (Route::currentRouteName() == 'opportunitiesLearner') ||
+      (Route::currentRouteName() == 'user.allevents'))
         <a href="{{ route('dashboard') }}" class="hover:text-blue-600 mb-4 text-lg">
             <img src="{{ asset('asset/images/arrow-left.png') }}" alt="arrow-Left" class="w-[20px] h-[20px] mt-5 hover:text-blue-600"/>
         </a>

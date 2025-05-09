@@ -36,7 +36,8 @@
         @csrf
         <div class="space-y-1">
           <label for="opportunity" class="font-[400] text-[12px] leading-[14.63px] text-[#000000]">Event Name</label>
-          <input value="{{$item['event_name']}}" id="event_name" type="text" name="event_name" placeholder="Please Enter Event Name" class="text-xs w-full border rounded px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 placeholder:font-[400] placeholder:text-[10px] placeholder:leading-[12.19px] placeholder:text-[#A7A7A7] rounded-[10px] placeholder:border-[1px]"  value="{{ old('event_name') }}">
+          <input value="{{$item['event_name']}}" id="event_name" type="text" name="event_name" placeholder="Please Enter Event Name" class="text-xs w-full border rounded px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 placeholder:font-[400] placeholder:text-[10px] placeholder:leading-[12.19px] placeholder:text-[#A7A7A7] rounded-[10px] placeholder:border-[1px]">
+          <input value="{{$item['id']}}" type="hidden" name="id"  >
         </div>
         
         <div class="space-y-1 relative">
@@ -44,14 +45,14 @@
         <input value="{{$item['beneficiary_name']}}" id="beneficiary_name" type="text" name="beneficiary_name"
           placeholder="Please Enter beneficiary name"
           class="text-xs w-full border rounded px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 placeholder:font-[400] placeholder:text-[10px] placeholder:leading-[12.19px] placeholder:text-[#A7A7A7] rounded-[10px] placeholder:border-[1px]"
-          autocomplete="off" value="{{ old('beneficiary_name') }}">
+          autocomplete="off">
 
         <!-- Suggestions container -->
         <div id="suggestions" class="absolute z-10 bg-white border w-full mt-1 rounded shadow-md hidden"></div>
       </div>
         <div class="space-y-1">
           <label for="opportunity" class="font-[400] text-[12px] leading-[14.63px] text-[#000000]">Beneficiary Phone Number</label>
-          <input value="{{$item['beneficiary_phone_number']}}" id="beneficiary_number" type="text" name="beneficiary_phone_number" placeholder="Please Enter  phone number" class="text-xs w-full border rounded px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 placeholder:font-[400] placeholder:text-[10px] placeholder:leading-[12.19px] placeholder:text-[#A7A7A7] rounded-[10px] placeholder:border-[1px]"  value="{{ old('beneficiary_phone_number') }}">
+          <input value="{{$item['beneficiary_phone_number']}}" id="beneficiary_number" type="text" name="beneficiary_phone_number" placeholder="Please Enter  phone number" class="text-xs w-full border rounded px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 placeholder:font-[400] placeholder:text-[10px] placeholder:leading-[12.19px] placeholder:text-[#A7A7A7] rounded-[10px] placeholder:border-[1px]" >
         </div>
         <div class="space-y-1">
           <label for="opportunity" class="font-[400] text-[12px] leading-[14.63px] text-[#000000]">Event Type</label>
@@ -80,15 +81,23 @@
         </div>
         <div class="space-y-1 mt-2">
           <label for="potential" class="font-[400] text-[12px] leading-[14.63px] text-[#000000]">Comment</label>
-          <input value="{{$item['comment']}}" id="comment" name="comment" type="text"  class="text-xs w-full border rounded px-3 py-2 text-sm  placeholder:font-[400] placeholder:text-[10px] placeholder:leading-[12.19px] placeholder:text-[#A7A7A7] rounded-[10px] placeholder:border-[1px]"   value="{{ old('comment') }}">
+          <input value="{{$item['comment']}}" id="comment" name="comment" type="text"  class="text-xs w-full border rounded px-3 py-2 text-sm  placeholder:font-[400] placeholder:text-[10px] placeholder:leading-[12.19px] placeholder:text-[#A7A7A7] rounded-[10px] placeholder:border-[1px]" >
         </div>
         <div id="documentInputsContainer" class="space-y-1 mt-2">
+          
           @foreach($documentArr as $key=>$itemVal)
           <div class="space-y-1 mt-2">
               <label for="document_${index+1}" class="font-[400] text-[12px] leading-[14.63px] text-[#000000]">
-                Upload Document {{$key}}
+                Upload Document {{$itemVal['doc_name']}}
               </label>
-              <input id="{{$key}}" name="{{$key}}" type="file"
+            <?php $extension = strtolower(pathinfo($itemVal['document'], PATHINFO_EXTENSION)); 
+              if (in_array($extension, ['jpg', 'jpeg', 'png'])) { ?>
+                <img src="{{asset('storage/'.$itemVal['document'])}}" height="100" width="100">
+               <?php }else{ ?>
+                <a href="">View File</a>
+               <?php } ?>
+              
+              <input id="{{$key}}" name="document_doc_{{$key+1}}" type="file"
                 class="text-xs w-full border rounded px-3 py-2 text-sm placeholder:font-[400] placeholder:text-[10px] placeholder:leading-[12.19px] placeholder:text-[#A7A7A7] rounded-[10px] placeholder:border-[1px]">
             </div>
           @endforeach
