@@ -33,6 +33,17 @@ Route::middleware('guest')->group(function () {
 
     Route::post('reset-password', [NewPasswordController::class, 'store'])
                 ->name('password.store');
+
+    Route::any('/verifyMobileNumber', [RegisteredUserController::class, 'verifyMobileNumber'])->name('verify.mobile.otp');
+    Route::any('/verifymobileotp', [RegisteredUserController::class, 'verifyMobileOTPScreen'])->name('verify.mobile.register');
+    
+    
+    Route::any('/registerprocess', [RegisteredUserController::class, 'registrationProcess'])->name('auth.register_process');
+    Route::post('/complete', [RegisteredUserController::class, 'registrationProcess'])->name('auth.register.complete');
+    
+    
+
+                
 });
 
 Route::middleware('auth')->group(function () {

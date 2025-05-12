@@ -36,55 +36,37 @@
       <img src="{{asset('asset/images/Yuwaahlogo.png')}}" alt="YuWaah Logo" class="w-[150px] h-[86px] ">
     </a>
     </div>
-    @if (session('error'))
-      <div class="bg-red-100 text-red-700 p-4 rounded mb-4">{{ session('error') }}</div>
-      @endif
-      @if (session('success'))
-      <div class="bg-green-100 text-green-700 p-4 rounded mb-4 mt-5">
-        {{ session('success') }}
-      </div>
-      @endif
-      @if ($errors->any())
-      <div class="bg-red-100 text-red-700 p-4 rounded mb-4">
-          <ul class="mb-0">
-              @foreach ($errors->all() as $error)
-                  <li>{{ $error }}</li>
-              @endforeach
-          </ul>
-      </div>
-      @endif
-
-     
-    <form id="registrationForm" action="{{route('register')}}" method="post" enctype="multipart/form-data">
+    @if(isset($error))
+        <div class="mb-4 text-red-600">
+            {{$error}}
+        </div>
+    @endif
+    <form id="registrationForm" action="{{route('auth.register.complete')}}" method="post" enctype="multipart/form-data">
     @csrf
     <!-- Register Form -->
-    <h1 class="w-[121px] h-[34px] font-[600] text-[28px] leading-[34.13px] text-[#000000] mb-6">Register</h1>
+    <h1 class="w-[221px] h-[34px] font-[600] text-[28px] leading-[34.13px] text-[#000000] mb-6">Create Password</h1>
     <div class="space-y-1">
-     <div class="space-y-1">
-        <label for="YSID" class="w-[80px] h-[15px] font-[400] text-[12px]  leading-[14.63px] text-[#000000]">YS ID</label>
-        <input type="text" id="ysid" name="ysid" value="{{old('sakhi_id')}}" class="w-[330px] h-[40px] bg-[#FFFFFF] border-[1px] rounded-[10px] border-[#28388F0D] font-[400] text-[10px] leading-[12.19px] pl-2.5 text-[#A7A7A7] focus:ring-1 focus:ring-blue-500" />
-        <x-input-error :messages="$errors->get('name')" class="mt-2" />
-      </div>
-      
-
       <div class="space-y-1">
-        <label for="mobile" class="w-[80px] h-[15px] font-[400] text-[12px]  leading-[14.63px] text-[#000000]">Mobile</label>
-        <input type="text" id="mobile" name="mobile" value="{{old('mobile')}}" class="w-[330px] h-[40px] bg-[#FFFFFF] border-[1px] rounded-[10px] border-[#28388F0D] font-[400] text-[10px] leading-[12.19px] pl-2.5 text-[#A7A7A7] focus:ring-1 focus:ring-blue-500" />
+        <label for="mobile" class="w-[80px] h-[15px] font-[400] text-[12px]  leading-[14.63px] text-[#000000]">Email Address</label>
+        <input type="email" id="email" name="email" value="{{old('email')}}" class="w-[330px] h-[40px] bg-[#FFFFFF] border-[1px] rounded-[10px] border-[#28388F0D] font-[400] text-[10px] leading-[12.19px] pl-2.5 text-[#A7A7A7] focus:ring-1 focus:ring-blue-500" />
         <x-input-error :messages="$errors->get('email')" class="mt-2" />
       </div>
+      <div class="space-y-1">
+        <label for="password" class="w-[80px] h-[15px] font-[400] text-[12px]  leading-[14.63px] text-[#000000]">Password</label>
+        <input type="password" name="password"  placeholder="Enter password" class="w-[330px] h-[40px] bg-[#FFFFFF] border-[1px] rounded-[10px] border-[#28388F0D] font-[400] text-[10px] leading-[12.19px] pl-2.5 text-[#A7A7A7] focus:ring-1 focus:ring-blue-500" />
+        <x-input-error :messages="$errors->get('password')" class="mt-2" />
       </div>
-      <div class="flex gap-2 items-center pt-2 pb-2">
-        <input type="checkbox" name="agree" id="agreeCheckbox" class="w-[15px] h-[15px] border-[1.25px] text-[#05A7D1]">
-        <div class="w-[300px] h-[45px] font-[400] text-[12px] leading-[14.63px]  text-[#000000]">
-          By complete the registration you are agreeing Terms and Conditions
-          <a href="#" class="font-[700] text-[12px] leading-[14.63px] text-[#28388F] hover:underline">Terms & Conditions</a>
-        </div>
+      <div class="space-y-1 mb-4">
+        <label for="password_confirmation" class="w-[80px] h-[15px] font-[400] text-[12px]  leading-[14.63px] text-[#000000]">Confirm Password</label>
+        <input type="password" name="password_confirmation" required  placeholder="Confirm password" class="w-[330px] h-[40px] bg-[#FFFFFF] border-[1px] rounded-[10px] border-[#28388F0D] font-[400] text-[10px] leading-[12.19px] pl-2.5 text-[#A7A7A7] focus:ring-1 focus:ring-blue-500" />
+        <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
+        <input type="hidden" name="mobile" value="{{$mobile}}"/>
       </div>
-
-      <div class="flex justify-center items-center bg-[#28388F] w-[250px] h-[40px] rounded-[10px] relative left-12">
+      </div>
+      <div class="mt-10 flex justify-center items-center bg-[#28388F] w-[250px] h-[40px] rounded-[10px] relative left-12">
         <button type="submit"
           class="w-[171px] h-[17px] font-[600] text-[14px] leading-[17.07px] text-[#FFFFFF] text-center">
-         Procced
+         Submit
         </button>
       </div>
     </div>

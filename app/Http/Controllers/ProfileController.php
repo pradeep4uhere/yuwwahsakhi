@@ -50,11 +50,11 @@ class ProfileController extends Controller
        //dd($request->all());
         // Validate the incoming login data
         $request->validate([
-            'email' => ['required', 'regex:/^[0-9]{10}$/'],
+            'email' => ['required', 'string', 'min:3'],
             'password' => ['required', 'string', 'min:8'],
         ]);
 
-        $YuwaahSakhi = YuwaahSakhi::where('contact_number', $request->email)->first();
+        $YuwaahSakhi = YuwaahSakhi::where('sakhi_id', $request->email)->first();
         //dd($YuwaahSakhi);
 
          // Check password
@@ -68,7 +68,7 @@ class ProfileController extends Controller
          $token = $YuwaahSakhi->createToken('YuwaahSakhi API Token')->plainTextToken;
          $YuwaahSakhi->update(['remember_token' => $token]);
 
-        $credentials = $request->only('contact_number', 'password');
+        $credentials = $request->only('sakhi_id', 'password');
         //dd($credentials);
         if (Auth::guard('web')->login($YuwaahSakhi)) {
             // Generate API token

@@ -41,7 +41,11 @@
     </a>
     </div>
     <h1 class="w-[82px] h-[34px] font-[600] text-[28px] leading-[34.13px] text-[#000000]  mb-4">Login</h1>
-
+    @if (session('success.rsuccess'))
+      <div class="bg-green-100 text-green-700 p-4 rounded mb-4 mt-5">
+            {{ session('success.rsuccess') }}
+        </div>
+    @endif
     <form class="space-y-4 text-xs" action="{{route('user.login')}}" method="post">
       @csrf
       <div class="space-y-1">
