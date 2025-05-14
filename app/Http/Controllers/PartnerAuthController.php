@@ -34,13 +34,21 @@ class PartnerAuthController extends Controller
 
         // Attempt to log the admin in using the 'admin' guard
         $credentials = $request->only('email', 'password');
-     //dd( $credentials);
+        //dd( $credentials);
 
         if (Auth::guard('partner')->attempt($credentials)) {
             $partner = Auth::guard('partner')->user(); // Get authenticated partner
             if (!$partner) {
                 return back()->withErrors(['error' => 'Authentication failed.']);
             }
+
+            if ($partner->status != 1) {
+                Auth::guard('partner')->logout(); // Logout if status is not active
+                throw ValidationException::withMessages([
+                    'email' => ['Partner account is not active.'],
+                ]);
+            }
+
             $ip = $request->ip();
             $agent = new Agent();
             $location = []; // Fetch location using GeoIP or other services
@@ -56,7 +64,6 @@ class PartnerAuthController extends Controller
     
             // Authentication passed, redirect to the admin dashboard
             return redirect('/partner/dashboard');
-
             
         }
 
@@ -66,35 +73,35 @@ class PartnerAuthController extends Controller
         ]);
     }
 
-    /**
-     * Handle admin registration.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function register(Request $request)
-    {
-        // Validate the registration data
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|email|unique:admins,email',
-            'password' => 'required|string|min:8|confirmed',
-        ]);
+        /**
+         * Handle admin registration.
+         *
+         * @param  \Illuminate\Http\Request  $request
+         * @return \Illuminate\Http\Response
+         */
+        public function register(Request $request)
+        {
+            // Validate the registration data
+            $request->validate([
+                'name' => 'required|string|max:255',
+                'email' => 'required|email|unique:admins,email',
+                'password' => 'required|string|min:8|confirmed',
+            ]);
 
-        // Create a new admin user
-        $admin = Partner::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-            'partner_id'=> generateRandomCar(5)
-        ]);
+            // Create a new admin user
+            $admin = Partner::create([
+                'name' => $request->name,
+                'email' => $request->email,
+                'password' => Hash::make($request->password),
+                'partner_id'=> generateRandomCar(5)
+            ]);
 
-        // Authenticate the newly created admin
-        Auth::guard('partner')->login($admin);
+            // Authenticate the newly created admin
+            Auth::guard('partner')->login($admin);
 
-        // Redirect to the admin dashboard after successful registration
-        return redirect('/partner/dashboard');
-    }
+            // Redirect to the admin dashboard after successful registration
+            return redirect('/partner/dashboard');
+        }
 
     /**
      * Handle admin logout.

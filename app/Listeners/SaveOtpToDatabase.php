@@ -7,6 +7,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 use App\Models\MobileOtp;
 use Carbon\Carbon;
+use Log;
 
 
 class SaveOtpToDatabase
@@ -23,5 +24,6 @@ class SaveOtpToDatabase
             'expires_at' => Carbon::now()->addMinutes(10),
             'is_verified' => 0,
         ]);
+        Log::debug("OTP has been generated", ['otp' => $event->otp]);
     }
 }

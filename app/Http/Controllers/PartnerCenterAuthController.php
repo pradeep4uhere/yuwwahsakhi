@@ -35,12 +35,18 @@ class PartnerCenterAuthController extends Controller
 
         // Attempt to log the admin in using the 'admin' guard
         $credentials = $request->only('email', 'password');
-     //dd( $credentials);
+        //dd( $credentials);
 
         if (Auth::guard('partner_center')->attempt($credentials)) {
             $partner = Auth::guard('partner_center')->user(); // Get authenticated partner
             if (!$partner) {
                 return back()->withErrors(['error' => 'Authentication failed.']);
+            }
+            if ($partner->status != 1) {
+                Auth::guard('partner_center')->logout(); // Logout if status is not active
+                throw ValidationException::withMessages([
+                    'email' => ['Partner Center account is not active.'],
+                ]);
             }
             $ip = $request->ip();
             $agent = new Agent();
@@ -56,7 +62,7 @@ class PartnerCenterAuthController extends Controller
             ]);
     
             // Authentication passed, redirect to the admin dashboard
-//            return redirect()->intended('/partnercenter/dashboard');
+            // return redirect()->intended('/partnercenter/dashboard');
             return redirect('/partnercenter/dashboard');
         }
 
