@@ -1440,11 +1440,13 @@ public function updatePromotion(Request $request, $id)
             'partner_center_id' => 'required|integer|min:1',
             'center_photo' => 'required|file|image|mimes:jpeg,png,jpg,gif|max:2048',
             'profile_photo' => 'required|file|image|mimes:jpeg,png,jpg,gif|max:2048',
+            
         ], [
             'date_of_birth.before' => 'The date of birth must indicate the person is at least 10 years old.',
             'loan_balance.lte' => 'The loan balance must be less than or equal to the loan amount.',
             'center_photo.image' => 'The center photo must be an image file.',
             'profile_photo.image' => 'The profile photo must be an image file.',
+            
         ]);
 
         if ($validator->fails()) {
@@ -1460,7 +1462,7 @@ public function updatePromotion(Request $request, $id)
             // Create a new record
             $yuwaahSakhi = YuwaahSakhi::create([
                 'password' => Hash::make('password@123'),
-                'sakhi_id'=>'YS'.time(),
+                'sakhi_id'=>time(),
                 'name' => $validatedData['name'],
                 'email'=>$validatedData['email'],
                 'contact_number'=> $validatedData['contact_number'],

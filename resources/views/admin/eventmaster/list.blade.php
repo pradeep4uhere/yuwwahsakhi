@@ -25,6 +25,9 @@
             <span class="texttitle">{{$Module}}</span>
             <div class="activity">
                 <div class="activitybutton">
+                    <a href="{{ route('yuwaah.events.export') }}">
+                    <button  class="add-partner-btn" id="exportPartnerBtn" style="margin-left: 2px; background-color: brown;">Export Yuwaah Events</button>
+                    </a>
                     <a href="{{route('admin.eventmaster.add')}}">
                     <button class="add-partner-btn" id="addPartnerBtn">Add {{$Module}}</button>
                     </a>

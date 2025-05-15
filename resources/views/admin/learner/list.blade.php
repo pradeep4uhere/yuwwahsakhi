@@ -9,7 +9,7 @@
             <div class="search-box">
                 <form method="GET" action="{{ url()->current() }}" class="search-box" style="display: flex; align-items: center; gap: 10px;">
                     @csrf
-                    <button class="p-2 bg-blue-600 text-black rounded hover:bg-blue-700">
+                    <button class="p-2 bg-blue-600 text-black rounded hover:bg-blue-700" >
                     <i class="uil uil-search text-lg"></i>
                     </button>
                     <input type="text" name="search" placeholder="Please type and search">
@@ -26,7 +26,7 @@
             <div class="activity">
                 <div class="activitybutton">
                     <a href="{{route('admin.learner.export')}}">
-                    <button class="add-partner-btn" id="addPartnerBtn">Export Learner</button>
+                    <button class="add-partner-btn" id="addPartnerBtn" style="margin-left: 2px; background-color: brown;">Export Learner</button>
                     </a>
                 </div>
                     <div class="activity-data">

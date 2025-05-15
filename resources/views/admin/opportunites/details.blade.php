@@ -54,7 +54,7 @@
             </table>
         </div>
         
-          <div class="pathway-details">
+          <!-- <div class="pathway-details">
             <div class="pathway-header">
                 <h2 class="sub-heading1">Pathway Details</h2>
                 <button class="add-pathway" onclick="openCustomPopup()">Add Pathway</button>
@@ -87,7 +87,7 @@
                     <div class="pathway-column">Not yet completed</div>
                 </div>
             </div>
-        </div>
+        </div> -->
         
     </div>
     </section>

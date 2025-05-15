@@ -26,7 +26,7 @@
             <div class="activity">
                 <div class="activitybutton">
                    <a href="{{route('partners.export')}}" >
-                    <button class="add-partner-btn" id="addPartnerBtn">Partner Export</button>
+                    <button class="add-partner-btn" id="addPartnerBtn" style="margin-left: 2px; background-color: brown;">Partner Export</button>
                     </a>&nbsp;&nbsp;
                     <a href="{{route('admin.partner.add')}}" style="margin-right:5px">
                     <button class="add-partner-btn" id="addPartnerBtn">Add Partner</button>

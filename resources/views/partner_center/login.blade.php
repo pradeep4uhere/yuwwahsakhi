@@ -18,7 +18,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
   <body class="font-Montserrat" style="background-color: floralwhite;">
-<div id="screen4" class="mx-auto max-w-[26rem] p-10 bg-white shadow-md  h-auto" style="margin-top:200px;">
+<div id="screen4" class="mx-auto max-w-[26rem] p-10 bg-white shadow-md  h-auto" style="margin-top:150px;">
 
     <!-- <a href="register.html" class="hover:text-blue-600 mb-4 text-lg">
       &larr;
@@ -29,9 +29,6 @@
       <img src="{{asset('asset/images/Yuwaahlogo.png')}}" alt="YuWaah Logo" class="w-[150px] h-[86px]">
     </div>
     <h1 class="w-[282px] h-[34px] font-[600] text-[28px] leading-[34.13px] text-[#000000]  mb-4">Partner Center Login</h1>
-
-
-
     <form method="POST" action="{{ route('partnercenter.login') }}" class="space-y-4 text-xs">
     @csrf
       <div class="space-y-1">

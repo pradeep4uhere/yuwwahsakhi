@@ -25,6 +25,9 @@
             <span class="texttitle">{{$title}} [{{$response->total()}}]</span>
             <div class="activity">
                 <div class="activitybutton">
+                    <a href="{{ route('partnerCenters.export') }}">
+                    <button  class="add-partner-btn" id="exportPartnerBtn" style="margin-left: 2px; background-color: brown;">Export Partner Centers</button>
+                    </a>
                     <a href="{{route('admin.partnercenter.add')}}">
                     <button class="add-partner-btn" id="addPartnerBtn">Add Partner Center</button>
                     </a>

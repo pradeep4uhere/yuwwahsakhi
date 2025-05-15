@@ -25,6 +25,9 @@
             <span class="texttitle">{{$title}}</span>
             <div class="activity">
                 <div class="activitybutton">
+                    <a href="{{route('promotions.export')}}">
+                    <button class="add-partner-btn" id="addPartnerBtn" style="margin-left: 2px; background-color: brown;">Export Promotions</button>
+                    </a>
                     <a href="{{route('admin.promotions.add')}}">
                     <button class="add-partner-btn" id="addPartnerBtn">Add {{$title}}</button>
                     </a>

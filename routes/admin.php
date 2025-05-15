@@ -4,6 +4,13 @@ use App\Http\Controllers\AdminAuthController;
 use App\Http\Controllers\AdminController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LanguageController;
+use App\Exports\YuwaahSakhiExport;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\PartnerCenterExport;
+use App\Exports\YuwaahEventMasterExport;
+use App\Exports\OpportunityExport;
+use App\Exports\PromotionExport;
+
 
 
 // Admin login route
@@ -35,6 +42,9 @@ Route::middleware('auth:admin')->group(function () {
     Route::any('/add-partner-center', [AdminController::class, 'addNewPartnerCenter'])->name('admin.partnercenter.add');
     Route::any('/edit-partner-cengter/{id}', [AdminController::class, 'editPartnerCenter'])->name('admin.partnercenter.edit');
     Route::any('/delete-partner-center/{id}', [AdminController::class, 'deletePartnerCenter'])->name('admin.partnercenter.delete');
+    Route::get('/export/partner-centers', function () {
+        return Excel::download(new PartnerCenterExport, 'partner_centers.xlsx');
+    })->name('partnerCenters.export');
 
     //All opportunities routes Here
     Route::get('/getopportunitieslist', [AdminController::class, 'getOpportunitiesList'])->name('admin.opportunities.list');
@@ -42,7 +52,9 @@ Route::middleware('auth:admin')->group(function () {
     Route::any('/updateopportunities/{id}', [AdminController::class, 'updateOpportunities'])->name('admin.opportunities.update');
     Route::any('/deleteopportunities/{id}', [AdminController::class, 'deleteOpportunities'])->name('admin.opportunities.delete');
     Route::get('/getopportunitiesdetails/{id}', [AdminController::class, 'getOpportunitiesDetails'])->name('admin.opportunities.details');
-    
+    Route::get('/export/opportunities', function () {
+        return Excel::download(new OpportunityExport, 'opportunities.xlsx');
+    })->name('opportunities.export');
   
     //All Promotion Route List
     Route::get('/promotionlist', [AdminController::class, 'getPromotionList'])->name('admin.promotions.list');
@@ -50,7 +62,10 @@ Route::middleware('auth:admin')->group(function () {
     Route::any('/updatepromotion/{id}', [AdminController::class, 'updatePromotion'])->name('admin.promotions.update');
     Route::any('/deletepromotion/{id}', [AdminController::class, 'deletePromotion'])->name('admin.promotions.delete');
     Route::get('/getpromotiondetails/{id}', [AdminController::class, 'getPromotionDetails'])->name('admin.promotions.details');
-  
+    Route::get('/export/promotions', function () {
+        return Excel::download(new PromotionExport, 'promotions.xlsx');
+    })->name('promotions.export');
+    
     //Yuwwah Sakhi all routes Here
     Route::any('/addnewyuwaahsakhi', [AdminController::class, 'addNewYuwaahSakhi'])->name('admin.yuwaahsakhi.add');
     Route::any('/updateyuwaahsakhi/{id}', [AdminController::class, 'updateYuwaahSakhi'])->name('admin.yuwaahsakhi.update');
@@ -58,7 +73,9 @@ Route::middleware('auth:admin')->group(function () {
     Route::get('/getyuwaahdetails/{id}', [AdminController::class, 'getYuwaahDetails'])->name('admin.yuwaahsakhi.details');
     Route::get('/getyuwaahlist', [AdminController::class, 'getYuwaahList'])->name('admin.yuwaahsakhi.list');
     Route::get('/getyuwaahlist', [AdminController::class, 'getYuwaahList'])->name('admin.yuwaahsakhi.list');
-    Route::get('/get-partner-centers', [AdminController::class, 'getPartnerCenters'])->name('admin.get_partner_centers');
+    Route::get('/get-partner-centers', [AdminController::class, 'getPartnerCenters'])->name('admin.get_partner_centers');Route::get('/export/yuwaah-sakhi', function () {
+        return Excel::download(new YuwaahSakhiExport, 'yuwaah_sakhi_list.xlsx');
+    })->name('yuwaahSakhi.export');
 
 
     //YuwaahSakhi Setting
@@ -71,6 +88,12 @@ Route::middleware('auth:admin')->group(function () {
     Route::any('/add-eventmaster', [AdminController::class, 'addNewEventMaster'])->name('admin.eventmaster.add');
     Route::any('/edit-eventmaster/{id}', [AdminController::class, 'editEventMaster'])->name('admin.eventmaster.edit');
     Route::any('/delete-eventmaster/{id}', [AdminController::class, 'deleteEventMaster'])->name('admin.eventmaster.delete');
+    Route::get('/export/yuwaah-events', function () {
+        return Excel::download(new YuwaahEventMasterExport, 'yuwaah_event_master.xlsx');
+    })->name('yuwaah.events.export');
+
+
+
 
     Route::get('/learner', [AdminController::class, 'allLearnerList'])->name('admin.learner');
     Route::get('/export-learners', [AdminController::class, 'exportLearnersCSV'])->name('admin.learner.export');

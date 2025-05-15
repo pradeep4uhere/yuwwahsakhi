@@ -366,7 +366,7 @@ if (!function_exists('getYouTubeVideoId')) {
 
 if (!function_exists('getYuwaahSakhiID')) {
     function getYuwaahSakhiID($id, $partnerId, $partnerCenterId) {
-        return 'YS'.$id.$partnerId.$partnerCenterId;
+        return $id.$partnerId.$partnerCenterId;
         
     }
 }

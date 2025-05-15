@@ -25,6 +25,9 @@
             <span class="texttitle">{{$title}}</span>
             <div class="activity">
                 <div class="activitybutton">
+                    <a  href="{{ route('yuwaahSakhi.export') }}" class="ml-2">
+                    <button class="add-partner-btn" style="margin-left: 2px; background-color: brown;">Export Yuwaah Sakhi List</button></a>
+                    &nbsp;
                     <a href="{{route('admin.yuwaahsakhi.add')}}">
                     <button class="add-partner-btn" id="addPartnerBtn">Add {{$title}}</button>
                     </a>
