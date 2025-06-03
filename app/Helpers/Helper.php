@@ -9,6 +9,7 @@ use App\Models\District;
 use App\Models\Block;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Auth; 
+use Illuminate\Support\Facades\DB;
     
 if (!function_exists('encryptString')) {
     function encryptString($string)
@@ -366,7 +367,7 @@ if (!function_exists('getYouTubeVideoId')) {
 
 if (!function_exists('getYuwaahSakhiID')) {
     function getYuwaahSakhiID($id, $partnerId, $partnerCenterId) {
-        return $id.$partnerId.$partnerCenterId;
+        return $partnerId.$partnerCenterId.$id;
         
     }
 }
@@ -553,6 +554,40 @@ if (!function_exists('getformateDate')) {
 }
 
 
+
+if (!function_exists('generateYuwaahSakhiCode')) {
+    function generateYuwaahSakhiCode(string $partnerCode, string $partnerCenterCode): string
+    {
+
+        // Fetch partner and center codes from DB
+        $partner = DB::table('partners')->where('id', $partnerCode)->value('partner_id');
+        $partnerCenter = DB::table('partner_centers')->where('id', $partnerCenterCode)->value('partner_centers_id');
+
+        // Validate codes
+        if (!$partner || !$partnerCenter) {
+            return null; // Or throw exception if preferred
+        }
+        // Combine prefix
+        $prefix = $partner .'-'. $partnerCenter;
+
+        // Find the highest existing suffix for this partner+center
+        $lastCode = DB::table('yuwaah_sakhi')
+            ->where('sakhi_id', 'like', $prefix . '%')
+            ->orderByDesc('sakhi_id')
+            ->value('sakhi_id');
+
+        if ($lastCode) {
+            // Extract the numeric suffix and increment
+            $lastSuffix = (int)substr($lastCode, strlen($prefix));
+            $newSuffix = str_pad($lastSuffix + 1, 3, '0', STR_PAD_LEFT);
+        } else {
+            // First code for this partner-center pair
+            $newSuffix = '001';
+        }
+
+        return $prefix .'-'. $newSuffix;
+    }
+}
 
 
 

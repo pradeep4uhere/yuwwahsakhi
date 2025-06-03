@@ -84,6 +84,7 @@ Route::middleware('auth:admin')->group(function () {
 
      
     //All Partner Routes Here
+    Route::get('/eventcategory', [AdminController::class, 'allEventMasterList'])->name('admin.eventcategory.list');
     Route::get('/eventmaster', [AdminController::class, 'allEventMasterList'])->name('admin.eventmaster.list');
     Route::any('/add-eventmaster', [AdminController::class, 'addNewEventMaster'])->name('admin.eventmaster.add');
     Route::any('/edit-eventmaster/{id}', [AdminController::class, 'editEventMaster'])->name('admin.eventmaster.edit');

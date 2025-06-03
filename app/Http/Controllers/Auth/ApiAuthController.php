@@ -1458,11 +1458,11 @@ public function updatePromotion(Request $request, $id)
             // Handle file uploads
             $centerPhotoPath = $request->file('center_photo')->store('uploads/yuwaah_sakhi', 'public');
             $profilePhotoPath = $request->file('profile_photo')->store('uploads/yuwaah_sakhi', 'public');
-    
+            
             // Create a new record
             $yuwaahSakhi = YuwaahSakhi::create([
                 'password' => Hash::make('password@123'),
-                'sakhi_id'=>time(),
+                'sakhi_id'=>generateYuwaahSakhiCode($validatedData['partner_id'],$validatedData['partner_center_id']),
                 'name' => $validatedData['name'],
                 'email'=>$validatedData['email'],
                 'contact_number'=> $validatedData['contact_number'],
@@ -1574,11 +1574,13 @@ public function updatePromotion(Request $request, $id)
         $profilePhotoPath = $request->file('profile_photo')->store('uploads/yuwaah_sakhi', 'public');
     }
 //dd($request->all());
+//dd($request->partner_id);
+//dd(generateYuwaahSakhiCode($request->partner_id,$request->partner_center_id));
     // Update record
     $yuwaahSakhi->update([
         'name' => $request->name,
         'email' => $request->email,
-        'sakhi_id'=>getYuwaahSakhiID($yuwaahSakhi->id,$request->partner_id,$request->partner_center_id),
+        'sakhi_id'=>generateYuwaahSakhiCode($request->partner_id,$request->partner_center_id),
         'contact_number' => $request->contact_number,
         'dob' => $request->date_of_birth,
         'gender' => $request->gender,
