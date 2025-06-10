@@ -90,6 +90,8 @@ return [
     'update_learner'=>'Assing Lerner',
     'event'=>'Event',
     'all_events'=>'All Events',
-    'add_event'=>'Add Event'
+    'add_event'=>'Add Event',
+    'edit_event_type'=>'Edit Event Type',
+    'edit_event_category'=>'Edit Event Category'
 
 ];

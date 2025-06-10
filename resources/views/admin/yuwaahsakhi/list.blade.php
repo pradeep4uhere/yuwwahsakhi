@@ -41,14 +41,11 @@
                             <tr>
                                 <th>SN</th>
                                 <th>Sakhi ID</th>
-                                <th>Profile</th>
                                 <th>Sakhi Name</th>
                                 <th>Partner</th>
                                 <th>Partner Center</th>
                                 <th>Contact Number</th>
                                 <th>Email</th>
-                                <th>Date Of Birth</th>
-                                <th>Gender</th>
                                 <th>Created On</th>
                                 <th>Actions</th>
                             </tr>
@@ -60,14 +57,11 @@
                             <tr>
                                 <td>{{$count}}</td>
                                 <td>{{$item['sakhiId']}}</td>
-                                <td><img src="{{$item['ProfilePicture']}}" width="50px" height="50px"/></td>
                                 <td>{{$item['Name']}}</td>
                                 <td>{{ucwords($item['Partner'])}}</td>
                                 <td>{{ucwords($item['PartnerCenter'])}}</td>
                                 <td>{{$item['ContactNumber']}}</td>
                                 <td>{{$item['Email']}}</td>
-                                <td>{{$item['DateOfBirth']}}</td>
-                                <td>{{$item['Gender']}}</td>
                                 
                                 <td><?php if($item['Status']=='Active'){ ?>
                                    <span class="badge badge-success">Active</span>

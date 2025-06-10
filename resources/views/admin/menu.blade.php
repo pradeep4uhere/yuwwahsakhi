@@ -63,12 +63,12 @@
                          {{ request()->routeIs('admin.eventmaster.list') ? 'activelinktext' : '' }}
                          {{ request()->routeIs('admin.eventmaster.add') ? 'activelinktext' : '' }}  
                           {{ request()->routeIs('admin.eventmaster.edit') ? 'activelinktext' : '' }}
-                        ">Event Master</span>
+                        ">Event Type</span>
                     </a>
                 </li>
                 <li class="{{ request()->routeIs('admin.eventmaster') ? 'activelink' : '' }}">
                     <a href="{{route('admin.eventcategory.list')}}" id="partners-link" >
-                        <i class="uil uil-calendar-alt 
+                        <i class="uil uil-apps
                         {{ request()->routeIs('admin.eventmaster.update') ? 'activelinktext' : '' }} 
                         {{ request()->routeIs('admin.eventmaster.list') ? 'activelinktext' : '' }}
                         {{ request()->routeIs('admin.eventmaster.add') ? 'activelinktext' : '' }}

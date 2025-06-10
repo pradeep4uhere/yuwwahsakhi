@@ -10,6 +10,7 @@ use App\Models\Block;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Auth; 
 use Illuminate\Support\Facades\DB;
+use App\Models\YuwaahEventType;
     
 if (!function_exists('encryptString')) {
     function encryptString($string)
@@ -555,40 +556,83 @@ if (!function_exists('getformateDate')) {
 
 
 
+// Check if the function already exists to prevent redeclaration errors
 if (!function_exists('generateYuwaahSakhiCode')) {
-    function generateYuwaahSakhiCode(string $partnerCode, string $partnerCenterCode): string
+    /**
+     * Generates a unique Yuwaah Sakhi Code based on partner and partner center codes.
+     * The format will be: PARTNER_ID-PARTNER_CENTER_ID-NNN (e.g., PAT1000001-PC100111-001)
+     *
+     * @param string $partnerCode The ID of the partner from the 'partners' table.
+     * @param string $partnerCenterCode The ID of the partner center from the 'partner_centers' table.
+     * @return string|null The generated unique sakhi_id, or null if partner/center codes are invalid.
+     */
+    function generateYuwaahSakhiCode(string $partnerCode, string $partnerCenterCode): ?string
     {
-
-        // Fetch partner and center codes from DB
+        // Fetch partner_id and partner_centers_id from respective tables
+        // Assuming 'DB' facade is available and correctly configured (e.g., in Laravel)
         $partner = DB::table('partners')->where('id', $partnerCode)->value('partner_id');
         $partnerCenter = DB::table('partner_centers')->where('id', $partnerCenterCode)->value('partner_centers_id');
 
-        // Validate codes
+        // Validate that both partner and partner center codes were found
         if (!$partner || !$partnerCenter) {
-            return null; // Or throw exception if preferred
+            // Log an error or throw an exception for better error handling in a real application
+            // For now, returning null as per original function's implicit handling
+            return null;
         }
-        // Combine prefix
-        $prefix = $partner .'-'. $partnerCenter;
 
-        // Find the highest existing suffix for this partner+center
-        $lastCode = DB::table('yuwaah_sakhi')
-            ->where('sakhi_id', 'like', $prefix . '%')
-            ->orderByDesc('sakhi_id')
-            ->value('sakhi_id');
+        // Combine the base prefix for the sakhi_id
+        // Example: PAT1000001-PC100111
+        $basePrefix = $partner . '-' . $partnerCenter;
 
-        if ($lastCode) {
-            // Extract the numeric suffix and increment
-            $lastSuffix = (int)substr($lastCode, strlen($prefix));
-            $newSuffix = str_pad($lastSuffix + 1, 3, '0', STR_PAD_LEFT);
+        // --- Core Logic for finding the next unique suffix ---
+
+        // 1. Fetch all existing sakhi_ids that start with the generated basePrefix.
+        //    We add a hyphen to the LIKE clause to ensure we only match codes
+        //    that strictly follow the 'PREFIX-NNN' pattern.
+        $existingCodes = DB::table('yuwaah_sakhi')
+            ->where('sakhi_id', 'like', $basePrefix . '-%')
+            ->pluck('sakhi_id'); // Get only the 'sakhi_id' column values
+
+        $maxSuffix = 0; // Initialize maxSuffix to 0
+
+        // 2. Iterate through the fetched codes to find the highest numeric suffix.
+        foreach ($existingCodes as $code) {
+            // Assuming the format is 'PARTNER_ID-PARTNER_CENTER_ID-NNN'
+            // Split the code by hyphen to get its parts.
+            $parts = explode('-', $code);
+
+            // The numeric suffix is expected to be the last part of the exploded array.
+            // Convert it to an integer to ensure proper numeric comparison.
+            $currentSuffix = (int)end($parts);
+
+            // Update maxSuffix if the current code's suffix is higher
+            if ($currentSuffix > $maxSuffix) {
+                $maxSuffix = $currentSuffix;
+            }
+        }
+
+        // 3. Determine the new suffix.
+        // If maxSuffix is still 0, it means no existing codes were found for this prefix,
+        // so start with '001'. Otherwise, increment the maxSuffix.
+        if ($maxSuffix > 0) {
+            $newSuffix = str_pad($maxSuffix + 1, 3, '0', STR_PAD_LEFT);
         } else {
             // First code for this partner-center pair
             $newSuffix = '001';
         }
 
-        return $prefix .'-'. $newSuffix;
+        // Combine the base prefix with the newly generated suffix to form the complete sakhi_id
+        return $basePrefix . '-' . $newSuffix;
     }
 }
 
+
+if (!function_exists('getEventTypeName')) {
+    function getEventTypeName($id)
+    {
+        return YuwaahEventType::find($id)?->name ?? 'N/A';
+    }
+}
 
 
 

@@ -45,10 +45,6 @@
                                 <th>Center ID</th>
                                 <th>Mobile</th>
                                 <th>Email</th>
-                                <th>State</th>
-                                <th>District</th>
-                                <th>Block</th>
-                                <th>Onboarded</th>
                                 <th>Status</th>
                                 <th>Created</th>
                                 <th>Actions</th>
@@ -65,10 +61,6 @@
                                 <td nowrap="nowrap">{{$item['partner_centers_id']}}</td>
                                 <td nowrap="nowrap">{{$item['contact_number']}}</td>
                                 <td nowrap="nowrap">{{$item['email']}}</td>
-                                <td nowrap="nowrap">{{ optional($item->state)->name ?? 'N/A' }}</td>
-                                <td nowrap="nowrap">{{ optional($item->district)->name ?? 'N/A' }}</td>
-                                <td nowrap="nowrap">{{ optional($item->block)->name ?? 'N/A' }}</td>
-                                <td nowrap="nowrap">{{getdateformate($item['onboard_date'])}}</td>
                                 <td nowrap="nowrap"><?php if($item['status']==1){ ?>
                                    <span class="badge badge-success">Active</span>
                                 <?php }else{ ?>

@@ -108,11 +108,8 @@ class ApiAuthController extends Controller
             'name' => 'required|string|max:255',
             'partner_id' => 'required|string|max:255',
             'email' => 'required|email|unique:partners,email',
-            'contact_number' => 'nullable|string|max:15',
-            'address' => 'nullable|string|max:255',
-            'state_id'=>'required|string|max:255',
-            'district_id'=>'required|string|max:255',
-            'block_id'=>'required|string|max:255',
+            'contact_number' => 'required|string|max:15',
+            'password' => 'required|string|max:255',
             'status' => 'required|boolean',
         ]);
         
@@ -127,13 +124,8 @@ class ApiAuthController extends Controller
                 'partner_id' => $request->partner_id, // Generate unique partner ID
                 'name' => $request->name,
                 'email' => $request->email,
-                'password' => Hash::make('password@123'),
+                'password' => Hash::make($request->password),
                 'contact_number' => $request->contact_number,
-                'state_id' => $request->state_id,
-                'district_id' => $request->district_id,
-                'block_id' => $request->block_id,
-                'address' => $request->address,
-                'pincode' => $request->pincode,
                 'status' => $request->status,
                 'onboard_date' => now(),
             ]);
@@ -166,12 +158,8 @@ class ApiAuthController extends Controller
             'name' => 'required|string|max:255',
             'partner_id' => 'required|string|max:255',
             'email' => 'required|email|unique:partners,email,'. $partnerId,
-            'contact_number' => 'nullable|string|max:15',
-            'address' => 'nullable|string|max:255',
-            'state_id' => 'nullable|string|max:255',
-            'district_id' => 'nullable|string|max:255',
-            'pincode' => 'nullable|string|max:255',
-            'block_id' => 'nullable|string|max:255',
+            'contact_number' => 'required|string|max:15',
+            'password' => 'required|string|max:255',
             'status' => 'required|boolean',
         ]);
         if ($validator->fails()) {
@@ -179,9 +167,12 @@ class ApiAuthController extends Controller
                 'status'=>false,
                 'errors' => $validator->errors()], 422);
         }
+      
+
         try {
             // Find the partner by ID
             $partner = Partner::find($partnerId);
+            //dd($partner);
             if (!$partner) {
                 return response()->json([
                     'status'=>false,
@@ -194,17 +185,13 @@ class ApiAuthController extends Controller
                 'name' => $request->name,
                 'partner_id'=>$request->partner_id,
                 'email' => $request->email,
+                'password' => $request->password,
                 'contact_number' => $request->contact_number,
-                'state_id'=> $request->state_id,
-                'district_id'=>$request->district_id,
-                'block_id'=>$request->block_id,
-                'pincode'=>$request->pincode,
-                'address' => $request->address,
                 'status' => $request->status,
             ]);
 
             $partnerData = Partner::formatedPartnerData($partner);
-
+            
             return response()->json([
                 'status'=>true,
                 'message' => __('messages.partner_updated_successfully'),
@@ -365,13 +352,8 @@ class ApiAuthController extends Controller
            'center_name' => 'required|string|max:255',
            'partner_centers_id' => 'required|string|max:255',
            'email' => 'required|email|unique:partner_centers,email',
-           'contact_number' => 'nullable|string|max:15',
-           'address' => 'nullable|string|max:255',
-           'state_id' => 'nullable|string|max:255',
-           'district_id' => 'nullable|string|max:255',
-           'block_id' => 'nullable|string|max:255',
-           'address' => 'nullable|string|max:255',
-           'pincode' => 'nullable|string|max:6',
+           'contact_number' => 'required|string|max:15',
+           'password' => 'required|string|max:255',
            'status' => 'required|boolean',
        ]);
        
@@ -388,12 +370,7 @@ class ApiAuthController extends Controller
                'partner_centers_id'=>$request->partner_centers_id,
                'email' => $request->email,
                'contact_number' => $request->contact_number,
-               'state_id' => $request->state_id,
-               'district_id' => $request->district_id,
-               'block_id' => $request->block_id,
-               'pincode' => $request->pincode,
-               'address' => $request->address,
-               'password' => Hash::make('password@123'),
+               'password' => Hash::make($request->password),
                'status' => $request->status,
                'onboard_date' => now(),
            ]);
@@ -425,11 +402,8 @@ class ApiAuthController extends Controller
            'center_name' => 'required|string|max:255',
            'partner_centers_id' => 'required|string|max:255',
            'email' => 'required|email|unique:partner_centers,email,'. $partnerId,
-           'contact_number' => 'nullable|string|max:15',
-           'address' => 'nullable|string|max:255',
-           'state_id' => 'nullable|string|max:255',
-           'district_id' => 'nullable|string|max:255',
-           'block_id' => 'nullable|string|max:255',
+           'contact_number' => 'required|string|max:15',
+           'password' => 'required|string|max:255',
            'status' => 'required|boolean',
        ]);
        if ($validator->fails()) {
@@ -454,11 +428,7 @@ class ApiAuthController extends Controller
                'partner_centers_id' => $request->partner_centers_id,
                'email' => $request->email,
                'contact_number' => $request->contact_number,
-               'state_id' => $request->state_id,
-               'district_id' => $request->district_id,
-               'block_id' => $request->block_id,
-               'pincode' => $request->pincode,
-               'address' => $request->address,
+               'address' => $request->password,
                'status' => $request->status,
            ]);
 
@@ -1420,32 +1390,9 @@ public function updatePromotion(Request $request, $id)
             'name' => 'required|string|max:255',
             'contact_number' => 'required|digits:10',
             'email' => 'required|string|email|max:255|unique:yuwaah_sakhi,email',
-            'date_of_birth' => 'required|date|before:' . now()->subYears(10)->toDateString(),
-            'gender' => 'required|in:Male,Female,Other',
-            'education_level' => 'required|integer|min:1',
-            'specific_qualification' => 'required|integer|min:1',
-            'loan_taken' => 'required|in:Yes,No',
-            'type_of_loan' => 'required|integer|min:1',
-            'loan_amount' => 'required|numeric|min:0',
-            'loan_balance' => 'required|numeric|min:0|lte:loan_amount',
-           'english_proficiency' => 'required|in:Basic,Conversational,Fluent,Native',
-            'years_of_work_exp' => 'required|integer|min:0',
-            'work_hour_per_day' => 'required|integer|min:1|max:24',
-            'infrastructure_available' => 'required|integer|min:1',
-            'service_offered' => 'required|integer|min:1',
-            'course_completed' => 'required|integer|min:1',
-            'digital_proficiency' => 'required|integer|min:1',
             'status' => 'required|integer|min:0|max:1',
             'partner_id' => 'required|integer|min:1',
             'partner_center_id' => 'required|integer|min:1',
-            'center_photo' => 'required|file|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'profile_photo' => 'required|file|image|mimes:jpeg,png,jpg,gif|max:2048',
-            
-        ], [
-            'date_of_birth.before' => 'The date of birth must indicate the person is at least 10 years old.',
-            'loan_balance.lte' => 'The loan balance must be less than or equal to the loan amount.',
-            'center_photo.image' => 'The center photo must be an image file.',
-            'profile_photo.image' => 'The profile photo must be an image file.',
             
         ]);
 
@@ -1455,49 +1402,31 @@ public function updatePromotion(Request $request, $id)
 
         $validatedData = $validator->validated();
         try {
-            // Handle file uploads
-            $centerPhotoPath = $request->file('center_photo')->store('uploads/yuwaah_sakhi', 'public');
-            $profilePhotoPath = $request->file('profile_photo')->store('uploads/yuwaah_sakhi', 'public');
-            
             // Create a new record
             $yuwaahSakhi = YuwaahSakhi::create([
                 'password' => Hash::make('password@123'),
                 'sakhi_id'=>generateYuwaahSakhiCode($validatedData['partner_id'],$validatedData['partner_center_id']),
                 'name' => $validatedData['name'],
                 'email'=>$validatedData['email'],
+                'dob'=>'1997-01-01',
+                'year_of_exp'=>'0',
+                'work_hour_in_day'=>0,
+                'education_level'=>1,
+                'infrastructure_available'=>'No',
+                'specific_qualification'=>0,
+                'service_offered'=>'0',
+                'digital_proficiency'=>0,
+                'district'=>1,
+                'state'=>1,
+                'city'=>1,
                 'contact_number'=> $validatedData['contact_number'],
-                'dob' => $validatedData['date_of_birth'],
-                'gender' => $validatedData['gender'],
-                'education_level' => $validatedData['education_level'],
-                'specific_qualification' => $validatedData['specific_qualification'],
-                'loan_taken' => $validatedData['loan_taken'],
-                'type_of_loan' => $validatedData['type_of_loan'],
-                'loan_amount' => $validatedData['loan_amount'],
-                'loan_balance' => $validatedData['loan_balance'],
-                'english_proficiency' => $validatedData['english_proficiency'],
-                'year_of_exp' => $validatedData['years_of_work_exp'],
-                'work_hour_in_day' => $validatedData['work_hour_per_day'],
-                'infrastructure_available' => $validatedData['infrastructure_available'],
-                'service_offered' => $validatedData['service_offered'],
-                'courses_completed' => $validatedData['course_completed'],
-                'digital_proficiency' => $validatedData['digital_proficiency'],
                 'status' => $validatedData['status'],
                 'partner_id' => $validatedData['partner_id'],
                 'partner_center_id' => $validatedData['partner_center_id'],
-                'center_picture' => $centerPhotoPath,
-                'profile_picture' => $profilePhotoPath,
                 'onboard_date'=>now(),
                 'state'=>$request->state_id,
-                'district'=>$request->district_id,
-                'block_id'=>$request->block_id,
-                'pincode'=>$request->pincode,
-                'address'=>$request->address,
             ]);
             //dd($yuwaahSakhi);
-            // ✅ Correctly updating 'sakhi_id' after creation
-            $yuwaahSakhi->update([
-                'sakhi_id' => getYuwaahSakhiID($yuwaahSakhi->id, $validatedData['partner_id'], $validatedData['partner_center_id'])
-            ]);
     
             // Return success response
             return response()->json([
@@ -1531,29 +1460,9 @@ public function updatePromotion(Request $request, $id)
         'name' => 'required|string|max:255',
         'contact_number' => 'required|digits:10',
         'email' => 'required|string|email|max:255|unique:yuwaah_sakhi,email,'.$request->id,
-        'date_of_birth' => 'required|date|before:' . now()->subYears(10)->toDateString(),
-        'gender' => 'required|in:Male,Female,Other',
-        'education_level' => 'required|integer|min:1',
-        'specific_qualification' => 'required|integer|min:1',
-        'loan_taken' => 'required|in:Yes,No',
-        'type_of_loan' => 'nullable|integer|min:1',
-        'loan_amount' => 'nullable|numeric|min:0',
-        'loan_balance' => 'nullable|numeric|min:0|lte:loan_amount',
-        'english_proficiency' => 'required|in:Basic,Conversational,Fluent,Native',
-        'years_of_work_exp' => 'required|string',
-        'work_hour_per_day' => 'required|string',
-        'infrastructure_available' => 'required|integer|min:1',
-        'service_offered' => 'required|integer|min:1',
-        'course_completed' => 'required|integer|min:1',
-        'digital_proficiency' => 'required|integer|min:1',
         'status' => 'required|integer|min:0|max:1',
         'partner_id' => 'required|integer|min:1',
         'partner_center_id' => 'required|integer|min:1',
-        'center_photo' => 'nullable|file|image|mimes:jpeg,png,jpg,gif|max:2048',
-        'profile_photo' => 'nullable|file|image|mimes:jpeg,png,jpg,gif|max:2048',
-    ], [
-        'date_of_birth.before' => 'The date of birth must indicate the person is at least 10 years old.',
-        'loan_balance.lte' => 'The loan balance must be less than or equal to the loan amount.',
     ]);
 
     if ($validator->fails()) {
@@ -1582,33 +1491,12 @@ public function updatePromotion(Request $request, $id)
         'email' => $request->email,
         'sakhi_id'=>generateYuwaahSakhiCode($request->partner_id,$request->partner_center_id),
         'contact_number' => $request->contact_number,
-        'dob' => $request->date_of_birth,
-        'gender' => $request->gender,
-        'education_level' => $request->education_level,
-        'specific_qualification' => $request->specific_qualification,
-        'loan_taken' => $request->loan_taken,
-        'type_of_loan' => $request->type_of_loan,
-        'loan_amount' => $request->loan_amount,
-        'loan_balance' => $request->loan_balance,
-        'english_proficiency' => $request->english_proficiency,
-        'year_of_exp' => $request->years_of_work_exp,
-        'work_hour_in_day' => $request->work_hour_per_day,
-        'infrastructure_available' => $request->infrastructure_available,
-        'service_offered' => $request->service_offered,
-        'courses_completed' => $request->course_completed,
-        'digital_proficiency' => $request->digital_proficiency,
         'status' => $request->status,
         'partner_id' => $request->partner_id,
         'partner_center_id' => $request->partner_center_id,
-        'center_picture' => $centerPhotoPath,
-        'profile_picture' => $profilePhotoPath,
         'updated_at' => now(),
         'state'=>$request->state_id,
-        'district'=>$request->district_id,
-        'block_id'=>$request->block_id,
-        'pincode'=>$request->pincode,
-        'address'=>$request->address,
-    ]);
+          ]);
 
     // Return success response
     return response()->json([

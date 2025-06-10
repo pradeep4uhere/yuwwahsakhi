@@ -28,7 +28,7 @@
                     <a href="{{ route('yuwaah.events.export') }}">
                     <button  class="add-partner-btn" id="exportPartnerBtn" style="margin-left: 2px; background-color: brown;">Export Yuwaah Events</button>
                     </a>
-                    <a href="{{route('admin.eventcategory.add')}}">
+                    <a href="{{route('admin.eventmaster.add')}}">
                     <button class="add-partner-btn" id="addPartnerBtn">Add {{$Module}}</button>
                     </a>
                 </div>
@@ -36,17 +36,12 @@
                         <x-alert />
                     </div>
                     <div class="table-containers" style="overflow:auto">
-                        <table class="table table-striped table-bordered" style="font-size:12px">
+                        <table class="table table-striped table-bordered">
                         <thead>
                             <tr>
                                 <th>SN</th>
                                 <th>Event Type</th>
-                                <th nowrap="nowrap">Category</th>
                                 <th>Description</th>
-                                <th>Eligibility</th>
-                                <th nowrap="nowrap">Fee</th>
-                                <th>Date Event</th>
-                                <th>Documents</th>
                                 <th>Status</th>
                                 <th>Created On</th>
                                 <th>Actions</th>
@@ -58,16 +53,8 @@
                                   foreach($response as $item){ //dd($item); ?>
                             <tr>
                                 <td>{{$count}}</td>
-                                <td>{{getEventTypeName($item['event_type_id'])}}</td>
-                                <td>{{$item['event_category']}}</td>
+                                <td>{{$item['name']}}</td>
                                 <td>{{$item['description']}}</td>
-                                <td>{{$item['eligibility']}}</td>
-                                <td>{{$item['fee_per_completed_transaction']}}</td>
-                                <td>{{$item['date_event_created_in_master']}}</td>
-                                <td>
-                                {{$item['document_1']}},<br/>
-                                {{$item['document_2']}},<br/>{{$item['document_3']}}
-                                </td>
                                 <td><?php if($item['status']==1){ ?>
                                    <span class="badge badge-success">Active</span>
                                 <?php }else{ ?>
@@ -76,9 +63,9 @@
                                 </td>
                                 <td>{{$item['created_at']}}</td>
                                 <td>
-                                    <a href="{{route('admin.eventmaster.edit',['id'=>encryptString($item['id'])])}}"><i class="uil uil-edit" style="color: #27272A; font-size: 15px;"></i></a>
+                                    <a href="{{route('admin.eventtype.edit',['id'=>encryptString($item['id'])])}}"><i class="uil uil-edit" style="color: #27272A; font-size: 15px;"></i></a>
                                     <a href="javascript:void(0);" 
-                                        data-route="{{ route('admin.eventmaster.delete', ['id' => '__ID__']) }}" 
+                                        data-route="{{ route('admin.eventtype.delete', ['id' => '__ID__']) }}" 
                                         onclick="deleteConfirm('{{ encryptString($item['id']) }}', this.getAttribute('data-route'))">
                                             <i class="uil uil-trash-alt" style="color: #27272A; font-size: 15px;"></i>
                                     </a>
@@ -87,7 +74,7 @@
                             <?php $count++;} ?>
                             <?php } else{ ?>
                                 <tr><td colspan="11">
-                                    <div class="alert alert-danger text-center">No Event Category Found</div>
+                                    <div class="alert alert-danger text-center">No Event Found</div>
                                 </td></tr>
                             <?php } ?>
                         </tbody>

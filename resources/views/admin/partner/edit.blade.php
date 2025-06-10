@@ -39,75 +39,66 @@
                 </div>
                 @endif
 
-
-
+          <div class="table-containers">
           <form id="yuwaahForm" method="post" style="width:70%" action="{{route('admin.partner.edit',['id'=>encryptString($partnerDetails['id'])])}}">
           @csrf
-          <div class="popup-grid">
+          <table class="table table-striped table-bordered" style="font-size:12px;">
+          <tr>
+            <td> <label for="field1"><strong>Partner Name</strong></label></td>
+            <td> <label for="field1"><strong>Partner ID</strong></label></td>
+          </tr>
+          <tr>
+            <td>
+                  <input type="text" class="form-control" name="name" placeholder="Please enter Partner Name" value="{{$partnerDetails['name']}}">
+              </td> 
+              <td>
+                  <input type="text" class="form-control" name="partner_id" placeholder="Please enter Partner Id" value="{{$partnerDetails['partner_id']}}">
+              </td> 
+            </tr>
+            <tr>
+            <td> <label for="field3"><strong>Contact Number</strong></label></td>
+            <td>  <label for="field5"><strong>Status</strong></label></td>
+            </tr>
+            <tr>
+            <td> 
             <div class="input-container">
-              <label for="field1">Name</label>
-              <input type="text" name="name" placeholder="Please enter Partner Name" value="{{$partnerDetails['name']}}">
-            </div>
-            <div class="input-container">
-              <label for="field1">Partner ID</label>
-              <input type="text" name="partner_id" placeholder="Please enter Partner Id" value="{{$partnerDetails['partner_id']}}">
-            </div>
-            <div class="input-container">
-              <label for="field2">Email Address</label>
-              <input type="email" name="email" placeholder="Please enter Email Address" value="{{$partnerDetails['email']}}">
-            </div>
-            <div class="input-container">
-              <label for="field3">Contact Number</label>
               <input type="text" name="contact_number" placeholder="Please Contact Number" value="{{$partnerDetails['contact_number']}}">
             </div>
-            <div class="input-container">
-              <label for="field3">Choose State</label>
-              {!! getStateList('state_id', $partnerDetails['state_id'], '', "loadDistricts(this.value)") !!}
-            </div>
-          <div class="input-container">
-            <label for="district" class="w-[80px] h-[15px] font-[400] text-[12px]  leading-[14.63px] text-[#000000]">District</label>
-            <?php $class = "w-[330px] h-[40px] bg-[#FFFFFF] border-[1px] rounded-[10px] border-[#28388F0D] font-[400] text-[10px] leading-[12.19px] pl-2.5 text-[#A7A7A7] focus:ring-1 focus:ring-blue-500";?>
-            <div id="responseDistrict">{!!getDistrict($partnerDetails['state_id'],'district_id',$partnerDetails['district_id'],$class)!!}</div>
-          </div>
-
-          <div class="input-container">
-            <label for="block" class="w-[80px] h-[15px] font-[400] text-[12px]  leading-[14.63px] text-[#000000]">Block/City</label>
-            <?php $class = "w-[330px] h-[40px] bg-[#FFFFFF] border-[1px] rounded-[10px] border-[#28388F0D] font-[400] text-[10px] leading-[12.19px] pl-2.5 text-[#A7A7A7] focus:ring-1 focus:ring-blue-500";?>
-            <div id="blockWrapper">{!!getBlock($partnerDetails['district_id'], 'block_id',$partnerDetails['block_id'],$class)!!}</div>
-            
-          </div>
-            <div class="input-container">
-              <label for="field4">Address</label>
-              <input type="text" name="address" placeholder="Please address">
-            </div>
-            <div class="input-container">
-              <label for="field4">Pincode</label>
-              <input type="text" name="pincode" placeholder="Please pincode">
-            </div>
-
-            <div class="input-container">
-              <label for="field4">Address</label>
-              <input type="text" name="address" placeholder="Please address" value="{{$partnerDetails['address']}}">
-            </div>
-            <div class="input-container">
-              <label for="field5">Status</label>
-              <select id="field5" name="status">
+            </td>
+            <td> 
+             
+              <select id="field5" name="status" class="form-control">
                 <option value="1" <?php if($partnerDetails['status']==1){ ?> selected="selected" <?php } ?>>Active</option>
                 <option value="0" <?php if($partnerDetails['status']==0){ ?> selected="selected" <?php } ?>>InActive</option>
               </select>
-            </div>
-           
-            
+            </td>
+            </tr>
+            <tr>
+            <td> <label for="field3"><strong>Login ID</strong></label></td>
+            <td>  <label for="field5"><strong>Password</strong></label></td>
+            </tr>
+            <tr>
+            <td>
+              <div class="input-container">
+                <input type="email" name="email" placeholder="Please enter Email Address" value="{{$partnerDetails['email']}}">
+              </div>
+            </td>
+            <td><input type="text" name="password" class="form-control" placeholder="Please enter password"></td>
+            </tr>
           </div>
-          <div class="popup-buttons">
+          <tr>
+            <td colspan="2">  <div class="popup-buttons">
             <div class="blank"></div>
             <div class="formbuttons">
               <button type="button" id="discardBtn">Discard</button>
               <button type="submit" id="saveBtn" name="submit">Save Details</button>
             </div>
-          </div>
+          </div></td>
+            </tr>
+         
+        </table>
         </form>
-            
+        </div>     
         </div>
     </section>
 

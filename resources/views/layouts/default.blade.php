@@ -142,5 +142,11 @@ $(document).ready(function() {
     });
 });
 </script>
+
+<script>
+    document.getElementById('discardBtn').addEventListener('click', function () {
+        window.history.back();
+    });
+</script>
     </body>
 </html>

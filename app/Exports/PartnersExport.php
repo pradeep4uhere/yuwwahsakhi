@@ -20,11 +20,6 @@ class PartnersExport implements FromCollection
                 'Name' => $partner->name,
                 'Email' => $partner->email,
                 'Contact Number' => $partner->contact_number,
-                'State' => $partner->state->name ?? '',
-                'District' => $partner->district->name ?? '',
-                'Block' => $partner->block->name ?? '',
-                'Address' => $partner->address,
-                'Pincode' => $partner->pincode,
                 'Status' => ($partner->status==1)?'Active':'Inactive',
                 'Created At' => $partner->created_at,  // optional
             ];
@@ -39,11 +34,6 @@ class PartnersExport implements FromCollection
             'Name',
             'Email',
             'Contact Number',
-            'State',
-            'District',
-            'Block',
-            'Address',
-            'Pincode',
             'Status',
             'Created'
         ];

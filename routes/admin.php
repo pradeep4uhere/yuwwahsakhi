@@ -85,8 +85,14 @@ Route::middleware('auth:admin')->group(function () {
      
     //All Partner Routes Here
     Route::get('/eventcategory', [AdminController::class, 'allEventMasterList'])->name('admin.eventcategory.list');
-    Route::get('/eventmaster', [AdminController::class, 'allEventMasterList'])->name('admin.eventmaster.list');
-    Route::any('/add-eventmaster', [AdminController::class, 'addNewEventMaster'])->name('admin.eventmaster.add');
+    Route::get('/eventmaster', [AdminController::class, 'allEventTypeList'])->name('admin.eventmaster.list');
+    Route::any('/add-eventmaster', [AdminController::class, 'addNewEventType'])->name('admin.eventmaster.add');   
+    Route::any('/edit-eventtype/{id}', [AdminController::class, 'editEventType'])->name('admin.eventtype.edit');
+    Route::any('/delete-eventtype/{id}', [AdminController::class, 'deleteEventType'])->name('admin.eventtype.delete');
+
+    Route::any('/add-eventcategory', [AdminController::class, 'addNewEventCategory'])->name('admin.eventcategory.add');   
+    
+    
     Route::any('/edit-eventmaster/{id}', [AdminController::class, 'editEventMaster'])->name('admin.eventmaster.edit');
     Route::any('/delete-eventmaster/{id}', [AdminController::class, 'deleteEventMaster'])->name('admin.eventmaster.delete');
     Route::get('/export/yuwaah-events', function () {

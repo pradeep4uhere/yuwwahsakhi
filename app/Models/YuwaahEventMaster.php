@@ -13,6 +13,7 @@ class YuwaahEventMaster extends Model
     protected $table = 'yuwaah_event_masters'; // Table name
 
     protected $fillable = [
+        'event_type_id',
         'event_type',
         'event_category',
         'description',

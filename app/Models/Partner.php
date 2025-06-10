@@ -77,11 +77,6 @@ class Partner extends Authenticatable
                     'partner_id'=>$partner->partner_id,
                     'email'=>$partner->email,
                     'contact_number'=>$partner->contact_number,
-                    'address'=>$partner->address,
-                    'state'=>$partner->state->name,
-                    'district'=>$partner->district->name,
-                    'block'=>$partner->block->name,
-                    'pincode'=>$partner->pincode,
                     'status'=>$partner->status,
                     'onboard_date'=>$partner->onboard_date,
                 ];
@@ -104,11 +99,6 @@ class Partner extends Authenticatable
                     'name'=>$item->name,
                     'email'=>$item->email,
                     'contact_number'=>$item->contact_number,
-                    'address'=>$item->address,
-                    'state'=>$item->state->name,
-                    'district'=>$item->district->name,
-                    'block'=>$item->block->name,
-                    'pincode'=>$item->pincode,
                     'status'=>$item->status,
                     'onboard_date'=>$item->onboard_date,
                 ];

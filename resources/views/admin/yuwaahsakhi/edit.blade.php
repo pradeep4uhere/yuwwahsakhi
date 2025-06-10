@@ -52,190 +52,57 @@ select option {
           <form id="yuwaahForm" method="post" action="{{ route('admin.yuwaahsakhi.update', ['id'=>encryptString($yuwaahsakhi->id)])}}" enctype="multipart/form-data" >
           @csrf
           @method('PUT')
-        
-          <div class="popup-grid">
-            <div class="input-container">
-              <label for="field1">{{__('Name')}}</label>
-              <input type="text" name="name" placeholder="Please enter Yuwaah sakhi name"  value="{{ $yuwaahsakhi['name'] }}">
-            </div>
-            <div class="input-container">
-              <label for="field1">{{__('messages.contact_number')}}</label>
-              <input type="number" name="contact_number" placeholder="Please enter contact number" value="{{ $yuwaahsakhi['contact_number'] }}">
-            </div>
-            <div class="input-container">
-              <label for="field1">{{__('messages.email')}}</label>
-              <input type="email" name="email" placeholder="Please enter Email" value="{{ $yuwaahsakhi['email'] }}">
-            </div>
-            <div class="input-container">
-              <label for="field3">Choose State</label>
-              <?php $class = "w-[330px] h-[50px] bg-[#FFFFFF] border-[1px] rounded-[10px] border-[#28388F0D] font-[500] text-[10px] leading-[12.19px] pl-2.5 text-[#A7A7A7] focus:ring-1 focus:ring-blue-500 p-[20px]";?>
-              {!! getStateList('state_id', $yuwaahsakhi['state'], $class, "loadDistricts(this.value)") !!}
-            </div>
-
-            <div class="input-container">
-              <label for="district" class="w-[80px] h-[15px] font-[400] text-[12px]  leading-[14.63px] text-[#000000]">District</label>
-              <?php $class = "w-[330px] h-[40px] bg-[#FFFFFF] border-[1px] rounded-[10px] border-[#28388F0D] font-[400] text-[10px] leading-[12.19px] pl-2.5 text-[#A7A7A7] focus:ring-1 focus:ring-blue-500 p-[20px]";?>
-              <div id="responseDistrict">{!!getDistrict($yuwaahsakhi['state'],'district_id',$yuwaahsakhi['district'],$class)!!}</div>
-            </div>
-            <div class="input-container">
-            <label for="block" class="w-[80px] h-[15px] font-[400] text-[12px]  leading-[14.63px] text-[#000000]">Block/City</label>
-            <?php $class = "w-[330px] h-[40px] bg-[#FFFFFF] border-[1px] rounded-[10px] border-[#28388F0D] font-[400] text-[10px] leading-[12.19px] pl-2.5 text-[#A7A7A7] focus:ring-1 focus:ring-blue-500 p-[20px]";?>
-            <div id="blockWrapper">{!!getBlock($yuwaahsakhi['district'],'block_id',$yuwaahsakhi['block_id'],$class)!!}</div>
-            
-          </div>
-            <div class="input-container">
-              <label for="field1">{{__('address')}}</label>
-              <input type="text" name="address" placeholder="Please enter address"  value="{{ $yuwaahsakhi['address'] }}">
-            </div>
-            <div class="input-container">
-              <label for="field1">{{__('Pincode')}}</label>
-              <input type="text" name="pincode" placeholder="Please enter pincode"  value="{{ $yuwaahsakhi['pincode'] }}">
-            </div>
-
-            
-            <div class="input-container">
-              <label for="field4">{{__('Knowledge of English')}}</label>
-              <select name="english_proficiency">
-                <option value="No" {{ $yuwaahsakhi['english_proficiency'] == 'No' ? 'selected' : '' }}>No</option>
-                <option value="Yes" {{ $yuwaahsakhi['english_proficiency'] == 'Yes' ? 'selected' : '' }}>Yes</option>
-              </select>
-            </div>
-            <div class="input-container">
-              <label for="field4">Date Of Birth</label>
-              <input type="date" name="date_of_birth" value="{{ $yuwaahsakhi['dob'] }}">
-            </div>
-            <div class="input-container">
-              <label for="field4">Gender</label>
-              <select name="gender">
-                <option value="Male" {{ $yuwaahsakhi['gender'] == 'Male' ? 'selected' : '' }}>Male</option>
-                <option value="Female" {{ $yuwaahsakhi['gender'] == 'Female' ? 'selected' : '' }}>Female</option>
-              </select>
-            </div>
-            <div class="input-container">
-              <label for="field5">Education Level</label>
-              <?php $educationOptions = getGlobalList('EducationLevel');  //dd($options21);?>
-              <select name="education_level">
-                @foreach($educationOptions as $id => $education)
-                    <option value="{{ $id }}" {{  $yuwaahsakhi['education_level'] == $id ? 'selected' : '' }}>{{ $education }}</option>
-                @endforeach
-            </select>
-            </div>
-            <div class="input-container">
-              <label for="field5">{{__('Specific Qualification')}}</label>
-              <select id="field5" name="specific_qualification">
-                <option value="1" {{  $yuwaahsakhi['specific_qualification'] == 1 ? 'selected' : '' }}>Active</option>
-                <option value="0" {{  $yuwaahsakhi['specific_qualification'] == 0 ? 'selected' : '' }}>InActive</option>
-              </select>
-            </div>
-            <div class="input-container">
-              <label for="field5">{{__('Loan Taken')}}</label>
-              <select id="field5" name="loan_taken">
-                <option value="Yes" {{  $yuwaahsakhi['loan_taken'] == 'Yes' ? 'selected' : '' }}>Yes</option>
-                <option value="No" {{  $yuwaahsakhi['loan_taken'] == 'No' ? 'selected' : '' }}>No</option>
-                
-              </select>
-            </div>
-            <div class="input-container">
-              <label for="field5">{{__('type_of_loan')}}</label>
-              <select id="field5" name="type_of_loan">
-              <?php $options3 = getGlobalList('LoanType'); ?>
-                <?php foreach($options3 as $ll=>$item3){ ?>
-                <option value="{{$ll}}" {{  $yuwaahsakhi['type_of_loan'] == $ll ? 'selected' : '' }}>{{$item3}}</option>
-                <?php } ?>
-              </select>
-            </div>
-            <div class="input-container">
-              <label for="field5">{{__('loan_amount')}}</label>
-              <input type="number" name="loan_amount" value="{{ $yuwaahsakhi['loan_amount'] }}">
-            </div>
-            <div class="input-container">
-              <label for="field5">{{__('loan_balance')}}</label>
-              <input type="number" name="loan_balance" value="{{ $yuwaahsakhi['loan_balance'] }}">
-            </div>
-            <div class="input-container">
-              <label for="field5">{{__('english_proficiency')}}</label>
-              <select id="field5" name="english_proficiency">
-                <option value="Basic" {{  $yuwaahsakhi['english_proficiency'] == $ll ? 'selected' : '' }}>Basic</option>
-                <option value="Conversational" {{  $yuwaahsakhi['english_proficiency'] == $ll ? 'selected' : '' }}>Conversational</option>
-                <option value="Fluent" {{  $yuwaahsakhi['english_proficiency'] == $ll ? 'selected' : '' }}>Fluent</option>
-                <option value="Native" {{  $yuwaahsakhi['english_proficiency'] == $ll ? 'selected' : '' }}>Native</option>
-              </select>
-            </div>
-            <div class="input-container">
-              <label for="field5">{{__('years_of_work_exp')}}</label>
-              <input type="text" name="years_of_work_exp" value="{{ $yuwaahsakhi['year_of_exp'] }}">
-            </div>
-            <div class="input-container">
-              <label for="field5">{{__('work_hour_per_day')}}</label>
-              <input type="text" name="work_hour_per_day" value="{{ $yuwaahsakhi['work_hour_in_day'] }}">
-            </div>
-            <div class="input-container">
-              <label for="field5">{{__('infrastructure_available')}}</label>
-              <select id="field5" name="infrastructure_available">
-                <option value="1" {{  $yuwaahsakhi['infrastructure_available'] == 1 ? 'selected' : '' }}>Yes</option>
-                <option value="0" {{  $yuwaahsakhi['infrastructure_available'] == 0 ? 'selected' : '' }}>No</option>
-              </select>
-            </div>
-            <div class="input-container">
-              <label for="field5">{{__('service_offered')}}</label>
-              <select id="field5" name="service_offered">
-              <?php $options1 = getGlobalList('ServicesOffered'); ?>
-                <?php foreach($options1 as  $gg=>$item){ ?>
-                <option value="{{$gg}}" {{  $yuwaahsakhi['service_offered'] == $gg ? 'selected' : '' }}>{{$item}}</option>
-                <?php } ?>
-              </select>
-            </div>
-            <div class="input-container">
-              <label for="field5">{{__('course_completed')}}</label>
-              <select id="field5" name="course_completed">
-                <option value="1" {{  $yuwaahsakhi['course_completed'] == '1' ? 'selected' : '' }}>Yes</option>
-                <option value="0" {{  $yuwaahsakhi['course_completed'] == '0' ? 'selected' : '' }}>No</option>
-              </select>
-            </div>
-            <div class="input-container">
-             
-              <label for="field5">{{__('digital_proficiency')}}</label>
-              <select id="field5" name="digital_proficiency">
-              <?php $options111 = getGlobalList('DigitalProficiencyLevel'); ?>
-                <?php foreach($options111 as  $dp=>$item111){ ?>
-                <option value="{{$dp}}" {{  $yuwaahsakhi['digital_proficiency'] == $dp ? 'selected' : '' }}>{{$item111}}</option>
-                <?php } ?>
-              </select>
-            </div>
-            <div class="input-container">
-                <label for="partner">{{__('messages.choose_partner')}}</label>
-                <select id="partner" name="partner_id" style="padding:10px;">
-                    <option value="">Choose Partner</option>
-                    <?php foreach($partnerList as $item111){ ?>
+          <table class="table table-striped table-bordered" style="font-size:12px;">
+            <tr>
+              <td> <label for="field1"><strong>Name</strong></label></td>
+              <td> <label for="field1"><strong>Contact Number</strong></label></td>
+            </tr>
+            <tr>
+              <td>
+                <input type="text" name="name" class="form-control" placeholder="Please enter Yuwaah sakhi name" value="{{ $yuwaahsakhi['name'] }}">
+              </td>
+              <td>
+                <input type="number" name="contact_number" class="form-control" placeholder="Please enter contact number" value="{{ $yuwaahsakhi['contact_number'] }}">
+              </td>
+            </tr>
+            <tr>
+              <td> <label for="field1"><strong>Email</strong></label></td>
+              <td> <label for="field1"><strong>Choose Partner</strong></label></td>
+            </tr>
+            <tr>
+              <td><input type="email" name="email" class="form-control" placeholder="Please enter Email" value="{{ $yuwaahsakhi['email'] }}"></td>
+              <td>
+              <select id="partner" name="partner_id" class="form-control">
+                <option value="">Choose Partner</option>
+               <?php foreach($partnerList as $item111){ ?>
                         <option value="{{$item111['id']}}" <?php if($item111['id'] == $yuwaahsakhi['partner_id']){  ?> selected <?php } ?>>{{$item111['name']}}</option>
                     <?php } ?>
-                </select>
-            </div>
-
-            <div class="input-container">
-                <label for="partner_center">{{__('messages.choose_partner_center')}}</label>
-                <select id="partner_center" name="partner_center_id" style="padding:10px;">
-                    <option value="">Choose Partner Center</option>
-                    <option value="{{ $yuwaahsakhi['partner_center_id'] ?? '' }}" selected="selected">
+              </select>
+            </td>
+            </tr>
+            <tr>
+              <td> <label for="field1"><strong>Choose Partner Center</strong></label></td>
+              <td> <label for="field1"><strong>Status</strong></label></td>
+            </tr>
+            <tr>
+              <td>
+                <select id="partner_center" class="form-control" name="partner_center_id">
+                  <option value="">Choose Partner Center</option>
+                  <option value="{{ $yuwaahsakhi['partner_center_id'] ?? '' }}" selected="selected">
                       {{ optional($yuwaahsakhi['PartnerCenter'])->center_name ?? 'N/A' }}
                   </option>
                 </select>
-            </div>
-            <div class="input-container">
-              <label for="field5">{{__('center_photo')}}</label>
-              <input type="file" name="center_photo"/>
-            </div>
-            <div class="input-container">
-              <label for="field5">{{__('profile_photo')}}</label>
-              <input type="file" name="profile_photo"/>
-            </div>
-            <div class="input-container">
-              <label for="field5">{{__('status')}}</label>
-              <select id="field5" name="status" style="padding:10px;">
-               <option value="1" {{ $yuwaahsakhi['status'] == 1 ? 'selected' : '' }}>Active</option>
-               <option value="0" {{ $yuwaahsakhi['status'] == 0 ? 'selected' : '' }}>Inactive</option>
-              </select>
-            </div>
+              </td>
+              <td>
+                <select id="field5" class="form-control" name="status">
+                <option value="1" {{ old('status') == '1' ? 'selected' : '' }}>Active</option>
+                <option value="0" {{ old('status') == '0' ? 'selected' : '' }}>Inactive</option>
+                </select>
+              </td>
+            </tr>
+            </table>
+        
+         
           <div class="popup-buttons">
             <div class="blank"></div>
             <div class="formbuttons">

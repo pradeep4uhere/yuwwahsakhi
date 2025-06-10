@@ -45,10 +45,6 @@
                                 <th nowrap="nowrap">Name</th>
                                 <th nowrap="nowrap">Contact Number</th>
                                 <th nowrap="nowrap">Email</th>
-                                <th nowrap="nowrap">State</th>
-                                <th nowrap="nowrap">District</th>
-                                <th nowrap="nowrap">Block</th>
-                                <th nowrap="nowrap">Onboarded on</th>
                                 <th nowrap="nowrap">Status</th>
                                 <th nowrap="nowrap">Created On</th>
                                 <th nowrap="nowrap">Actions</th>
@@ -65,10 +61,6 @@
                                 <td nowrap="nowrap">{{$item['name']}}</td>
                                 <td nowrap="nowrap">{{$item['contact_number']}}</td>
                                 <td nowrap="nowrap">{{$item['email']}}</td>
-                                <td nowrap="nowrap">{{ optional($item->state)->name ?? 'N/A' }}</td>
-                                <td nowrap="nowrap">{{ optional($item->district)->name ?? 'N/A' }}</td>
-                                <td nowrap="nowrap">{{ optional($item->block)->name ?? 'N/A' }}</td>
-                                <td nowrap="nowrap">{{getformateDate($item['onboard_date'],'d M, Y')}}</td>
                                 <td nowrap="nowrap"><?php if($item['status']==1){ ?>
                                    <span class="badge badge-success">Active</span>
                                 <?php }else{ ?>

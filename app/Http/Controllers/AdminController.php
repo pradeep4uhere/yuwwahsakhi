@@ -13,6 +13,7 @@ use App\Models\Pathway;
 use App\Models\Promotion;
 use App\Models\YuwaahSakhi;
 use App\Models\YuwaahEventMaster;
+use App\Models\YuwaahEventType;
 use Illuminate\Support\Facades\Storage;
 use App\Models\YuwaahSakhiSetting;
 use App\Models\Learner;
@@ -124,9 +125,6 @@ class AdminController extends Controller
         $inputs['email']='';
         $inputs['contact_number']='';
         $inputs['partner_id']='';
-        $inputs['state_id']='';
-        $inputs['district_id']='';
-        $inputs['block_id']='';
        
         if($request->isMethod('POST')) {
             // Create an instance of the ApiAuthController
@@ -178,9 +176,12 @@ class AdminController extends Controller
             // Create an instance of the ApiAuthController
             $authApiController = new ApiAuthController();
             // Call the 'addNewPartner' method and capture the response
+            //dd($request);
             $response = $authApiController->updatePartner($request, $id);  // Get the response directly
+            //dd($response);
             // If the response is a JsonResponse, you can convert it into an array
             $responseArray = $response->getData(true);  // Convert to array
+            //dd($responseArray);
             // Optionally, dump the response for debugging
             if ($responseArray['status'] === false) {
                 $errors = $responseArray['errors'];
@@ -904,8 +905,8 @@ class AdminController extends Controller
         $response =  $query->paginate($perPage);
         return view('admin.eventmaster.list', [
             'response'=>$response,
-            'title' => 'All Event Master',
-            'Module'=> 'Event Master'
+            'title' => 'All Event Category',
+            'Module'=> 'Event Category'
         ]);
     }
 
@@ -1009,15 +1010,12 @@ class AdminController extends Controller
         if ($request->isMethod('POST')) {
             // Validation
             $validator = Validator::make($request->all(), [
-                'event_type' => 'required|in:Course,Social Protection,Jobs,Self Empl / Entrepreneurship',
+                'event_type' => 'required|numeric',
                 'event_category' => 'required|string|max:255',
                 'description' => 'nullable|string',
-                'eligibility' => 'nullable|string|max:255',
                 'fee_per_completed_transaction' => 'nullable|numeric|min:0',
                 'date_event_created_in_master' => 'required|date',
                 'document_1' => 'required|string|max:255',
-                'document_2' => 'required|string|max:255',
-                'document_3' => 'required|string|max:255',
                 'status' => 'required|in:1,0', // Ensuring status is valid
             ]);
     
@@ -1062,11 +1060,14 @@ class AdminController extends Controller
                     ->withInput();
             }
         }
-    
+        //all Event Type List
+        $evetnTypeList = YuwaahEventType::where('status',1)->get();
+        //dd($eventMaster);
         return view('admin.eventmaster.edit', [
             'eventDetails' => $eventMaster,
-            'title' => __('messages.edit_event_master'),
-            'Module' => __('Event Master')
+            'evetnTypeList'=>$evetnTypeList,
+            'title' => __('messages.edit_event_category'),
+            'Module' => __('Event Category')
         ]);
     }
 
@@ -1083,7 +1084,7 @@ class AdminController extends Controller
             $eventMaster = YuwaahEventMaster::find($id);
 
             if (!$eventMaster) {
-                return redirect()->route('admin.eventmaster.list')->with('error', 'Event Master not found.');
+                return redirect()->route('admin.eventcategory.list')->with('error', 'Event Category not found.');
             }
 
             // Delete associated documents if they exist
@@ -1096,9 +1097,9 @@ class AdminController extends Controller
             // Delete the record from the database
             $eventMaster->delete();
 
-            return redirect()->route('admin.eventmaster.list')->with('success', 'Event Master deleted successfully.');
+            return redirect()->route('admin.eventcategory.list')->with('success', 'Event Category deleted successfully.');
         } catch (\Exception $e) {
-            return redirect()->route('admin.eventmaster.list')->with('error', 'Failed to delete Event Master: ' . $e->getMessage());
+            return redirect()->route('admin.eventcategory.list')->with('error', 'Failed to delete Event Category: ' . $e->getMessage());
         }
     }
 
@@ -1319,5 +1320,249 @@ public function importLearnerForm(Request $request){
 
 
 
+
+
+
+    /**
+     * Add New Parter
+     */
+    public function addNewEventType(Request $request){
+        $errors = [];
+        $success = null;
+        $responseArray = [];
+       
+        if($request->isMethod('POST')) {
+
+            $validator = Validator::make($request->all(), [
+                'name' => 'required|string',
+                'description' => 'nullable|string',
+            ]);
+
+
+            // If validation fails, redirect back with errors
+            if ($validator->fails()) {
+                return redirect()->back()
+                    ->withErrors($validator) // ✅ Correctly pass validation errors
+                    ->withInput(); // ✅ Keep old input values
+            }
+           
+            try {
+                $eventMaster = YuwaahEventType::create([
+                    'name' => $request->name,
+                    'status' => 1,
+                    'description' => $request->description ?? null,
+                    ]);
+    
+                $success = 'Event Type added successfully!';
+                $responseArray = $eventMaster; // Pass the new event data
+               
+                return redirect()->back()
+                ->with('success', 'Event Type added successfully!');
+    
+            } catch (\Exception $e) {
+                $errors[] = 'Something went wrong! ' . $e->getMessage();
+                return redirect()->back()
+                ->withErrors(['error' => 'Something went wrong! ' . $e->getMessage()])
+                ->withInput(); // ✅ Keeps old form data
+            }
+
+        }
+
+        return view('admin.eventmaster.add_event_type', [
+            'title' => __('messages.add_new_event_type'),
+            'Module' => __('Event Type')
+        ]);
+            // Return the Blade view
+        
+    }
+
+
+
+      /**
+     * Get All Partner List
+     */
+    public function allEventTypeList(Request $request){
+        $searchQuery = $request->input('search');
+        $query = YuwaahEventType::query();
+        if ($request->has('status')) {
+            $query->where('status', $request->status);
+        }
+         // Apply search filters on name, email, and contact_number
+        if (!empty($searchQuery)) {
+            $query->where(function($q) use ($searchQuery) {
+                $q->where('name', 'like', '%' . $searchQuery . '%')
+                ->orWhere('description', 'like', '%' . $searchQuery . '%');
+            });
+        }
+
+        // Filter by status if provided in the request
+        if ($request->has('status')) {
+            $query->where('status', $request->status);
+        }
+
+        // Sorting logic based on 'sort_by' and 'sort_order' parameters
+        if ($request->has('sort_by')) {
+            $sortBy = $request->input('sort_by', 'id');  // Default sort by 'id'
+            $sortOrder = $request->input('sort_order', 'id');  // Default sort order 'asc'
+            $query->orderBy($sortBy, $sortOrder);
+        }
+
+        $query->orderBy('id','desc');
+        // Set the number of items per page from the request, or default to 10
+        $perPage = $request->get('per_page', env('PAGINATION'));
+        $response =  $query->paginate($perPage);
+        return view('admin.eventmaster.eventtypelist', [
+            'response'=>$response,
+            'title' => 'All Event Type',
+            'Module'=> 'Event Type'
+        ]);
+    }
+
+
+
+
+
+
+    public function editEventType(Request $request, $id)
+    {
+        $errors = [];
+        $success = null;
+        $id = decryptString($id);
+        
+        // Fetch existing event details
+        $eventMaster = YuwaahEventType::find($id);
+        if (!$eventMaster) {
+            return redirect()->back()->withErrors(['error' => 'Event not found.']);
+        }
+    
+        if ($request->isMethod('POST')) {
+            // Validation
+            $validator = Validator::make($request->all(), [
+                'name' => 'required|string|max:255',
+                'description' => 'nullable|string',
+                'status' => 'required|in:1,0', // Ensuring status is valid
+            ]);
+    
+            if ($validator->fails()) {
+                return redirect()->back()
+                    ->withErrors($validator)
+                    ->withInput();
+            }
+    
+            try {
+                // Update event
+                $eventMaster->update([
+                    'name' => $request->name,
+                    'description' => $request->description ?? null,
+                    'status' => $request->status,
+                ]);
+    
+                return redirect()->back()->with('success', 'Event Type updated successfully!');
+            } catch (\Exception $e) {
+                return redirect()->back()
+                    ->withErrors(['error' => 'Something went wrong! ' . $e->getMessage()])
+                    ->withInput();
+            }
+        }
+    
+        return view('admin.eventmaster.editeventtype', [
+            'eventDetails' => $eventMaster,
+            'title' => __('messages.edit_event_type'),
+            'Module' => __('Edit Event Type')
+        ]);
+    }
+
+
+
+
+
+
+    
+
+     /**
+     * Add New Parter
+     */
+    public function addNewEventCategory(Request $request){
+            $errors = [];
+            $success = null;
+            $responseArray = [];
+        
+            if($request->isMethod('POST')) {
+
+                //dd($request->all());
+                $validator = Validator::make($request->all(), [
+                    'event_type' => 'required|numeric',
+                    'event_category' => 'required|string|max:255',
+                    'description' => 'nullable|string',
+                    'eligibility' => 'nullable|string|max:255',
+                    'fee_per_completed_transaction' => 'nullable|numeric|min:0',
+                    'date_event_created_in_master' => 'required|date',
+                    'document_1' => 'required|string|max:255',
+                ]);
+
+
+                // If validation fails, redirect back with errors
+                if ($validator->fails()) {
+                    return redirect()->back()
+                        ->withErrors($validator) // ✅ Correctly pass validation errors
+                        ->withInput(); // ✅ Keep old input values
+                }
+                // Handle file uploads if they exist
+                $documents = [];
+                $documents = [
+                    'document_1' => $request->document_1,
+                    'document_2' => $request->document_2,
+                    'document_3' => $request->document_3,
+                ];
+                
+                // foreach (['document_1', 'document_2', 'document_3'] as $doc) {
+                //     if ($request->hasFile($doc)) {
+                //         $documents[$doc] = $request->file($doc)->store('event_documents', 'public');
+                //     } else {
+                //         $documents[$doc] = null;
+                //     }
+                // }
+
+                try {
+                    $eventMaster = YuwaahEventMaster::create([
+                        'event_type_id' => $request->event_type,
+                        'status' => 1,
+                        'event_category' => $request->event_category,
+                        'description' => $request->description ?? null,
+                        'eligibility' => $request->eligibility ?? null,
+                        'fee_per_completed_transaction' => $request->fee_per_completed_transaction ?? null,
+                        'date_event_created_in_master' => $request->date_event_created_in_master,
+                        'document_1' => $documents['document_1'],
+                        'document_2' => $documents['document_2'],
+                        'document_3' => $documents['document_3'],
+                    ]);
+        
+                    $success = 'Event Category added successfully!';
+                    $responseArray = $eventMaster; // Pass the new event data
+                
+                    return redirect()->back()
+                    ->with('success', 'Event Category added successfully!');
+        
+                } catch (\Exception $e) {
+                    $errors[] = 'Something went wrong! ' . $e->getMessage();
+                    return redirect()->back()
+                    ->withErrors(['error' => 'Something went wrong! ' . $e->getMessage()])
+                    ->withInput(); // ✅ Keeps old form data
+                }
+
+            }
+
+            //all Event Type List
+            $evetnTypeList = YuwaahEventType::where('status',1)->get();
+            //dd($evetnTypeList);
+
+            return view('admin.eventmaster.add_event_category', [
+                'evetnTypeList'=>$evetnTypeList,
+                'title' => __('messages.add_new_event_category'),
+                'Module' => __('Event Category')
+            ]);
+                // Return the Blade view
+        
+    }
 
 }
