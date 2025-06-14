@@ -40,6 +40,12 @@ class EventTransaction extends Model
     }
 
 
+    public function EventType()
+    {
+        return $this->belongsTo(YuwaahEventType::class, 'event_type'); // Assuming learners are stored in users table
+    }
+
+
 
     /**
      * Relationship: EventTransaction has many EventAssigned

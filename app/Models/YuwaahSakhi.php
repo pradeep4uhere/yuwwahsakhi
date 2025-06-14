@@ -47,7 +47,7 @@ class YuwaahSakhi extends Authenticatable
         'state',
         'city',
         'address',
-        'district',
+        'xd',
         'status',
         'block_id',
         'pincode',

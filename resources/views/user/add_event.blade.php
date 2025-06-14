@@ -56,16 +56,16 @@
         <div class="space-y-1">
           <label for="opportunity" class="font-[400] text-[12px] leading-[14.63px] text-[#000000]">Event Type</label>
         <div class="space-y-1">
-          <select name="event_type" id="event_type" class="font-[400] text-[12px] leading-[14.63px] text-[#000000]" style="width:100%; padding:10px; border:solid 1px #ccc" onchange="fetchEventDocuments()">
+          <select name="event_type" id="event_type" class="font-[400] text-[12px] leading-[14.63px] text-[#000000]" style="width:100%; padding:10px; border:solid 1px #ccc">
             <option value="">Choose Event Type</option>
             @foreach($eventList as $item)
-            <option value="{{$item['id']}}">{{$item['event_type']}}</option>
+            <option value="{{$item['id']}}">{{$item['name']}}</option>
             @endforeach
           </select>
         </div>
         <div class="space-y-1">
           <label for="event_category" class="font-[400] text-[12px] leading-[14.63px] text-[#000000]">Event Category</label>
-          <select name="event_category" id="event_category" class="font-[400] text-[12px] leading-[14.63px] text-[#000000]" style="width:100%; padding:10px; border:solid 1px #ccc">
+          <select name="event_category" id="event_category" class="font-[400] text-[12px] leading-[14.63px] text-[#000000]" style="width:100%; padding:10px; border:solid 1px #ccc" >
               <option value="">Choose Event Category</option>
           </select>
         </div>
@@ -95,26 +95,7 @@
     </div>
 </div>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script>
-  $('#event_type').on('change', function () {
-    var eventTypeId = $(this).val();
-    $('#event_category').html('<option>Loading...</option>');
-    $.ajax({
-      url: "{{ route('fetch.event.categories') }}",
-      method: 'POST',
-      data: {
-        _token: "{{ csrf_token() }}",
-        event_type: eventTypeId
-      },
-      success: function (data) {
-        $('#event_category').val(data.category_name);
-      },
-      error: function () {
-        alert('Error fetching categories');
-      }
-    });
-  });
-</script>
+
 <script>
 function handleFileUploadFile(event) {
     const file = event.target.files[0];
@@ -176,7 +157,6 @@ function removefile(el) {
 <script>
 $('#event_type').on('change', function () {
         let eventTypeId = $(this).val();
-
         if (eventTypeId) {
             $.ajax({
                 url: "{{route('user.event.document')}}",
@@ -203,7 +183,7 @@ $('#event_type').on('change', function () {
 
                     $('#event_category').empty().append('<option value="">Choose Event Category</option>');
                     $.each(response.category, function (key, value) {
-                        $('#event_category').append('<option value="'+ value+'">'+ value+'</option>');
+                        $('#event_category').append('<option value="'+ key +'">'+ value+'</option>');
                     });
                 },
                 error: function (xhr) {
@@ -216,6 +196,51 @@ $('#event_type').on('change', function () {
         }
     });
 </script>
+
+
+<script>
+$('#event_category').on('change', function () {
+        let eventTypeId = $(this).val();
+        if (eventTypeId) {
+            $.ajax({
+                url: "{{route('user.eventcategory.document')}}",
+                method: 'GET',
+                data: { event_type_id: eventTypeId },
+                success: function (response) {
+                  console.log(response);
+                  // Clear previous document inputs
+                  $('#documentInputsContainer').empty();
+
+                  // Dynamically create input fields
+                  $.each(response.document, function (index, value) {
+                    if (value) {
+                      let inputHTML = `
+                      <div class="space-y-1 mt-2">
+                        <label for="document_${index+1}" class="font-[400] text-[12px] leading-[14.63px] text-[#000000]">
+                          Upload Document ${value}
+                        </label>
+                        <input id="document_${index+1}" name="document_${index+1}" type="file"
+                          class="text-xs w-full border rounded px-3 py-2 text-sm placeholder:font-[400] placeholder:text-[10px] placeholder:leading-[12.19px] placeholder:text-[#A7A7A7] rounded-[10px] placeholder:border-[1px]">
+                      </div>`;
+                      
+                      $('#documentInputsContainer').append(inputHTML);
+                    }
+                  });
+
+                },
+                error: function (xhr) {
+                    alert('Could not fetch document types.');
+                    console.log(xhr.responseText);
+                }
+            });
+        } else {
+            $('#document_type').empty().append('<option value="">Choose Document Type</option>');
+        }
+    });
+</script>
+
+
+
 <script>
   $(document).ready(function () {
     $('#beneficiary_name').on('keyup', function () {

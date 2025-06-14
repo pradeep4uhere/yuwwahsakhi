@@ -27,9 +27,12 @@ use Exception;
 use Log;
 use App\Models\EventTransaction;
 use App\Models\YuwaahEventMaster;
+use App\Models\YuwaahEventType;
+
 use Illuminate\Support\Facades\Validator;
 use Carbon\Carbon;
 use Illuminate\Support\Str;
+use DB;
     
 
 
@@ -520,7 +523,7 @@ class ProfileController extends Controller
      * @return \Illuminate\View\View
      */
     public function eventTransactionList(Request $request){
-        $eventList = YuwaahEventMaster::where('status',1)->get();
+        $eventList = YuwaahEventType::where('status',1)->get();
         //$learnerList = Learner::where('status',1)->get();
         //dd($learnerList);
         //dd($eventList);
@@ -534,7 +537,7 @@ class ProfileController extends Controller
     }
 
 
-    public function getEventDocuments(Request $request)
+    public function getEventCategoryDocuments(Request $request)
     {
         $eventTypeId = $request->input('event_type_id');
         $documents = YuwaahEventMaster::find($eventTypeId);
@@ -545,7 +548,21 @@ class ProfileController extends Controller
                 'doc_2'=> $documents['document_2'],
                 'doc_3'=> $documents['document_3']
             ],
-            'category'=>$category
+        ];
+        return response()->json($documentsArr);
+    }
+
+
+    public function getEventDocuments(Request $request)
+    {
+        $eventTypeId = $request->input('event_type_id');
+        $categoryList = YuwaahEventMaster::where('event_type_id',$eventTypeId)->get();
+        foreach($categoryList as $item){
+            $categoryArr[$item['id']] = $item['event_category'];    
+        }
+        $documentsArr = [
+            'document' =>  [],
+            'category'=>$categoryArr
         ];
         return response()->json($documentsArr);
     }
@@ -561,7 +578,7 @@ class ProfileController extends Controller
         //dd($request->all());
         // Validate request input
         $validator = Validator::make($request->all(), [
-            'event_name'               => 'required|string|max:15',
+            'event_name'               => 'required|string|max:255',
             'beneficiary_phone_number' => 'required|string|max:15',
             'beneficiary_name'         => 'required|string|max:255',
             'event_type'               => 'required|string|max:255',
@@ -637,6 +654,33 @@ class ProfileController extends Controller
                     $data['uploaded_doc_links'] = $existingEvent['uploaded_doc_links'];
                 }
                 $existingEvent->update($data);
+
+                // If External comment by the Field Agent Save into another database
+                $external_comment = $request->external_comment;
+                if (!empty($request->external_comment)) {
+                   // dd('dd');
+                   
+                   try {
+                    DB::connection('mysql2')->table('event_transaction_comments')->insert([
+                        'event_transaction_id' => $id,
+                        'comment' => $request->external_comment,
+                        'comment_type' => 'agent',
+                        'agent_id' => getUserId(),
+                        'user_name' => getUserName(),
+                        'user_id' => getUserId(),
+                        'created_at' => now(),
+                        'updated_at' => now(),
+                    ]);
+                    //dd('Comment inserted successfully. ID: ' . $id);
+                
+                } catch (\Exception $e) {
+                    //dd('Insert failed: ' . $e->getMessage());
+                    return redirect()->back()
+                    ->withInput()
+                    ->with('error', $e->getMessage());
+                }
+                }
+
             } else {
                 // Create new event
                 EventTransaction::create($data);
@@ -694,7 +738,7 @@ class ProfileController extends Controller
         $orderBy = $request->query('order_by', 'id'); // default to 'id'
         
         // Start query
-        $query = EventTransaction::with('Event')
+        $query = EventTransaction::with(['Event','EventType'])
         ->where('ys_id', getUserId());
 
         // Apply search filters
@@ -716,6 +760,9 @@ class ProfileController extends Controller
         }
         // Order and paginate
         $eventList = $query->orderBy($orderBy, $filter)->paginate();
+       //dd($eventList );
+
+       
 
         return view($this->dir.'.all_event_transaction_list',[
             'eventList' => $eventList,

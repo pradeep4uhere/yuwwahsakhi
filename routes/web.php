@@ -67,6 +67,8 @@ Route::middleware('auth')->group(function () {
     Route::any('/search_learner', [ProfileController::class, 'LearnerList'])->name('user.search.learner');
     Route::get('/get-beneficiaries', [ProfileController::class, 'getBeneficiaries'])->name('get.beneficiaries');
     Route::get('/viewevent/{id}', [ProfileController::class, 'getEventDetails'])->name('viewevent');
+    Route::get('/get-event-category-documents', [ProfileController::class, 'getEventCategoryDocuments'])->name('user.eventcategory.document');
+    
     
     
     

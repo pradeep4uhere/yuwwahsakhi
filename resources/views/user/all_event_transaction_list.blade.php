@@ -63,9 +63,9 @@
       <!-- Other Opportunites Start Here-->
       
         @if($item['event_date_submitted']!='')
-         <div class="min-w-[330px] min-h-[260px] w-auto min-h-[50px] h-auto bg-[#FFFFFF] px-3 py-3 mt-3 overflow-auto cursor-pointer" style="box-shadow: 0px 3px 10px 0px #cccccc; border: solid 1px green;">  
+         <div class="min-w-[330px] min-h-[260px] w-auto min-h-[50px] h-auto bg-[#FFFFFF] px-3 py-3 mt-3 overflow-auto cursor-pointer" style="box-shadow: 0px 3px 10px 0px #cccccc; border: solid 1px green;" >  
          @else
-        <div class="min-w-[330px] min-h-[260px] w-auto min-h-[50px] h-auto bg-[#FFFFFF] px-3 py-3 mt-3 overflow-auto cursor-pointer" style="box-shadow: 0px 3px 10px 0px #cccccc; border: solid 1px red;" onclick="toggleButtons(event)">
+        <div class="min-w-[330px] min-h-[260px] w-auto min-h-[50px] h-auto bg-[#FFFFFF] px-3 py-3 mt-3 overflow-auto cursor-pointer" style="box-shadow: 0px 3px 10px 0px #cccccc; border: solid 1px red;" onclick="toggleButtons(event)" >
           @endif
           
         <p
@@ -74,10 +74,10 @@
 
         <div class="flex justify-between">
           <div class="">
-          <div class="flex mb-[6px]">
-            <img src="{{asset('asset/images/calendar.png')}}" alt="engLogo" class="w-[14px] h-[14px] mt-[5px] ml-[10px]  text-[#28388F0D]">
+          <div class="flex mb-[1px]">
+              <i class="fa-regular fa-clock text-[#000000] text-[14px] ml-[10px] mt-[5px]"></i>
               <p class="w-[295px] h-[12px]  ml-[5px] mt-[5px] font-Montserrat font-[500] text-[10px] leading-[12.19px]">
-              Event Name: {{($item['Event']!=null)?$item['event_name']:''}}
+              Event Name: {{($item['event_name']!=null)?$item['event_name']:''}}
               </p>
             </div>
             <!-- <div class="flex mb-[3px]">
@@ -92,11 +92,11 @@
             <div class="flex mb-[6px]">
             <img src="{{asset('asset/images/calendar.png')}}" alt="engLogo" class="w-[14px] h-[14px] mt-[5px] ml-[10px]  text-[#28388F0D]">
               <p class="w-[295px] h-[12px]  ml-[5px] mt-[5px] font-Montserrat font-[500] text-[10px] leading-[12.19px]">
-              Event Type: {{($item['Event']!=null)?$item['Event']['event_type']:''}}&nbsp;|&nbsp;{{($item['Event']!=null)?$item['Event']['event_category']:''}}
+              Event Type: {{($item['EventType']!=null)?$item['EventType']['name']:''}}&nbsp;|&nbsp;{{($item['Event']!=null)?$item['Event']['event_category']:''}}
               </p>
             </div>
             <div class="flex mb-[6px]">
-            <img src="{{asset('asset/images/calendar.png')}}" alt="engLogo" class="w-[14px] h-[14px] ml-[10px]  text-[#28388F0D]">
+              <i class="fa-regular fa-calendar-days text-[#000000] text-[14px] ml-[10px]"></i>
               <p class="w-[295px] h-[12px]  ml-[5px]  font-Montserrat font-[500] text-[10px] leading-[12.19px]">
               Event Value: {{($item['event_value']!=null)?$item['event_value']:''}}
               </p>
@@ -117,6 +117,15 @@
               @endif
               </p>
             </div>
+
+             <div class="flex mb-[5px]">
+              <i class="fa-regular fa-comment-dots text-[#000000] text-[14px] ml-[10px]"></i>
+              <p class="w-[395px] h-[12px] ml-[6px] mt-[1px] font-[500] text-[10px] leading-[12.19px] text-[#000000]">
+              Comment: {!! optional(getEventComment($item['id'], true))->comment ?? 'N/A' !!}
+              </p>
+            </div> 
+          
+
           </div>
         </div>
         <div  class="buttonsContainer flex mt-4 gap-2 hidden">

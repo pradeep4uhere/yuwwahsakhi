@@ -435,6 +435,12 @@ if (!function_exists('getUserId')) {
     }
 }
 
+if (!function_exists('getUserName')) {
+    function getUserName() {
+        return Auth::user()->name;
+    }
+}
+
 
 
 if (!function_exists('getSakhiID')) {
@@ -633,6 +639,30 @@ if (!function_exists('getEventTypeName')) {
         return YuwaahEventType::find($id)?->name ?? 'N/A';
     }
 }
+
+
+//All Comment by the reviwer
+
+if (!function_exists('getEventComment')) {
+    /**
+     * Get event transaction comments.
+     *
+     * @param int $id Event Transaction ID
+     * @param bool $latest If true, returns only the latest comment
+     * @return mixed
+     */
+    function getEventComment($id, $latest = false)
+    {
+        $query = DB::connection('mysql2')
+            ->table('event_transaction_comments')
+            ->where('event_transaction_id', $id)
+            ->where('comment_type', 'external')
+            ->orderBy('id', 'desc'); // or 'created_at' if you have a timestamp
+        return $latest ? $query->first() : $query->get();
+    }
+}
+
+
 
 
 

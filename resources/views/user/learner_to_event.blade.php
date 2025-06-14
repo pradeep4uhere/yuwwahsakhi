@@ -80,6 +80,7 @@
           <label for="potential" class="font-[400] text-[12px] leading-[14.63px] text-[#000000]">Comment</label>
           <input value="{{$item['comment']}}" id="comment" name="comment" type="text"  class="text-xs w-full border rounded px-3 py-2 text-sm  placeholder:font-[400] placeholder:text-[10px] placeholder:leading-[12.19px] placeholder:text-[#A7A7A7] rounded-[10px] placeholder:border-[1px]" >
         </div>
+       
         <div id="documentInputsContainer" class="space-y-1 mt-2">
           
           @foreach($documentArr as $key=>$itemVal)
@@ -99,6 +100,48 @@
             </div>
           @endforeach
           <!-- Dynamic input fields will be appended here -->
+        </div>
+        </div>
+        <div>
+          <hr/>
+        <div class="space-y-1 mt-2">
+        <label for="document_${index+1}" class="font-[800] text-[12px] leading-[14.63px] text-[#000000]">
+          Comments By Reviwer
+        </label>
+        @php
+            $comments = getEventComment($item['id'], false);
+        @endphp
+        @if ($comments->isNotEmpty())
+        <table class="table table-striped table-bordered" style="width:100%">
+            <tbody>
+            <tr style="font-size:13px">
+                <td nowrap="nowrap"><strong>Date</strong></td>
+                <td nowrap="nowrap"><strong>All Comment</strong></td>
+            </tr>
+            @foreach ($comments as $comment)
+            <tr>
+              <td><div class="font-[400] text-[12px] leading-[14.63px] text-[#000000] mb-1">{{getdateformate($comment->created_at)}}</div></td>
+              <td><div class="font-[400] text-[12px] leading-[14.63px] text-[#000000] mb-1">
+                    {{ $comment->comment ?? 'N/A' }}
+                </div>
+              </td>
+              </tr>
+            @endforeach
+            <tr>
+              <td colspan="2">
+              <div class="space-y-1 mt-2">
+                <input placeholder="Enter New comment"  id="external_comment" name="external_comment" type="text"  class="text-xs w-full border rounded px-3 py-2 text-sm  placeholder:font-[400] placeholder:text-[10px] placeholder:leading-[12.19px] placeholder:text-[#A7A7A7] rounded-[10px] placeholder:border-[1px]" >
+              </div>
+       
+              </td>
+            </tr>
+            </tbody>
+            </table>
+        @else
+            <div class="font-[400] text-[12px] leading-[14.63px] text-[#000000]">
+                N/A
+            </div>
+        @endif
         </div>
         </div>
         <div class="flex justify-center ">
