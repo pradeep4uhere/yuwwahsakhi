@@ -1200,10 +1200,19 @@ As a catalytic multi-stakeholder partnership, YuWaah is dedicated to transformin
 
 
     public function getEventDetails(Request $request,$id){
-        $eventList = YuwaahEventMaster::where('status',1)->get();
+        $eventList = YuwaahEventType::where('status',1)->get();
+        //dd($eventList);
+        //$eventList = YuwaahEventMaster::where('status',1)->get();
       
         $idstr = decryptString($id);
         $eventTransactionDetails = EventTransaction::with('Event')->where('id',$idstr)->first();
+        //dd($eventTransactionDetails);
+        $event_tpe_id = $eventTransactionDetails['event_type'];
+
+        //Get All Category List
+        $eventCategoryList = YuwaahEventMaster::where('event_type_id',$event_tpe_id)->where('status',1)->get();
+        //dd( $eventCategoryList);
+
         $documentArr = json_decode($eventTransactionDetails['uploaded_doc_links'],true);
         $documentTypeArr = [];
         $documentTypeArr[] = $eventTransactionDetails['Event']['document_1'];
@@ -1225,6 +1234,7 @@ As a catalytic multi-stakeholder partnership, YuWaah is dedicated to transformin
             'item'=>$eventTransactionDetails,
             'ysid'=>encryptString(getUserId()),
             'eventList'=>$eventList,
+            'eventCategoryList'=>$eventCategoryList,
             'documentArr'=>$documentNewArr,
             'documentTypeArr'=>$documentTypeArr,
             'opid'=>$id,

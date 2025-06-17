@@ -39,6 +39,7 @@
                                 <th>SN</th>
                                 <th>First Name</th>
                                 <th>Last Name</th>
+                                <th>Primary Contact</th>
                                 <th>Date Of Birth</th>
                                 <th>Email</th>
                                 <th>Gender</th>
@@ -56,7 +57,8 @@
                                 <td>{{$count}}</td>
                                 <td>{{$item['first_name']}}</td>
                                 <td>{{$item['last_name']}}</td>
-                                <td>{{getdateformate($item['date_of_birth'])}}</td>
+                                <td>{{$item['primary_phone_number']}}</td>
+                                 <td>{{getdateformate($item['date_of_birth'])}}</td>
                                 <td>{{$item['email']}}</td>
                                 <td>{{$item['gender']}}</td>
                                 <td><?php if($item['status']=='Active'){ ?>

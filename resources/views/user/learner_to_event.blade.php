@@ -60,14 +60,16 @@
           <select name="event_type" id="event_type" class="font-[400] text-[12px] leading-[14.63px] text-[#000000]" style="width:100%; padding:10px; border:solid 1px #ccc" onchange="fetchEventDocuments()">
             <option value="">Choose Event Type</option>
             @foreach($eventList as $itemsVal)
-            <option value="{{$itemsVal['id']}}" <?php if($item['event_id']==$itemsVal['id']){ ?> selected="selected" <?php } ?> >{{$itemsVal['event_type']}}</option>
+            <option value="{{$itemsVal['id']}}" <?php if($item['event_type']==$itemsVal['id']){ ?> selected="selected" <?php } ?> >{{$itemsVal['name']}}</option>
             @endforeach
           </select>
         </div>
         <div class="space-y-1">
           <label for="event_category" class="font-[400] text-[12px] leading-[14.63px] text-[#000000]">Event Category</label>
           <select name="event_category" id="event_category" class="font-[400] text-[12px] leading-[14.63px] text-[#000000]" style="width:100%; padding:10px; border:solid 1px #ccc">
-              <option value="{{$item['event_category']}}">{{$item['event_category']}}</option>
+              @foreach($eventCategoryList as $itemNew)
+              <option value="{{$item['id']}}" <?php if($itemNew['id']==$item['event_category']){ ?> selected="selected" <?php } ?>>{{$itemNew['event_category']}}</option>
+              @endforeach
           </select>
         </div>
        
