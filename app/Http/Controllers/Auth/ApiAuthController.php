@@ -1401,6 +1401,9 @@ public function updatePromotion(Request $request, $id)
         }
 
         $validatedData = $validator->validated();
+        $ysId = generateYuwaahSakhiCode($validatedData['partner_id'],$validatedData['partner_center_id']);
+        //dd($ysId );
+        //dd($validatedData);
         try {
             // Create a new record
             $yuwaahSakhi = YuwaahSakhi::create([

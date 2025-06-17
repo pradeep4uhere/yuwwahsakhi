@@ -50,6 +50,7 @@ class YuwaahSakhi extends Authenticatable
         'xd',
         'status',
         'block_id',
+        'district',
         'pincode',
         'partner_id',
         'partner_center_id',
