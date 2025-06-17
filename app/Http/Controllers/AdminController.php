@@ -1019,6 +1019,7 @@ class AdminController extends Controller
                 'status' => 'required|in:1,0', // Ensuring status is valid
             ]);
     
+           // dd($request->all());
             if ($validator->fails()) {
                 return redirect()->back()
                     ->withErrors($validator)
@@ -1045,6 +1046,7 @@ class AdminController extends Controller
                 // Update event
                 $eventMaster->update([
                     'event_type' => $request->event_type,
+                    'event_type_id' => $request->event_type,
                     'event_category' => $request->event_category,
                     'description' => $request->description ?? null,
                     'eligibility' => $request->eligibility ?? null,

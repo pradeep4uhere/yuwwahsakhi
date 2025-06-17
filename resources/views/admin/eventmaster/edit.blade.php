@@ -48,6 +48,7 @@
             </tr>
             <tr>
             <td>
+              
                 <select name="event_type" class="form-control ">
                     <option value="">Select an option</option>
                     <?php foreach($evetnTypeList as $item){ ?>
