@@ -656,8 +656,11 @@ if (!function_exists('getEventComment')) {
         $query = DB::connection('mysql2')
             ->table('event_transaction_comments')
             ->where('event_transaction_id', $id)
-            ->where('comment_type', 'external')
-            ->orderBy('id', 'desc'); // or 'created_at' if you have a timestamp
+            ->where(function ($q) {
+                $q->where('comment_type', 'external')
+                ->orWhere('comment_type', 'agent');
+            })
+            ->orderBy('id', 'desc');
         return $latest ? $query->first() : $query->get();
     }
 }

@@ -112,15 +112,17 @@
             $comments = getEventComment($item['id'], false);
         @endphp
         @if ($comments->isNotEmpty())
-        <table class="table table-striped table-bordered" style="width:100%">
-            <tbody>
-            <tr style="font-size:13px">
-                <td nowrap="nowrap"><strong>Date</strong></td>
-                <td nowrap="nowrap"><strong>All Comment</strong></td>
+        <table class="min-w-full border border-gray-200 shadow-md rounded-lg overflow-hidden text-sm p-4">
+          <thead class="bg-blue-100 text-gray-700 text-left">
+            <tr>
+              <th class="px-4 py-2 font-semibold">Date</th>
+              <th class="px-4 py-2 font-semibold">All Comment</th>
             </tr>
+          </thead>
+          <tbody class="divide-y divide-gray-200 bg-white ">
             @foreach ($comments as $comment)
             <tr>
-              <td><div class="font-[400] text-[12px] leading-[14.63px] text-[#000000] mb-1">{{getdateformate($comment->created_at)}}</div></td>
+              <td class="px-1 py-1 overflow-x-auto whitespace-nowrap max-w-xs"><div class="font-[400] text-[12px] leading-[14.63px] text-[#000000] mb-1">{{getdateformate($comment->created_at)}}</div></td>
               <td><div class="font-[400] text-[12px] leading-[14.63px] text-[#000000] mb-1">
                     {{ $comment->comment ?? 'N/A' }}
                 </div>

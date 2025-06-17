@@ -1038,6 +1038,9 @@ class AdminController extends Controller
             //     }
             // }
     
+           // dd($request->all());
+        
+
             try {
                 // Update event
                 $eventMaster->update([

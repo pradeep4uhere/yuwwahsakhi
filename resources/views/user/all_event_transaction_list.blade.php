@@ -61,11 +61,10 @@
       <?php foreach($eventList as $key=>$item){  ?>
         
       <!-- Other Opportunites Start Here-->
-      
-        @if($item['event_date_submitted']!='')
-         <div class="min-w-[330px] min-h-[260px] w-auto min-h-[50px] h-auto bg-[#FFFFFF] px-3 py-3 mt-3 overflow-auto cursor-pointer" style="box-shadow: 0px 3px 10px 0px #cccccc; border: solid 1px green;" >  
+        @if($item['review_status']=='Accepted' && $item['event_date_submitted']!='')
+         <div class="min-w-[330px] min-h-[260px] w-auto min-h-[50px] h-auto bg-[#FFFFFF] px-3 py-3 mt-3 overflow-auto cursor-pointer" style="box-shadow: 0px 3px 10px 0px #cccccc; border: solid 2px green;" >  
          @else
-        <div class="min-w-[330px] min-h-[260px] w-auto min-h-[50px] h-auto bg-[#FFFFFF] px-3 py-3 mt-3 overflow-auto cursor-pointer" style="box-shadow: 0px 3px 10px 0px #cccccc; border: solid 1px red;" onclick="toggleButtons(event)" >
+        <div class="min-w-[330px] min-h-[260px] w-auto min-h-[50px] h-auto bg-[#FFFFFF] px-3 py-3 mt-3 overflow-auto cursor-pointer" style="box-shadow: 0px 3px 10px 0px #cccccc; border: solid 2px red;" onclick="toggleButtons(event)" >
           @endif
           
         <p
