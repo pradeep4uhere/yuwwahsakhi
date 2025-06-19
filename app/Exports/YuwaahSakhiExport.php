@@ -14,6 +14,7 @@ class YuwaahSakhiExport implements FromCollection, WithHeadings
     public function collection()
     {
         return YuwaahSakhi::select(
+            'id',
             'sakhi_id',
             'name',
             'contact_number',
@@ -53,6 +54,7 @@ class YuwaahSakhiExport implements FromCollection, WithHeadings
     public function headings(): array
     {
         return [
+            'ID',
             'Sakhi ID',
             'Name',
             'Contact Number',
