@@ -31,6 +31,18 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 
 Route::get('/fetch-learners', [ApiAuthController::class, 'fetchLearners']);
+Route::get('/fetch-opportunity', [ApiAuthController::class, 'fetchOppertunites']);
+Route::get('/fetch-partner', [ApiAuthController::class, 'fetchPartner']);
+Route::get('/fetch-partnercenter', [ApiAuthController::class, 'fetchPartnerCenter']);
+Route::get('/fetch-eventtype', [ApiAuthController::class, 'fetchEventType']);
+Route::get('/fetch-eventcategory', [ApiAuthController::class, 'fetchEventCategory']);
+Route::get('/fetch-eventtransaction', [ApiAuthController::class, 'fetchEventTransaction']);
+Route::get('/fetch-assigned-opportunities', [ApiAuthController::class, 'fetchAssignedOpportunities']);
+
+
+
+
+
 
 Route::post('/admin/login', [ApiAuthController::class, 'login']);
 // API route for deleting a partner with authentication

@@ -14,10 +14,13 @@ use App\Models\Pathway;
 use App\Models\Learner;
 use App\Models\Promotion;
 use App\Models\YuwaahSakhi;
+use App\Models\YuwaahEventType;
+use App\Models\YuwaahEventMaster;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Session; 
 use Illuminate\Support\Facades\Http;
 use Log;
+use DB;
 use Illuminate\Validation\Rule;
 
 class ApiAuthController extends Controller
@@ -1716,11 +1719,432 @@ public function fetchLearners(Request $request)
 
 
 
+/****************   All API for Dashboard ******************/
+public function fetchOppertunites(Request $request)
+    {
+
+        try {
+            $limit = $request->query('limit', 1000); // default limit
+            $startId = $request->query('id', 0);     // default to 0 if not provided
+            $opportunites = Opportunity::where('id', '>', $startId)
+                ->orderBy('id', 'asc')
+                ->limit($limit)
+                ->get();
+
+            $formatteddata = [];
+
+            foreach ($opportunites as $key => $item) {
+                $formatteddata[] = [
+                    "id" => $item->id,
+                    "sakhi_id" => $item->sakhi_id,
+                    "status" => $item->status,
+                    "opportunities_title" => $item->opportunities_title,
+                    "description" => $item->description,
+                    "payout_monthly" => $item->payout_monthly,
+                    "incentive" => $item->incentive,
+                    "start_date" => $item->start_date,
+                    "end_date" => $item->end_date,
+                    "number_of_openings" => $item->number_of_openings,
+                    "provider_name" => $item->provider_name,
+                    "document" => $item->document,
+                    "created_at" => $item->created_at,
+                    "updated_at" => $item->updated_at,
+                ];
+            }
+            
+            if ($opportunites) {
+                return response()->json([
+                    'status' => true,
+                    'data' => $formatteddata
+                ]);
+            } else {
+                return response()->json([
+                    'status' => false,
+                    'message' => 'Failed to fetch data',
+                    'code' => $response->status()
+                ], 403);
+            }
+
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Exception occurred: ' . $e->getMessage()
+            ], 500);
+        }
+    }
 
 
 
 
 
+    public function fetchPartner(Request $request)
+    {
+
+        try {
+            $limit = $request->query('limit', 1000); // default limit
+            $startId = $request->query('id', 0);     // default to 0 if not provided
+            $datalist = Partner::where('id', '>', $startId)
+                ->orderBy('id', 'asc')
+                ->limit($limit)
+                ->get();
+
+            $formatteddata = [];
+
+            foreach ($datalist as $key => $item) {
+                $formatteddata[] = [
+                    "id" => $item->id,
+                    "partner_id" => $item->partner_id,
+                    "status" => $item->status,
+                    "name" => $item->name,
+                    "contact_number" => $item->contact_number,
+                    "address" => $item->address,
+                    "email" => $item->email,
+                    "onboard_date" => $item->onboard_date,
+                    "created_at" => $item->created_at,
+                    "updated_at" => $item->updated_at,
+                ];
+            }
+            
+            if ($datalist) {
+                return response()->json([
+                    'status' => true,
+                    'data' => $formatteddata
+                ]);
+            } else {
+                return response()->json([
+                    'status' => false,
+                    'message' => 'Failed to fetch data',
+                    'code' => $response->status()
+                ], 403);
+            }
+
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Exception occurred: ' . $e->getMessage()
+            ], 500);
+        }
+    }
+
+
+
+
+
+
+    public function fetchPartnerCenter(Request $request)
+    {
+
+        try {
+            $limit = $request->query('limit', 1000); // default limit
+            $startId = $request->query('id', 0);     // default to 0 if not provided
+            $datalist = PartnerCenter::where('id', '>', $startId)
+                ->orderBy('id', 'asc')
+                ->limit($limit)
+                ->get();
+
+            $formatteddata = [];
+
+            foreach ($datalist as $key => $item) {
+                $formatteddata[] = [
+                    "id" => $item->id,
+                    "partner_id" => $item->partner_id,
+                    "status" => $item->status,
+                    "center_name" => $item->center_name,
+                    "contact_number" => $item->contact_number,
+                    "email" => $item->email,
+                    "created_at" => $item->created_at,
+                    "updated_at" => $item->updated_at,
+                ];
+            }
+            
+            if ($datalist) {
+                return response()->json([
+                    'status' => true,
+                    'data' => $formatteddata
+                ]);
+            } else {
+                return response()->json([
+                    'status' => false,
+                    'message' => 'Failed to fetch data',
+                    'code' => $response->status()
+                ], 403);
+            }
+
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Exception occurred: ' . $e->getMessage()
+            ], 500);
+        }
+    }
+
+    /****************   All API for Dashboard ******************/
+
+
+
+
+
+
+    
+
+    public function fetchEventType(Request $request)
+    {
+
+        try {
+            $limit = $request->query('limit', 1000); // default limit
+            $startId = $request->query('id', 0);     // default to 0 if not provided
+            $datalist = YuwaahEventType::where('id', '>', $startId)
+                ->orderBy('id', 'asc')
+                ->limit($limit)
+                ->get();
+
+            $formatteddata = [];
+
+            foreach ($datalist as $key => $item) {
+                $formatteddata[] = [
+                    "id" => $item->id,
+                    "name" => $item->name,
+                    "description" => $item->description,
+                    "status" => $item->status,
+                    "created_at" => $item->created_at,
+                    "updated_at" => $item->updated_at,
+                ];
+            }
+            
+            if ($datalist) {
+                return response()->json([
+                    'status' => true,
+                    'data' => $formatteddata
+                ]);
+            } else {
+                return response()->json([
+                    'status' => false,
+                    'message' => 'Failed to fetch data',
+                    'code' => $response->status()
+                ], 403);
+            }
+
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Exception occurred: ' . $e->getMessage()
+            ], 500);
+        }
+    }
+
+
+
+
+
+
+    
+
+
+    public function fetchEventCategory(Request $request)
+    {
+
+        try {
+            $limit = $request->query('limit', 1000); // default limit
+            $startId = $request->query('id', 0);     // default to 0 if not provided
+            /*$datalist = YuwaahEventMaster::where('id', '>', $startId)
+                ->orderBy('id', 'asc')
+                ->limit($limit)
+                ->get();*/
+
+
+            $datalist = DB::table('yuwaah_event_masters')
+            ->join('yuwaah_event_type', 'yuwaah_event_masters.event_type_id', '=', 'yuwaah_event_type.id')
+            ->where('yuwaah_event_masters.id', '>', $startId)
+            ->orderBy('yuwaah_event_masters.id', 'asc')
+            ->limit($limit)
+            ->select(
+                'yuwaah_event_masters.*',
+                'yuwaah_event_type.name as event_type_name' // or other columns from event type
+            )
+            ->get();
+
+            $formatteddata = [];
+
+            foreach ($datalist as $key => $item) {
+               // dd($item);
+                $formatteddata[] = [
+                    "id" => $item->id,
+                    "event_type_id"=>$item->event_type_id,
+                    "EventName" => $item->event_type,
+                    "EventCategoryName" => $item->event_category,
+                    "description" => $item->description,
+                    "status" => $item->status,
+                    "created_at" => $item->created_at,
+                    "updated_at" => $item->updated_at,
+                ];
+            }
+            
+            if ($datalist) {
+                return response()->json([
+                    'status' => true,
+                    'data' => $formatteddata
+                ]);
+            } else {
+                return response()->json([
+                    'status' => false,
+                    'message' => 'Failed to fetch data',
+                    'code' => $response->status()
+                ], 403);
+            }
+
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Exception occurred: ' . $e->getMessage()
+            ], 500);
+        }
+    }
+
+
+
+
+
+    /**
+     * All Event Transctions
+     */
+    public function fetchEventTransaction(Request $request)
+    {
+
+        try {
+            $limit = $request->query('limit', 1000); // default limit
+            $startId = $request->query('id', 0);     // default to 0 if not provided
+
+
+            $datalist = DB::table('event_transactions')
+            ->join('yuwaah_event_type', 'event_transactions.event_type', '=', 'yuwaah_event_type.id')
+            ->where('event_transactions.id', '>', $startId)
+            ->orderBy('event_transactions.id', 'asc')
+            ->limit($limit)
+            ->select(
+                'event_transactions.*',
+                'yuwaah_event_type.name as event_type_name' // or other columns from event type
+            )
+            ->get();
+
+            $formatteddata = [];
+
+            foreach ($datalist as $key => $item) {
+               //dd($item);
+                $formatteddata[] = [
+                    "id" => $item->id,
+                    "event_type_id"=>$item->event_type,
+                    "EventName" => $item->event_type_name,
+                    "review_status" => $item->review_status,
+                    "beneficiary_phone_number" => $item->beneficiary_phone_number,
+                    "beneficiary_name" => $item->beneficiary_name,
+                    "event_id"=>$item->event_id,
+                    "event_category"=>$item->event_category,
+                    "event_date_created"=>$item->event_date_created,
+                    "event_date_submitted"=>$item->event_date_submitted,
+                    "event_value"=>$item->event_value,
+                    "ys_id"=>$item->ys_id,
+                    "uploaded_doc_links"=>$item->uploaded_doc_links,
+                    "document_type"=>$item->document_type,
+                    "comment"=>$item->comment,
+                    "created_at" => $item->created_at,
+                    "updated_at" => $item->updated_at,
+                ];
+            }
+            
+            if ($datalist) {
+                return response()->json([
+                    'status' => true,
+                    'data' => $formatteddata
+                ]);
+            } else {
+                return response()->json([
+                    'status' => false,
+                    'message' => 'Failed to fetch data',
+                    'code' => $response->status()
+                ], 403);
+            }
+
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Exception occurred: ' . $e->getMessage()
+            ], 500);
+        }
+    }
+
+
+
+
+
+
+    /**
+     * Fetch All Assigned Opportunites 
+     */
+    
+    public function fetchAssignedOpportunities(Request $request)
+    {
+
+        try {
+            $limit = $request->query('limit', 1000); // default limit
+            $startId = $request->query('id', 0);     // default to 0 if not provided
+
+
+            $datalist = DB::table('opportunities_assigned')
+            ->join('yuwaah_sakhi', 'opportunities_assigned.yuwah_sakhi_id', '=', 'yuwaah_sakhi.id')
+            ->join('opportunities', 'opportunities_assigned.opportunites_id', '=', 'opportunities.id')
+            ->join('learners', 'opportunities_assigned.learner_id', '=', 'learners.id')
+            ->where('opportunities_assigned.id', '>', $startId)
+            ->orderBy('opportunities_assigned.id', 'asc')
+            ->limit($limit)
+            ->select(
+                'opportunities_assigned.*',
+                'yuwaah_sakhi.name as field_agent_name',
+                'opportunities.opportunities_title as opportunities_title',
+                'learners.first_name as learner_name',
+                'learners.primary_phone_number as primary_phone_number'
+            )
+            ->get();
+
+
+            $formatteddata = [];
+
+            foreach ($datalist as $key => $item) {
+               //dd($item);
+                $formatteddata[] = [
+                    "id" => $item->id,
+                    "learner_id"=>$item->learner_id,
+                    "opportunites_id" => $item->opportunites_id,
+                    "yuwah_sakhi_id" => $item->yuwah_sakhi_id,
+                    "assigned_date" => $item->assigned_date,
+                    "field_agent_name" => $item->field_agent_name,
+                    "opportunities_title"=>$item->opportunities_title,
+                    "learner_name"=>$item->learner_name,
+                    "primary_phone_number"=>$item->primary_phone_number,
+                    "created_at" => $item->created_at,
+                    "updated_at" => $item->updated_at,
+                ];
+            }
+            
+            if ($datalist) {
+                return response()->json([
+                    'status' => true,
+                    'data' => $formatteddata
+                ]);
+            } else {
+                return response()->json([
+                    'status' => false,
+                    'message' => 'Failed to fetch data',
+                    'code' => $response->status()
+                ], 403);
+            }
+
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Exception occurred: ' . $e->getMessage()
+            ], 500);
+        }
+    }
 
 
 }
