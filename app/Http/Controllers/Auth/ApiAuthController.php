@@ -11,10 +11,12 @@ use App\Models\Partner;
 use App\Models\PartnerCenter;
 use App\Models\Opportunity;
 use App\Models\Pathway;
+use App\Models\Learner;
 use App\Models\Promotion;
 use App\Models\YuwaahSakhi;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Session; 
+use Illuminate\Support\Facades\Http;
 use Log;
 use Illuminate\Validation\Rule;
 
@@ -1592,5 +1594,133 @@ public function updatePromotion(Request $request, $id)
     }
 
 /*************************** REST API For Yuwwah Sakhi Application ********************/
+
+
+
+
+/****************   All API for Dashboard ******************/
+public function fetchLearners(Request $request)
+    {
+
+        try {
+            $limit = $request->query('limit', 1000); // default limit
+            $startId = $request->query('id', 0);     // default to 0 if not provided
+            $learners = Learner::where('id', '>', $startId)
+                ->orderBy('id', 'asc')
+                ->limit($limit)
+                ->get();
+
+            $formattedLearners = [];
+
+            foreach ($learners as $key => $item) {
+                $formattedLearners[] = [
+                    "id" => $item->id,
+                    "first_name" => $item->first_name,
+                    "last_name" => $item->last_name,
+                    "status" => "Active", // Static or based on logic
+                    "date_of_birth" => $item->date_of_birth,
+                    "gender" => $item->gender,
+                    "email" => $item->email,
+                    "institution" => null,
+                    "education_level" => null,
+                    "digital_proficiency" => null,
+                    "english_knowledge" => null,
+                    "interested_in_opportunities" => false,
+                    "opportunity_types" => null,
+                    "job_mobility" => null,
+                    "job_kind" => null,
+                    "job_qualifications" => null,
+                    "job_timing" => null,
+                    "experience_years" => null,
+                    "work_hours_per_day" => null,
+                    "work_kind" => null,
+                    "earn_qualifications" => null,
+                    "business_status" => null,
+                    "business_description" => null,
+                    "account_login_id" => $item->account_login_id,
+                    "experiance" => $item->experiance,
+                    "current_job_title" => $item->current_job_title,
+                    "current_company_name" => $item->current_company_name,
+                    "primary_email" => $item->primary_email,
+                    "primary_phone_number" => $item->primary_phone_number,
+                    "secondary_phone_number" => $item->secondary_phone_number,
+                    "preferred_job_domain1" => $item->preferred_job_domain1,
+                    "preferred_job_domain2" => $item->preferred_job_domain2,
+                    "preferred_job_domain3" => $item->preferred_job_domain3,
+                    "preferred_job_domain4" => $item->preferred_job_domain4,
+                    "preferred_mode_of_work" => $item->preferred_mode_of_work,
+                    "highest_education_qualification" => $item->highest_education_qualification,
+                    "preferred_work_location1" => $item->preferred_work_location1,
+                    "preferred_work_location2" => $item->preferred_work_location2,
+                    "preferred_work_location3" => $item->preferred_work_location3,
+                    "create_date" => $item->create_date,
+                    "update_date" => $item->update_date,
+                    "last_month_salary" => $item->last_month_salary,
+                    "preferred_skill1" => null,
+                    "preferred_skill1_proficiency" => null,
+                    "preferred_skill2" => null,
+                    "preferred_skill2_proficiency" => null,
+                    "preferred_skill3" => null,
+                    "preferred_skill3_proficiency" => null,
+                    "preferred_skill4" => null,
+                    "preferred_skill4_proficiency" => null,
+                    "preferred_skill5" => null,
+                    "preferred_skill5_proficiency" => null,
+                    "current_street" => null,
+                    "current_location_zip" => null,
+                    "career_objective" => null,
+                    "resume_url" => null,
+                    "dont_show_my_profile_to_current_employer" => 0,
+                    "receive_email_updates" => 0,
+                    "profile_photo_url" => null,
+                    "yuwaah_resume_url" => null,
+                    "profile_visible_to_others" => 0,
+                    "additional_link" => null,
+                    "preferred_job_type" => null,
+                    "preferred_industry1" => null,
+                    "preferred_industry2" => null,
+                    "preferred_industry3" => null,
+                    "preferred_work_time" => null,
+                    "app_version_used" => null,
+                    "yuwaah_resume_create_date" => $item->yuwaah_resume_create_date,
+                    "yuwaah_resume_update_date" => $item->yuwaah_resume_update_date,
+                    "created_at" => $item->created_at,
+                    "updated_at" => $item->updated_at,
+                ];
+            }
+            
+            if ($learners) {
+                return response()->json([
+                    'status' => true,
+                    'data' => $formattedLearners
+                ]);
+            } else {
+                return response()->json([
+                    'status' => false,
+                    'message' => 'Failed to fetch data',
+                    'code' => $response->status()
+                ], 403);
+            }
+
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Exception occurred: ' . $e->getMessage()
+            ], 500);
+        }
+    }
+
+
+    /****************   All API for Dashboard ******************/
+
+
+
+
+
+
+
+
+
+
 
 }

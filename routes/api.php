@@ -29,6 +29,9 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+
+Route::get('/fetch-learners', [ApiAuthController::class, 'fetchLearners']);
+
 Route::post('/admin/login', [ApiAuthController::class, 'login']);
 // API route for deleting a partner with authentication
 Route::middleware('set.language','auth:sanctum')->group(function () {
