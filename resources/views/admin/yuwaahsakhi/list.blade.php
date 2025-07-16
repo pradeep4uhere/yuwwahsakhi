@@ -4,7 +4,7 @@
 <section class="dashboard">
         <div class="top">
             <div class="title">
-                <span class="">Dashboard > {{$title}}</span> <br />
+                <span class="">Dashboard > Field Center</span> <br />
             </div>
             <div class="search-box">
                 <form method="GET" action="{{ url()->current() }}" class="search-box" style="display: flex; align-items: center; gap: 10px;">
@@ -22,14 +22,14 @@
         </div>
         <!-- <section class="dashboard-partners"> -->
         <div class="dash-content">
-            <span class="texttitle">{{$title}}</span>
+            <span class="texttitle">Field Center [{{count($response['data'])}}]</span>
             <div class="activity">
                 <div class="activitybutton">
                     <a  href="{{ route('yuwaahSakhi.export') }}" class="ml-2">
-                    <button class="add-partner-btn" style="margin-left: 2px; background-color: brown;">Export Yuwaah Sakhi List</button></a>
+                    <button class="add-partner-btn" style="margin-left: 2px; background-color: brown;">Export Field Center List</button></a>
                     &nbsp;
                     <a href="{{route('admin.yuwaahsakhi.add')}}">
-                    <button class="add-partner-btn" id="addPartnerBtn">Add {{$title}}</button>
+                    <button class="add-partner-btn" id="addPartnerBtn">Add Field Center </button>
                     </a>
                 </div>
                     <div class="activity-data">
@@ -40,10 +40,10 @@
                         <thead>
                             <tr>
                                 <th>SN</th>
-                                <th>Sakhi ID</th>
-                                <th>Sakhi Name</th>
+                                <th>Field Center ID</th>
+                                <th>Field Center Name</th>
                                 <th>Partner</th>
-                                <th>Partner Center</th>
+                                <th>Partner Division</th>
                                 <th>Contact Number</th>
                                 <th>Email</th>
                                 <th>Created On</th>

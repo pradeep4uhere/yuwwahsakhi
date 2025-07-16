@@ -21,7 +21,7 @@
             <div class="activity">
                 <div class="activitybutton">
                     <a href="{{route('admin.partnercenter')}}">
-                    <button class="add-partner-btn" id="addPartnerBtn">All Partner Center</button>
+                    <button class="add-partner-btn" id="addPartnerBtn">All Partner Division</button>
                     </a>
                 </div>
                 @if(isset($errors) && ($errors!=null))
@@ -47,8 +47,8 @@
             @csrf
             <table class="table table-striped table-bordered" style="font-size:12px;">
             <tr>
-              <td> <label for="field1"><strong>Partner Center Name</strong></label></td>
-              <td> <label for="field1"><strong>Partner Center ID</strong></label></td>
+              <td> <label for="field1"><strong>Partner Division Name</strong></label></td>
+              <td> <label for="field1"><strong>Partner Division ID</strong></label></td>
             </tr>
             <tr>
               <td>
@@ -65,7 +65,9 @@
               <tr>
               <td> 
               <div class="input-container">
-                <input type="text" name="contact_number" placeholder="Please Contact Number" value="{{$partnerDetails['contact_number']}}">
+                <input type="text" name="contact_number" placeholder="Please Contact Number" value="{{$partnerDetails['contact_number']}}"  minlength="10" maxlength="10" 
+       pattern="\d{10}" 
+       title="Please enter exactly 10 digits" >
               </div>
               </td>
               <td> 
@@ -77,7 +79,7 @@
               </td>
               </tr>
               <tr>
-              <td> <label for="field3"><strong>Login ID</strong></label></td>
+              <td> <label for="field3"><strong>Login Email</strong></label></td>
               <td>  <label for="field5"><strong>Password</strong></label></td>
               </tr>
               <tr>

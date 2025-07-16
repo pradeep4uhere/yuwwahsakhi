@@ -9,8 +9,8 @@
                 <span class="">Dashboard > Overview</span> <br />
             </div>
             <div class="search-box">
-                <i class="uil uil-search" style="color: rgba(5, 167, 209, 1);"></i>
-                <input type="text" placeholder="Please type and search">
+                <!-- <i class="uil uil-search" style="color: rgba(5, 167, 209, 1);"></i>
+                <input type="text" placeholder="Please type and search"> -->
             </div>
 
         </div>
@@ -29,14 +29,14 @@
 
                     </div>
                     <div class="box box2">
-                        <span class="text">Partner Centers</span>
+                        <span class="text">Partner Division</span>
                         <span class="number">{{$dashboard['partnerCenter']}}</span>
                         <a href="{{route('admin.partnercenter')}}"> <img src="{{asset('asset/images/Editiconmain.png')}}" alt="" style="height: 100px; width: 120px; cursor: pointer;"></a>
 
 
                     </div>
                     <div class="box box3">
-                        <span class="text">Yuwaah Sakhi</span>
+                        <span class="text">Field Center</span>
                         <span class="number">{{$dashboard['YuwaahSakhi']}}</span>
                         <a href="{{route('admin.yuwaahsakhi.list')}}"> <img src="{{asset('asset/images/Editiconmain.png')}}" alt="" style="height: 100px; width: 120px; cursor: pointer;"></a>
 
@@ -50,7 +50,7 @@
 
                     </div>
                     <div class="box box2">
-                        <span class="text">Event</span>
+                        <span class="text">Events</span>
                         <span class="number">{{$dashboard['eventcount']}}</span>
                         <a href="{{route('admin.partnercenter')}}"> <img src="{{asset('asset/images/Editiconmain.png')}}" alt="" style="height: 100px; width: 120px; cursor: pointer;"></a>
 
@@ -64,7 +64,7 @@
                         </div>
                     </div>
                     <div class="box box5">
-                        <span class="text">Learner</span>
+                        <span class="text">Learners</span>
                         <span class="number">{{$dashboard['Learner']}}</span>
                         <div class="editclass">
                         <a href="{{route('admin.learner')}}"> <img src="{{asset('asset/images/Editiconmain.png')}}" alt="" style="height: 100px; width: 120px; cursor: pointer;"></a>

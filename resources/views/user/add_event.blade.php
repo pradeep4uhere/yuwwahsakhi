@@ -35,25 +35,6 @@
       <form class="space-y-4 mt-6" action="{{route('storeeventtransaction')}}" method="post" enctype='multipart/form-data'>
         @csrf
         <div class="space-y-1">
-          <label for="opportunity" class="font-[400] text-[12px] leading-[14.63px] text-[#000000]">Event Name</label>
-          <input id="event_name" type="text" name="event_name" placeholder="Please Enter Event Name" class="text-xs w-full border rounded px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 placeholder:font-[400] placeholder:text-[10px] placeholder:leading-[12.19px] placeholder:text-[#A7A7A7] rounded-[10px] placeholder:border-[1px]"  value="{{ old('event_name') }}">
-        </div>
-        
-        <div class="space-y-1 relative">
-        <label for="opportunity" class="font-[400] text-[12px] leading-[14.63px] text-[#000000]">Beneficiary Name</label>
-        <input id="beneficiary_name" type="text" name="beneficiary_name"
-          placeholder="Please Enter beneficiary name"
-          class="text-xs w-full border rounded px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 placeholder:font-[400] placeholder:text-[10px] placeholder:leading-[12.19px] placeholder:text-[#A7A7A7] rounded-[10px] placeholder:border-[1px]"
-          autocomplete="off" value="{{ old('beneficiary_name') }}">
-
-        <!-- Suggestions container -->
-        <div id="suggestions" class="absolute z-10 bg-white border w-full mt-1 rounded shadow-md hidden"></div>
-      </div>
-        <div class="space-y-1">
-          <label for="opportunity" class="font-[400] text-[12px] leading-[14.63px] text-[#000000]">Beneficiary Phone Number</label>
-          <input id="beneficiary_number" type="text" name="beneficiary_phone_number" placeholder="Please Enter  phone number" class="text-xs w-full border rounded px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 placeholder:font-[400] placeholder:text-[10px] placeholder:leading-[12.19px] placeholder:text-[#A7A7A7] rounded-[10px] placeholder:border-[1px]"  value="{{ old('beneficiary_phone_number') }}">
-        </div>
-        <div class="space-y-1">
           <label for="opportunity" class="font-[400] text-[12px] leading-[14.63px] text-[#000000]">Event Type</label>
         <div class="space-y-1">
           <select name="event_type" id="event_type" class="font-[400] text-[12px] leading-[14.63px] text-[#000000]" style="width:100%; padding:10px; border:solid 1px #ccc">
@@ -69,10 +50,30 @@
               <option value="">Choose Event Category</option>
           </select>
         </div>
+        <div class="space-y-1">
+          <label for="opportunity" class="font-[400] text-[12px] leading-[14.63px] text-[#000000]">Event Name</label>
+          <input id="event_name" type="text" name="event_name" placeholder="Please Enter Event Name" class="text-xs w-full border rounded px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 placeholder:font-[400] placeholder:text-[10px] placeholder:leading-[12.19px] placeholder:text-[#A7A7A7] rounded-[10px] placeholder:border-[1px]"  value="{{ old('event_name') }}">
+        </div>
+        
+        <div class="space-y-1 relative">
+        <label for="opportunity" class="font-[400] text-[12px] leading-[14.63px] text-[#000000]">Choose Beneficiary Name</label>
+        <input id="beneficiary_name" type="text" name="beneficiary_name"
+          placeholder="Please Type beneficiary name and choose"
+          class="text-xs w-full border rounded px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 placeholder:font-[400] placeholder:text-[10px] placeholder:leading-[12.19px] placeholder:text-[#A7A7A7] rounded-[10px] placeholder:border-[1px]"
+          autocomplete="off" value="{{ old('beneficiary_name') }}">
+
+        <!-- Suggestions container -->
+        <div id="suggestions" class="absolute z-10 bg-white border w-full mt-1 rounded shadow-md hidden"></div>
+      </div>
+        <div class="space-y-1">
+          <label for="opportunity" class="font-[400] text-[12px] leading-[14.63px] text-[#000000]">Beneficiary Phone Number</label>
+          <input id="beneficiary_number" type="text" name="beneficiary_phone_number" placeholder="Please Enter  phone number" class="text-xs w-full border rounded px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 placeholder:font-[400] placeholder:text-[10px] placeholder:leading-[12.19px] placeholder:text-[#A7A7A7] rounded-[10px] placeholder:border-[1px]"  value="{{ old('beneficiary_phone_number') }}">
+        </div>
+      
        
         <div class="space-y-1 mt-2">
-          <label for="potential" class="font-[400] text-[12px] leading-[14.63px] text-[#000000]">Event Value</label>
-          <input id="event_value" name="event_value" type="text" placeholder="Please enter event value" class="text-xs w-full border rounded px-3 py-2 text-sm  placeholder:font-[400] placeholder:text-[10px] placeholder:leading-[12.19px] placeholder:text-[#A7A7A7] rounded-[10px] placeholder:border-[1px]"  value="{{ old('event_value') }}">
+          <label for="potential" class="font-[400] text-[12px] leading-[14.63px] text-[#000000]">Monthly Salary / Income (INR)</label>
+          <input id="event_value" name="event_value" type="text" placeholder="Please enter income value" class="text-xs w-full border rounded px-3 py-2 text-sm  placeholder:font-[400] placeholder:text-[10px] placeholder:leading-[12.19px] placeholder:text-[#A7A7A7] rounded-[10px] placeholder:border-[1px]"  value="{{ old('event_value') }}">
         </div>
         <div class="space-y-1 mt-2">
           <label for="potential" class="font-[400] text-[12px] leading-[14.63px] text-[#000000]">Comment</label>

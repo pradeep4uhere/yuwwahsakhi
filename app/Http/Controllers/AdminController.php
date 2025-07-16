@@ -408,10 +408,10 @@ class AdminController extends Controller
                 // Check the response status
             if ($responseArray['status'] === true) {
                 // Success message
-                return redirect()->route('admin.partnercenter')->with('success', 'Partner Center deleted successfully.');
+                return redirect()->route('admin.partnercenter')->with('success', 'Partner Division deleted successfully.');
             } else {
                 // Error message
-                return redirect()->route('admin.partnercenter')->with('error', 'Failed to delete partner Center.');
+                return redirect()->route('admin.partnercenter')->with('error', 'Failed to delete partner Division.');
             }
 
     }

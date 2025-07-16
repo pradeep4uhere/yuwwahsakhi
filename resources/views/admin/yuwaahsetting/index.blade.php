@@ -86,7 +86,7 @@ button.delete-banner:hover {
 <section class="dashboard">
     <div class="top">
         <div class="title">
-            <span class="">Dashboard > {{$title}}</span> <br />
+            <span class="">Dashboard > YuthHub Partner App Setting</span> <br />
         </div>
         <div class="search-box">
             <i class="uil uil-search"></i>
@@ -99,7 +99,7 @@ button.delete-banner:hover {
     </div>
     <!-- <section class="dashboard-partners"> -->
     <div class="dash-content" >
-      <span class="texttitle">{{$title}}</span>
+      <span class="texttitle">YuthHub Partner App Homepage Setting</span>
       <div class="activity">
       <form id="yuwaahForm" method="post" action="{{ route('admin.yuwaahsakhi.homepage.setting') }}" enctype="multipart/form-data" >
           @csrf

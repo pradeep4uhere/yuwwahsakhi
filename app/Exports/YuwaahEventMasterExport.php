@@ -19,15 +19,7 @@ class YuwaahEventMasterExport implements FromCollection,  WithHeadings
         ->select(
             'yuwaah_event_type.name as Event_Type',
             'yuwaah_event_type.description as Event_Description',
-            'yuwaah_event_masters.event_category',
-            'yuwaah_event_masters.description',
-            'yuwaah_event_masters.eligibility',
-            'yuwaah_event_masters.fee_per_completed_transaction',
-            'yuwaah_event_masters.date_event_created_in_master',
-             DB::raw("CASE WHEN yuwaah_event_masters.status = 1 THEN 'Active' ELSE 'InActive' END as Status"),
-            'yuwaah_event_masters.document_1',
-            'yuwaah_event_masters.document_2',
-            'yuwaah_event_masters.document_3'
+             DB::raw("CASE WHEN yuwaah_event_type.status = 1 THEN 'Active' ELSE 'InActive' END as Status"),
         )
         ->get();
     }
@@ -37,15 +29,7 @@ class YuwaahEventMasterExport implements FromCollection,  WithHeadings
         return [
             'Event Type',
             'Event Description',
-            'Event Category',
-            'Description',
-            'Eligibility',
-            'Fee per Completed Transaction',
-            'Date Event Created in Master',
             'Status',
-            'Document 1',
-            'Document 2',
-            'Document 3',
         ];
     }
 }

@@ -10,6 +10,7 @@ use App\Exports\PartnerCenterExport;
 use App\Exports\YuwaahEventMasterExport;
 use App\Exports\OpportunityExport;
 use App\Exports\PromotionExport;
+use App\Http\Controllers\EventCategoryExportController;
 
 
 
@@ -43,7 +44,7 @@ Route::middleware('auth:admin')->group(function () {
     Route::any('/edit-partner-cengter/{id}', [AdminController::class, 'editPartnerCenter'])->name('admin.partnercenter.edit');
     Route::any('/delete-partner-center/{id}', [AdminController::class, 'deletePartnerCenter'])->name('admin.partnercenter.delete');
     Route::get('/export/partner-centers', function () {
-        return Excel::download(new PartnerCenterExport, 'partner_centers.xlsx');
+        return Excel::download(new PartnerCenterExport, 'partner_division_'.date('y_m_d_h_i_s').'.xlsx');
     })->name('partnerCenters.export');
 
     //All opportunities routes Here
@@ -98,6 +99,8 @@ Route::middleware('auth:admin')->group(function () {
     Route::get('/export/yuwaah-events', function () {
         return Excel::download(new YuwaahEventMasterExport, 'yuwaah_event_master.xlsx');
     })->name('yuwaah.events.export');
+    Route::get('/export-event-category', [EventCategoryExportController::class, 'export'])->name('admin.export-event-category');
+
 
 
 

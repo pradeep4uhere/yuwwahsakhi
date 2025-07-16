@@ -22,11 +22,11 @@
         </div>
         <!-- <section class="dashboard-partners"> -->
         <div class="dash-content">
-            <span class="texttitle">{{$Module}}</span>
+            <span class="texttitle">{{$Module}} [{{count($response)}}]</span>
             <div class="activity">
                 <div class="activitybutton">
                     <a href="{{ route('yuwaah.events.export') }}">
-                    <button  class="add-partner-btn" id="exportPartnerBtn" style="margin-left: 2px; background-color: brown;">Export Yuwaah Events</button>
+                    <button  class="add-partner-btn" id="exportPartnerBtn" style="margin-left: 2px; background-color: brown;">Export Event Type</button>
                     </a>
                     <a href="{{route('admin.eventmaster.add')}}">
                     <button class="add-partner-btn" id="addPartnerBtn">Add {{$Module}}</button>
@@ -74,7 +74,7 @@
                             <?php $count++;} ?>
                             <?php } else{ ?>
                                 <tr><td colspan="11">
-                                    <div class="alert alert-danger text-center">No Event Found</div>
+                                    <div class="alert alert-danger text-center">No Event Type Found</div>
                                 </td></tr>
                             <?php } ?>
                         </tbody>

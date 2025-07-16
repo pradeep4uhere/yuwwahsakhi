@@ -43,7 +43,7 @@
                          {{ request()->routeIs('admin.partnercenter.edit') ? 'activelinktext' : '' }} 
                          {{ request()->routeIs('admin.partnercenter') ? 'activelinktext' : '' }}
                          {{ request()->routeIs('admin.partnercenter.add') ? 'activelinktext' : '' }}  
-                        ">Partner Center</span>
+                        ">Partner Division</span>
                     </a>
                 </li>
 
@@ -73,12 +73,14 @@
                         {{ request()->routeIs('admin.eventmaster.list') ? 'activelinktext' : '' }}
                         {{ request()->routeIs('admin.eventmaster.add') ? 'activelinktext' : '' }}
                         {{ request()->routeIs('admin.eventmaster.edit') ? 'activelinktext' : '' }}
+                        {{ request()->routeIs('admin.eventmaster. edit-eventtype') ? 'activelinktext' : '' }}
+                        
                         "></i>
                         <span class="link-name 
-                         {{ request()->routeIs('admin.eventmaster.update') ? 'activelinktext' : '' }} 
-                         {{ request()->routeIs('admin.eventmaster.list') ? 'activelinktext' : '' }}
-                         {{ request()->routeIs('admin.eventmaster.add') ? 'activelinktext' : '' }}  
-                          {{ request()->routeIs('admin.eventmaster.edit') ? 'activelinktext' : '' }}
+                         {{ request()->routeIs('admin.eventcategory.update') ? 'activelinktext' : '' }} 
+                         {{ request()->routeIs('admin.eventcategory.list') ? 'activelinktext' : '' }}
+                         {{ request()->routeIs('admin.eventcategory.add') ? 'activelinktext' : '' }}  
+                          {{ request()->routeIs('admin.eventcategory.edit') ? 'activelinktext' : '' }}
                         ">Event Category</span>
                     </a>
                 </li>
@@ -95,7 +97,7 @@
                          {{ request()->routeIs('admin.yuwaahsakhi.update') ? 'activelinktext' : '' }} 
                          {{ request()->routeIs('admin.yuwaahsakhi.list') ? 'activelinktext' : '' }}
                          {{ request()->routeIs('admin.yuwaahsakhi.add') ? 'activelinktext' : '' }}  
-                        ">Yuwaah Sakhi</span>
+                        ">Field Center</span>
                     </a>
                 </li>
                 

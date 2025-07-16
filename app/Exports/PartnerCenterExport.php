@@ -20,13 +20,7 @@ class PartnerCenterExport implements FromCollection, WithHeadings
             'center_name',
             'email',
             'contact_number',
-            'district_id',
-            'block_id',
-            'state_id',
             'status',
-            'address',
-            'pincode',
-            'password',
             'onboard_date'
         )->get();
     }
@@ -36,17 +30,11 @@ class PartnerCenterExport implements FromCollection, WithHeadings
     {
         return [
             'Partner ID',
-            'Partner Center ID',
-            'Center Name',
-            'Email',
+            'Partner Division ID',
+            'Division Name',
+            'Login Email',
             'Contact Number',
-            'District ID',
-            'Block ID',
-            'State ID',
             'Status',
-            'Address',
-            'Pincode',
-            'Password',
             'Onboard Date',
         ];
     }

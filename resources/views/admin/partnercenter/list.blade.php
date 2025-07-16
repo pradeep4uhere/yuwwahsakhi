@@ -4,7 +4,7 @@
 <section class="dashboard">
         <div class="top">
             <div class="title">
-                <span class="">Dashboard > {{$title}}</span> <br />
+                <span class="">Dashboard > Partner Division</span> <br />
             </div>
             <div class="search-box">
             <form method="GET" action="{{ url()->current() }}" class="search-box" style="display: flex; align-items: center; gap: 10px;">
@@ -22,14 +22,14 @@
         </div>
         <!-- <section class="dashboard-partners"> -->
         <div class="dash-content">
-            <span class="texttitle">{{$title}} [{{$response->total()}}]</span>
+            <span class="texttitle">All Partner Division [{{$response->total()}}]</span>
             <div class="activity">
                 <div class="activitybutton">
                     <a href="{{ route('partnerCenters.export') }}">
-                    <button  class="add-partner-btn" id="exportPartnerBtn" style="margin-left: 2px; background-color: brown;">Export Partner Centers</button>
+                    <button  class="add-partner-btn" id="exportPartnerBtn" style="margin-left: 2px; background-color: brown;">Export Partner Division</button>
                     </a>
                     <a href="{{route('admin.partnercenter.add')}}">
-                    <button class="add-partner-btn" id="addPartnerBtn">Add Partner Center</button>
+                    <button class="add-partner-btn" id="addPartnerBtn">Add Partner Division</button>
                     </a>
                 </div>
                     <div class="activity-data">
@@ -42,7 +42,7 @@
                                 <th>SN</th>
                                 <th>Partner ID</th>
                                 <th>Name</th>
-                                <th>Center ID</th>
+                                <th>Division ID</th>
                                 <th>Mobile</th>
                                 <th>Email</th>
                                 <th>Status</th>

@@ -5,6 +5,7 @@ namespace App\Exports;
 use App\Models\YuwaahSakhi;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithHeadings;
+use DB;
 
 class YuwaahSakhiExport implements FromCollection, WithHeadings
 {
@@ -12,44 +13,25 @@ class YuwaahSakhiExport implements FromCollection, WithHeadings
     * @return \Illuminate\Support\Collection
     */
     public function collection()
-    {
-        return YuwaahSakhi::select(
-            'id',
-            'sakhi_id',
-            'name',
-            'contact_number',
-            'email',
-            'password',
-            'dob',
-            'gender',
-            'education_level',
-            'specific_qualification',
-            'loan_taken',
-            'type_of_loan',
-            'loan_amount',
-            'loan_balance',
-            'english_proficiency',
-            'year_of_exp',
-            'kof',
-            'work_hour_in_day',
-            'infrastructure_available',
-            'service_offered',
-            'courses_completed',
-            'digital_proficiency',
-            'state',
-            'city',
-            'address',
-            'district',
-            'status',
-            'block_id',
-            'pincode',
-            'partner_id',
-            'partner_center_id',
-            'center_picture',
-            'profile_picture',
-            'remember_token',
-            'created_at')->get();
-    }
+{
+    return DB::table('yuwaah_sakhi as ys')
+        ->leftJoin('partners as p', 'ys.partner_id', '=', 'p.id')
+        ->leftJoin('partner_centers as pc', 'ys.partner_center_id', '=', 'pc.id')
+        ->select(
+            'ys.id',
+            'ys.sakhi_id',
+            'ys.name',
+            'ys.contact_number',
+            'ys.email',
+            'p.partner_id as partnerID',
+            'p.name as partner_name',
+            'pc.partner_centers_id as partner_division_id',
+            'pc.center_name as partner_center_name',
+            'ys.profile_picture',
+            'ys.created_at'
+        )
+        ->get();
+}
 
     public function headings(): array
     {
@@ -59,35 +41,11 @@ class YuwaahSakhiExport implements FromCollection, WithHeadings
             'Name',
             'Contact Number',
             'Email',
-            'Password',
-            'Date Of Birth',
-            'Gender',
-            'Education Level',
-            'Specific Qualification',
-            'Loan Taken',
-            'Type of loan',
-            'Loan Amount',
-            'Loan Balance',
-            'English Proficiency',
-            'Year of exp',
-            'kof',
-            'Work hour in day',
-            'Infrastructure Available',
-            'Service Offered',
-            'Courses Completed',
-            'Digital Proficiency',
-            'State',
-            'Sity',
-            'Address',
-            'District',
-            'Status',
-            'Block',
-            'Pincode',
             'Partner ID',
-            'Partner Center',
-            'Center Picture',
+            'Partner Name',
+            'Partner Division ID',
+            'Partner Division',
             'Profile Picture',
-            'Remember Token',
             'Created At'
         ];
     }

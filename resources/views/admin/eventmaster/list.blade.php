@@ -22,11 +22,11 @@
         </div>
         <!-- <section class="dashboard-partners"> -->
         <div class="dash-content">
-            <span class="texttitle">{{$Module}}</span>
+            <span class="texttitle">{{$Module}} [{{count($response)}}]</span>  
             <div class="activity">
                 <div class="activitybutton">
-                    <a href="{{ route('yuwaah.events.export') }}">
-                    <button  class="add-partner-btn" id="exportPartnerBtn" style="margin-left: 2px; background-color: brown;">Export Yuwaah Events</button>
+                    <a href="{{ route('admin.export-event-category') }}">
+                    <button  class="add-partner-btn" id="exportPartnerBtn" style="margin-left: 2px; background-color: brown;">Export Events Category</button>
                     </a>
                     <a href="{{route('admin.eventcategory.add')}}">
                     <button class="add-partner-btn" id="addPartnerBtn">Add {{$Module}}</button>
