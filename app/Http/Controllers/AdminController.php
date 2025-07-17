@@ -1317,7 +1317,7 @@ public function importLearners(Request $request)
         $gender = in_array($gender, $validGenders) ? $gender : 'Male';
 
         // Create learner
-        //dd($data);
+        dd($data);
         \App\Models\Learner::create([
             'first_name' => $data['FIRST NAME'] ?? 'NA',
             'last_name' => $data['LAST NAME'] ?? 'NA',

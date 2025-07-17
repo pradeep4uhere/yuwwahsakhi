@@ -16,6 +16,7 @@ class Learner extends Model
         'status',
         'date_of_birth',
         'gender',
+        'primary_phone_number',
         'email',
         'institution',
         'education_level',
