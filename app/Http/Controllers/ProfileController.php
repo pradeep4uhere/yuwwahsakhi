@@ -244,18 +244,13 @@ class ProfileController extends Controller
     public function LearnerList(Request $request)
     {
         $query = Learner::where('status', 'Active');
-
+        //dd($request->all());
         // Apply filters only if it's a POST or if filters are present in GET
         $filters = $request->only([
             'name',
-            'age',
-            'end_age',
-            'gender',
-            'education_level',
-            'digital_proficiency',
-            'english_knowledge',
-            'mobility_level',
-            'engaged_earning'
+            'phone',
+            'email',
+            'gender'
         ]);
 
         if (!empty($filters)) {
@@ -264,44 +259,49 @@ class ProfileController extends Controller
             }
 
             // Convert age range to date_of_birth range
-            if ($request->filled('age') || $request->filled('end_age')) {
-                $startAge = $request->input('age', 0);
-                $endAge = $request->input('end_age', 100);
+            // if ($request->filled('age') || $request->filled('end_age')) {
+            //     $startAge = $request->input('age', 0);
+            //     $endAge = $request->input('end_age', 100);
 
-                $fromDate = now()->subYears($endAge)->startOfDay(); // older
-                $toDate = now()->subYears($startAge)->endOfDay();   // younger
+            //     $fromDate = now()->subYears($endAge)->startOfDay(); // older
+            //     $toDate = now()->subYears($startAge)->endOfDay();   // younger
 
-                $query->whereBetween('date_of_birth', [$fromDate, $toDate]);
-            }
+            //     $query->whereBetween('date_of_birth', [$fromDate, $toDate]);
+            // }
 
             if ($request->filled('gender')) {
                 $query->where('gender', $request->gender);
             }
 
-            if ($request->filled('education_level')) {
-                $query->where('education_level', $request->education_level);
+            // if ($request->filled('education_level')) {
+            //     $query->where('education_level', $request->education_level);
+            // }
+
+            // if ($request->filled('digital_proficiency')) {
+            //     $query->where('digital_proficiency', $request->digital_proficiency);
+            // }
+
+            // if ($request->filled('english_knowledge')) {
+            //     $query->where('english_knowledge', $request->english_knowledge);
+            // }
+
+            // if ($request->filled('mobility_level')) {
+            //     $query->where('job_mobility', $request->mobility_level);
+            // }
+
+            if ($request->filled('email')) {
+                $query->where('email', $request->email);
             }
 
-            if ($request->filled('digital_proficiency')) {
-                $query->where('digital_proficiency', $request->digital_proficiency);
-            }
 
-            if ($request->filled('english_knowledge')) {
-                $query->where('english_knowledge', $request->english_knowledge);
-            }
-
-            if ($request->filled('mobility_level')) {
-                $query->where('job_mobility', $request->mobility_level);
-            }
-
-            if ($request->filled('engaged_earning')) {
-                //$query->where('engaged_earning', $request->engaged_earning);
+            if ($request->filled('phone')) {
+                $query->where('primary_phone_number', $request->phone);
             }
         }
 
     // Paginate with query string to preserve filters in pagination
-    $learnerList = $query->paginate(10)->appends($request->query());
-
+    $learnerList = $query->with('eventTransactions')->paginate(20)->appends($request->query());
+    //dd($learnerList);
     return view($this->dir . '.learner_page', [
         'leanerList' => $learnerList
     ]);
@@ -640,6 +640,7 @@ class ProfileController extends Controller
                 'document_type'            => $request->input('document_type'),
                 'uploaded_doc_links'       => $uploadedDocLinks,
                 'event_date_created'       => now(),
+                'learner_id'               => $request->input('learner_id'),
             ];
 
             if ($action === 'submit') {
@@ -1190,7 +1191,7 @@ As a catalytic multi-stakeholder partnership, YuWaah is dedicated to transformin
         $query = $request->input('name');
         $results = Learner::where('status','Active')
             ->where('first_name', 'like', "%$query%")
-            ->select('first_name','primary_phone_number')
+            ->select('first_name','primary_phone_number','id')
             ->limit(10)
             ->get();
         return response()->json($results);

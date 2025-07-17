@@ -64,6 +64,7 @@
 
         <!-- Suggestions container -->
         <div id="suggestions" class="absolute z-10 bg-white border w-full mt-1 rounded shadow-md hidden"></div>
+        <input id="learner_id" type="hidden" name="learner_id">
       </div>
         <div class="space-y-1">
           <label for="opportunity" class="font-[400] text-[12px] leading-[14.63px] text-[#000000]">Beneficiary Phone Number</label>
@@ -259,8 +260,9 @@ $('#event_category').on('change', function () {
                         suggestions.html('<div class="px-3 py-1 text-sm text-gray-500">No results found</div>');
                     } else {
                         $.each(data, function (i, item) {
+                          console.log(item)
                             suggestions.append(
-                                `<div class="px-3 py-2 cursor-pointer hover:bg-blue-100 text-sm" data-name="${item.first_name}" data-number="${item.primary_phone_number}">
+                                `<div class="px-3 py-2 cursor-pointer hover:bg-blue-100 text-sm" data-name="${item.first_name}" data-learner_id="${item.id}" data-number="${item.primary_phone_number}">
                                     ${item.first_name} | ${item.primary_phone_number}
                                 </div>`
                             );
@@ -277,8 +279,11 @@ $('#event_category').on('change', function () {
     $(document).on('click', '#suggestions div', function () {
         let name = $(this).data('name');
         let primary_phone_number = $(this).data('number');
+        let learner_id = $(this).data('learner_id');
+        //alert(learner_id);
         //alert(primary_phone_number);
         $('#beneficiary_name').val(name);
+        $('#learner_id').val(learner_id);
         $('#beneficiary_number').val(primary_phone_number);
         $('#suggestions').addClass('hidden').empty();
     });

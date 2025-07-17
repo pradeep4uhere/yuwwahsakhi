@@ -41,7 +41,7 @@
                 @endif
                     </div>
                     <div style="width=100%;overflow-x: auto;">
-                    <form action="{{ route('admin.import.learner.action') }}" method="POST" enctype="multipart/form-data" id="importForm">
+                    <form action="{{ route('admin.import.learner.action') }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <div class="popup-grid">
                         <div class="input-container">

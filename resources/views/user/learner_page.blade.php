@@ -19,12 +19,12 @@
       </div>
 
       <div id="toggleSortPopUp()" class="mt-6 hidden fixed inset-0 flex items-center justify-center z-50">
-        <div class="bg-white p-5 w-[310px] h-[629px] absolute top-[80px] border-[1px]"
+        <div class="bg-white p-5 w-[340px] h-[429px] absolute top-[240px] border-[1px]"
           style="box-shadow: 0px 3px 10px 3px #00000026;">
           <div class="flex justify-between items-center mb-4">
             <h1
-              class="w-[38px] h-[17px] font-Montserrat font-[600] text-[14px] leading-[17.07px] text-center text-[#000000]">
-              Filter</h1>
+              class="w-[160px] h-[17px] font-Montserrat font-[600] text-[14px] leading-[17.07px] text-center text-[#000000]">
+              Learner Search Filter</h1>
             <button class="w-[20px] h-[20px] text-[#1F2937] hover:text-gray-700 text-4xl mt-[-16px]"
               onclick="toggleFilterForm()">
               &times;
@@ -35,139 +35,51 @@
             @csrf
             <div class="">
               <label
-                class="w-[38px] h-[12px] font-[400] text-[10px] leading-[12.19px] text-center text-[#000000]">Name</label>
-              <input type="text" name="gender"
+                class="w-[38px] h-[12px] font-[400] text-[10px] leading-[12.19px] text-center text-[#000000]">Enter Learner Name</label>
+              <input type="text" name="name"
                 class="w-[270px] h-[40px] border-[1px] rounded-[10px] bg-[#FFFFFF] border-[#28388F0D] text-[10px] text-[#A7A7A7] focus:ring-1 focus:ring-blue-500">
-                <option value="" disabled selected
-                  class="w-[106px] h-[12px] font-[400] text-[10px] leading-[12.19px]  text-[#000000]">Please select
-                  Gender</option>
-                <option value="male"
-                  class="w-[106px] h-[12px] font-[400] text-[10px] leading-[12.19px]  text-[#000000]">Male</option>
-                <option value="female"
-                  class="w-[106px] h-[12px] font-[400] text-[10px] leading-[12.19px]  text-[#000000]">Female</option>
-              </select>
             </div>
-            <div>
-              
+           
+            <div class="">
               <label
-                class="w-[20px] h-[12px] font-[400] text-[10px] leading-[12.19px] text-center text-[#000000]">Age</label>
-              <div class="flex justify-between gap-2 items-center text-xs">
-                <select name="age"
-                  class="w-[131px] h-[40px] rounded-[10px] border-[1px] bg-[#FFFFFF] border-[#28388F0D] text-[10px] text-[#A7A7A7] focus:ring-1 focus:ring-blue-500 ">
-                  <option value="" disabled selected
-                    class="w-[56px] h-[12px] font-[400] text-[10px] leading-[12.19px]  text-[#000000]">Start Age
-                  </option>
-                  <option value="18" class="w-[56px] h-[12px] font-[400] text-[10px] leading-[12.19px] text-[#000000]">
-                    18</option>
-                  <option value="25" class="w-[56px] h-[12px] font-[400] text-[10px] leading-[12.19px]  text-[#000000]">
-                    25</option>
-                </select>
-                <select name="end_age"
-                  class="w-[131px] h-[40px] rounded-[10px] border-[1px] bg-[#FFFFFF] border-[#28388F0D] text-[10px] text-[#A7A7A7] focus:ring-1 focus:ring-blue-500">
-                  <option value="" disabled selected
-                    class="w-[56px] h-[12px] font-[400] text-[10px] leading-[12.19px]  text-[#000000]">End Age</option>
-                  <option value="30" class="w-[56px] h-[12px] font-[400] text-[10px] leading-[12.19px]  text-[#000000]">
-                    30</option>
-                  <option value="50" class="w-[56px] h-[12px] font-[400] text-[10px] leading-[12.19px]  text-[#000000]">
-                    50</option>
-                </select>
-              </div>
+                class="w-[38px] h-[12px] font-[400] text-[10px] leading-[12.19px] text-center text-[#000000]">Primary Phone Number</label>
+              <input type="text" name="phone"
+                class="w-[270px] h-[40px] border-[1px] rounded-[10px] bg-[#FFFFFF] border-[#28388F0D] text-[10px] text-[#A7A7A7] focus:ring-1 focus:ring-blue-500">
             </div>
+            <div class="">
+              <label
+                class="w-[38px] h-[12px] font-[400] text-[10px] leading-[12.19px] text-center text-[#000000]">Email Address</label>
+              <input type="text" name="email"
+                class="w-[270px] h-[40px] border-[1px] rounded-[10px] bg-[#FFFFFF] border-[#28388F0D] text-[10px] text-[#A7A7A7] focus:ring-1 focus:ring-blue-500">
+            </div>
+           
+
+            
+
+           
+
+          
+
+          
+
 
             <div class="">
               <label
-                class="w-[38px] h-[12px] font-[400] text-[10px] leading-[12.19px] text-center text-[#000000]">Gender</label>
+                class="w-[148px] h-[12px] font-[400] text-[10px] leading-[12.19px] text-center text-[#000000]">Gender</label>
               <select name="gender"
                 class="w-[270px] h-[40px] border-[1px] rounded-[10px] bg-[#FFFFFF] border-[#28388F0D] text-[10px] text-[#A7A7A7] focus:ring-1 focus:ring-blue-500">
                 <option value="" disabled selected
-                  class="w-[106px] h-[12px] font-[400] text-[10px] leading-[12.19px]  text-[#000000]">Please select
-                  Gender</option>
-                <option value="male"
-                  class="w-[106px] h-[12px] font-[400] text-[10px] leading-[12.19px]  text-[#000000]">Male</option>
-                <option value="female"
-                  class="w-[106px] h-[12px] font-[400] text-[10px] leading-[12.19px]  text-[#000000]">Female</option>
-              </select>
-            </div>
-
-            <div class="">
-              <label
-                class="w-[80px] h-[12px] font-[400] text-[10px] leading-[12.19px] text-center text-[#000000]">Education
-                Level</label>
-              <select name="education_level"
-                class="w-[270px] h-[40px] border-[1px] rounded-[10px] bg-[#FFFFFF] border-[#28388F0D] text-[10px] text-[#A7A7A7] focus:ring-1 focus:ring-blue-500">
-                <option value="" disabled selected
-                  class="w-[106px] h-[12px] font-[400] text-[10px] leading-[12.19px]  text-[#000000]">Please select
-                  education level</option>
-                <option value="highschool"
-                  class="w-[106px] h-[12px] font-[400] text-[10px] leading-[12.19px]  text-[#000000]">High School
-                </option>
-                <option value="graduate"
-                  class="w-[106px] h-[12px] font-[400] text-[10px] leading-[12.19px]  text-[#000000]">Graduate</option>
-              </select>
-            </div>
-
-            <div class="">
-              <label
-                class="w-[91px] h-[12px] font-[400] text-[10px] leading-[12.19px] text-center text-[#000000]">Digital
-                Proficiency</label>
-              <select name="digital_proficiency"
-                class="w-[270px] h-[40px] border-[1px] rounded-[10px] bg-[#FFFFFF] border-[#28388F0D] text-[10px] text-[#A7A7A7] focus:ring-1 focus:ring-blue-500">
-                <option value="" disabled selected
-                  class="w-[106px] h-[12px] font-[400] text-[10px] leading-[12.19px]  text-[#000000]">Please select
-                  digital proficiency</option>
-                <option value="basic"
-                  class="w-[106px] h-[12px] font-[400] text-[10px] leading-[12.19px]  text-[#000000]">Basic</option>
-                <option value="advanced"
-                  class="w-[106px] h-[12px] font-[400] text-[10px] leading-[12.19px]  text-[#000000]">Advanced</option>
-              </select>
-            </div>
-
-            <div class="">
-              <label
-                class="w-[97px] h-[12px] font-[400] text-[10px] leading-[12.19px] text-center text-[#000000]">English
-                Knowledge</label>
-              <select name="english_knowledge"
-                class="w-[270px] h-[40px] border-[1px] rounded-[10px] bg-[#FFFFFF] border-[#28388F0D] text-[10px] text-[#A7A7A7] focus:ring-1 focus:ring-blue-500">
-                <option value="" disabled selected
-                  class="w-[106px] h-[12px] font-[400] text-[10px] leading-[12.19px]  text-[#000000]">Please select
-                  English Knowledge</option>
-                <option value="beginner"
-                  class="w-[106px] h-[12px] font-[400] text-[10px] leading-[12.19px]  text-[#000000]">Beginner</option>
-                <option value="fluent"
-                  class="w-[106px] h-[12px] font-[400] text-[10px] leading-[12.19px]  text-[#000000]">Fluent</option>
-              </select>
-            </div>
-
-            <div class="">
-              <label
-                class="w-[41px] h-[12px] font-[400] text-[10px] leading-[12.19px] text-center text-[#000000]">Mobility</label>
-              <select name="mobility_level"
-                class="w-[270px] h-[40px] border-[1px] rounded-[10px] bg-[#FFFFFF] border-[#28388F0D] text-[10px] text-[#A7A7A7] focus:ring-1 focus:ring-blue-500">
-                <option value="" disabled selected
-                  class="w-[106px] h-[12px] font-[400] text-[10px] leading-[12.19px]  text-[#000000]">Please select
-                  mobility level</option>
-                <option value="low" class="w-[106px] h-[12px] font-[400] text-[10px] leading-[12.19px]  text-[#000000]">
-                  Low</option>
-                <option value="high"
-                  class="w-[106px] h-[12px] font-[400] text-[10px] leading-[12.19px]  text-[#000000]">High</option>
-              </select>
-            </div>
-
-            <div class="">
-              <label
-                class="w-[148px] h-[12px] font-[400] text-[10px] leading-[12.19px] text-center text-[#000000]">Currently
-                Engaged in Earning</label>
-              <select name="engaged_earning"
-                class="w-[270px] h-[40px] border-[1px] rounded-[10px] bg-[#FFFFFF] border-[#28388F0D] text-[10px] text-[#A7A7A7] focus:ring-1 focus:ring-blue-500">
-                <option value="" disabled selected
-                  class="w-[106px] h-[12px] font-[400] text-[10px] leading-[12.19px]  text-[#000000]">Please select
+                  class="w-[106px] h-[12px] font-[400] text-[10px] leading-[12.19px]  text-[#000000]">Please choose Gender
                 </option>
                 <option value="yes" class="w-[106px] h-[12px] font-[400] text-[10px] leading-[12.19px]  text-[#000000]">
-                  Yes</option>
+                  Male</option>
                 <option value="no" class="w-[106px] h-[12px] font-[400] text-[10px] leading-[12.19px]  text-[#000000]">
-                  No</option>
+                  Female</option>
               </select>
             </div>
+
+
+           
 
             <div class="flex justify-center">
               <button class="w-[250px] h-[40px] bg-[#28388F] rounded-[10px] mt-[25px]" type="submit">
@@ -184,7 +96,7 @@
       @endphp
       <!-- <div class="mt-6 flex gap-2 items-center justify-between"> -->
       <a href="{{route('learner.details',['id'=>encryptString($item['id'])])}}"
-        class="w-[340px] h-[70px] absolute top-[{{$top}}px]  left-[30px] rounded-[10px] bg-[#FFFFFF] flex gap-2 items-center justify-between cursor-pointer"
+        class="w-[375px] h-[70px] absolute top-[{{$top}}px]  left-[14px] rounded-[10px] bg-[#FFFFFF] flex gap-2 items-center justify-between cursor-pointer"
         style="box-shadow: 0px 4px 10px 0px #00000026;">
         <div class="flex justify-center gap-2 items-center">
           <div class="w-[40px] h-[40px] ml-2">
@@ -194,26 +106,36 @@
 
           <div class="flex flex-col items-center gap-1.5">
             <div
-              class="w-[86px] h-[17px] ml-[5px] font-Montserrat font-[500] text-[12px] leading-[17.07px] text-[#000000]">
-             {{ \Illuminate\Support\Str::limit($item['first_name'], 10) }}
+              class="w-[200px] h-[17px] ml-[5px] font-Montserrat font-[500] text-[12px] leading-[17.07px] text-[#000000]">
+             {{ \Illuminate\Support\Str::limit($item['first_name'], 20) }}<br/>
+             <small>M: {{$item['primary_phone_number']}}</small>
             </div>
           </div>
-          <div class="flex gap-1.5">
+          <!-- <div class="flex gap-1.5">
+           
+            
+          </div> -->
+          <div class="flex gap-2.5">
+            <!--  -->
             <div class="w-5 h-5 rounded-full bg-gray-500"></div>
             <div class="w-5 h-5 rounded-full bg-blue-500"></div>
             <div class="w-5 h-5 rounded-full bg-green-500"></div>
-            
-          </div>
-          <div class="flex gap-2.5">
-            <span>
-              <!-- <i class="material-icons text-sm">date_range</i> -->
-              <img src="{{asset('asset/images/Learner calendar.png')}}" class="w-[10px] h-[10px] " alt="">
-            </span>
-            <span class=" font-[500] text-[10px] leading-[12.19px] text-[#000000]">
-            {{getdateformate($item['create_date'])}}
-            </span>
           </div>
         </div>
+          <!-- Event Transactions: Only if present -->
+        @if ($item->eventTransactions->isNotEmpty())
+          <div class="absolute  w-[375px] bg-[#f9f9f9] rounded-[10px] px-3 py-2 shadow-md text-sm">
+            <strong>Event Transactions:</strong>
+            <ul class="list-disc ml-5">
+              @foreach ($item->eventTransactions as $tx)
+                <li>
+                  ID: {{ $tx->id }} | Type: {{ $tx->event_type_id ?? 'N/A' }} | Amount: ₹{{ $tx->amount ?? 0 }}
+                </li>
+              @endforeach
+            </ul>
+          </div>
+        @endif
+
         
       </a>
       @endforeach

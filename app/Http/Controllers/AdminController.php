@@ -23,6 +23,7 @@ use App\Imports\LearnersImport;
 use GuzzleHttp\Client;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\MessageBag;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Validator;
 
 
@@ -1275,7 +1276,97 @@ public function importLearnerForm(Request $request){
     ]);
 }
 
-    public function importLearners(Request $request)
+public function importLearners(Request $request)
+{
+    $request->validate([
+        'file' => 'required|mimes:csv,txt|max:2048',
+    ]);
+
+    $file = $request->file('file');
+
+    
+
+    // Read and parse the CSV
+    $rows = array_filter(array_map('trim', file($file->getRealPath())));
+    $delimiter = (substr_count($rows[0], ';') > substr_count($rows[0], ',')) ? ';' : ',';
+
+    $header = str_getcsv(array_shift($rows), $delimiter);
+
+    foreach ($rows as $index => $line) {
+        $row = str_getcsv($line, $delimiter);
+
+        if (count($row) !== count($header)) {
+            return response()->json([
+                'error' => "Row $index has " . count($row) . " columns, expected " . count($header),
+            ], 400);
+        }
+
+        $data = array_combine($header, $row);
+
+        // Parse DOB
+        try {
+            $dob = (!empty($data['DOB']) && strtolower($data['DOB']) !== 'undefined')
+                ? \Carbon\Carbon::createFromFormat('d/m/y', $data['DOB'])->format('Y-m-d')
+                : null;
+        } catch (\Exception $e) {
+            $dob = null;
+        }
+
+        $validGenders = ['Male', 'Female', 'Other'];
+        $gender = ucfirst(strtolower(trim($data['GENDER'] ?? '')));
+        $gender = in_array($gender, $validGenders) ? $gender : 'Male';
+
+        // Create learner
+        //dd($data);
+        \App\Models\Learner::create([
+            'first_name' => $data['FIRST NAME'] ?? 'NA',
+            'last_name' => $data['LAST NAME'] ?? 'NA',
+            'email' => 'NA',
+            'primary_phone_number' => $data['USER PHONE NUMBER'] ?? null,
+            'gender' => $gender,
+            'date_of_birth' => $dob,
+            'education_level' => $data['EDUCATION LEVEL'] ?? null,
+            'digital_proficiency' => $data['DIGITAL PROFECIENCY LEVEL'] ?? null,
+            'MONTHLY_FAMILY_INCOME_RANGE' => $data['MONTHLY FAMILY INCOME RANGE'] ?? null,
+            'USER_EMAIL' => $data['USER EMAIL'] ?? null,
+            'DISTRICT_CITY' => $data['DISTRICT/CITY'] ?? null,
+            'STATE' => $data['STATE'] ?? null,
+            'PIN_CODE' => $data['PIN CODE'] ?? null,
+            'PROGRAM_CODE' => $data['PROGRAM CODE'] ?? null,
+            'PROGRAM_STATE' => $data['PROGRAM STATE'] ?? null,
+            'PROGRAM_DISTRICT' => $data['PROGRAM DISTRICT'] ?? null,
+            'UNIT_INSTITUTE' => $data['UNIT/INSTITUTE'] ?? null,
+            'SOCIAL_CATEGORY' => $data['SOCIAL CATEGORY'] ?? null,
+            'RELIGION' => $data['RELIGION'] ?? null,
+            'USER_MARIAL_STATUS' => $data['USER MARIAL STATUS'] ?? null,
+            'DIFFRENTLY_ABLED' => $data['DIFFRENTLY ABLED'] ?? null,
+            'english_knowledge' => $data['ENGLISH PROFECIENCY LEVEL'] ?? null,
+            'IDENTITY_DOCUMENTS' => $data['IDENTITY DOCUMENTS'] ?? null,
+            'REASON_FOR_LEARNING_NEW_SKILLS' => $data['REASON FOR LEARNING NEW SKILLS'] ?? null,
+            'EARN_AT_MY_OWN_TIME' => $data['EARN AT MY OWN TIME'] ?? null,
+            'work_hours_per_day' => is_numeric($data['EARNING HOURS PER DAY']) ? $data['EARNING HOURS PER DAY'] : 0,
+            'work_kind' => $data['NATURE OF WORK'] ?? null,
+            'preferred_skill1' => $data['SPECIFIC SKILL'] ?? null,
+            'RELOCATE_FOR_JOB' => $data['RELOCATE FOR JOB'] ?? null,
+            'job_qualifications' => $data['JOB QUALIFICATION'] ?? null,
+            'WHEN_CAN_USER_START' => $data['WHEN CAN USER START '] ?? null,
+            'experiance' => $data['USER JOB EXPERIANCE'] ?? 0,
+            'interested_in_opportunities' => ($data['INTERESTED TO RUN A BUSINESS'] == 'FALSE') ? 0 : 1,
+            'business_status' => $data[' BUSINESS STATUS'] ?? null,
+            'USER_NEED_HELP_WITH' => $data['USER NEED HELP WITH'] ?? null,
+            'profile_photo_url' => $data['USER PHOTO URL'] ?? null,
+            'create_date' => $data['USER PROFILE CREATED DATE'] ?? null,
+        ]);
+    }
+
+    return response()->json([
+        'status' => 'success',
+        'message' => 'CSV imported successfully.',
+    ]);
+}
+
+
+    public function importLearnerssssss(Request $request)
     {
         ini_set('memory_limit', '512M');
         set_time_limit(600); 

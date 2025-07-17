@@ -33,6 +33,25 @@ class Learner extends Model
         'earn_qualifications',
         'business_status',
         'business_description',
+        'MONTHLY_FAMILY_INCOME_RANGE',
+        'USER_EMAIL',
+        'DISTRICT_CITY',
+        'STATE',
+        'PIN_CODE',
+        'PROGRAM_CODE',
+        'PROGRAM_STATE',
+        'PROGRAM_DISTRICT',
+        'UNIT_INSTITUTE',
+        'SOCIAL_CATEGORY',
+        'RELIGION',
+        'USER_MARIAL_STATUS',
+        'DIFFRENTLY_ABLED',
+        'IDENTITY_DOCUMENTS',
+        'REASON_FOR_LEARNING_NEW_SKILLS',
+        'EARN_AT_MY_OWN_TIME',
+        'RELOCATE_FOR_JOB',
+        'WHEN_CAN_USER_START',
+        'USER_NEED_HELP_WITH'
     ];
 
     protected $casts = [
@@ -125,6 +144,11 @@ class Learner extends Model
     public function block()
     {
         return $this->belongsTo(Block::class);
+    }
+
+    public function eventTransactions()
+    {
+        return $this->hasMany(EventTransaction::class, 'learner_id');
     }
     
     

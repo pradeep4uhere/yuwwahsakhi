@@ -12,6 +12,7 @@ class EventTransaction extends Model
     protected $table = 'event_transactions';
 
     protected $fillable = [
+        'learner_id',
         'beneficiary_phone_number',
         'beneficiary_name',
         'event_type',
@@ -53,6 +54,11 @@ class EventTransaction extends Model
     public function assignedEvents()
     {
         return $this->hasMany(EventAssigned::class, 'event_id');
+    }
+
+    public function learner()
+    {
+        return $this->belongsTo(Learner::class, 'learner_id');
     }
 
     
