@@ -1689,6 +1689,25 @@ public function fetchLearners(Request $request)
                     "yuwaah_resume_update_date" => $item->yuwaah_resume_update_date,
                     "created_at" => $item->created_at,
                     "updated_at" => $item->updated_at,
+                    'MONTHLY_FAMILY_INCOME_RANGE'=>$item->MONTHLY_FAMILY_INCOME_RANGE,
+                    'USER_EMAIL'=>$item->USER_EMAIL,
+                    'DISTRICT_CITY'=>$item->DISTRICT_CITY,
+                    'STATE'=>$item->STATE,
+                    'PIN_CODE'=>$item->PIN_CODE,
+                    'PROGRAM_CODE'=>$item->PROGRAM_CODE,
+                    'PROGRAM_STATE'=>$item->PROGRAM_STATE,
+                    'PROGRAM_DISTRICT'=>$item->PROGRAM_DISTRICT,
+                    'UNIT_INSTITUTE'=>$item->UNIT_INSTITUTE,
+                    'SOCIAL_CATEGORY'=>$item->SOCIAL_CATEGORY,
+                    'RELIGION'=>$item->RELIGION,
+                    'USER_MARIAL_STATUS'=>$item->USER_MARIAL_STATUS,
+                    'DIFFRENTLY_ABLED'=>$item->DIFFRENTLY_ABLED,
+                    'IDENTITY_DOCUMENTS'=>$item->IDENTITY_DOCUMENTS,
+                    'REASON_FOR_LEARNING_NEW_SKILLS'=>$item->REASON_FOR_LEARNING_NEW_SKILLS,
+                    'EARN_AT_MY_OWN_TIME'=>$item->EARN_AT_MY_OWN_TIME,
+                    'RELOCATE_FOR_JOB'=>$item->RELOCATE_FOR_JOB,
+                    'WHEN_CAN_USER_START'=>$item->WHEN_CAN_USER_START,
+                    'USER_NEED_HELP_WITH'=>$item->USER_NEED_HELP_WITH
                 ];
             }
             
