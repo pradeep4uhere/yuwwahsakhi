@@ -32,17 +32,49 @@
                     <div class="activity-data">
                         <x-alert />
                     </div>
+        
                     <div class="table-containers">
                     <table class="table table-striped table-bordered">
                         <thead>
                             <tr>
                                 <th>SN</th>
-                                <th>First Name</th>
-                                <th>Last Name</th>
-                                <th>Primary Contact</th>
-                                <th>Date Of Birth</th>
+                                <th>Photo</th>
+                                <th nowrap="nowrap">First Name</th>
+                                <th nowrap="nowrap">Last Name</th>
+                                <th>Contact</th>
+                                <th nowrap="nowrap">Date Of Birth</th>
                                 <th>Email</th>
                                 <th>Gender</th>
+                                <th>Education Level</th>
+                                <th nowrap="nowrap">Monthly Income Range</th>
+                                <th>City</th>
+                                <th>State</th>
+                                <th>Pincode</th>
+                                <th nowrap="nowrap"Program Code</th>
+                                <th nowrap="nowrap">Institute State</th>
+                                <th nowrap="nowrap">Institute District</th>
+                                <th>Unit</th>
+                                <th nowrap="nowrap">Social Category</th>
+                                <th>Religion</th>
+                                <th nowrap="nowrap">Marital Status</th>
+                                <th nowrap="nowrap">Differently Abled</th>
+                                <th nowrap="nowrap">Digital Proficiency Level</th>
+                                <th nowrap="nowrap">Engilsh Proficiency Level</th>
+                                <th nowrap="nowrap">Identity Document</th>
+                                <th nowrap="nowrap">Reason For Learning New Skills</th>
+                                <th nowrap="nowrap">Earn At My Own Time</th>
+                                <th nowrap="nowrap">Earn At My Own Time Hours Per Day</th>
+                                <th nowrap="nowrap">Earn At My Own Time Nature of work</th>
+                                <th nowrap="nowrap">Specific Skill</th>
+                                <th nowrap="nowrap">Job Preferences Mobility</th>
+                                <th nowrap="nowrap">Get a Job Qualification</th>
+                                <th nowrap="nowrap">Job Preferences Mobility</th>
+                                <th nowrap="nowrap">Get A Job When Can Start</th>
+                                <th nowrap="nowrap">Get A Job Experiance</th>
+                                <th nowrap="nowrap">Run A Business Status</th>
+                                <th nowrap="nowrap">Run A Business Need Help With</th>
+                                <th nowrap="nowrap">Pathway Completed</th>
+                                <th nowrap="nowrap">Pathway Enrolled</th>
                                 <th>Status</th>
                                 <th>Created On</th>
                                 <th>Actions</th>
@@ -55,19 +87,62 @@
                                   foreach($response as $item){ //dd($item); ?>
                             <tr>
                                 <td>{{$count}}</td>
+                                @php
+                                    $validExtensions = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
+                                    $url = $item['profile_photo_url'] ?? '';
+                                    $extension = strtolower(pathinfo($url, PATHINFO_EXTENSION));
+                                @endphp
+
+                                <td>
+                                    @if(!empty($url) && in_array($extension, $validExtensions))
+                                        <img src="{{ $url }}" height="35px" width="35px">
+                                    @else
+                                        <img src="{{ asset('asset/images/user.jpg') }}" height="35px" width="35px">
+                                    @endif
+                                </td>
                                 <td>{{$item['first_name']}}</td>
                                 <td>{{$item['last_name']}}</td>
                                 <td>{{$item['primary_phone_number']}}</td>
-                                 <td>{{getdateformate($item['date_of_birth'])}}</td>
+                                <td nowrap="nowrap">{{getdateformate($item['date_of_birth'])}}</td>
                                 <td>{{$item['email']}}</td>
                                 <td>{{$item['gender']}}</td>
+                                <td nowrap="nowrap">{{$item['education_level']}}</td>
+                                <td>{{$item['MONTHLY_FAMILY_INCOME_RANGE']}}</td>
+                                <td>{{$item['DISTRICT_CITY']}}</td>
+                                <td>{{$item['STATE']}}</td>
+                                <td>{{$item['PIN_CODE']}}</td>
+                                <td>{{$item['PROGRAM_CODE']}}</td>
+                                <td>{{$item['PROGRAM_STATE']}}</td>
+                                <td>{{$item['PROGRAM_DISTRICT']}}</td>
+                                <td>{{$item['UNIT_INSTITUTE']}}</td>
+                                <td>{{$item['SOCIAL_CATEGORY']}}</td>
+                                <td>{{$item['RELIGION']}}</td>
+                                <td>{{$item['USER_MARIAL_STATUS']}}</td>
+                                <td>{{$item['DIFFRENTLY_ABLED']}}</td>
+                                <td>{{$item['digital_proficiency']}}</td>
+                                <td>{{$item['english_knowledge']}}</td>
+                                <td>{{$item['IDENTITY_DOCUMENTS']}}</td>
+                                <td>{{$item['REASON_FOR_LEARNING_NEW_SKILLS']}}</td>
+                                <td>{{$item['preferred_industry1']}}</td>
+                                <td>{{$item['preferred_industry2']}}</td>
+                                <td>{{$item['preferred_industry3']}}</td>
+                                <td>{{$item['preferred_skill2']}}</td>
+                                <td>{{$item['RELOCATE_FOR_JOB']}}</td>
+                                <td>{{$item['preferred_skill2']}}</td>
+                                <td>{{$item['WHEN_CAN_USER_START']}}</td>
+                                <td>{{$item['experience_years']}}</td>
+                                <td>{{$item['preferred_industry3']}}</td>
+                                <td>{{$item['business_status']}}</td>
+                                <td>{{$item['USER_NEED_HELP_WITH']}}</td>
+                                <td>{{$item['no_of_pathway_completed']}}</td>
+                                <td>{{$item['no_of_pathway_enrolled']}}</td>
                                 <td><?php if($item['status']=='Active'){ ?>
                                    <span class="badge badge-success">Active</span>
                                 <?php }else{ ?>
                                     <span class="badge badge-danger">InActive</span>
                                 <?php } ?>
                                 </td>
-                                <td>{{$item['created_at']}}</td>
+                                <td nowrap="nowrap">{{$item['created_at']}}</td>
                                 <td>
                                     <a href="{{route('admin.partner.edit',['id'=>encryptString($item['id'])])}}"><i class="uil uil-edit" style="color: #27272A; font-size: 15px;"></i></a>
                                     <a href="javascript:void(0);" 
