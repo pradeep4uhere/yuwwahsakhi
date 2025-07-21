@@ -24,19 +24,17 @@
                     <button class="add-partner-btn" id="addPartnerBtn">All Opportunities</button>
                     </a>
                 </div>
-                @if(!empty($errors) && ($errors!=null))
-                <div class="alert alert-danger">
-                    @foreach ($errors as $field => $fieldErrors)
-                            @foreach ($fieldErrors as $error)
-                                <small>{{ ucfirst($field) }}: {{ $error }}</small><br/>
+                @if($errors->any())
+                    <div class="alert alert-danger">
+                        <ul class="mb-0">
+                            @foreach($errors->all() as $error)
+                                <li>{{ $error }}</li>
                             @endforeach
-                    @endforeach
-                </div>
+                        </ul>
+                    </div>
                 @endif
-                @if(isset($success) && ($success!=null))
-                <div class="alert alert-success">
-                    <small>{{$success}}</small>
-                </div>
+                @if(session('success'))
+                    <div class="alert alert-success">{{ session('success') }}</div>
                 @endif
 
             <form id="yuwaahForm" method="post" style="width:70%" action="{{ route('admin.opportunities.add') }}" enctype="multipart/form-data">
@@ -44,35 +42,35 @@
                 <div class="popup-grid">
             <div class="input-container">
               <label for="field1">Opportunities Title</label>
-              <input type="text" name="opportunities_title" placeholder="Please enter opportunities title" >
+              <input type="text" name="opportunities_title" placeholder="Please enter opportunities title" value="{{old('opportunities_title')}}" >
             </div>
             <div class="input-container">
               <label for="field2">Description</label>
-              <textarea  name="description" placeholder="Please enter description" row="5" cpl="20"></textarea>
+              <textarea  name="description" placeholder="Please enter description" row="5" cpl="20">{{old('description')}}</textarea>
             </div>
             <div class="input-container">
               <label for="field3">Payout Monthly</label>
-              <input type="text" name="payout_monthly" placeholder="Please enter payout monthly">
+              <input type="number" name="payout_monthly" placeholder="Please enter payout monthly" value="{{old('payout_monthly')}}" >
             </div>
             <div class="input-container">
               <label for="field4">Number of Openings</label>
-              <input type="number" name="number_of_openings" placeholder="Please Enter Number Of Oppenning">
+              <input type="number" name="number_of_openings" placeholder="Please Enter Number Of Oppenning" value="{{old('number_of_openings')}}">
             </div>
             <div class="input-container">
               <label for="field4">Start Date</label>
-              <input type="date" name="start_date" placeholder="Please choose start Date">
+              <input type="date" name="start_date" placeholder="Please choose start Date" value="{{old('start_date')}}">
             </div>
             <div class="input-container">
               <label for="field4">End Date</label>
-              <input type="date" name="end_date" placeholder="Please choose end date">
+              <input type="date" name="end_date" placeholder="Please choose end date" value="{{old('end_date')}}">
             </div>
             <div class="input-container">
               <label for="field4">Provider Name</label>
-              <input type="text" name="provider_name" placeholder="Please Enter Provider Name ">
+              <input type="text" name="provider_name" placeholder="Please Enter Provider Name " value="{{old('provider_name')}}">
             </div>
             <div class="input-container">
               <label for="field4">Incentive</label>
-              <input type="text" name="incentive" placeholder="Please Enter incentive ">
+              <input type="text" name="incentive" placeholder="Please Enter incentive " value="{{old('incentive')}}">
             </div>
             
             <div class="input-container">

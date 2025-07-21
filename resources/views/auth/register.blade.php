@@ -77,7 +77,7 @@
         <input type="checkbox" name="agree" id="agreeCheckbox" class="w-[15px] h-[15px] border-[1.25px] text-[#05A7D1]">
         <div class="w-[300px] h-[45px] font-[400] text-[12px] leading-[14.63px]  text-[#000000]">
           By complete the registration you are agreeing Terms and Conditions
-          <a href="#" class="font-[700] text-[12px] leading-[14.63px] text-[#28388F] hover:underline">Terms & Conditions</a>
+          <a href="{{route('page.termsandconditions')}}" class="font-[700] text-[12px] leading-[14.63px] text-[#28388F] hover:underline">Terms & Conditions</a>
         </div>
       </div>
 

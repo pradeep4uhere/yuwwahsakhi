@@ -70,11 +70,11 @@
                                 <td nowrap="nowrap">{{getformateDate($item['created_at'],'d M, Y H:i:s A')}}</td>
                                 <td nowrap="nowrap">
                                     <a href="{{route('admin.partner.edit',['id'=>encryptString($item['id'])])}}"><i class="uil uil-edit" style="color: #27272A; font-size: 15px;"></i></a>
-                                    <a href="javascript:void(0);" 
+                                    <!-- <a href="javascript:void(0);" 
                                         data-route="{{ route('admin.partner.delete', ['id' => '__ID__']) }}" 
                                         onclick="deleteConfirm('{{ encryptString($item['id']) }}', this.getAttribute('data-route'))">
                                             <i class="uil uil-trash-alt" style="color: #27272A; font-size: 15px;"></i>
-                                    </a>
+                                    </a> -->
                                 </td>
                             </tr>
                             <?php $count++;} ?>

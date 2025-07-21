@@ -87,7 +87,7 @@ return [
     'assign_learners'=>'Assign Learners',
     'learner_list'=>'Learner List',
     'learner'=>'Learners',
-    'update_learner'=>'Assing Lerner',
+    'update_learner'=>'Assign Learner',
     'event'=>'Events',
     'all_events'=>'All Events',
     'add_event'=>'Add Event',

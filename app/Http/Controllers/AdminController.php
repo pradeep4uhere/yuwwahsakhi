@@ -99,7 +99,7 @@ class AdminController extends Controller
             $query->orderBy($sortBy, $sortOrder);
         }
 
-        $query->orderBy('id','desc');
+        $query->orderBy('name','asc');
         // Set the number of items per page from the request, or default to 10
         $perPage = $request->get('per_page', env('PAGINATION'));
 
@@ -273,7 +273,7 @@ class AdminController extends Controller
             $query->orderBy($sortBy, $sortOrder);
         }
 
-        $query->orderBy('id','desc');
+        $query->orderBy('center_name','ASC');
         // Set the number of items per page from the request, or default to 10
         $perPage = $request->get('per_page', env('PAGINATION'));
 
@@ -441,39 +441,70 @@ class AdminController extends Controller
     /**
      * Add New Parter
      */
-    public function addNewOpportunities(Request $request){
-        $responseArray = [];
-        $errors = [];
-        $success = [];
-       
-        if($request->isMethod('POST')) {
-            // Create an instance of the ApiAuthController
-            $authApiController = new ApiAuthController();
-            
-            // Call the 'addNewPartner' method and capture the response
-            $response = $authApiController->addNewOpportunities($request);  // Get the response directly
-            // If the response is a JsonResponse, you can convert it into an array
-            $responseArray = $response->getData(true);  // Convert to array
-            // Optionally, dump the response for debugging
-            if ($responseArray['status'] === false) {
-                $errors = $responseArray['errors'];
-                $success = [];
-            }
-            if ($responseArray['status'] === true) {
-                $errors = [];
-                $success = $responseArray['message'];
-            }
-            
-        }
-       
-        // Call the 'getPartnerList' method
-        return view('admin.opportunites.add', [
-            'response'=>$responseArray,
-            'errors'=> $errors,
-            'success'=>$success,
-            'title' => __('messages.add_new_opportunity'),
+    public function addNewOpportunities(Request $request)
+{
+    if ($request->isMethod('POST')) {
+        // Step 1: Validate input
+        $validator = Validator::make($request->all(), [
+            'opportunities_title'  => 'required|string|max:255', 
+            'description'          => 'required|string|max:5000',
+            'payout_monthly'       => 'required|numeric|min:0',
+            'start_date'           => 'required|date|after_or_equal:today',
+            'end_date'             => 'required|date|after:start_date',
+            'number_of_openings'   => 'required|integer|min:1',
+            'provider_name'        => 'required|string|max:255',
+            'incentive'            => 'required|string|max:255',
+            'document'             => 'required|file|mimes:pdf,doc,docx,jpg,png|max:10240',
         ]);
+
+        if ($validator->fails()) {
+            return redirect()->back()
+                ->withErrors($validator)
+                ->withInput();
+        }
+
+        // Step 2: Prepare data
+        $attributes = $request->only([
+            'opportunities_title',
+            'description',
+            'payout_monthly',
+            'start_date',
+            'end_date',
+            'number_of_openings',
+            'provider_name',
+            'incentive',
+        ]);
+
+        // Step 3: File upload
+        if ($request->hasFile('document')) {
+            $file = $request->file('document');
+            $fileName = time() . '-' . $file->getClientOriginalName();
+            $file->storeAs('public/documents', $fileName);
+            $attributes['document'] = $fileName;
+        }
+
+        // Step 4: Check duplicate
+        $existing = Opportunity::where('opportunities_title', $attributes['opportunities_title'])
+            ->where('start_date', $attributes['start_date'])
+            ->first();
+
+        if ($existing) {
+            return redirect()->back()
+                ->withErrors(['This opportunity already exists with the same title and start date.'])
+                ->withInput();
+        }
+
+        // Step 5: Save
+        $opportunity = Opportunity::create($attributes);
+
+        return redirect()->back()->with('success', 'Opportunity added successfully.');
     }
+
+    // Initial GET request view
+    return view('admin.opportunites.add', [
+        'title' => __('messages.add_new_opportunity'),
+    ]);
+}
 
     
     public function getOpportunitiesDetails(Request $request, $id)

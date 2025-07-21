@@ -1,7 +1,7 @@
 @extends('layouts.user')
 @section('title', 'Dashboard')
 @section('content')
-<div id="screen7" class="max-w-[26rem] mx-auto  bg-white shadow-md rounded-lg relative min-h-[100vh] h-auto">
+<div id="screen7" class="max-w-[26rem] mx-auto  bg-white shadow-md rounded-lg relative min-h-[120vh] h-auto">
     @include('user.header')
     <div class="">
       <h2
@@ -14,5 +14,7 @@
     </div>
 
 </div>
+@if(auth()->check())
 @include('user.bottom_menu')
+@endif
 @endsection

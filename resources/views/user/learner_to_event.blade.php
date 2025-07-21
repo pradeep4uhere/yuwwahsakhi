@@ -67,9 +67,14 @@
         <div class="space-y-1">
           <label for="event_category" class="font-[400] text-[12px] leading-[14.63px] text-[#000000]">Event Category</label>
           <select name="event_category" id="event_category" class="font-[400] text-[12px] leading-[14.63px] text-[#000000]" style="width:100%; padding:10px; border:solid 1px #ccc">
-              @foreach($eventCategoryList as $itemNew)
-              <option value="{{$item['id']}}" <?php if($itemNew['id']==$item['event_category']){ ?> selected="selected" <?php } ?>>{{$itemNew['event_category']}}</option>
-              @endforeach
+            @foreach($eventCategoryList as $itemNew)
+            @php
+                $selectedCategory = is_array($item ?? null) && isset($item['event_category']) ? $item['event_category'] : null;
+            @endphp
+            <option value="{{ $itemNew['id'] }}" {{ $selectedCategory == $itemNew['id'] ? 'selected' : '' }}>
+                {{ $itemNew['event_category'] }}
+            </option>
+          @endforeach
           </select>
         </div>
        

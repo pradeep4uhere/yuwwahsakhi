@@ -57,7 +57,6 @@ Route::middleware('auth')->group(function () {
     Route::any('/allevents', [ProfileController::class, 'allEventTransactionList'])->name('user.allevents');
     Route::get('/eventlearner/{id}', [ProfileController::class, 'assignLearnersIntoEvent'])->name('event.assignLearner');
     Route::post('/saveassignedeventlearner', [ProfileController::class, 'saveAssignLearnersIntoEvent'])->name('event.save.assignLearner');
-    Route::get('/termsandconditions', [ProfileController::class, 'PageTermsAndConditions'])->name('page.termsandconditions');
     Route::get('/unicefyuthhub', [ProfileController::class, 'PageUnicefYuthHub'])->name('page.unicefyuthhub');
     Route::get('/aboutyuwaah', [ProfileController::class, 'AboutYuwaah'])->name('page.about_yuwaah');
     Route::get('/profileedit', [ProfileController::class, 'profileEdit'])->name('profile.profiledit');
@@ -77,6 +76,8 @@ Route::middleware('auth')->group(function () {
 
     
 });
+Route::get('/termsandconditions', [ProfileController::class, 'PageTermsAndConditions'])->name('page.termsandconditions');
+
 
 Route::any('/verifyotp', [ProfileController::class, 'verifyOTP'])->name('verify.otp.page');
 Route::post('/verifymobile', [ProfileController::class, 'verifyMobileNumber'])->name('verifymobile');

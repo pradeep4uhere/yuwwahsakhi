@@ -1203,7 +1203,8 @@ As a catalytic multi-stakeholder partnership, YuWaah is dedicated to transformin
     public function getEventDetails(Request $request,$id){
         $eventList = YuwaahEventType::where('status',1)->get();
         //dd($eventList);
-        //$eventList = YuwaahEventMaster::where('status',1)->get();
+        $eventCategoryList = YuwaahEventMaster::where('status',1)->get();
+        //dd($eventCategoryList);
       
         $idstr = decryptString($id);
         $eventTransactionDetails = EventTransaction::with('Event')->where('id',$idstr)->first();
@@ -1212,25 +1213,28 @@ As a catalytic multi-stakeholder partnership, YuWaah is dedicated to transformin
 
         //Get All Category List
         $eventCategoryList = YuwaahEventMaster::where('event_type_id',$event_tpe_id)->where('status',1)->get();
-        //dd( $eventCategoryList);
+       // dd( $eventCategoryList);
 
-        $documentArr = json_decode($eventTransactionDetails['uploaded_doc_links'],true);
         $documentTypeArr = [];
-        $documentTypeArr[] = $eventTransactionDetails['Event']['document_1'];
-        $documentTypeArr[] = $eventTransactionDetails['Event']['document_2'];
-        $documentTypeArr[] = $eventTransactionDetails['Event']['document_3'];
+        $documentTypeArr[] = $eventCategoryList[0]['document_1'];
+        $documentTypeArr[] = $eventCategoryList[0]['document_2'];
+        $documentTypeArr[] = $eventCategoryList[0]['document_3'];
 
        //dd();
+       //dd( $documentTypeArr);
        $count =0;
        $documentNewArr = [];
-        foreach($documentArr as $key=>$val){
+        foreach($documentTypeArr as $key=>$val){
             $documentNewArr[] = [
                 'doc_name' => $documentTypeArr[$count],
                 'document'=> $val
             ];
             $count++;
         }
-        //dd($documentNewArr);
+        //dd($eventCategoryList);
+       
+
+       
         return view($this->dir.'.learner_to_event',[
             'item'=>$eventTransactionDetails,
             'ysid'=>encryptString(getUserId()),

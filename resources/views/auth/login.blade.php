@@ -78,11 +78,11 @@
           class="w-3/5 h-[40px] bg-blue-500 hover:bg-blue-600 text-white font-medium py-1 pb-[6px] rounded-lg text-center">
           Login </a>
       </div> -->
-      <div class="flex justify-center items-center w-[250px] h-[40px] rounded-[10px] bg-[#28388F] relative left-11">
+     
         <button type="submit"
-          class=" w-[41px] h-[17px] font-[600] text-[14px] leading-[17.07px] text-[#FFFFFF]">
+          class="flex justify-center items-center w-[250px] h-[40px] rounded-[10px] bg-[#28388F] relative left-11  font-[600] text-[14px] leading-[17.07px] text-[#FFFFFF]">
           Login </button>
-      </div>
+     
     </form>
 
 

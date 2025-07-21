@@ -10,8 +10,9 @@
     @else
         <div id="hamburger" class="hamburger text-2xl cursor-pointer z-1000 w-[20.15px] h-[20px] absolute top-[51px] left-[31.23px]" onclick="toggleSidebar()">&#9776;</div>
     @endif
-  
-     @include('user.sidebar')
+     @if(auth()->check())
+       @include('user.sidebar')
+     @endif
 
       <div class="flex justify-center">
         <a href="{{route('dashboard')}}"> <img src="{{asset('asset/images/Yuwaahlogo.png')}}" alt="YuWaah Logo" class="w-[91px] h-[56px] absolute top-[34px] left-[158px]"></a>
