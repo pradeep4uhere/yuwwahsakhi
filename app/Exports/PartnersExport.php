@@ -6,7 +6,7 @@ use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithMapping;
 
-class PartnersExport implements FromCollection
+class PartnersExport implements FromCollection, WithHeadings
 {
     /**
     * @return \Illuminate\Support\Collection

@@ -40,7 +40,7 @@
             </div>
             
 
-            <div class="">
+            <!-- <div class="">
               <label
                 class="w-[38px] h-[12px] font-[400] text-[10px] leading-[12.19px] text-center text-[#000000]">Gender</label>
               <select name="gender"
@@ -53,7 +53,7 @@
                 <option value="female"
                   class="w-[106px] h-[12px] font-[400] text-[10px] leading-[12.19px]  text-[#000000]">Female</option>
               </select>
-            </div>
+            </div> -->
 
             <!-- <div class="">
               <label

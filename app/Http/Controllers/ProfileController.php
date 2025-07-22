@@ -250,60 +250,55 @@ class ProfileController extends Controller
             'name',
             'phone',
             'email',
-            'gender'
         ]);
 
         if (!empty($filters)) {
+           
+            // Base query with join on phone number (stripped of "+91 ")
+                $query = Learner::where('learners.status', 'Active')
+                ->leftJoin('yhub_learners', function ($join) {
+                    $join->on('learners.primary_phone_number', '=', DB::raw("REPLACE(yhub_learners.email_address, '+91 ', '')"));
+                })
+                ->select(['learners.*',
+                'yhub_learners.email_address as yhub_email_address',
+                'yhub_learners.completion_status as completion_status'
+                ]); // Ensure we select only learner fields
+
+            // Apply filters
             if ($request->filled('name')) {
-                $query->where('first_name', 'like', '%' . $request->name . '%');
+                $query->where(function ($q) use ($request) {
+                    $q->where('learners.first_name', 'like', '%' . $request->name . '%')
+                      ->orWhere('learners.last_name', 'like', '%' . $request->name . '%');
+                });
+            }
+            if ($request->filled('email')) {
+                $query->where('learners.email', 'like', '%' . $request->email . '%');
             }
 
-            // Convert age range to date_of_birth range
-            // if ($request->filled('age') || $request->filled('end_age')) {
-            //     $startAge = $request->input('age', 0);
-            //     $endAge = $request->input('end_age', 100);
-
-            //     $fromDate = now()->subYears($endAge)->startOfDay(); // older
-            //     $toDate = now()->subYears($startAge)->endOfDay();   // younger
-
-            //     $query->whereBetween('date_of_birth', [$fromDate, $toDate]);
-            // }
+            if ($request->filled('phone')) {
+                $query->where('primary_phone_number', 'like', '%' . $request->phone . '%');
+            }
 
             if ($request->filled('gender')) {
                 $query->where('gender', $request->gender);
             }
 
-            // if ($request->filled('education_level')) {
-            //     $query->where('education_level', $request->education_level);
-            // }
-
-            // if ($request->filled('digital_proficiency')) {
-            //     $query->where('digital_proficiency', $request->digital_proficiency);
-            // }
-
-            // if ($request->filled('english_knowledge')) {
-            //     $query->where('english_knowledge', $request->english_knowledge);
-            // }
-
-            // if ($request->filled('mobility_level')) {
-            //     $query->where('job_mobility', $request->mobility_level);
-            // }
-
-            if ($request->filled('email')) {
-                $query->where('email', $request->email);
-            }
-
-
-            if ($request->filled('phone')) {
-                $query->where('primary_phone_number', $request->phone);
-            }
+           
         }
 
     // Paginate with query string to preserve filters in pagination
     $learnerList = $query->with('eventTransactions')->paginate(20)->appends($request->query());
     //dd($learnerList);
+
+    $eventTypeId = DB::table('yuwaah_event_type')
+    ->whereRaw('LOWER(name) = ?', ['job'])
+    ->value('id');
+
+    //dd($eventTypeId );
+
     return view($this->dir . '.learner_page', [
-        'leanerList' => $learnerList
+        'leanerList' => $learnerList,
+        'jobEventId'=> $eventTypeId
     ]);
 }
 
@@ -627,6 +622,17 @@ class ProfileController extends Controller
                     ->first();
             }
 
+
+            //Get Learner id
+            
+            $learner_id = $request->input('learner_id');
+            if (!$learner_id && $request->filled('beneficiary_phone_number')) {
+                $learner_id = DB::table('learners')
+                    ->where('primary_phone_number', $request->input('beneficiary_phone_number'))
+                    ->value('id');
+            }
+
+
             $data = [
                 'event_name'               => $request->input('event_name'),
                 'beneficiary_phone_number' => $request->input('beneficiary_phone_number'),
@@ -640,7 +646,7 @@ class ProfileController extends Controller
                 'document_type'            => $request->input('document_type'),
                 'uploaded_doc_links'       => $uploadedDocLinks,
                 'event_date_created'       => now(),
-                'learner_id'               => $request->input('learner_id'),
+                'learner_id'               => $learner_id,
             ];
 
             if ($action === 'submit') {

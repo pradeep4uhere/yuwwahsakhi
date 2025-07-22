@@ -117,24 +117,40 @@
           </div> -->
           <div class="flex gap-2.5">
             <!--  -->
-            <div class="w-5 h-5 rounded-full bg-gray-500"></div>
-            <div class="w-5 h-5 rounded-full bg-blue-500"></div>
+            @if($item['completion_status']==1)
             <div class="w-5 h-5 rounded-full bg-green-500"></div>
+            @else
+            <div class="w-5 h-5 rounded-full bg-gray-500"></div>
+            @endif
+            @php
+                $transactions = $item['eventTransactions'];
+                $count = $transactions->count();
+                $allAccepted = $transactions->every(fn($t) => $t->review_status === 'Accepted');
+
+                // This is your additional condition
+               $hasAcceptedJob = $transactions->contains(function ($t) use ($jobEventId) {
+                  return $t->event_type == $jobEventId && $t->review_status === 'Accepted';
+               });
+            @endphp
+            @if($count == 0)
+            <div class="w-5 h-5 rounded-full bg-gray-500"></div>
+            <div class="w-5 h-5 rounded-full bg-gray-500"></div>
+            @else
+            @if($hasAcceptedJob)
+                <div class="w-5 h-5 rounded-full bg-green-500"></div>
+            @elseif($count > 0)
+                <div class="w-5 h-5 rounded-full bg-blue-500"></div>
+            @endif
+            @if($count === 3 && $allAccepted)
+                <div class="w-5 h-5 rounded-full bg-green-500"></div>
+            @elseif($count > 0)
+                <div class="w-5 h-5 rounded-full bg-orange-500"></div>
+            @endif
+            @endif
           </div>
         </div>
           <!-- Event Transactions: Only if present -->
-        @if ($item->eventTransactions->isNotEmpty())
-          <div class="absolute  w-[375px] bg-[#f9f9f9] rounded-[10px] px-3 py-2 shadow-md text-sm">
-            <strong>Event Transactions:</strong>
-            <ul class="list-disc ml-5">
-              @foreach ($item->eventTransactions as $tx)
-                <li>
-                  ID: {{ $tx->id }} | Type: {{ $tx->event_type_id ?? 'N/A' }} | Amount: ₹{{ $tx->amount ?? 0 }}
-                </li>
-              @endforeach
-            </ul>
-          </div>
-        @endif
+       
 
         
       </a>
