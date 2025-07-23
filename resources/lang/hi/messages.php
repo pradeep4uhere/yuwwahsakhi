@@ -150,7 +150,8 @@ return [
     'Primary_Phone_Number'=>'प्राथमिक फ़ोन नंबर',
     'email'=>'ईमेल पता',
     'Learner_Search_Filter'=>'शिक्षार्थी खोज फ़िल्टर',
-    'Search_Filter'=>'खोज फ़िल्टर'
+    'Search_Filter'=>'खोज फ़िल्टर',
+    'Comments_By_Reviwer'=>'समीक्षक द्वारा टिप्पणियाँ'
     
     
 ];

@@ -157,7 +157,8 @@ return [
     'Primary_Phone_Number'=>'Primary_Phone_Number',
     'email'=>'Email Address',
      'Learner_Search_Filter'=>'Learner Search Filter',
-     'Search_Filter'=>'Search Filter'
+     'Search_Filter'=>'Search Filter',
+     'Comments_By_Reviwer'=>'Comments By Reviwer'
   
    
      

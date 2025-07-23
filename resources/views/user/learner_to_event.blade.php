@@ -6,7 +6,7 @@
     <div id="screen12" class="max-w-sm mx-auto p-4 bg-white  rounded-lg">
       <div class="mt-2 text-sm">
         <h1 class="font-[500] text-[14px] leading-[17.07px] text-[#000000] ml-8 mt-3">
-           Event
+        {{__('messages.event')}}
         </h1>
       </div>
     <div class="mt-10">
@@ -34,38 +34,19 @@
     </div>
       <form class="space-y-4 mt-6" action="{{route('storeeventtransaction')}}" method="post" enctype='multipart/form-data'>
         @csrf
+     
         <div class="space-y-1">
-          <label for="opportunity" class="font-[400] text-[12px] leading-[14.63px] text-[#000000]">Event Name</label>
-          <input value="{{$item['event_name']}}" id="event_name" type="text" name="event_name" placeholder="Please Enter Event Name" class="text-xs w-full border rounded px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 placeholder:font-[400] placeholder:text-[10px] placeholder:leading-[12.19px] placeholder:text-[#A7A7A7] rounded-[10px] placeholder:border-[1px]">
-          <input value="{{$item['id']}}" type="hidden" name="id"  >
-        </div>
-        
-        <div class="space-y-1 relative">
-        <label for="opportunity" class="font-[400] text-[12px] leading-[14.63px] text-[#000000]">Beneficiary Name</label>
-        <input value="{{$item['beneficiary_name']}}" id="beneficiary_name" type="text" name="beneficiary_name"
-          placeholder="Please Enter beneficiary name"
-          class="text-xs w-full border rounded px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 placeholder:font-[400] placeholder:text-[10px] placeholder:leading-[12.19px] placeholder:text-[#A7A7A7] rounded-[10px] placeholder:border-[1px]"
-          autocomplete="off">
-
-        <!-- Suggestions container -->
-        <div id="suggestions" class="absolute z-10 bg-white border w-full mt-1 rounded shadow-md hidden"></div>
-      </div>
-        <div class="space-y-1">
-          <label for="opportunity" class="font-[400] text-[12px] leading-[14.63px] text-[#000000]">Beneficiary Phone Number</label>
-          <input value="{{$item['beneficiary_phone_number']}}" id="beneficiary_number" type="text" name="beneficiary_phone_number" placeholder="Please Enter  phone number" class="text-xs w-full border rounded px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 placeholder:font-[400] placeholder:text-[10px] placeholder:leading-[12.19px] placeholder:text-[#A7A7A7] rounded-[10px] placeholder:border-[1px]" >
-        </div>
-        <div class="space-y-1">
-          <label for="opportunity" class="font-[400] text-[12px] leading-[14.63px] text-[#000000]">Event Type</label>
+          <label for="opportunity" class="font-[400] text-[12px] leading-[14.63px] text-[#000000]">{{__('messages.event_type')}}</label>
         <div class="space-y-1">
           <select name="event_type" id="event_type" class="font-[400] text-[12px] leading-[14.63px] text-[#000000]" style="width:100%; padding:10px; border:solid 1px #ccc" onchange="fetchEventDocuments()">
-            <option value="">Choose Event Type</option>
+            <option value="">{{__('messages.choose_event_type')}}</option>
             @foreach($eventList as $itemsVal)
             <option value="{{$itemsVal['id']}}" <?php if($item['event_type']==$itemsVal['id']){ ?> selected="selected" <?php } ?> >{{$itemsVal['name']}}</option>
             @endforeach
           </select>
         </div>
         <div class="space-y-1">
-          <label for="event_category" class="font-[400] text-[12px] leading-[14.63px] text-[#000000]">Event Category</label>
+          <label for="event_category" class="font-[400] text-[12px] leading-[14.63px] text-[#000000]"> {{__('messages.choose_event_category')}}</label>
           <select name="event_category" id="event_category" class="font-[400] text-[12px] leading-[14.63px] text-[#000000]" style="width:100%; padding:10px; border:solid 1px #ccc">
             @foreach($eventCategoryList as $itemNew)
             @php
@@ -77,14 +58,34 @@
           @endforeach
           </select>
         </div>
+        <div class="space-y-1">
+          <label for="opportunity" class="font-[400] text-[12px] leading-[14.63px] text-[#000000]">{{__('messages.event_name')}}</label>
+          <input value="{{$item['event_name']}}" id="event_name" type="text" name="event_name" placeholder="Please Enter Event Name" class="text-xs w-full border rounded px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 placeholder:font-[400] placeholder:text-[10px] placeholder:leading-[12.19px] placeholder:text-[#A7A7A7] rounded-[10px] placeholder:border-[1px]">
+          <input value="{{$item['id']}}" type="hidden" name="id"  >
+        </div>
+        
+        <div class="space-y-1 relative">
+        <label for="opportunity" class="font-[400] text-[12px] leading-[14.63px] text-[#000000]">{{__('messages.beneficiary')}} {{__('messages.name')}}</label>
+        <input value="{{$item['beneficiary_name']}}" id="beneficiary_name" type="text" name="beneficiary_name"
+          placeholder="Please Enter beneficiary name"
+          class="text-xs w-full border rounded px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 placeholder:font-[400] placeholder:text-[10px] placeholder:leading-[12.19px] placeholder:text-[#A7A7A7] rounded-[10px] placeholder:border-[1px]"
+          autocomplete="off">
+
+        <!-- Suggestions container -->
+        <div id="suggestions" class="absolute z-10 bg-white border w-full mt-1 rounded shadow-md hidden"></div>
+      </div>
+        <div class="space-y-1">
+          <label for="opportunity" class="font-[400] text-[12px] leading-[14.63px] text-[#000000]">{{__('messages.beneficiary_phone_number')}}</label>
+          <input value="{{$item['beneficiary_phone_number']}}" id="beneficiary_number" type="text" name="beneficiary_phone_number" placeholder="Please Enter  phone number" class="text-xs w-full border rounded px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 placeholder:font-[400] placeholder:text-[10px] placeholder:leading-[12.19px] placeholder:text-[#A7A7A7] rounded-[10px] placeholder:border-[1px]" >
+        </div>
        
         <div class="space-y-1 mt-2">
-          <label for="potential" class="font-[400] text-[12px] leading-[14.63px] text-[#000000]">Event Value</label>
+          <label for="potential" class="font-[400] text-[12px] leading-[14.63px] text-[#000000]">{{__('messages.monthly_salary')}}</label>
           <input value="{{$item['event_value']}}" id="event_value" name="event_value" type="text" placeholder="Please enter event value" class="text-xs w-full border rounded px-3 py-2 text-sm  placeholder:font-[400] placeholder:text-[10px] placeholder:leading-[12.19px] placeholder:text-[#A7A7A7] rounded-[10px] placeholder:border-[1px]"  value="{{ old('event_value') }}">
         </div>
         
         <div class="space-y-1 mt-2">
-          <label for="potential" class="font-[400] text-[12px] leading-[14.63px] text-[#000000]">Comment</label>
+          <label for="potential" class="font-[400] text-[12px] leading-[14.63px] text-[#000000]">{{__('messages.comment')}}</label>
           <input value="{{$item['comment']}}" id="comment" name="comment" type="text"  class="text-xs w-full border rounded px-3 py-2 text-sm  placeholder:font-[400] placeholder:text-[10px] placeholder:leading-[12.19px] placeholder:text-[#A7A7A7] rounded-[10px] placeholder:border-[1px]" >
         </div>
        
@@ -99,7 +100,7 @@
               if (in_array($extension, ['jpg', 'jpeg', 'png'])) { ?>
                 <img src="{{asset('storage/'.$itemVal['document'])}}" height="100" width="100">
                <?php }else{ ?>
-                <a href="">View File</a>
+                <a href="{{asset('storage/'.$itemVal['document'])}}" style="font-size:11px">View File</a>
                <?php } ?>
               
               <input id="{{$key}}" name="document_doc_{{$key+1}}" type="file"
@@ -113,7 +114,7 @@
           <hr/>
         <div class="space-y-1 mt-2">
         <label for="document_${index+1}" class="font-[800] text-[12px] leading-[14.63px] text-[#000000]">
-          Comments By Reviwer
+          {{__('messages.Comments_By_Reviwer')}}
         </label>
         @php
             $comments = getEventComment($item['id'], false);
@@ -122,8 +123,8 @@
         <table class="min-w-full border border-gray-200 shadow-md rounded-lg overflow-hidden text-sm p-4">
           <thead class="bg-blue-100 text-gray-700 text-left">
             <tr>
-              <th class="px-4 py-2 font-semibold">Date</th>
-              <th class="px-4 py-2 font-semibold">All Comment</th>
+              <th class="px-4 py-2 font-semibold"> {{__('messages.date')}}</th>
+              <th class="px-4 py-2 font-semibold"> {{__('messages.all_comment')}}</th>
             </tr>
           </thead>
           <tbody class="divide-y divide-gray-200 bg-white ">
@@ -155,10 +156,10 @@
         </div>
         <div class="flex justify-center ">
           <button name="action" type="submit" value="save" class="w-[250px] h-[40px] rounded-[1px] mt-[1rem] mr-[1rem] mb-[8rem] bg-[#1677ff] text-[#FFFFFF]  py-1 pb-[6px] text-[14px] font-[600]">
-            Save Event
+          {{__('messages.save')}} {{__('messages.event')}}
           </button>
           <button name="action" type="submit" value="submit" class="w-[250px] h-[40px] rounded-[1px] mt-[1rem] mb-[8rem] bg-[#28388F] text-[#FFFFFF]  py-1 pb-[6px] text-[14px] font-[600]">
-            Submit Event
+          {{__('messages.submit')}} {{__('messages.event')}}
           </button>
         </div>
       </form>
