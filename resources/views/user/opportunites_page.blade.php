@@ -17,8 +17,7 @@
 
           <div class="w-[60px] h-[30px] rounded-[10px] bg-[#28388F1A] flex items-center justify-center">
             <button" class="w-[37px] h-[12px] font-[500] text-[10px] leading-[12.19px] text-[#28388F] cursor-pointer"
-              onclick="toggleSortPopUp()">Sort
-              By</button>
+              onclick="toggleSortPopUp()">{{__('messages.sort_by')}}</button>
           </div>
         </div>
       </div>
@@ -27,7 +26,7 @@
       <div id="togglePopUp" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
         <div class="bg-white p-4 w-[310px] h-[220px]" style="box-shadow: 0px 3px 10px 3px #00000026;">
           <div class="flex justify-between items-center mb-3">
-            <h1 class="w-[53px] h-[17px] font-[600]  text-[14px] leading-[17.07px] text-center">Sort By</h1>
+            <h1 class="w-[53px] h-[17px] font-[600]  text-[14px] leading-[17.07px] text-center">{{__('messages.sort_by')}}</h1>
             <button class="text-gray-500 hover:text-gray-700 text-4xl" onclick="toggleSortPopUp()">
               &times;
             </button>
@@ -36,17 +35,17 @@
             <div class="space-y-4">
               <div class="font-[400] text-[12px] leading-[14.63px] flex flex-col gap-2">
               <a href="{{ route('opportunities', ['filter' => 'desc', 'order_by' => 'id']) }}">
-              New Opportunities</a>
+              {{__('messages.new_opportunities')}}</a>
               <a href="{{ route('opportunities', ['filter' => 'desc', 'order_by' => 'end_date']) }}">
-              Earliest Ending Opportunity</a>
+              {{__('messages.Earliest_Ending_Opportunity')}}</a>
               <a href="{{ route('opportunities', ['filter' => 'asc', 'order_by' => 'start_date']) }}">
-              Newest to Oldest</a>
+              {{__('messages.newest_to_oldest')}}</a>
               <a href="{{ route('opportunities', ['filter' => 'asc', 'order_by' => 'start_date']) }}">
-              Oldest to Newest</a>
+              {{__('messages.oldest_to_newest')}}</a>
               </div>
               <div class="w-[250px] h-[40px] rounded-[10px] bg-[#28388F] flex justify-center items-center mx-auto">
-                <button type="submit" class="w-[42px] h-[17px] font-[600] text-[14px] leading-[17.07px] text-[#FFFFFF]">
-                  Apply
+                <button type="submit" class="w-[142px] h-[17px] font-[600] text-[14px] leading-[17.07px] text-[#FFFFFF]">
+                {{__('messages.apply')}}
                 </button>
               </div>
             </div>
@@ -54,7 +53,7 @@
         </div>
       </div>
       @if($opportunitesList['data']->count()==0)
-      <div class="w-[340px] h-[40px]  bg-red-100 text-red-700 p-3 rounded mt-5 text-[12px]">No Opportunites Found</div>  
+      <div class="w-[340px] h-[40px]  bg-red-100 text-red-700 p-3 rounded mt-5 text-[12px]">{{__('messages.No_Opportunites_Found')}}</div>  
       @else
       <?php if(isset($opportunitesList['data'])){ $count=1; ?>
       <?php foreach($opportunitesList['data'] as $key=>$item){  ?>
@@ -64,36 +63,35 @@
         <h1
           class="w-[310px] h-[15px] ml-[10px] mt-[6px] font-Montserrat font-[600] text-[12px] leading-[14.63px] text-[#000000]" >
           {{$item['opportunities_title']}}</h1>
-        <div class=" ml-[10px] mt-[6px] font-Montserrat font-[500] text-[12px] leading-[14.63px] text-[#000000]">{{$item['description']}}</div>
+        <div class=" ml-[10px] mt-[6px] mb-[10px] font-Montserrat font-[500] text-[12px] leading-[14.63px] text-[#000000]">{{$item['description']}}</div>
         <div class="flex justify-between">
           <div class="">
             <div class="flex mb-[3px]">
               <img src="{{asset('asset/images/file.png')}}" alt="engLogo" class="w-[14px] h-[14px] ml-[10px] mt-[8px] text-[#28388F0D]">
               <a href=""
-                class="w-[151px] h-[12px] mt-[9px] ml-[8px] font-Montserrat font-[500] text-[10px] leading-[12.19px] text-[#28388F] text-left underline underline-offset-auto decoration-solid decoration-skip-ink-none">View
-                Specification Document
+                class="w-[151px] h-[12px] mt-[9px] ml-[8px] font-Montserrat font-[500] text-[10px] leading-[12.19px] text-[#28388F] text-left underline underline-offset-auto decoration-solid decoration-skip-ink-none">{{__('messages.view_specification_document')}}
               </a>
               <img src="{{asset('asset/images/Group.png')}}" alt="engLogo" class="w-[20px] h-[20px] mt-[6px] ml-[10px] text-[#28388F0D]">
             </div>
 
             <div class="flex mb-[6px]">
               <img src="{{asset('asset/images/Rupee Icon.png')}}" alt="engLogo" class="w-[9px] h-[12px] ml-[12px]  text-[#28388F0D]">
-              <p class="w-[61px] h-[12px]  ml-[10px] font-Montserrat font-[500] text-[10px] leading-[12.19px]">
-              {{$item['payout_monthly']}}/Month
+              <p class="w-[161px] h-[12px]  ml-[10px] font-Montserrat font-[500] text-[10px] leading-[12.19px]">
+              {{$item['payout_monthly']}} / Month
               </p>
             </div>
 
             <div class="flex mb-[5px]">
               <img src="{{asset('asset/images/calendar.png')}}" alt="engLogo" class="w-[14px] h-[14px] ml-[10px]  text-[#28388F0D]">
-              <p class="w-[95px] h-[12px] ml-[6px] mt-[1px] font-[500] text-[10px] leading-[12.19px] text-[#000000]">
-              Start - {{getdateformate($item['start_date'])}}
+              <p class="w-[195px] h-[12px] ml-[6px] mt-[1px] font-[500] text-[10px] leading-[12.19px] text-[#000000]">
+              {{__('messages.start')}} - {{getdateformate($item['start_date'])}}
               </p>
             </div>
 
             <div class="flex mb-[6px]">
               <img src="{{asset('asset/images/calendar.png')}}" alt="engLogo" class="w-[14px] h-[14px] ml-[10px]  text-[#28388F0D]">
-              <p class="w-[95px] h-[12px] ml-[6px] mt-[1px] font-[500] text-[10px] leading-[12.19px] text-[#000000]">
-              End - {{getdateformate($item['end_date'])}}
+              <p class="w-[195px] h-[12px] ml-[6px] mt-[1px] font-[500] text-[10px] leading-[12.19px] text-[#000000]">
+              {{__('messages.end')}} - {{getdateformate($item['end_date'])}}
               </p>
             </div>
 
@@ -101,7 +99,7 @@
               <img src="{{asset('asset/images/user.png')}}" alt="engLogo" class="w-[14px] h-[14px] ml-[10px]  text-[#28388F0D]">
               <p
                 class="h-[12px] ml-[6px] mt-[1px]  font-Montserrat font-[500] text-[10px] leading-[12.19px] text-[#000000]">
-                {{$item['number_of_openings']}} Job Opening
+                {{$item['number_of_openings']}}  {{__('messages.job_oppening')}}
               </p>
             </div>
 
@@ -109,7 +107,7 @@
           <div class="">
             <p
               class="w-[43px] h-[22px] font-Montserrat font-[500] text-[9px] leading-[10.97px] text-center text-[#000000]  mt-[-10px] ml-[9px]">
-              Sakhi Incentive
+               {{__('messages.monthly_salary')}}
             </p>
             <div
               class="w-[60px] h-[50px] bg-[#FAFAFA] mt-1 mr-[20px] flex items-center justify-center">

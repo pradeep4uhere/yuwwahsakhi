@@ -15,12 +15,12 @@
           </div>
           <div class="w-[60px] h-[30px] rounded-[10px] bg-[#28388F1A] flex items-center justify-center">
           <a href="#" class="font-[600] text-[10px] leading-[12.19px] text-[#28388F] cursor-pointer"
-          onclick="toggleFilterForm()">Filter</a>
+          onclick="toggleFilterForm()">{{__('messages.filters')}}</a>
         </div>
           <div class="w-[60px] h-[30px] rounded-[10px] bg-[#28388F1A] flex items-center justify-center">
             <button" class="w-[37px] h-[12px] font-[500] text-[10px] leading-[12.19px] text-[#28388F] cursor-pointer"
-              onclick="toggleSortPopUp()">Sort
-              By</button>
+              onclick="toggleSortPopUp()">{{__('messages.sort_by')}}
+              </button>
           </div>
         </div>
       </div>
@@ -29,7 +29,7 @@
       <div id="togglePopUp" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
         <div class="bg-white p-4 w-[310px] h-[250px]" style="box-shadow: 0px 3px 10px 3px #00000026;">
           <div class="flex justify-between items-center mb-3">
-            <h1 class="w-[53px] h-[17px] font-[600]  text-[14px] leading-[17.07px] text-center">Sort By</h1>
+            <h1 class="w-[53px] h-[17px] font-[600]  text-[14px] leading-[17.07px] text-center">{{__('messages.sort_by')}}</h1>
             <button class="text-gray-500 hover:text-gray-700 text-4xl" onclick="toggleSortPopUp()">
               &times;
             </button>
@@ -38,19 +38,19 @@
             <div class="space-y-4">
               <div class="font-[400] text-[12px] leading-[14.63px] flex flex-col gap-2">
               <a href="{{ route('user.allevents', ['filter' => 'desc', 'order_by' => 'id']) }}">
-              New Event</a>
+              {{__('messages.new_event')}}</a>
               <a href="{{ route('user.allevents', ['filter' => 'desc', 'order_by' => 'event_date_submitted']) }}">
-              All Submitted Event</a>
+              {{__('messages.all_submitted_event')}}</a>
               <a href="{{ route('user.allevents', ['filter' => 'asc', 'order_by' => 'event_date_created']) }}">
-              Earliest Ending Event</a>
+              {{__('messages.earliest_ending_event')}}</a>
               <a href="{{ route('user.allevents', ['filter' => 'desc', 'order_by' => 'event_date_created']) }}">
-              Newest to Oldest</a>
+              {{__('messages.newest_to_oldest')}}</a>
               <a href="{{ route('user.allevents', ['filter' => 'asc', 'order_by' => 'event_date_created']) }}">
-              Oldest to Newest</a>
+              {{__('messages.oldest_to_newest')}}</a>
               </div>
               <div class="w-[250px] h-[40px] rounded-[10px] bg-[#28388F] flex justify-center items-center mx-auto">
-                <button type="submit" class="w-[42px] h-[17px] font-[600] text-[14px] leading-[17.07px] text-[#FFFFFF]">
-                  Apply
+                <button type="submit" class="w-[142px] h-[17px] font-[600] text-[14px] leading-[17.07px] text-[#FFFFFF]">
+                {{__('messages.apply')}}
                 </button>
               </div>
             </div>
@@ -69,14 +69,14 @@
           
         <p
           class="w-[310px] h-[15px] ml-[10px] mt-[6px] font-Montserrat font-[500] text-[12px] leading-[14.63px] text-[#000000]" >
-          Beneficiary : {{$item['beneficiary_name']}}&nbsp;|&nbsp;{{$item['beneficiary_phone_number']}}</p>
+          {{__('messages.beneficiary')}} : {{$item['beneficiary_name']}}&nbsp;|&nbsp;{{$item['beneficiary_phone_number']}}</p>
 
         <div class="flex justify-between">
           <div class="">
           <div class="flex mb-[1px]">
               <i class="fa-regular fa-clock text-[#000000] text-[14px] ml-[10px] mt-[5px]"></i>
               <p class="w-[295px] h-[12px]  ml-[5px] mt-[5px] font-Montserrat font-[500] text-[10px] leading-[12.19px]">
-              Event Name: {{($item['event_name']!=null)?$item['event_name']:''}}
+              {{__('messages.event_name')}}: {{($item['event_name']!=null)?$item['event_name']:''}}
               </p>
             </div>
             <!-- <div class="flex mb-[3px]">
@@ -91,13 +91,13 @@
             <div class="flex mb-[6px]">
             <img src="{{asset('asset/images/calendar.png')}}" alt="engLogo" class="w-[14px] h-[14px] mt-[5px] ml-[10px]  text-[#28388F0D]">
               <p class="w-[295px] h-[12px]  ml-[5px] mt-[5px] font-Montserrat font-[500] text-[10px] leading-[12.19px]">
-              Event Type: {{($item['EventType']!=null)?$item['EventType']['name']:''}}&nbsp;|&nbsp;{{($item['Event']!=null)?$item['Event']['event_category']:''}}
+              {{__('messages.event_type')}}: {{($item['EventType']!=null)?$item['EventType']['name']:''}}&nbsp;|&nbsp;{{($item['Event']!=null)?$item['Event']['event_category']:''}}
               </p>
             </div>
             <div class="flex mb-[6px]">
               <i class="fa-regular fa-calendar-days text-[#000000] text-[14px] ml-[10px]"></i>
               <p class="w-[295px] h-[12px]  ml-[5px]  font-Montserrat font-[500] text-[10px] leading-[12.19px]">
-              Event Value: {{($item['event_value']!=null)?$item['event_value']:''}}
+              {{__('messages.event_value')}} : {{($item['event_value']!=null)?$item['event_value']:''}}
               </p>
             </div>
 
@@ -110,9 +110,9 @@
             <div class="flex mb-[6px]">
               <img src="{{asset('asset/images/calendar.png')}}" alt="engLogo" class="w-[14px] h-[14px] ml-[10px]  text-[#28388F0D]">
               <p class="w-[395px] h-[12px] ml-[6px] mt-[1px] font-[500] text-[10px] leading-[12.19px] text-[#000000]">
-              Created Date - {{getdateformate($item['event_date_created'])}}&nbsp;|&nbsp;
+              {{__('messages.created_date')}} - {{getdateformate($item['event_date_created'])}}&nbsp;|&nbsp;
               @if($item['event_date_submitted']!='')
-              Submitted Date - {{getdateformate($item['event_date_submitted'])}}
+              {{__('messages.submitted_date')}}  - {{getdateformate($item['event_date_submitted'])}}
               @endif
               </p>
             </div>
@@ -120,7 +120,7 @@
              <div class="flex mb-[5px]">
               <i class="fa-regular fa-comment-dots text-[#000000] text-[14px] ml-[10px]"></i>
               <p class="w-[395px] h-[12px] ml-[6px] mt-[1px] font-[500] text-[10px] leading-[12.19px] text-[#000000]">
-              Comment: {!! optional(getEventComment($item['id'], true))->comment ?? 'N/A' !!}
+              {{__('messages.comment')}}: {!! optional(getEventComment($item['id'], true))->comment ?? 'N/A' !!}
               </p>
             </div> 
           
@@ -129,13 +129,13 @@
         </div>
         <div  class="buttonsContainer flex mt-4 gap-2 hidden">
             <div class="w-auto h-auto min-w-[100%] min-h-[40px] rounded-[10px] border-[1px] bg-[#28388F1A] border-[#28388F] flex justify-center items-center gap-2">
-                <a href="{{route('viewevent',['id'=>encryptString($item['id'])])}}" class="font-[600] text-[10px] leading-[12.19px] text-[#28388F] cursor-pointer">Submit Event</a>
+                <a href="{{route('viewevent',['id'=>encryptString($item['id'])])}}" class="font-[600] text-[10px] leading-[12.19px] text-[#28388F] cursor-pointer">{{__('messages.submit_event')}}</a>
             </div>
         </div>
       </div>
       <?php } ?>
       <?php }else{ ?>
-        <div class="w-[340px] h-[40px]  bg-red-100 text-red-700 p-3 rounded mt-5 text-[12px]">No Event Found</div>  
+        <div class="w-[340px] h-[40px]  bg-red-100 text-red-700 p-3 rounded mt-5 text-[12px]">{{__('messages.no_event_found')}}</div>  
       <?php } ?>
     </div>
   </div>

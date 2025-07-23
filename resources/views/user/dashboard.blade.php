@@ -73,32 +73,32 @@
               <div class="flex mb-[6px]">
                 <img src="{{asset('asset/images/calendar.png')}}" alt="engLogo" class="w-[14px] h-[14px] ml-[10px]  text-[#28388F0D]">
                 <p class="w-[100px] h-[12px] ml-[6px] mt-[1px] font-[500] text-[10px] leading-[12.19px] text-[#000000]">
-                  Start - {{getdateformate($item['start_date'])}}
+                {{__('messages.start')}}  - {{getdateformate($item['start_date'])}}
                 </p>
               </div>
               
               <div class="flex mb-[6px]">
                 <img src="{{asset('asset/images/calendar.png')}}" alt="engLogo" class="w-[14px] h-[14px] ml-[10px]  text-[#28388F0D]">
                 <p class="w-[100px] h-[12px] ml-[6px] mt-[1px] font-[500] text-[10px] leading-[12.19px] text-[#000000]">
-                  End - {{getdateformate($item['end_date'])}}
+                {{__('messages.end')}} - {{getdateformate($item['end_date'])}}
                 </p>
               </div>
               
               <div class="flex mb-[6px]">
                 <img src="{{asset('asset/images/user.png')}}" alt="engLogo" class="w-[14px] h-[14px] ml-[10px]  text-[#28388F0D]">
                 <p class="min-w-[63px] w-auto h-[12px] ml-[6px] mt-[1px]  font-Montserrat font-[500] text-[10px] leading-[12.19px] text-[#000000]">
-                {{$item['number_of_openings']}} Job Opening
+                {{$item['number_of_openings']}} {{__('messages.job_oppening')}}
                 </p>
               </div>
               
             </div>
             <div>
               <p class="w-[60px] h-[22px] mt-[22px] mr-[20px]  font-Montserrat font-[500] text-[9px] leading-[10.97px] text-center text-[#000000]">
-              Sakhi Incentive
+              {{__('messages.incentive')}} 
               </p>
               <div class="w-[60px] h-[35px] absolute top-[70px] left-[260px] bg-[#28388F] ">
                 <p class="w-[60px] h-[30px] mt-[2px] font-Montserrat font-[700] text-[10px] leading-[14.63px] text-center text-[#FFFFFF]">            
-                  {{$item['incentive']}}/ Learner 
+                  {{$item['incentive']}}/ {{__('messages.learner')}} 
                   <img src="{{asset('asset/images/rupeeIcon.png')}}" alt="engLogo" class="w-[8px] h-[10px] mt-[-27px] ml-[5px]">
                 </p>
               </div>

@@ -16,7 +16,7 @@
       <div id="togglePopUp" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
         <div class="bg-white p-4 w-[310px] h-[220px]" style="box-shadow: 0px 3px 10px 3px #00000026;">
           <div class="flex justify-between items-center mb-3">
-            <h1 class="w-[53px] h-[17px] font-[600]  text-[14px] leading-[17.07px] text-center">Sort By</h1>
+            <h1 class="w-[53px] h-[17px] font-[600]  text-[14px] leading-[17.07px] text-center">{{__('messages.sory_by')}}</h1>
             <button class="text-gray-500 hover:text-gray-700 text-4xl" onclick="toggleSortPopUp()">
               &times;
             </button>
@@ -54,8 +54,8 @@
             <div class="flex mb-[3px]">
               <img src="{{asset('asset/images/file.png')}}" alt="engLogo" class="w-[14px] h-[14px] ml-[10px] mt-[8px] text-[#28388F0D]">
               <a href=""
-                class="w-[151px] h-[12px] mt-[9px] ml-[8px] font-Montserrat font-[500] text-[10px] leading-[12.19px] text-[#28388F] text-left underline underline-offset-auto decoration-solid decoration-skip-ink-none">View
-                Specification Document
+                class="w-[151px] h-[12px] mt-[9px] ml-[8px] font-Montserrat font-[500] text-[10px] leading-[12.19px] text-[#28388F] text-left underline underline-offset-auto decoration-solid decoration-skip-ink-none"> {{__('messages.view_specification_document')}}
+                
               </a>
               <img src="{{asset('asset/images/Group.png')}}" alt="engLogo" class="w-[20px] h-[20px] mt-[6px] ml-[10px] text-[#28388F0D]">
             </div>
@@ -70,14 +70,14 @@
             <div class="flex mb-[5px]">
               <img src="{{asset('asset/images/calendar.png')}}" alt="engLogo" class="w-[14px] h-[14px] ml-[10px]  text-[#28388F0D]">
               <p class="w-[95px] h-[12px] ml-[6px] mt-[1px] font-[500] text-[10px] leading-[12.19px] text-[#000000]">
-              Start - {{getdateformate($item['start_date'])}}
+              {{__('messages.start')}} - {{getdateformate($item['start_date'])}}
               </p>
             </div>
 
             <div class="flex mb-[6px]">
               <img src="{{asset('asset/images/calendar.png')}}" alt="engLogo" class="w-[14px] h-[14px] ml-[10px]  text-[#28388F0D]">
               <p class="w-[95px] h-[12px] ml-[6px] mt-[1px] font-[500] text-[10px] leading-[12.19px] text-[#000000]">
-              End - {{getdateformate($item['end_date'])}}
+              {{__('messages.end')}} - {{getdateformate($item['end_date'])}}
               </p>
             </div>
 
@@ -85,7 +85,7 @@
               <img src="{{asset('asset/images/user.png')}}" alt="engLogo" class="w-[14px] h-[14px] ml-[10px]  text-[#28388F0D]">
               <p
                 class="h-[12px] ml-[6px] mt-[1px]  font-Montserrat font-[500] text-[10px] leading-[12.19px] text-[#000000]">
-                {{$item['number_of_openings']}} Job Opening
+                {{$item['number_of_openings']}} {{__('messages.job_oppening')}}
               </p>
             </div>
 
@@ -93,13 +93,13 @@
           <div class="">
             <p
               class="w-[43px] h-[22px] font-Montserrat font-[500] text-[9px] leading-[10.97px] text-center text-[#000000]  mt-[-10px] ml-[9px]">
-              Sakhi Incentive
+              {{__('messages.monthly_salary')}}
             </p>
             <div
               class="w-[60px] h-[50px] bg-[#FAFAFA] mt-1 mr-[20px] flex items-center justify-center">
               <p
                 class="w-[60px] h-[30px] font-Montserrat font-[700] text-[12px] leading-[14.63px] text-center text-[#000000]">
-                0/ Learner
+                0/  {{__('messages.learner')}}
                 <img src="{{asset('asset/images/rupeeIcon.png')}}" alt="engLogo" class="w-[8px] h-[12px] mt-[-30px] ml-[10px]">
               </p>
 

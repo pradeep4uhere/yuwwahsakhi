@@ -62,18 +62,38 @@
           {!! $YuwaahSakhiSetting['description'] !!}
         </div>
     </div>
+
     <a href="{{route('login')}}"
     class="font-Montserrat font-[600] text-[14px] leading-[17.07px] text-[#FFFFFF] ">
     <div
       class="w-[250px] h-[40px] relative top-[461px] left-[82px] rounded-[10px] bg-[#28388F] text-center pt-2.5 font-Montserrat">
-       Login
+      <div>
+    @if(Auth::check())
+        Home
+    @else
+        Login
+    @endif
+</div>
     </div>
     </a>
 
     <div class="mt-2 absolute top-[500px] left-[122px] font-Montserrat">
+    @if(!Auth::check())
       <p class="text-center text-xs text-gray-600 font-Montserrat">
         Not Member ? <a href="{{route('register')}}" class="text-[#28388F] font-semibold hover:underline text-sm">Register</a>
       </p>
+      @else
+      <form method="POST" action="{{ route('logout') }}">
+              @csrf
+              <a href="route('admin.logout')" type="button"
+                              onclick="event.preventDefault();
+                                          this.closest('form').submit();" class="text-[#28388F] font-semibold hover:underline text-sm">
+      
+       This is not you ? Log Out
+      
+      </a>
+              </form>
+      @endif
     </div>
     <div class="h-48"></div>
   </div>

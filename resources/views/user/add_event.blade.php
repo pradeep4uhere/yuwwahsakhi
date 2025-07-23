@@ -6,7 +6,7 @@
     <div id="screen12" class="max-w-sm mx-auto p-4 bg-white  rounded-lg">
       <div class="mt-2 text-sm">
         <h1 class="font-[500] text-[14px] leading-[17.07px] text-[#000000] ml-8 mt-3">
-           Event
+        {{__('messages.event')}}
         </h1>
       </div>
     <div class="mt-10">
@@ -35,28 +35,28 @@
       <form class="space-y-4 mt-6" action="{{route('storeeventtransaction')}}" method="post" enctype='multipart/form-data'>
         @csrf
         <div class="space-y-1">
-          <label for="opportunity" class="font-[400] text-[12px] leading-[14.63px] text-[#000000]">Event Type</label>
+          <label for="opportunity" class="font-[400] text-[12px] leading-[14.63px] text-[#000000]">{{__('messages.event_type')}}</label>
         <div class="space-y-1">
           <select name="event_type" id="event_type" class="font-[400] text-[12px] leading-[14.63px] text-[#000000]" style="width:100%; padding:10px; border:solid 1px #ccc">
-            <option value="">Choose Event Type</option>
+            <option value="">{{__('messages.choose_event_type')}}</option>
             @foreach($eventList as $item)
             <option value="{{$item['id']}}">{{$item['name']}}</option>
             @endforeach
           </select>
         </div>
         <div class="space-y-1">
-          <label for="event_category" class="font-[400] text-[12px] leading-[14.63px] text-[#000000]">Event Category</label>
+          <label for="event_category" class="font-[400] text-[12px] leading-[14.63px] text-[#000000]">{{__('messages.choose_event_category')}}</label>
           <select name="event_category" id="event_category" class="font-[400] text-[12px] leading-[14.63px] text-[#000000]" style="width:100%; padding:10px; border:solid 1px #ccc" >
-              <option value="">Choose Event Category</option>
+              <option value="">{{__('messages.choose_event_category')}}</option>
           </select>
         </div>
         <div class="space-y-1">
-          <label for="opportunity" class="font-[400] text-[12px] leading-[14.63px] text-[#000000]">Event Name</label>
+          <label for="opportunity" class="font-[400] text-[12px] leading-[14.63px] text-[#000000]">{{__('messages.event_name')}}</label>
           <input id="event_name" type="text" name="event_name" placeholder="Please Enter Event Name" class="text-xs w-full border rounded px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 placeholder:font-[400] placeholder:text-[10px] placeholder:leading-[12.19px] placeholder:text-[#A7A7A7] rounded-[10px] placeholder:border-[1px]"  value="{{ old('event_name') }}">
         </div>
         
         <div class="space-y-1 relative">
-        <label for="opportunity" class="font-[400] text-[12px] leading-[14.63px] text-[#000000]">Choose Beneficiary Name</label>
+        <label for="opportunity" class="font-[400] text-[12px] leading-[14.63px] text-[#000000]">{{__('messages.choose_beneficiary_name')}}</label>
         <input id="beneficiary_name" type="text" name="beneficiary_name"
           placeholder="Please Type beneficiary name and choose"
           class="text-xs w-full border rounded px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 placeholder:font-[400] placeholder:text-[10px] placeholder:leading-[12.19px] placeholder:text-[#A7A7A7] rounded-[10px] placeholder:border-[1px]"
@@ -67,17 +67,17 @@
         <input id="learner_id" type="hidden" name="learner_id">
       </div>
         <div class="space-y-1">
-          <label for="opportunity" class="font-[400] text-[12px] leading-[14.63px] text-[#000000]">Beneficiary Phone Number</label>
+          <label for="opportunity" class="font-[400] text-[12px] leading-[14.63px] text-[#000000]">{{__('messages.beneficiary_phone_number')}}</label>
           <input id="beneficiary_number" type="text" name="beneficiary_phone_number" placeholder="Please Enter  phone number" class="text-xs w-full border rounded px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 placeholder:font-[400] placeholder:text-[10px] placeholder:leading-[12.19px] placeholder:text-[#A7A7A7] rounded-[10px] placeholder:border-[1px]"  value="{{ old('beneficiary_phone_number') }}">
         </div>
       
        
         <div class="space-y-1 mt-2">
-          <label for="potential" class="font-[400] text-[12px] leading-[14.63px] text-[#000000]">Monthly Salary / Income (INR)</label>
+          <label for="potential" class="font-[400] text-[12px] leading-[14.63px] text-[#000000]">{{__('messages.monthly_salary')}}</label>
           <input id="event_value" name="event_value" type="text" placeholder="Please enter income value" class="text-xs w-full border rounded px-3 py-2 text-sm  placeholder:font-[400] placeholder:text-[10px] placeholder:leading-[12.19px] placeholder:text-[#A7A7A7] rounded-[10px] placeholder:border-[1px]"  value="{{ old('event_value') }}">
         </div>
         <div class="space-y-1 mt-2">
-          <label for="potential" class="font-[400] text-[12px] leading-[14.63px] text-[#000000]">Comment</label>
+          <label for="potential" class="font-[400] text-[12px] leading-[14.63px] text-[#000000]">{{__('messages.comment')}}</label>
           <input id="comment" name="comment" type="text"  class="text-xs w-full border rounded px-3 py-2 text-sm  placeholder:font-[400] placeholder:text-[10px] placeholder:leading-[12.19px] placeholder:text-[#A7A7A7] rounded-[10px] placeholder:border-[1px]"   value="{{ old('comment') }}">
         </div>
         <div id="documentInputsContainer" class="space-y-1 mt-2">
@@ -86,10 +86,10 @@
         </div>
         <div class="flex justify-center ">
           <button name="action" type="submit" value="save" class="w-[250px] h-[40px] rounded-[1px] mt-[1rem] mr-[1rem] mb-[8rem] bg-[#1677ff] text-[#FFFFFF]  py-1 pb-[6px] text-[14px] font-[600]">
-            Save Event
+          {{__('messages.save')}} {{__('messages.event')}}
           </button>
           <button name="action" type="submit" value="submit" class="w-[250px] h-[40px] rounded-[1px] mt-[1rem] mb-[8rem] bg-[#28388F] text-[#FFFFFF]  py-1 pb-[6px] text-[14px] font-[600]">
-            Submit Event
+          {{__('messages.submit')}} {{__('messages.event')}}
           </button>
         </div>
       </form>
