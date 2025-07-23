@@ -25,17 +25,17 @@
             <div class="space-y-4">
               <div class="font-[400] text-[12px] leading-[14.63px] flex flex-col gap-2">
               <a href="{{ route('opportunities', ['filter' => 'desc', 'order_by' => 'id']) }}">
-              New Opportunities</a>
+              {{__('messages.New_Opportunities')}} </a>
               <a href="{{ route('opportunities', ['filter' => 'desc', 'order_by' => 'end_date']) }}">
-              Earliest Ending Opportunity</a>
+              {{__('messages.Earliest_Ending_Opportunity')}}</a>
               <a href="{{ route('opportunities', ['filter' => 'asc', 'order_by' => 'start_date']) }}">
-              Newest to Oldest</a>
+              {{__('messages.Newest_to_Oldest')}}</a>
               <a href="{{ route('opportunities', ['filter' => 'asc', 'order_by' => 'start_date']) }}">
-              Oldest to Newest</a>
+              {{__('messages.Oldest_to_Newest')}}</a>
               </div>
               <div class="w-[250px] h-[40px] rounded-[10px] bg-[#28388F] flex justify-center items-center mx-auto">
                 <button type="submit" class="w-[42px] h-[17px] font-[600] text-[14px] leading-[17.07px] text-[#FFFFFF]">
-                  Apply
+                {{__('messages.Apply')}}
                 </button>
               </div>
             </div>
@@ -96,7 +96,7 @@
               {{__('messages.monthly_salary')}}
             </p>
             <div
-              class="w-[60px] h-[50px] bg-[#FAFAFA] mt-1 mr-[20px] flex items-center justify-center">
+              class="w-[60px] h-[50px] bg-[#FAFAFA] mt-5 mr-[20px] flex items-center justify-center">
               <p
                 class="w-[60px] h-[30px] font-Montserrat font-[700] text-[12px] leading-[14.63px] text-center text-[#000000]">
                 0/  {{__('messages.learner')}}

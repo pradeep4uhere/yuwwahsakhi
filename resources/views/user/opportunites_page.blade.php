@@ -113,7 +113,7 @@
               class="w-[60px] h-[50px] bg-[#FAFAFA] mt-1 mr-[20px] flex items-center justify-center">
               <p
                 class="w-[60px] h-[30px] font-Montserrat font-[700] text-[12px] leading-[14.63px] text-center text-[#000000]">
-                50/ Learner
+                50/ {{__('messages.learner')}}
                 <img src="{{asset('asset/images/rupeeIcon.png')}}" alt="engLogo" class="w-[8px] h-[12px] mt-[-30px] ml-[10px]">
               </p>
 
@@ -132,7 +132,7 @@
         <div  class="buttonsContainer flex mt-4 gap-2 hidden">
             <div class="w-auto h-auto min-w-[100%] min-h-[40px] rounded-[10px] border-[1px] bg-[#F2F2F2] border-[#28388F] flex justify-center items-center gap-2">
               <img src="{{asset('asset/images/AssignLearners Icon.png')}}" alt="Fill_Form" class="w-auto h-auto max-w-[14px] max-h-[14px]">
-              <a href="{{route('opportunitiesLearner',['id'=>encryptString($item['id'])])}}" class="w-auto h-auto font-[500] text-[12px] leading-[14.63px] text-[#28388F] cursor-pointer">Assign Learners</a>
+              <a href="{{route('opportunitiesLearner',['id'=>encryptString($item['id'])])}}" class="w-auto h-auto font-[500] text-[12px] leading-[14.63px] text-[#28388F] cursor-pointer"> {{__('messages.Assign_Learners')}}</a>
             </div>
         </div>
       </div>

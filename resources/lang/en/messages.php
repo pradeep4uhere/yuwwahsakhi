@@ -135,7 +135,29 @@ return [
     'view_specification_document'=>'View Specification Document',
     'new_opportunities'=>'New Opportunities',
     'Earliest_Ending_Opportunity'=>'Earliest Ending Opportunity',
-    'No_Opportunites_Found'=>'No Opportunites Found'
+    'No_Opportunites_Found'=>'No Opportunites Found',
+    'opportunity'=>'Opportunity',
+    'description'=>'Description',
+    'type'=>'type',
+    'job'=>'Job',
+    'Entrepreneurship'=>'Entrepreneurship',
+    'Earning_Potential'=>'Earning Potential (Per Month)',
+    'start_date'=>'Start Date',
+    'end_date'=>'End Date',
+    'Number_Of_Openings'=>'Number Of Openings',
+    'Attach_Documents'=>'Attach Documents',
+    'add_opportunity'=>'Add Opportunity',
+    'Save Opportunity'=>'Save Opportunity',
+    'Please_Enter_Opportunity_Name'=>'Please Enter Opportunity Name',
+    'Please_Enter_Description'=>'Please_Enter_Description',
+    'opportunity2'=>'Please enter how much can be earned in a month',
+    'New_Opportunities'=>'New Opportunities',
+    'Assign_Learners'=>'Assign Learners',
+    'Enter_Learner_Name'=>'Enter Learner Name',
+    'Primary_Phone_Number'=>'Primary_Phone_Number',
+    'email'=>'Email Address',
+     'Learner_Search_Filter'=>'Learner Search Filter',
+     'Search_Filter'=>'Search Filter'
   
    
      

@@ -47,10 +47,10 @@ return [
     'promotion_deleted_successfully'=>'प्रमोशन सफलतापूर्वक हटा दिया गया',
     'failed_to_delete_promotion'=>'प्रमोशन सफलतापूर्वक हटा दिया गया',
     'failed_to_add_promotion'=>'प्रमोशन अपडेट करने में विफल',
-    'promotion_recently_added'=>'प्रमोशन_हाल ही में_जोड़ा गया या डुप्लिकेट डेटा',
-    'add_new_promotion'=>'Add New प्रमोशन_हाल',
-    'edit_new_promotion'=>'Update प्रमोशन_हाल',
-    'promotion'=>'प्रमोशन_हाल',
+    'promotion_recently_added'=>'प्रमोशन हाल ही में_जोड़ा गया या डुप्लिकेट डेटा',
+    'add_new_promotion'=>'Add New प्रमोशन',
+    'edit_new_promotion'=>'Update प्रमोशन',
+    'promotion'=>'प्रमोशन',
     // Add other translations here
 
 
@@ -128,7 +128,29 @@ return [
     'view_specification_document'=>'विशिष्टता दस्तावेज़ देखना',
     'new_opportunities'=>'नए अवसर',
     'Earliest_Ending_Opportunity'=>'सबसे जल्दी समाप्ति की संभावना',
-    'No_Opportunites_Found'=>'कोई_अवसर_नहीं_मिला'
+    'No_Opportunites_Found'=>'कोई_अवसर_नहीं_मिला',
+    'opportunity'=>'अवसर',
+    'description'=>'विवरण',
+    'type'=>'प्रकार',
+     'job'=>'काम',
+     'Entrepreneurship'=>'उद्यमशीलता',
+     'Earning_Potential'=>'कमाई की संभावना (प्रति माह)',
+     'start_date'=>'आरंभ करने की तिथि',
+     'end_date'=>'आरंभ करने की तिथि',
+     'Number_Of_Openings'=>'उद्घाटनों की संख्या',
+     'Attach_Documents'=>'दस्तावेज़ लगाओ',
+    'add_opportunity'=>'अवसर जोड़ें',
+    'Save_Opportunity'=>'अवसर प्रस्तुत करें',
+    'Please_Enter_Opportunity_Name'=>'कृपया अवसर का नाम दर्ज करें',
+    'Please_Enter_Description'=>'कृपया विवरण दर्ज करें',
+    'opportunity2'=>'कृपया दर्ज करें कि एक महीने में कितना कमाया जा सकता है',
+    'New_Opportunities'=>'नए अवसर',
+    'Assign_Learners'=>'शिक्षार्थियों को नियुक्त करें',
+    'Enter_Learner_Name'=>'शिक्षार्थी का नाम दर्ज करें',
+    'Primary_Phone_Number'=>'प्राथमिक फ़ोन नंबर',
+    'email'=>'ईमेल पता',
+    'Learner_Search_Filter'=>'शिक्षार्थी खोज फ़िल्टर',
+    'Search_Filter'=>'खोज फ़िल्टर'
     
     
 ];

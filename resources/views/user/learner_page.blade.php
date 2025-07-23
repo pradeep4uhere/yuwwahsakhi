@@ -1,20 +1,21 @@
 @extends('layouts.user')
 @section('title', 'Dashboard')
 @section('content')
-<div id="screen7" class="max-w-[26rem] mx-auto bg-white shadow-md min-h-[140vh] h-auto">
+<div id="screen7" class="max-w-[26rem] mx-auto p-4 bg-[#FFFFFF] shadow-md" style="min-height:1024px">
+
     @include('user.header')
     <!-- Language Form Pop up -->
     <div id="screen11" class="max-w-sm mx-auto p-4 bg-white rounded-lg absolute left-[6px] top-[-1px]">
       <div class="mt-2 flex justify-between items-center">
         <h1
           class="w-[162px] h-[17px] absolute top-[106px] left-[32px] font-[500] text-[14px] leading-[17.07px] text-[#000000]">
-          Learners [{{$leanerList->total()}}]
+          {{__('messages.Learner_Search_Filter')}} [{{$leanerList->total()}}]
         </h1>
         <button class="w-[60px] h-[30px] absolute top-[100px] left-[310px] rounded-[10px] bg-[#28388F1A]"
           onclick="toggleFilterForm()">
           <p
             class="w-[27px] h-[12px] absolute top-[10px] left-[17px] font-Montserrat font-[500]  text-[10px] leading-[12.19px] text-[#28388F]">
-            Filter</p>
+            {{__('messages.filters')}}</p>
         </button>
       </div>
 
@@ -24,7 +25,7 @@
           <div class="flex justify-between items-center mb-4">
             <h1
               class="w-[160px] h-[17px] font-Montserrat font-[600] text-[14px] leading-[17.07px] text-center text-[#000000]">
-              Learner Search Filter</h1>
+              {{__('messages.Learner_Search_Filter')}}</h1>
             <button class="w-[20px] h-[20px] text-[#1F2937] hover:text-gray-700 text-4xl mt-[-16px]"
               onclick="toggleFilterForm()">
               &times;
@@ -35,20 +36,20 @@
             @csrf
             <div class="">
               <label
-                class="w-[38px] h-[12px] font-[400] text-[10px] leading-[12.19px] text-center text-[#000000]">Enter Learner Name</label>
+                class="w-[38px] h-[12px] font-[400] text-[10px] leading-[12.19px] text-center text-[#000000]"> {{__('messages.Enter_Learner_Name')}}</label>
               <input type="text" name="name"
                 class="w-[270px] h-[40px] border-[1px] rounded-[10px] bg-[#FFFFFF] border-[#28388F0D] text-[10px] text-[#A7A7A7] focus:ring-1 focus:ring-blue-500">
             </div>
            
             <div class="">
               <label
-                class="w-[38px] h-[12px] font-[400] text-[10px] leading-[12.19px] text-center text-[#000000]">Primary Phone Number</label>
+                class="w-[38px] h-[12px] font-[400] text-[10px] leading-[12.19px] text-center text-[#000000]">{{__('messages.Primary_Phone_Number')}}</label>
               <input type="text" name="phone"
                 class="w-[270px] h-[40px] border-[1px] rounded-[10px] bg-[#FFFFFF] border-[#28388F0D] text-[10px] text-[#A7A7A7] focus:ring-1 focus:ring-blue-500">
             </div>
             <div class="">
               <label
-                class="w-[38px] h-[12px] font-[400] text-[10px] leading-[12.19px] text-center text-[#000000]">Email Address</label>
+                class="w-[38px] h-[12px] font-[400] text-[10px] leading-[12.19px] text-center text-[#000000]">{{__('messages.email')}}</label>
               <input type="text" name="email"
                 class="w-[270px] h-[40px] border-[1px] rounded-[10px] bg-[#FFFFFF] border-[#28388F0D] text-[10px] text-[#A7A7A7] focus:ring-1 focus:ring-blue-500">
             </div>
@@ -160,4 +161,5 @@
     </div>
   </div>
   @include('user.bottom_menu')
+ 
 @endsection

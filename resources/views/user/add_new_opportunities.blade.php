@@ -6,7 +6,7 @@
     <div id="screen12" class="max-w-sm mx-auto p-4 bg-white  rounded-lg">
       <div class="mt-2 text-sm">
         <h1 class="font-[500] text-[14px] leading-[17.07px] text-[#000000]">
-          Add Opportunity
+         {{__('messages.add_opportunity')}}
         </h1>
       </div>
       {{-- To show success or failure --}}
@@ -33,48 +33,47 @@
       <form class="space-y-4 mt-6" action="{{route('saveopportunites')}}" method="post" enctype='multipart/form-data'>
         @csrf
         <div class="space-y-1">
-          <label for="opportunity" class="font-[400] text-[12px] leading-[14.63px] text-[#000000]">Opportunity
-            Name</label>
-          <input id="opportunity" type="text" name="opportunity_name" placeholder="Please Enter Opportunity Name" class="text-xs w-full border rounded px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 placeholder:font-[400] placeholder:text-[10px] placeholder:leading-[12.19px] placeholder:text-[#A7A7A7] rounded-[10px] placeholder:border-[1px]">
+          <label for="opportunity" class="font-[400] text-[12px] leading-[14.63px] text-[#000000]">{{__('messages.opportunity')}}
+          {{__('messages.name')}}</label>
+          <input id="opportunity" type="text" name="opportunity_name" placeholder="{{__('messages.Please_Enter_Opportunity_Name')}}" class="text-xs w-full border rounded px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 placeholder:font-[400] placeholder:text-[10px] placeholder:leading-[12.19px] placeholder:text-[#A7A7A7] rounded-[10px] placeholder:border-[1px]">
         </div>
         <div class="space-y-1">
-          <label for="opportunity" class="font-[400] text-[12px] leading-[14.63px] text-[#000000]">Opportunity
-            Description</label>
-          <input id="Description" type="text" name="description" placeholder="Please Enter Description" class="text-xs w-full border rounded px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 placeholder:font-[400] placeholder:text-[10px] placeholder:leading-[12.19px] placeholder:text-[#A7A7A7] rounded-[10px] placeholder:border-[1px]">
+          <label for="opportunity" class="font-[400] text-[12px] leading-[14.63px] text-[#000000]">{{__('messages.opportunity')}}
+          {{__('messages.description')}}</label>
+          <input id="Description" type="text" name="description" placeholder="{{__('messages.Please_Enter_Description')}}" class="text-xs w-full border rounded px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 placeholder:font-[400] placeholder:text-[10px] placeholder:leading-[12.19px] placeholder:text-[#A7A7A7] rounded-[10px] placeholder:border-[1px]">
         </div>
         <div class="space-y-1 mt-1">
-          <label for="opportunity" name="opportunity_type" class="font-[400] text-[12px] leading-[14.63px] text-[#000000]">Opportunity
-            Type</label>
+          <label for="opportunity" name="opportunity_type" class="font-[400] text-[12px] leading-[14.63px] text-[#000000]">{{__('messages.opportunity')}}
+          {{__('messages.type')}}</label>
           <div class="space-y-2 mt-4">
             <label class="flex items-center space-x-2">
               <input type="radio" name="opportunity_type" value="job" class="h-4 w-4 border-gray-300 text-blue-600 focus:ring-blue-500">
-              <span class="font-[400] text-[14px] leading-[17.07px] text-[#000000] ">Job</span>
+              <span class="font-[400] text-[14px] leading-[17.07px] text-[#000000] ">{{__('messages.job')}}</span>
             </label>
             <label class="flex items-center space-x-2">
               <input type="radio" name="opportunity_type" value="entrepreneurship" class="h-4 w-4 border-gray-300 text-blue-600 focus:ring-blue-500" checked="">
-              <span class="font-[400] text-[14px] leading-[17.07px] text-[#000000]">Entrepreneurship</span>
+              <span class="font-[400] text-[14px] leading-[17.07px] text-[#000000]">{{__('messages.Entrepreneurship')}}</span>
             </label>
           </div>
         </div>
         <div class="space-y-1 mt-2">
-          <label for="potential" class="font-[400] text-[12px] leading-[14.63px] text-[#000000]">Earning Potential (Per
-            Month)</label>
-          <input id="opportunity" name="payout_monthly" type="text" placeholder="Please enter how much can be earned in a month" class="text-xs w-full border rounded px-3 py-2 text-sm  placeholder:font-[400] placeholder:text-[10px] placeholder:leading-[12.19px] placeholder:text-[#A7A7A7] rounded-[10px] placeholder:border-[1px]">
+          <label for="potential" class="font-[400] text-[12px] leading-[14.63px] text-[#000000]">{{__('messages.Earning_Potential')}}</label>
+          <input id="opportunity" name="payout_monthly" type="text" placeholder="{{__('messages.opportunity2')}}" class="text-xs w-full border rounded px-3 py-2 text-sm  placeholder:font-[400] placeholder:text-[10px] placeholder:leading-[12.19px] placeholder:text-[#A7A7A7] rounded-[10px] placeholder:border-[1px]">
         </div>
         <div class="space-y-1 mt-2">
-          <label for="potential" class="font-[400] text-[12px] leading-[14.63px] text-[#000000]">Start Date</label>
-          <input id="start_date" name="start_date" type="date" placeholder="Please enter how much can be earned in a month" class="text-xs w-full border rounded px-3 py-2 text-sm  placeholder:font-[400] placeholder:text-[10px] placeholder:leading-[12.19px] placeholder:text-[#A7A7A7] rounded-[10px] placeholder:border-[1px]">
+          <label for="potential" class="font-[400] text-[12px] leading-[14.63px] text-[#000000]">{{__('messages.start_date')}}</label>
+          <input id="start_date" name="start_date" type="date"  class="text-xs w-full border rounded px-3 py-2 text-sm  placeholder:font-[400] placeholder:text-[10px] placeholder:leading-[12.19px] placeholder:text-[#A7A7A7] rounded-[10px] placeholder:border-[1px]">
         </div>
         <div class="space-y-1 mt-2">
-          <label for="potential" class="font-[400] text-[12px] leading-[14.63px] text-[#000000]">End Date</label>
-          <input id="end_date" name="end_date" type="date" placeholder="Please enter how much can be earned in a month" class="text-xs w-full border rounded px-3 py-2 text-sm  placeholder:font-[400] placeholder:text-[10px] placeholder:leading-[12.19px] placeholder:text-[#A7A7A7] rounded-[10px] placeholder:border-[1px]">
+          <label for="potential" class="font-[400] text-[12px] leading-[14.63px] text-[#000000]">{{__('messages.end_date')}}</label>
+          <input id="end_date" name="end_date" type="date"  class="text-xs w-full border rounded px-3 py-2 text-sm  placeholder:font-[400] placeholder:text-[10px] placeholder:leading-[12.19px] placeholder:text-[#A7A7A7] rounded-[10px] placeholder:border-[1px]">
         </div>
         <div class="space-y-1 mt-2">
-          <label for="potential" class="font-[400] text-[12px] leading-[14.63px] text-[#000000]">Number Of Openings</label>
+          <label for="potential" class="font-[400] text-[12px] leading-[14.63px] text-[#000000]">{{__('messages.Number_Of_Openings')}}</label>
           <input id="number_of_openings" name="number_of_openings" type="number"  class="text-xs w-full border rounded px-3 py-2 text-sm  placeholder:font-[400] placeholder:text-[10px] placeholder:leading-[12.19px] placeholder:text-[#A7A7A7] rounded-[10px] placeholder:border-[1px]">
         </div>
         <div class="space-y-1">
-          <label class="font-[400] text-[12px] leading-[14.63px] text-[#000000]">Attach Documents</label>
+          <label class="font-[400] text-[12px] leading-[14.63px] text-[#000000]">{{__('messages.Attach_Documents')}}</label>
           <div class="flex items-center space-x-2">
             <div class="flex items-center border border-gray-300 rounded-[10px] px-2 py-3 w-full">
               <span id="file-name[]" class="font-[400] text-[12px] leading-[12.19px] text-[#A7A7A7]  flex-grow ">Upload Document</span>
@@ -97,7 +96,8 @@
 
         <div class="flex justify-center ">
           <button class="w-[250px] h-[40px] rounded-[8px] mt-[1rem] mb-[8rem] bg-[#28388F] text-[#FFFFFF]  py-1 pb-[6px] text-[14px] font-[600]">
-            Save Opportunity
+           
+            {{__('messages.Save_Opportunity')}}
           </button>
         </div>
       </form>

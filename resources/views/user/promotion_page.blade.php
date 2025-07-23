@@ -3,7 +3,7 @@
 @section('content')
 <div id="screen7" class="max-w-[26rem] mx-auto p-4 bg-[#FFFFFF] shadow-md" style="min-height:1024px">
     @include('user.header')
-    <div class="texttitle mt-16 ml-4 mb-1.5 z-[0] w-[84px] h-[17px]  font-[500] text-[14px] leading-[17.07px] text-[#000000]">Promotions</div>
+    <div class="texttitle mt-16 ml-4 mb-1.5 z-[0] w-[84px] h-[17px]  font-[500] text-[14px] leading-[17.07px] text-[#000000]">{{__('messages.promotion')}}</div>
     <section class="dashboard p-4 mb-12">
       <div class="dash-content">
         <div class="activity">
@@ -49,5 +49,5 @@
     </section>
   </div>
 </div>
-  @include('user.bottom_menu')
+@include('user.bottom_menu')
 @endsection

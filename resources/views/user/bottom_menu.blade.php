@@ -33,7 +33,7 @@ $promotionClass = $currentRoute === 'promotion' ? ' rounded-[10px]   bg-[#28388F
 ?>
 
 
-<div class="max-w-[26rem] mx-auto sticky bottom-0 left-0 w-full bg-gray-100 h-[64px] flex items-center justify-around shadow-md">
+<div class="fixed bottom-0 max-w-[26rem] mx-auto sticky bottom-0 left-0 w-full bg-gray-100 h-[64px] flex items-center justify-around shadow-md" >
     <a href="{{ route('dashboard') }}">
         <img src="{{ asset('asset/images/homeicon.png') }}" alt="home" class="w-[20px] h-[20.34px]" />
     </a>
