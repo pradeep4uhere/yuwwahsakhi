@@ -75,7 +75,7 @@ Route::middleware('auth:admin')->group(function () {
     Route::get('/getyuwaahlist', [AdminController::class, 'getYuwaahList'])->name('admin.yuwaahsakhi.list');
     Route::get('/getyuwaahlist', [AdminController::class, 'getYuwaahList'])->name('admin.yuwaahsakhi.list');
     Route::get('/get-partner-centers', [AdminController::class, 'getPartnerCenters'])->name('admin.get_partner_centers');Route::get('/export/yuwaah-sakhi', function () {
-        return Excel::download(new YuwaahSakhiExport, 'yuwaah_sakhi_list.xlsx');
+        return Excel::download(new YuwaahSakhiExport, 'field_center_list.xlsx');
     })->name('yuwaahSakhi.export');
 
 

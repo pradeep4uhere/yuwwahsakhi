@@ -1,4 +1,4 @@
-<div id="sidebar" class="sidebar shadow-2xl text-xs bg-[#FFFFFF] w-[270px] h-[780px] absolute top-[40px]">
+<div id="sidebar" class="sidebar shadow-2xl text-xs bg-[#FFFFFF] w-[370px] h-[780px] absolute top-[40px]">
         <div class="max-w-[26rem] flex justify-center mt-4">
           @if(getYuwaahSakhiAuthProfileImage()!='')
             <img src="{{asset('storage/'.getYuwaahSakhiAuthProfileImage())}}" alt="profileLogo" class="w-[60.45px] h-[60px] absolute top-[81px] left-[104.78px]">
@@ -9,8 +9,8 @@
 
         <div class="my-4 mx-6 space-y-3">
           <div class="flex gap-4">
-            <p class="w-[32.24px] h-[15px] absolute top-[168px] left-[31.23px] font-Montserrat font-[400] text-[12px] leading-[14.63px] text-[#000000]">Sakhi ID</p>
-            <p class="w-[37.28px] h-[15px] absolute top-[168px]  left-[111.83px] font-Montserrat font-[600] text-[12px] leading-[14.63px] text-[#000000]">{{ getYuwaahSakhiAuthID() }}</p>
+            <p class="w-[42.24px] h-[15px] absolute top-[168px] left-[31.23px] font-Montserrat font-[400] text-[12px] leading-[14.63px] text-[#000000]">Center ID</p>
+            <p class="w-[57.28px] h-[15px] absolute top-[168px]  left-[111.83px] font-Montserrat font-[600] text-[12px] leading-[14.63px] text-[#000000]">{{ getYuwaahSakhiAuthID() }}</p>
           </div>
           <div class="flex gap-4">
             <p class="w-[59.44px] h-[15px] absolute top-[198px] left-[31.23px] font-Montserrat font-[400] text-[12px]  leading-[14.63px] text-[#000000]">Sakhi Center</p>

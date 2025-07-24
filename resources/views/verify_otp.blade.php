@@ -26,7 +26,7 @@
     </a>
 
     <div class="w-[160px] h-[86px] flex justify-center relative left-[90px]">
-      <img src="{{asset('asset/images/Yuwaahlogo.png')}}" alt="YuWaah Logo" class="h-14">
+      <img src="{{asset('asset/images/Yuwaahlogo.png')}}" alt="YuWaah Logo" class="h-14 w-[82px] h-[82px]">
     </div>
     @if (session('verifiedotp'))
     <h1 class="w-[347px] h-[34px] font-[600] text-[28px] leading-[34.13px] mb-4">Change Password</h1>

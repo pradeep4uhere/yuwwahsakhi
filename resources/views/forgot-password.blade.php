@@ -25,8 +25,8 @@
         <img src="{{asset('asset/images/arrow-left.png')}}" alt="arrow-Left" class="w-[20px] h-[20px] mt-5 hover:text-blue-600">
     </a>
 
-    <div class="w-[150px] h-[86px] flex justify-center mb-4 relative left-[90px]">
-      <img src="{{asset('asset/images/Yuwaahlogo.png')}}" alt="YuWaah Logo" class="h-14">
+    <div class="w-[150px] h-[86px] flex justify-center mb-4 relative left-[90px] mb-[50px]">
+      <img src="{{asset('asset/images/Yuwaahlogo.png')}}" alt="YuWaah Logo" class="h-14 w-[82px] h-[82px]">
     </div>
     <h1 class="w-[258px] h-[34px] font-[600] text-[28px] leading-[34.13px] mb-4">Forgot Password </h1>
    

@@ -1,8 +1,6 @@
 @extends('layouts.default')
 @section('title', 'Home Page')
 @section('content')
-    
-    
     <section class="dashboard">
         <div class="top">
             <div class="title">
@@ -12,7 +10,6 @@
                 <!-- <i class="uil uil-search" style="color: rgba(5, 167, 209, 1);"></i>
                 <input type="text" placeholder="Please type and search"> -->
             </div>
-
         </div>
         </div>
         <div id="content-container">
@@ -50,11 +47,9 @@
 
                     </div>
                     <div class="box box2">
-                        <span class="text">Events</span>
+                        <span class="text">Events Category</span>
                         <span class="number">{{$dashboard['eventcount']}}</span>
-                        <a href="{{route('admin.partnercenter')}}"> <img src="{{asset('asset/images/Editiconmain.png')}}" alt="" style="height: 100px; width: 120px; cursor: pointer;"></a>
-
-
+                        <a href="{{route('admin.eventcategory.list')}}"> <img src="{{asset('asset/images/Editiconmain.png')}}" alt="" style="height: 100px; width: 120px; cursor: pointer;"></a>
                     </div>
                     <div class="box box5">
                         <span class="text">Promotions</span>
@@ -70,10 +65,8 @@
                         <a href="{{route('admin.learner')}}"> <img src="{{asset('asset/images/Editiconmain.png')}}" alt="" style="height: 100px; width: 120px; cursor: pointer;"></a>
                         </div>
                     </div>
-
                 </div>
             </div>
         </div>
     </section>
-
-    @endsection
+@endsection

@@ -33,7 +33,7 @@
     </a>
     <div class="flex justify-center mb-4">
     <a href="{{route('welcome')}}">
-      <img src="{{asset('asset/images/Yuwaahlogo.png')}}" alt="YuWaah Logo" class="w-[150px] h-[86px] ">
+      <img src="{{asset('asset/images/Yuwaahlogo.png')}}" alt="YuWaah Logo" class="w-[82px] h-[86px] ">
     </a>
     </div>
     @if (session('error'))

@@ -29,14 +29,36 @@
   <!-- 1.................... Screen 1: About YuWaah ......-->
   <div id="screen1" class="mx-auto max-w-[26rem] h-screen bg-white shadow-md relative">
     <div class="absolute top-[44px] left-[165px]">
-    <img src="{{asset('asset/images/Yuwaahlogo.png')}}" alt="YuWaah Logo" class="h-24" width="102px" height="90px">
+    <img src="{{asset('asset/images/Yuwaahlogo.png')}}" alt="YuWaah Logo" class="h-14" width="82px" height="57px">
+    </div>
+
+    
+
+    <div class="mx-auto relative left-[px]">
+      <div class="absolute top-[120px] left-[20px]">
+        <?php if($YuwaahSakhiSetting['home_page_banner_type']==2){ ?>
+        <?php $youtubeEmbedUrl = getYouTubeVideoId($YuwaahSakhiSetting['youtube_url']);?>
+        <iframe width="380" height="200" src="{{$youtubeEmbedUrl}}">
+        </iframe>
+        <?php }else{ ?>
+          <!-- Left Arrow -->
+        <button class="absolute top-[195px] left-[16px] w-[20px] h-[20px]  text-gray-700 hover:text-black">
+          <i class="fa-solid fa-chevron-left"></i>
+        </button>
+          <img src="{{asset('asset/images/Banner.png')}}" alt=" Logo" width="330px" height="184.33px">
+        <!-- Right Arrow -->
+        <button class="absolute top-[195px] left-[378px] w-[20px] h-[20px]">
+          <i class="fa-solid fa-chevron-right"></i>
+        </button>
+        <?php } ?>
+      </div>
     </div>
 
     <div class="">
       <h2
-        class="w-[202px] h-[20px] absolute top-[184px] left-[100px] font-Montserrat font-[500] text-[16px] leading-[19.5px] text-center text-[#000000]">
+        class="w-[202px] h-[20px] absolute top-[334px] left-[100px] font-Montserrat font-[500] text-[16px] leading-[19.5px] text-center text-[#000000]">
         {{$YuwaahSakhiSetting['home_page_title']}}</h2>
-        <div class="absolute top-[214px] left-[46px] w-[330px] text-[12px] leading-[1.3] font-Montserrat text-[#000000] prose prose-sm max-w-none">
+        <div class="absolute top-[364px] left-[46px] w-[330px] text-[12px] leading-[1.3] font-Montserrat text-[#000000] prose prose-sm max-w-none">
           {!! $YuwaahSakhiSetting['description'] !!}
         </div>
     </div>
@@ -44,7 +66,7 @@
     <a href="{{route('login')}}"
     class="font-Montserrat font-[600] text-[14px] leading-[17.07px] text-[#FFFFFF] ">
     <div
-      class="w-[250px] h-[40px] relative top-[561px] left-[82px] rounded-[10px] bg-[#28388F] text-center pt-2.5 font-Montserrat">
+      class="w-[250px] h-[40px] relative top-[461px] left-[82px] rounded-[10px] bg-[#28388F] text-center pt-2.5 font-Montserrat">
       <div>
     @if(Auth::check())
         Home
@@ -55,7 +77,7 @@
     </div>
     </a>
 
-    <div class="mt-2 absolute top-[600px] left-[122px] font-Montserrat">
+    <div class="mt-2 absolute top-[500px] left-[122px] font-Montserrat">
     @if(!Auth::check())
       <p class="text-center text-xs text-gray-600 font-Montserrat">
         Not Member ? <a href="{{route('register')}}" class="text-[#28388F] font-semibold hover:underline text-sm">Register</a>

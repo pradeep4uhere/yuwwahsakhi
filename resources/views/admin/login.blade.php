@@ -20,7 +20,7 @@
   <body class="font-Montserrat" style="background-color: aliceblue;">
 <div id="screen4" class="mx-auto max-w-[26rem] p-10 bg-white shadow-md  h-auto" style="margin-top:200px;">
     <div class="flex justify-center mb-4">
-      <img src="{{asset('asset/images/Yuwaahlogo.png')}}" alt="YuWaah Logo" class="w-[150px] h-[86px]">
+      <img src="{{asset('asset/images/Yuwaahlogo.png')}}" alt="YuWaah Logo" class="w-[82px] h-[86px]">
     </div>
     <h1 class="w-[182px] h-[34px] font-[600] text-[28px] leading-[34.13px] text-[#000000]  mb-4">Admin Login</h1>
     <form method="POST" action="{{ route('admin.login') }}" class="space-y-4 text-xs">
