@@ -2061,7 +2061,7 @@ public function fetchOppertunites(Request $request)
                     "event_category"=>$item->event_category,
                     "event_date_created"=>$item->event_date_created,
                     "event_date_submitted"=>$item->event_date_submitted,
-                    "event_value"=>$item->event_value,
+                    "monthly_income"=>$item->event_value,
                     "ys_id"=>$item->ys_id,
                     "uploaded_doc_links"=>$item->uploaded_doc_links,
                     "document_type"=>$item->document_type,
