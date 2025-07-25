@@ -2041,6 +2041,7 @@ public function fetchOppertunites(Request $request)
             ->limit($limit)
             ->select(
                 'event_transactions.*',
+                'event_transactions.event_value as monthly_income',
                 'yuwaah_event_type.name as event_type_name' // or other columns from event type
             )
             ->get();

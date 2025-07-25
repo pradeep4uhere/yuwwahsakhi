@@ -2,7 +2,7 @@
 <html lang="en"><head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>YuWaah Sakhi</title>
+  <title>Partner Division Login</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <!-- for date -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
@@ -26,9 +26,9 @@
     
 
     <div class="flex justify-center mb-4">
-      <img src="{{asset('asset/images/Yuwaahlogo.png')}}" alt="YuWaah Logo" class="w-[150px] h-[86px]">
+      <img src="{{asset('asset/images/Yuwaahlogo.png')}}" alt="YuWaah Logo" class="w-[90px] h-[86px]">
     </div>
-    <h1 class="w-[282px] h-[34px] font-[600] text-[28px] leading-[34.13px] text-[#000000]  mb-4">Partner Center Login</h1>
+    <h1 class="w-[282px] h-[34px] font-[600] text-[28px] leading-[34.13px] text-[#000000]  mb-4">Partner Division Login</h1>
     <form method="POST" action="{{ route('partnercenter.login') }}" class="space-y-4 text-xs">
     @csrf
       <div class="space-y-1">
@@ -75,7 +75,7 @@
 
     <div class="mt-2 ">
       <p class="text-center font-[400] text-[12px] leading-[14.63px] text-[#000000]">
-        Now Partner Center ? <a href="#" class=" font-[600] text-[12px] leading-[14.63px] text-[#05A7D1] hover:underline">Contact Us</a>
+        Now Partner Division ? <a href="#" class=" font-[600] text-[12px] leading-[14.63px] text-[#05A7D1] hover:underline">Contact Us</a>
       </p>
     </div>
   </div>

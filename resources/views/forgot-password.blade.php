@@ -54,7 +54,7 @@
     </form>
     <div class="mt-2 ">
       <p class="text-center font-[400] text-[12px] leading-[14.63px] text-[#000000]">
-        Now to YuWaah? <a href="{{route('register')}}" class="font-[600] text-[12px] leading-[14.63px] text-[#05A7D1] hover:underline">Register</a>
+        Now to YuthHub? <a href="{{route('register')}}" class="font-[600] text-[12px] leading-[14.63px] text-[#05A7D1] hover:underline">Register</a>
       </p>
     </div>
     <div class="h-48"></div>
