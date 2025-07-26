@@ -98,8 +98,8 @@
                             </tr>
                             <?php $count++;} ?>
                             <?php } else{ ?>
-                                <tr><td colspan="11">
-                                    <div class="alert alert-danger text-center">No Partner Found</div>
+                                <tr><td colspan="13">
+                                    <div class="alert alert-danger text-center">No Dashboard Learner Found</div>
                                 </td></tr>
                             <?php } ?>
                            
