@@ -144,7 +144,17 @@
                             ">Yuwaah Setting</span>
                     </a>
                 </li>
-                <li class="{{ request()->is('promotions') ? 'activelink' : '' }}">                    
+                <li class="{{ request()->is('admin.learner.skills') ? 'activelink' : '' }}">                    
+                    <a href="{{route('admin.learner.skills')}}" id="promotion-link">
+                        <i class="uil uil-user
+                            {{ request()->routeIs('admin.yuwaahsakhi.homepage.update') ? 'activelinktext' : '' }}
+                            "></i>
+                        <span class="link-name
+                            {{ request()->routeIs('admin.yuwaahsakhi.homepage.update') ? 'activelinktext' : '' }}
+                            ">Learner's Skills</span>
+                    </a>
+                </li>
+                <li class="{{ request()->is('admin.learner') ? 'activelink' : '' }}">                    
                     <a href="{{route('admin.learner')}}" id="promotion-link">
                         <i class="uil uil-user
                             {{ request()->routeIs('admin.yuwaahsakhi.homepage.update') ? 'activelinktext' : '' }}

@@ -110,7 +110,10 @@ Route::middleware('auth:admin')->group(function () {
     Route::get('/export-partners', [AdminController::class, 'exportPartners'])->name('partners.export');
     Route::any('/import-learners', [AdminController::class, 'importLearnerForm'])->name('admin.import.learner');
     Route::post('/importlearners', [AdminController::class, 'importLearners'])->name('admin.import.learner.action');
-    
+
+    Route::get('/learner-skills', [AdminController::class, 'allLearnerSkillsList'])->name('admin.learner.skills');
+    Route::get('/export-dashboard-learners', [AdminController::class, 'exportDashboardLearnersCSV'])->name('admin.learner.skills.export');
+
 
     
 

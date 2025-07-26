@@ -7,6 +7,7 @@ use App\Models\LoanType;
 use App\Models\State;
 use App\Models\District;
 use App\Models\Block;
+use App\Models\Learner;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Auth; 
 use Illuminate\Support\Facades\DB;
@@ -662,6 +663,26 @@ if (!function_exists('getEventComment')) {
             })
             ->orderBy('id', 'desc');
         return $latest ? $query->first() : $query->get();
+    }
+}
+
+
+
+if (!function_exists('isLearnerMatched')) {
+    /**
+     * Check if learner exists by primary phone number (ignoring +91).
+     *
+     * @param string $primary_contact_number
+     * @return bool
+     */
+    function isLearnerMatched($primary_contact_number)
+    {
+        // Extract last 10 digits from the number
+        $numberOnly = preg_replace('/\D/', '', $primary_contact_number); // Remove non-digits
+        $cleanNumber = substr($numberOnly, -10); // Get last 10 digits
+
+        // Check if a learner exists with matching last 10 digits
+        return Learner::whereRaw("RIGHT(primary_phone_number, 10) = ?", [$cleanNumber])->exists();
     }
 }
 

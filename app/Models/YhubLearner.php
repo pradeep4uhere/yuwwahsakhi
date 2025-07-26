@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+
 class YhubLearner extends Model
 {
     use HasFactory;
@@ -35,4 +36,20 @@ class YhubLearner extends Model
         'load_date' => 'date',
         'completion_status' => 'boolean',
     ];
+
+
+    public function state()
+    {
+        return $this->belongsTo(State::class);
+    }
+
+    public function district()
+    {
+        return $this->belongsTo(District::class);
+    }
+
+    public function block()
+    {
+        return $this->belongsTo(Block::class);
+    }
 }

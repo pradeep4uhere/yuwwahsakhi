@@ -89,37 +89,7 @@
                     </div>
                 </div>
             </div>
-            @if ($response->lastPage() > 1)
-                <!-- Pagination code start -->
-                <div class="pagination">
-                    <table>
-                        <tr>
-                            {{-- Previous Page Link --}}
-                            <td>
-                                @if ($response->onFirstPage())
-                                    <span class="disabled"><i class="uil uil-angle-left"></i></span>
-                                @else
-                                    <a href="{{ $response->previousPageUrl() }}"><i class="uil uil-angle-left"></i></a>
-                                @endif
-                            </td>
-
-                            {{-- Current Page --}}
-                            <td class="current-page">
-                                <span>{{ $response->currentPage() }}</span>
-                            </td>
-
-                            {{-- Next Page Link --}}
-                            <td>
-                                @if ($response->hasMorePages())
-                                    <a href="{{ $response->nextPageUrl() }}"><i class="uil uil-angle-right"></i></a>
-                                @else
-                                    <span class="disabled"><i class="uil uil-angle-right"></i></span>
-                                @endif
-                            </td>
-                        </tr>
-                    </table>
-                </div>
-            @endif
+            @include('admin.pagination')
         </div>
     </section>
 

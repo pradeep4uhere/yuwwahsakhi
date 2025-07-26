@@ -14,6 +14,7 @@ use App\Models\Promotion;
 use App\Models\YuwaahSakhi;
 use App\Models\YuwaahEventMaster;
 use App\Models\YuwaahEventType;
+use App\Models\YhubLearner;
 use Illuminate\Support\Facades\Storage;
 use App\Models\YuwaahSakhiSetting;
 use App\Models\Learner;
@@ -25,6 +26,7 @@ use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\MessageBag;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Validator;
+use App\Exports\YhubLearnersExport;
 
 
 
@@ -1292,6 +1294,14 @@ public function exportLearnersCSV()
 }
 
 
+
+
+public function exportDashboardLearnersCSV()
+{
+    return Excel::download(new YhubLearnersExport, 'dashboard_learners'.date('y_m_d_h_i_s_a').'.csv');
+}
+
+
 public function exportPartners()
 {
     return Excel::download(new PartnersExport, 'partners_'.date('y_m_d_h_i_s_a').'.csv');
@@ -1692,6 +1702,52 @@ public function importLearners(Request $request)
         
     }
 
+
+
+
+
+
+
+/**
+ * All Learnser List
+ */
+public function allLearnerSkillsList(Request $request){
+    $searchQuery = $request->input('search');
+    $query = YhubLearner::with(['state', 'district', 'block']);
+    if ($request->has('status')) {
+        $query->where('status', $request->status);
+    }
+     // Apply search filters on name, email, and contact_number
+    if (!empty($searchQuery)) {
+        $query->where(function($q) use ($searchQuery) {
+            $q->where('first_name', 'like', '%' . $searchQuery . '%')
+            ->orWhere('last_name', 'like', '%' . $searchQuery . '%')
+            ->orWhere('gender', 'like', '%' . $searchQuery . '%')
+            ->orWhere('email_address', 'like', '%' . $searchQuery . '%')
+            ->orWhere('completion_percent', 'like', '%' . $searchQuery . '%')
+            ->orWhere('completion_status', 'like', '%' . $searchQuery . '%');
+        });
+    }
+
+    // Sorting logic based on 'sort_by' and 'sort_order' parameters
+    if ($request->has('sort_by')) {
+        $sortBy = $request->input('sort_by', 'id');  // Default sort by 'id'
+        $sortOrder = $request->input('sort_order', 'id');  // Default sort order 'asc'
+        $query->orderBy($sortBy, $sortOrder);
+    }
+
+    $query->orderBy('id','desc');
+    // Set the number of items per page from the request, or default to 10
+    $perPage = $request->get('per_page', env('PAGINATION'));
+
+    // Execute the query and return paginated results
+    $response =  $query->paginate($perPage);
+    //dd($response);
+    return view('admin.learner.skilllearnerlist', [
+        'response'=>$response,
+        'title' => 'All Skill Learner',
+    ]);
+}
 
 
 
