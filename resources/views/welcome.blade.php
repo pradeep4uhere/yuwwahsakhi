@@ -28,8 +28,8 @@
 <body class="">
   <!-- 1.................... Screen 1: About YuWaah ......-->
   <div id="screen1" class="mx-auto max-w-[26rem] h-screen bg-white shadow-md relative">
-    <div class="absolute top-[44px] left-[165px]">
-    <img src="{{asset('asset/images/Yuwaahlogo.png')}}" alt="YuWaah Logo" class="h-24" width="102px" height="90px">
+    <div class="absolute top-[44px] left-[160px]">
+    <img src="{{asset('asset/images/Yuwaahlogo.png')}}" alt="YuWaah Logo" class="h-24" width="90px" height="90px">
     </div>
 
     <div class="">
@@ -44,7 +44,7 @@
     <a href="{{route('login')}}"
     class="font-Montserrat font-[600] text-[14px] leading-[17.07px] text-[#FFFFFF] ">
     <div
-      class="w-[250px] h-[40px] relative top-[561px] left-[82px] rounded-[10px] bg-[#28388F] text-center pt-2.5 font-Montserrat">
+      class="w-[250px] h-[40px] relative top-[361px] left-[82px] rounded-[10px] bg-[#28388F] text-center pt-2.5 font-Montserrat">
       <div>
     @if(Auth::check())
         Home
@@ -55,7 +55,7 @@
     </div>
     </a>
 
-    <div class="mt-2 absolute top-[600px] left-[122px] font-Montserrat">
+    <div class="mt-2 absolute top-[400px] left-[122px] font-Montserrat">
     @if(!Auth::check())
       <p class="text-center text-xs text-gray-600 font-Montserrat">
         Not Member ? <a href="{{route('register')}}" class="text-[#28388F] font-semibold hover:underline text-sm">Register</a>
