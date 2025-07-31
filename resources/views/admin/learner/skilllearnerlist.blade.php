@@ -39,19 +39,29 @@
                             <tr>
                                 <th>SN</th>
                                 <th>Matched</th>
-                                <th>Photo</th>
-                                <th nowrap="nowrap">First Name</th>
-                                <th nowrap="nowrap">Last Name</th>
                                 <th>Contact</th>
-                                <th>Gender</th>
-                                <th nowrap="nowrap">Course Name</th>
                                 <th nowrap="nowrap">Completion Status</th>
-                                <th nowrap="nowrap">Course End Datetime</th>
-                                <th>Completion[%]</th>
                                 <th>Load Date</th>
                                 <th>Sync Date</th>
                             </tr>
                         </thead>
+                        <?php
+                                $matched = [];
+                                $notMatched = [];
+
+                                if (isset($response) && count($response) > 0) {
+                                    foreach ($response as $item) {
+                                        if (isLearnerMatched($item['email_address'])) {
+                                            $matched[] = $item;
+                                        } else {
+                                            $notMatched[] = $item;
+                                        }
+                                    }
+
+                                    // Merge matched first, then not matched
+                                    //$response = array_merge($matched, $notMatched);
+                                }
+                                ?>
                         
                         <tbody>
                         <?php if(isset($response) && count($response) > 0){ ?>
@@ -64,34 +74,13 @@
                                 <?php }else{ ?>
                                     <span class="badge badge-danger">Not Matched</span>
                                 <?php } ?>
-                                </td>
-                                @php
-                                    $validExtensions = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
-                                    $url = $item['profile_photo_url'] ?? '';
-                                    $extension = strtolower(pathinfo($url, PATHINFO_EXTENSION));
-                                @endphp
-
-                                <td>
-                                    @if(!empty($url) && in_array($extension, $validExtensions))
-                                        <img src="{{ $url }}" height="35px" width="35px">
-                                    @else
-                                        <img src="{{ asset('asset/images/user.jpg') }}" height="35px" width="35px">
-                                    @endif
-                                </td>
-                                <td nowrap="nowrap">{{$item['first_name']}}</td>
-                                <td nowrap="nowrap">{{$item['last_name']}}</td>
                                 <td nowrap="nowrap">{{$item['email_address']}}</td>
-                                <td nowrap="nowrap">{{$item['gender']}}</td>
-                                <td nowrap="nowrap">{{$item['course_name']}}</td>
                                 <td class="text-center"><?php if($item['completion_status']==1){ ?>
                                    <span class="badge badge-success">Completed</span>
                                 <?php }else{ ?>
                                     <span class="badge badge-danger">Not Completed</span>
                                 <?php } ?>
                                 </td>
-                                
-                                <td>{{$item['course_end_datetime']}}</td>
-                                <td>{{$item['completion_percent']}}</td>
                                 <td nowrap="nowrap">{{$item['load_date']}}</td>
                                 <td nowrap="nowrap">{{$item['created_at']}}</td>
                                 
