@@ -113,6 +113,8 @@ Route::middleware('auth:admin')->group(function () {
 
     Route::get('/learner-skills', [AdminController::class, 'allLearnerSkillsList'])->name('admin.learner.skills');
     Route::get('/export-dashboard-learners', [AdminController::class, 'exportDashboardLearnersCSV'])->name('admin.learner.skills.export');
+    Route::get('/export-dashboard-matched-learners', [AdminController::class, 'exportDashboardMatchedLearnersCSV'])->name('admin.learner.skills.matched.export');
+    
 
 
     

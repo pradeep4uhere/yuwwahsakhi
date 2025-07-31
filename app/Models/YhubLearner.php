@@ -52,4 +52,14 @@ class YhubLearner extends Model
     {
         return $this->belongsTo(Block::class);
     }
+
+
+    public function scopeMatchedWithLearners($query)
+    {
+        return $query->whereExists(function ($q) {
+            $q->select(DB::raw(1))
+            ->from('learners')
+            ->whereRaw("RIGHT(learners.primary_phone_number, 10) = RIGHT(yhub_learners.primary_contact_number, 10)");
+        });
+    }
 }

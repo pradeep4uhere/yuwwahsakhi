@@ -21,6 +21,8 @@ use App\Models\Learner;
 use App\Exports\LearnersExport;
 use App\Exports\PartnersExport;
 use App\Imports\LearnersImport;
+use App\Exports\YhubLearnersMatchedExport;
+
 use GuzzleHttp\Client;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\MessageBag;
@@ -1302,6 +1304,12 @@ public function exportDashboardLearnersCSV()
 }
 
 
+public function exportDashboardMatchedLearnersCSV()
+{
+    return Excel::download(new YhubLearnersMatchedExport, 'dashboard_learners'.date('y_m_d_h_i_s_a').'.csv');
+}
+
+
 public function exportPartners()
 {
     return Excel::download(new PartnersExport, 'partners_'.date('y_m_d_h_i_s_a').'.csv');
@@ -1740,11 +1748,14 @@ public function allLearnerSkillsList(Request $request){
     // Set the number of items per page from the request, or default to 10
     $perPage = $request->get('per_page', env('PAGINATION'));
 
+    // Clone query before pagination
+    $allRows = (clone $query)->get();
     // Execute the query and return paginated results
     $response =  $query->paginate($perPage);
     //dd($response);
     return view('admin.learner.skilllearnerlist', [
         'response'=>$response,
+        'allRows' => $allRows, 
         'title' => 'All Skill Learner',
     ]);
 }

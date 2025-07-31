@@ -21,10 +21,32 @@
         <div id="content-container">
         </div>
         <!-- <section class="dashboard-partners"> -->
+        <?php
+        $matched = [];
+        $notMatched = [];
+
+        if (isset($allRows) && count($allRows) > 0) {
+            foreach ($allRows as $item) {
+                if (isLearnerMatched($item['email_address'])) {
+                    $matched[] = $item;
+                } else {
+                    $notMatched[] = $item;
+                }
+            }
+
+            // Merge matched first, then not matched
+            //$response = array_merge($matched, $notMatched);
+        }
+        ?>
         <div class="dash-content">
-            <span class="texttitle">All Dashboard Learners [{{$response->total()}}]</span>
+            <span class="texttitle">All Dashboard Learners [{{$response->total()}}]</span><br/>
+            <span class="texttitle" style="font-size:18px;color:green">Total Matched Dashboard Learners [{{count($matched)}}]</span>
+            
             <div class="activity">
                 <div class="activitybutton">
+                    <a href="{{route('admin.learner.skills.matched.export')}}">
+                    <button class="add-partner-btn" id="addPartnerBtns" style="margin-left: 2px; background-color: green;">Export All Matched</button>
+                    </a>
                     <a href="{{route('admin.learner.skills.export')}}">
                     <button class="add-partner-btn" id="addPartnerBtn" style="margin-left: 2px; background-color: brown;">Export Dashboard Learner</button>
                     </a>
@@ -45,23 +67,7 @@
                                 <th>Sync Date</th>
                             </tr>
                         </thead>
-                        <?php
-                                $matched = [];
-                                $notMatched = [];
-
-                                if (isset($response) && count($response) > 0) {
-                                    foreach ($response as $item) {
-                                        if (isLearnerMatched($item['email_address'])) {
-                                            $matched[] = $item;
-                                        } else {
-                                            $notMatched[] = $item;
-                                        }
-                                    }
-
-                                    // Merge matched first, then not matched
-                                    //$response = array_merge($matched, $notMatched);
-                                }
-                                ?>
+                       
                         
                         <tbody>
                         <?php if(isset($response) && count($response) > 0){ ?>
