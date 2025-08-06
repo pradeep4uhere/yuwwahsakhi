@@ -40,11 +40,11 @@
           </div>
           <div class="flex gap-4">
             <img src="{{asset('asset/images/phone.png')}}" alt="profileLogo" class="w-[10px] h-[10px] absolute top-[471px] left-[30px]">
-            <a href="" class="w-[132.99px] h-[15px] absolute top-[468px] left-[51.23px] font-Montserrat font-[400] text-[12px]  leading-[14.63px] text-[#000000]">{{env('SUPPORT_NUMBER')}}</a>
+            <p class="w-[132.99px] h-[15px] absolute top-[468px] left-[51.23px] font-Montserrat font-[400] text-[12px]  leading-[14.63px] text-[#000000]">{{env('SUPPORT_NUMBER')}}</p>
           </div>
           <div class="flex gap-4">
             <img src="{{asset('asset/images/mail.png')}}" alt="profileLogo" class="w-[10px] h-[10px] absolute top-[501px] left-[30px]">
-            <a href="" class="w-[132.99px] h-[15px] absolute top-[498px] left-[51.23px] font-Montserrat font-[400] text-[12px]  leading-[14.63px] text-[#000000]">{{env('SUPPORT_EMAIL_ADDRESS')}}</a>
+            <p class="w-[132.99px] h-[15px] absolute top-[498px] left-[51.23px] font-Montserrat font-[400] text-[12px]  leading-[14.63px] text-[#000000]">{{env('SUPPORT_EMAIL_ADDRESS')}}</p>
           </div>
           <div class="w-[200.49px] h-[40px] absolute top-[530px] left-[30.23px] rounded-[10px] bg-[#28388F]">
           
