@@ -15,7 +15,7 @@
      @endif
 
       <div class="flex justify-center">
-        <a href="{{route('dashboard')}}"> <img src="{{asset('asset/images/Yuwaahlogo.png')}}" alt="YuWaah Logo" class="w-[82px] h-[82px] absolute top-[34px] left-[158px]"></a>
+        <a href="{{route('dashboard')}}"> <img src="{{asset('asset/images/Yuwaahlogo.png')}}" alt="YuWaah Logo" class="w-[50px] h-[60px] absolute top-[34px] left-[168px]"></a>
       </div>
 
       <div class="flex gap-2 items-center">

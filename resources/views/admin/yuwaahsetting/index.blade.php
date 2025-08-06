@@ -120,7 +120,7 @@ button.delete-banner:hover {
           @endif
           <div class="popup-grid">
             <div class="input-container">
-              <label for="field1">{{__('Home Page Title')}}</label>
+              <label for="field1">{{__('Homepage Title')}}</label>
               <input type="text" name="home_page_title" placeholder="Enter Homepage Title" value="{{ $setting['home_page_title'] }}">
             </div>
           </div>

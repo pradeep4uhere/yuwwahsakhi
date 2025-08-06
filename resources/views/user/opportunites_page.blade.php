@@ -3,7 +3,7 @@
 @section('content')
 <div id="screen7" class="max-w-[26rem] mx-auto  bg-white shadow-md rounded-lg relative min-h-[100vh] h-auto">
     @include('user.header')
-    <div id="screen9" class=" max-w-[26rem] mx-auto p-4 bg-white mt-9 rounded-lg">
+    <div id="screen9" class=" max-w-[26rem] mx-auto p-4 bg-white mt-14 rounded-lg">
       <div class="mt-2 text-sm flex justify-between items-center">
         <h1 class="w-[100px] h-[17px] font-[500] text-[14px] leading-[17.07px] text-[#000000]">
         {{__('messages.opportunities')}}

@@ -52,7 +52,7 @@ return [
     'promotion_recently_added'=>'promotion recently added or duplicate data',
     'add_new_promotion'=>'Add New Promotions',
     'edit_promotion'=>'Update Promotions',
-    'promotion'=>'promotion',
+    'promotion'=>'Promotion',
     // Add other translations here
 
     'yuwaahsakhi_added_successfully'=>'Field Center added successfully',
@@ -158,8 +158,53 @@ return [
     'email'=>'Email Address',
      'Learner_Search_Filter'=>'Learner Search Filter',
      'Search_Filter'=>'Search Filter',
-     'Comments_By_Reviwer'=>'Comments By Reviwer'
-  
+     'Comments_By_Reviwer'=>'Comments By Reviwer',
+     'Learner_Details'=>'Learner Details',
+     'Learner_Status'=>'Learner Status',
+     'Date_of_Birth'=>'Date of Birth',
+     'gender'=>'Gender',
+     'Institution'=>'Institution',
+     'Education_level'=>'Education Level',
+     'Digital_Proficiency'=>'Digital Proficiency',
+     'English_Knowledge'=>'English Knowledge',
+     'Interested_In_Opportunities'=>'Interested In Opportunities',
+     'Get_a_Job'=>'Get_a_Job',
+     'Mobility'=>'Mobility',
+     'Job_Kind'=>'Job_Kind',
+     'Specific_Qualifications'=>'Specific Qualifications',
+     'When_I_want_job'=>'When_I_want_job',
+     'Years_of_experience'=>'Years of experience',
+     'Earn_at_my_own_time'=>'Earn at my own time',
+     'No_of_Hours'=>'No. of Hours I can work/Day',
+     'Kind_of_work_I_do'=>'Kind of work I do',
+     'Run_a_Business'=>'Run_a_Business',
+     'Current_Status'=>'Current_Status',
+     'Business_description'=>'Business Description (if any)',
+     'ongoing_opportunities'=>'Ongoing Opportunities',
+     'Completed_Opportunities'=>'Completed Opportunities',
+     'specification_document'=>'Specification Document',
+     'my_profile'=>'My Profile',
+     'mobile_number'=>'Mobile Number',
+     'date_of_birth'=>'Date of Birth',
+     'edit_profile'=>'Edit Profile',
+     'Address'=>'Address',
+     'District'=>'District',
+      'State'=>'State',
+      'Block'=>'Block',
+      'pincode'=>'Pincode',
+      'Field_Agent_ID'=>'Field_Agent_ID',
+      'education_level'=>'Education Level',
+      'digital_profiency'=>'Digital Pprofiency',
+      'Infrastructure_Available'=>'Infrastructure Available',
+      'Course_Completed'=>'Course Completed',
+      'Loan_Taken'=>'Loan Taken',
+      'loan_type'=>'Loan Type',
+      'loan_amount'=>'Loan Amount',
+      'loan_balance'=>'Loan Balance',
+      'profile_picture'=>'Profile Picture'
+
+     
+
    
      
 
