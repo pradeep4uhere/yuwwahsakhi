@@ -195,6 +195,12 @@ return [
     'loan_type'=>'ऋण प्रकार',
     'loan_amount'=>'ऋण राशि',
     'loan_balance'=>'ऋण शेष',
-    'profile_picture'=>'प्रोफ़ाइल फोटो'
+    'profile_picture'=>'प्रोफ़ाइल फोटो',
+    'Get_In_Touch'=>'संपर्क में रहो',
+    'Terms_and_Conditions'=>'नियम और शर्तें',
+    'Unicef_YouthHub'=>'यूनिसेफ यूथहब',
+    'About_Yuwaah'=>'युवा के बारे में',
+    'division'=>'विभाजन',
+    'Since'=>'तब से'
     
 ];

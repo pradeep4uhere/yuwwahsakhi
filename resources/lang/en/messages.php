@@ -201,7 +201,13 @@ return [
       'loan_type'=>'Loan Type',
       'loan_amount'=>'Loan Amount',
       'loan_balance'=>'Loan Balance',
-      'profile_picture'=>'Profile Picture'
+      'profile_picture'=>'Profile Picture',
+      'Get_In_Touch'=>'Get In Touch',
+      'Terms_and_Conditions'=>'Terms_and_Conditions',
+      'Unicef_YouthHub'=>'Unicef YouthHub',
+      'About_Yuwaah'=>'About_Yuwaah',
+      'division'=>'Division',
+      'Since'=>'Since'
 
      
 

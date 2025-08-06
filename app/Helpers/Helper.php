@@ -410,7 +410,7 @@ if (!function_exists('getYuwaahSakhiAuthCenterName')) {
 
 if (!function_exists('getYuwaahSakhiAuthOnBoardedDate')) {
     function getYuwaahSakhiAuthOnBoardedDate() {
-        return Auth::guard('web')->user()->onboard_date;
+        return Auth::guard('web')->user()->created_at;
     }
 }
 

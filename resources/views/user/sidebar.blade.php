@@ -9,37 +9,34 @@
 
         <div class="my-4 mx-6 space-y-3">
           <div class="flex gap-4">
-            <p class="w-[42.24px] h-[15px] absolute top-[168px] left-[31.23px] font-Montserrat font-[400] text-[12px] leading-[14.63px] text-[#000000]">Center ID</p>
-            <p class="w-[57.28px] h-[15px] absolute top-[168px]  left-[111.83px] font-Montserrat font-[600] text-[12px] leading-[14.63px] text-[#000000]">{{ getYuwaahSakhiAuthID() }}</p>
+            <p class="w-[82.24px] h-[15px] absolute top-[168px] left-[31.23px] font-Montserrat font-[400] text-[12px] leading-[14.63px] text-[#000000]">{{__('messages.Field_Agent_ID')}}</p>
+            <p class="w-[97.28px] h-[15px] absolute top-[168px]  left-[111.83px] font-Montserrat font-[600] text-[12px] leading-[14.63px] text-[#000000]">{{ getYuwaahSakhiAuthID() }}</p>
           </div>
           <div class="flex gap-4">
-            <p class="w-[59.44px] h-[15px] absolute top-[198px] left-[31.23px] font-Montserrat font-[400] text-[12px]  leading-[14.63px] text-[#000000]">Sakhi Center</p>
+            <p class="w-[89.44px] h-[15px] absolute top-[198px] left-[31.23px] font-Montserrat font-[400] text-[12px]  leading-[14.63px] text-[#000000]">{{__('messages.division')}}</p>
             <p class="w-[128.96px] h-[15px] absolute top-[198px] left-[111.83px] font-Montserrat font-[600] text-[12px] leading-[14.63px] text-[#000000]">{{getYuwaahSakhiAuthCenterName()}}</p>
           </div>
           <div class="flex gap-4">
-            <p class="w-[33.25px] h-[15px] absolute top-[228px] left-[31.23px] font-Montserrat font-[400] text-[12px]  leading-[14.63px] text-[#000000]">Since</p>
+            <p class="w-[33.25px] h-[15px] absolute top-[228px] left-[31.23px] font-Montserrat font-[400] text-[12px]  leading-[14.63px] text-[#000000]">{{__('messages.Since')}}</p>
             <p class="w-[118.88px] h-[15px] absolute top-[228px] left-[111.83px] font-Montserrat font-[600] text-[12px] leading-[14.63px] text-[#000000]">{{getYuwaahSakhiAuthOnBoardedDate()}}</p>
           </div>
           <div class="flex gap-4">
-            <a href="{{route('profile.edit')}}" class="w-[60.45px] h-[15px] absolute top-[258px] left-[31.23px] font-Montserrat font-[400] text-[12px]  leading-[14.63px] text-[#000000]">My Profile</a>
-          </div>
-          <div class="flex gap-4">
-            <a href="#" class="w-[50.37px] h-[15px] absolute top-[288px] left-[31.23px] font-Montserrat font-[400] text-[12px]  leading-[14.63px] text-[#000000]">Settings</a>
+            <a href="{{route('profile.edit')}}" class="w-[60.45px] h-[15px] absolute top-[258px] left-[31.23px] font-Montserrat font-[400] text-[12px]  leading-[14.63px] text-[#000000]">{{__('messages.my_profile')}}</a>
           </div>
           <div>
             <hr class="w-[213.58px] absolute top-[330px] left-[30.22px] border-[1px] text-[#DADADA]">
           </div>
           <div class="flex gap-4">
-            <a href="{{route('page.about_yuwaah')}}" class="w-[94.7px] h-[15px] absolute top-[348px] left-[31.23px] font-Montserrat font-[400] text-[12px]  leading-[14.63px] text-[#000000]">About YuWaah!</a>
+            <a href="{{route('page.about_yuwaah')}}" class="w-[94.7px] h-[15px] absolute top-[348px] left-[31.23px] font-Montserrat font-[400] text-[12px]  leading-[14.63px] text-[#000000]">{{__('messages.About_Yuwaah')}}</a>
           </div>
           <div class="flex gap-4">
-            <a href="{{route('page.unicefyuthhub')}}" class="w-[104.78px] h-[15px] absolute top-[378px] left-[31.23px] font-Montserrat font-[400] text-[12px]  leading-[14.63px] text-[#000000]">Unicef YouthHub</a>
+            <a href="{{route('page.unicefyuthhub')}}" class="w-[104.78px] h-[15px] absolute top-[378px] left-[31.23px] font-Montserrat font-[400] text-[12px]  leading-[14.63px] text-[#000000]">{{__('messages.Unicef_YouthHub')}}</a>
           </div>
           <div class="flex gap-4">
-            <a href="{{route('page.termsandconditions')}}" class="w-[132.99px] h-[15px] absolute top-[408px] left-[31.23px] font-Montserrat font-[400] text-[12px]  leading-[14.63px] text-[#000000]">Terms and Conditions</a>
+            <a href="{{route('page.termsandconditions')}}" class="w-[132.99px] h-[15px] absolute top-[408px] left-[31.23px] font-Montserrat font-[400] text-[12px]  leading-[14.63px] text-[#000000]">{{__('messages.Terms_and_Conditions')}}</a>
           </div>
           <div class="flex gap-4">
-            <a href="#" class="w-[132.99px] h-[15px] absolute top-[438px] left-[31.23px] font-Montserrat font-[400] text-[12px]  leading-[14.63px] text-[#000000]">Get In Touch</a>
+            <p class="w-[132.99px] h-[15px] absolute top-[438px] left-[31.23px] font-Montserrat font-[400] text-[12px]  leading-[14.63px] text-[#000000]">{{__('messages.Get_In_Touch')}}</p>
           </div>
           <div class="flex gap-4">
             <img src="{{asset('asset/images/phone.png')}}" alt="profileLogo" class="w-[10px] h-[10px] absolute top-[471px] left-[30px]">
