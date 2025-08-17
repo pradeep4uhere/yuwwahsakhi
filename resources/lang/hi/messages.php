@@ -201,6 +201,9 @@ return [
     'Unicef_YouthHub'=>'यूनिसेफ यूथहब',
     'About_Yuwaah'=>'युवा के बारे में',
     'division'=>'विभाजन',
-    'Since'=>'तब से'
+    'Since'=>'तब से',
+    'partner'=>'सहभागी',
+    'partner_division'=>'साझेदार प्रभाग',
+    'email1'=>'ईमेल'
     
 ];

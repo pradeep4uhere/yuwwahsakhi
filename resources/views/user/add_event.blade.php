@@ -37,23 +37,38 @@
         <div class="space-y-1">
           <label for="opportunity" class="font-[400] text-[12px] leading-[14.63px] text-[#000000]">{{__('messages.event_type')}}</label>
         <div class="space-y-1">
-          <select name="event_type" id="event_type" class="font-[400] text-[12px] leading-[14.63px] text-[#000000]" style="width:100%; padding:10px; border:solid 1px #ccc">
-            <option value="">{{__('messages.choose_event_type')}}</option>
-            @foreach($eventList as $item)
-            <option value="{{$item['id']}}">{{$item['name']}}</option>
-            @endforeach
+        <select name="event_type" id="event_type" 
+                  class="font-[400] text-[12px] leading-[14.63px] text-[#000000]" 
+                  style="width:100%; padding:10px; border:solid 1px #ccc">
+
+              <option value="">{{ __('messages.choose_event_type') }}</option>
+
+              @foreach($eventList as $item)
+                  <option value="{{ $item['id'] }}" 
+                      {{ old('event_type') == $item['id'] ? 'selected' : '' }}>
+                      {{ $item['name'] }}
+                  </option>
+              @endforeach
           </select>
         </div>
         <div class="space-y-1">
           <label for="event_category" class="font-[400] text-[12px] leading-[14.63px] text-[#000000]">{{__('messages.choose_event_category')}}</label>
-          <select name="event_category" id="event_category" class="font-[400] text-[12px] leading-[14.63px] text-[#000000]" style="width:100%; padding:10px; border:solid 1px #ccc" >
-              <option value="">{{__('messages.choose_event_category')}}</option>
-          </select>
+          <select name="event_category" id="event_category" 
+                class="font-[400] text-[12px] leading-[14.63px] text-[#000000]" 
+                style="width:100%; padding:10px; border:solid 1px #ccc">
+            <option value="">{{ __('messages.choose_event_category') }}</option>
+            @foreach($eventCategoryList as $category)
+                <option value="{{ $category['id'] }}" 
+                    {{ old('event_category', $model->event_category ?? '') == $category['id'] ? 'selected' : '' }}>
+                    {{ $category['event_category'] }}
+                </option>
+            @endforeach
+        </select>
         </div>
-        <div class="space-y-1">
+        <!-- <div class="space-y-1">
           <label for="opportunity" class="font-[400] text-[12px] leading-[14.63px] text-[#000000]">{{__('messages.event_name')}}</label>
           <input id="event_name" type="text" name="event_name" placeholder="Please Enter Event Name" class="text-xs w-full border rounded px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 placeholder:font-[400] placeholder:text-[10px] placeholder:leading-[12.19px] placeholder:text-[#A7A7A7] rounded-[10px] placeholder:border-[1px]"  value="{{ old('event_name') }}">
-        </div>
+        </div> -->
         
         <div class="space-y-1 relative">
         <label for="opportunity" class="font-[400] text-[12px] leading-[14.63px] text-[#000000]">{{__('messages.choose_beneficiary_name')}}</label>
@@ -201,6 +216,7 @@ $('#event_type').on('change', function () {
 
 
 <script>
+$(document).ready(function () {
 $('#event_category').on('change', function () {
         let eventTypeId = $(this).val();
         if (eventTypeId) {
@@ -221,6 +237,7 @@ $('#event_category').on('change', function () {
                         <label for="document_${index+1}" class="font-[400] text-[12px] leading-[14.63px] text-[#000000]">
                           Upload Document ${value}
                         </label>
+                        <input type="hidden" name="document_fields[]" value="document_${index+1}"/>
                         <input id="document_${index+1}" name="document_${index+1}" type="file"
                           class="text-xs w-full border rounded px-3 py-2 text-sm placeholder:font-[400] placeholder:text-[10px] placeholder:leading-[12.19px] placeholder:text-[#A7A7A7] rounded-[10px] placeholder:border-[1px]">
                       </div>`;
@@ -239,6 +256,11 @@ $('#event_category').on('change', function () {
             $('#document_type').empty().append('<option value="">Choose Document Type</option>');
         }
     });
+      // ✅ Auto trigger if old data exists
+      @if(old('event_category', isset($model) ? $model->event_category : false))
+        $('#event_category').trigger('change');
+    @endif
+});
 </script>
 
 

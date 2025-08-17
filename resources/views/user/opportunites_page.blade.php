@@ -59,7 +59,8 @@
       <?php foreach($opportunitesList['data'] as $key=>$item){  ?>
      
       <!-- Other Opportunites Start Here-->
-      <div class="min-w-[330px] min-h-[260px] w-auto min-h-[50px] h-auto bg-[#FFFFFF] px-3 py-3 mt-3 overflow-auto cursor-pointer" style="box-shadow: 0px 3px 10px 0px #28388F33;" onclick="toggleButtons(event)">
+       
+      <div class="opportunity-card min-w-[330px] min-h-[260px] w-auto min-h-[50px] h-auto bg-[#FFFFFF] px-3 py-3 mt-3 overflow-auto cursor-pointer" style="box-shadow: 0px 3px 10px 0px #28388F33;" >
         <h1
           class="w-[310px] h-[15px] ml-[10px] mt-[6px] font-Montserrat font-[600] text-[12px] leading-[14.63px] text-[#000000]" >
           {{$item['opportunities_title']}}</h1>
@@ -68,10 +69,12 @@
           <div class="">
             <div class="flex mb-[3px]">
               <img src="{{asset('asset/images/file.png')}}" alt="engLogo" class="w-[14px] h-[14px] ml-[10px] mt-[8px] text-[#28388F0D]">
-              <a href=""
+              <a href="{{$item['document']}}" target="_blank"
                 class="w-[151px] h-[12px] mt-[9px] ml-[8px] font-Montserrat font-[500] text-[10px] leading-[12.19px] text-[#28388F] text-left underline underline-offset-auto decoration-solid decoration-skip-ink-none">{{__('messages.view_specification_document')}}
               </a>
+              <a href="https://wa.me/?text={{ urlencode($item['document']) }}" target="_blank">
               <img src="{{asset('asset/images/Group.png')}}" alt="engLogo" class="w-[20px] h-[20px] mt-[6px] ml-[10px] text-[#28388F0D]">
+              </a>
             </div>
 
             <div class="flex mb-[6px]">
@@ -106,7 +109,7 @@
           </div>
           <div class="">
             <p
-              class="w-[43px] h-[22px] font-Montserrat font-[500] text-[9px] leading-[10.97px] text-center text-[#000000]  mt-[-10px] ml-[9px]">
+              class="w-[43px] h-[22px] font-Montserrat font-[500] text-[9px] leading-[7.97px] text-center text-[#000000]  mt-[-10px] ml-[9px]">
                {{__('messages.monthly_salary')}}
             </p>
             <div
@@ -125,14 +128,16 @@
               {{$item['provider_name']}}
               </p>
             </div>
-
-
+            
           </div>
+         
         </div>
+        <hr/>
+        <p class="cursor-pointer ont-Montserrat font-[700] text-[12px] leading-[14.63px] text-end text-[#fa8c16] underline blue pt-1 " onclick="toggleButtons(this)"> Assign Learner </p>
         <div  class="buttonsContainer flex mt-4 gap-2 hidden">
             <div class="w-auto h-auto min-w-[100%] min-h-[40px] rounded-[10px] border-[1px] bg-[#F2F2F2] border-[#28388F] flex justify-center items-center gap-2">
               <img src="{{asset('asset/images/AssignLearners Icon.png')}}" alt="Fill_Form" class="w-auto h-auto max-w-[14px] max-h-[14px]">
-              <a href="{{route('opportunitiesLearner',['id'=>encryptString($item['id'])])}}" class="w-auto h-auto font-[500] text-[12px] leading-[14.63px] text-[#28388F] cursor-pointer"> {{__('messages.Assign_Learners')}}</a>
+              <a href="{{route('opportunitiesLearner',['id'=>encryptString($item['id'])])}}" class="w-auto h-auto font-[500] text-[12px] leading-[14.63px] text-[#28388F] cursor-pointer font-[700]"> {{__('messages.Assign_Learners')}}</a>
             </div>
         </div>
       </div>
@@ -141,34 +146,17 @@
       @endif
     </div>
   </div>
+
   <script>
-  function toggleButtons(event) {
-    // Prevent toggling if clicking inside the buttons container
-    if (event.target.closest(".buttonsContainer")) return;
+  function toggleButtons(el) {
+     // Close all first
+     document.querySelectorAll(".buttonsContainer").forEach(div => div.classList.add("hidden"));
 
-    const card = event.currentTarget;
-    const buttonsContainer = card.querySelector(".buttonsContainer");
-
-    const isVisible = !buttonsContainer.classList.contains("hidden");
-
-    // Hide all other buttonsContainers
-    document.querySelectorAll(".buttonsContainer").forEach(el => el.classList.add("hidden"));
-
-    // Toggle only if it was previously hidden
-    if (!isVisible) {
-      buttonsContainer.classList.remove("hidden");
-    }
-
-    event.stopPropagation(); // Stop bubbling to document click
+    const container = el.nextElementSibling; // find next sibling (buttonsContainer)
+    container.classList.toggle("hidden");   // toggle Tailwind's hidden class
   }
-
-  // Close when clicking outside all cards
-  document.addEventListener("click", function (event) {
-    if (!event.target.closest(".min-w-[330px]")) {
-      document.querySelectorAll(".buttonsContainer").forEach(el => el.classList.add("hidden"));
-    }
-  });
 </script>
+
 
 
   @include('user.bottom_menu')

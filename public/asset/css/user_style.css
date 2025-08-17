@@ -53,7 +53,7 @@ s
   transition: left 0.3s ease-in-out;
 }
 
-@media (max-width: 1640px) {
+@media (max-width: 2048px) {
 
   .hamburger {
     display: block;

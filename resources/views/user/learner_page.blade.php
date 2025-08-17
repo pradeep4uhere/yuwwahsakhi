@@ -8,7 +8,7 @@
     <div id="screen11" class="max-w-sm mx-auto p-4 bg-white rounded-lg absolute left-[6px] top-[-1px]">
       <div class="mt-2 flex justify-between items-center">
         <h1
-          class="w-[162px] h-[17px] absolute top-[106px] left-[32px] font-[500] text-[14px] leading-[17.07px] text-[#000000]">
+          class="w-[262px] h-[17px] absolute top-[106px] left-[32px] font-[500] text-[14px] leading-[17.07px] text-[#000000]">
           {{__('messages.Learner_Search_Filter')}} [{{$leanerList->total()}}]
         </h1>
         <button class="w-[60px] h-[30px] absolute top-[100px] left-[310px] rounded-[10px] bg-[#28388F1A]"
@@ -91,9 +91,22 @@
         </div>
       </div>
       <div class="grid grid-cols-1 gap-4 px-6">
+      <div class="w-[375px] h-[30px] absolute top-[150px] mb-2 p-2  left-[14px] bg-[#fff5f5] flex gap-2 items-center justify-between " style="box-shadow: 0px 4px 10px 0px #00000026;">
+      <span class="text-[10px] text-gray-500">No Action</span>
+      <div class="w-2 h-2 rounded-full bg-gray-500"></div>
+
+      <span class="text-[10px] text-blue-500">Job Submitted</span>
+      <div class="w-2 h-2 rounded-full bg-blue-500"></div>
+
+      <span class="text-[10px] text-orange-500">Event Saved</span>
+      <div class="w-2 h-2 rounded-full bg-orange-500"></div>
+
+      <span class="text-[10px] text-green-500">Event Submitted</span>
+      <div class="w-2 h-2 rounded-full bg-green-500"></div>
+      </div>
       @foreach($leanerList as $item)
       @php
-        $top =150 + ($loop->index * 80);
+        $top =200 + ($loop->index * 80);
       @endphp
       <!-- <div class="mt-6 flex gap-2 items-center justify-between"> -->
       <a href="{{route('learner.details',['id'=>encryptString($item['id'])])}}"
@@ -103,13 +116,21 @@
           <div class="w-[40px] h-[40px] ml-2">
             <!-- <i class='fas fa-address-book'></i> -->
             <img src="{{asset('asset/images/user.jpg')}}" alt="">
+            
           </div>
 
           <div class="flex flex-col items-center gap-1.5">
             <div
               class="w-[200px] h-[17px] ml-[5px] font-Montserrat font-[500] text-[12px] leading-[17.07px] text-[#000000]">
              {{ \Illuminate\Support\Str::limit($item['first_name'], 20) }}<br/>
-             <small>M: {{$item['primary_phone_number']}}</small>
+             <div class="flex gap-1.5 ">
+              <span>
+                <img src="{{asset('asset/images/phone.png')}}" class="w-[10px] h-[10px]" alt="">
+              </span>
+              <span class="min-w-[64px] min-h-[12px] w-auto h-auto font-[500] text-[10px] leading-[12.19px] text-[#000000]">
+              {{$item['primary_phone_number']}}
+              </span>
+            </div>
             </div>
           </div>
           <!-- <div class="flex gap-1.5">

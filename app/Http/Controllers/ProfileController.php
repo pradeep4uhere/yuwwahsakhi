@@ -524,10 +524,18 @@ class ProfileController extends Controller
         //dd($eventList);
         //All Event Transction Count
         $allEventCount = EventTransaction::where('ys_id',getUserId())->count();
+        $eventList = YuwaahEventType::all();
+        $eventCategoryList = [];
+
+        if (old('event_type')) {
+            $eventCategoryList = YuwaahEventMaster::where('event_type_id', old('event_type'))->get();
+            //dd($eventCategoryList);
+        }   
+        
         return view($this->dir.'.add_event',[
             'eventList' => $eventList,
-            
-            'allEventCount'=>$allEventCount 
+            'allEventCount'=>$allEventCount,
+            'eventCategoryList'=>$eventCategoryList 
         ]);
     }
 
@@ -570,27 +578,45 @@ class ProfileController extends Controller
 
     public function storeEventTransaction(Request $request)
     {
-        //dd($request->all());
-        // Validate request input
-        $validator = Validator::make($request->all(), [
-            'event_name'               => 'required|string|max:255',
-            'beneficiary_phone_number' => 'required|string|max:15',
-            'beneficiary_name'         => 'required|string|max:255',
+      // Step 1: Detect document fields
+            // OR safer way: merge input + files
+           // Get all keys that start with document_doc_
+           $documentFields = $request->input('document_fields', []);
+       
+            //dd($documentFields);
+            // Step 2: Base rules
+            $rules = [
             'event_type'               => 'required|string|max:255',
             'event_category'           => 'required|string|max:255',
             'event_value'              => 'required|numeric|min:0',
+            'beneficiary_phone_number' => 'required|string|max:15',
+            'beneficiary_name'         => 'required|string|max:255',
             'comment'                  => 'nullable|string|max:1000',
             'document_type'            => 'nullable|string|max:1000',
-            'uploaded_doc_links'       => 'nullable|file|mimes:pdf,jpg,jpeg,png,doc,docx|max:2048',
-        ]);
-    
-        if ($validator->fails()) {
+            ];
+
+            // Step 3: Add document rules
+            foreach ($documentFields as $field) {
+            $others = array_diff($documentFields, [$field]);
+            $rules[$field] = 'required_without_all:' . implode(',', $others) 
+                        . '|file|mimes:pdf,jpg,jpeg,png,doc,docx|max:2048';
+            }
+
+            // Step 4: Custom messages
+            $messages = [];
+            foreach ($documentFields as $field) {
+            $messages["$field.required_without_all"] = 'Please upload at least one document.';
+            }
+
+            // Step 5: Validate
+            $validator = Validator::make($request->all(), $rules, $messages);
+
+            if ($validator->fails()) {
             return redirect()->back()
                 ->withErrors($validator)
                 ->withInput()
                 ->with('error', 'Please correct the highlighted errors.');
-        }
-    
+            }
         try {
             $uploadedPaths = [];
             //dd($request->allFiles());
@@ -632,9 +658,11 @@ class ProfileController extends Controller
                     ->value('id');
             }
 
-
+            //Get Event Name Based on Event Type 
+            $event_name = YuwaahEventType::where('id', $request->input('event_type'))
+                             ->value('name');
             $data = [
-                'event_name'               => $request->input('event_name'),
+                'event_name'               => $event_name,
                 'beneficiary_phone_number' => $request->input('beneficiary_phone_number'),
                 'beneficiary_name'         => $request->input('beneficiary_name'),
                 'event_id'                 => $request->input('event_type'),
@@ -954,35 +982,14 @@ As a catalytic multi-stakeholder partnership, YuWaah is dedicated to transformin
         // Validate request (basic example; customize as needed)
         $request->validate([
             'name' => 'required|string',
-            'date_of_birth' => 'required|date',
-            'gender' => 'required|string',
             'email' => 'required|email',
-            'address' => 'required|string',
-            'state_id' => 'required|exists:states,id',
-            'district_id' => 'required|exists:districts,id',
-            'pincode' => 'required|string|max:10',
-            'education_level' => 'nullable|string',
-            'digita_proficiency' => 'nullable|string',
-            'englis_proficiency' => 'nullable|string',
-            'year_of_exp' => 'nullable|string',
-            'WorkHourInDay' => 'nullable|string',
-            'InfrastructureAvailable' => 'nullable|string',
-            'ServiceOffered' => 'nullable|string',
-            'CoursesCompleted' => 'nullable|in:Yes,No',
-            'LoanTaken' => 'nullable|in:Yes,No',
-            'loantype' => 'nullable|string',
-            'LoanAmount' => 'nullable|numeric',
-            'LoanBalance' => 'nullable|numeric',
             'profile_picture' => 'nullable|image|max:2048',
-            'specific_qualification'=>'nullable|string',
         ]);
 
          // Optional custom messages
         $messages = [
             'date_of_birth.required' => 'Date of birth is required.',
             'email.email' => 'Please enter a valid email address.',
-            'state_id.required' => 'Please select a state.',
-            'district_id.required' => 'Please select a district.',
             'profile_picture.image' => 'Only image files are allowed for profile picture.',
         ];
         // Fetch the profile
@@ -991,18 +998,18 @@ As a catalytic multi-stakeholder partnership, YuWaah is dedicated to transformin
         // Update basic fields
         $profile->name = $request->name;
         $profile->email = $request->email;
-        $profile->dob = $request->date_of_birth;
-        $profile->year_of_exp = $request->year_of_exp;
-        $profile->gender = $request->gender;
-        $profile->work_hour_in_day = $request->WorkHourInDay;
-        $profile->education_level = $request->education_level;
-        $profile->infrastructure_available = $request->InfrastructureAvailable;
-        $profile->specific_qualification = $request->specific_qualification;
-        $profile->service_offered = $request->ServiceOffered;
-        $profile->loan_taken = $request->LoanTaken;
-        $profile->courses_completed = $request->CoursesCompleted;
+        $profile->dob = Carbon::now()->subYears(13)->toDateString();;
+        $profile->year_of_exp = 0;
+        $profile->gender = 'Male';
+        $profile->work_hour_in_day = 0;
+        $profile->education_level = 1;
+        $profile->infrastructure_available = 'Yes';
+        $profile->specific_qualification = 1;
+        $profile->service_offered = 1;
+        $profile->loan_taken = 'No';
+        $profile->courses_completed = 1;
         $profile->type_of_loan = $request->loantype;
-        $profile->digital_proficiency = $request->digita_proficiency;
+        $profile->digital_proficiency = 0;
         $profile->english_proficiency = $request->english_proficiency;
         $profile->loan_amount = $request->LoanAmount;
         $profile->loan_balance = $request->LoanBalance;

@@ -157,10 +157,10 @@
             </div>
             <div class="flex gap-1.5 ">
               <span>
-                <img src="{{asset('asset/images/Learner calendar.png')}}" class="w-[10px] h-[10px]" alt="">
+                <img src="{{asset('asset/images/phone.png')}}" class="w-[10px] h-[10px]" alt="">
               </span>
               <span class="min-w-[64px] min-h-[12px] w-auto h-auto font-[500] text-[10px] leading-[12.19px] text-[#000000]">
-              {{getdateformate($item['date_of_birth'])}}
+              {{$item['primary_phone_number']}}
               </span>
             </div>
           </div>

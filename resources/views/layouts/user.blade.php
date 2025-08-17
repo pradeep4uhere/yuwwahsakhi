@@ -67,7 +67,18 @@ $(document).ready(function() {
         }
     });
 });
+
 </script>
 <script src="{{asset('asset/js/index.js')}}" defer></script>
+<script>
+function toggleSidebar() {
+  const sidebar = document.getElementById("sidebar");
+  const body = document.body;
+  sidebar.classList.toggle("open");
+  body.classList.toggle("sidebar-open");
+  //alert('dasd')
+  console.log("Sidebar toggle: ", sidebar.classList.contains("open"));
+}
+</script>
 </body>
 </html>

@@ -1,16 +1,18 @@
-<div id="sidebar" class="sidebar shadow-2xl text-xs bg-[#FFFFFF] w-[370px] h-[780px] absolute top-[40px]">
-        <div class="max-w-[26rem] flex justify-center mt-4">
+<div id="sidebar" class=" sidebar shadow-2xl text-xs bg-[#FFFFFF] w-[370px] h-[780px] absolute top-[40px]">
+        <div class="max-w-[46rem] flex justify-center mt-4">
+          <a href="{{route('profile.edit')}}">
           @if(getYuwaahSakhiAuthProfileImage()!='')
-            <img src="{{asset('storage/'.getYuwaahSakhiAuthProfileImage())}}" alt="profileLogo" class="w-[60.45px] h-[60px] absolute top-[81px] left-[104.78px]">
+            <img src="{{asset('storage/'.getYuwaahSakhiAuthProfileImage())}}" alt="profileLogo" class="w-[70.45px] h-[60px] absolute top-[81px] left-[104.78px]">
           @else
             <img src="{{asset('asset/images/Profilelogo.png')}}" alt="profileLogo" class="w-[60.45px] h-[60px] absolute top-[81px] left-[104.78px]">
           @endif
+          </a>
         </div>
 
         <div class="my-4 mx-6 space-y-3">
           <div class="flex gap-4">
             <p class="w-[82.24px] h-[15px] absolute top-[168px] left-[31.23px] font-Montserrat font-[400] text-[12px] leading-[14.63px] text-[#000000]">{{__('messages.Field_Agent_ID')}}</p>
-            <p class="w-[97.28px] h-[15px] absolute top-[168px]  left-[111.83px] font-Montserrat font-[600] text-[12px] leading-[14.63px] text-[#000000]">{{ getYuwaahSakhiAuthID() }}</p>
+            <p class="w-[297.28px] h-[15px] absolute top-[168px]  left-[111.83px] font-Montserrat font-[600] text-[12px] leading-[14.63px] text-[#000000]">{{ getYuwaahSakhiAuthID() }}</p>
           </div>
           <div class="flex gap-4">
             <p class="w-[89.44px] h-[15px] absolute top-[198px] left-[31.23px] font-Montserrat font-[400] text-[12px]  leading-[14.63px] text-[#000000]">{{__('messages.division')}}</p>

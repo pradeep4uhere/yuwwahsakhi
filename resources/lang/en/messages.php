@@ -184,7 +184,7 @@ return [
      'Completed_Opportunities'=>'Completed Opportunities',
      'specification_document'=>'Specification Document',
      'my_profile'=>'My Profile',
-     'mobile_number'=>'Mobile Number',
+     'mobile_number'=>'Mobile',
      'date_of_birth'=>'Date of Birth',
      'edit_profile'=>'Edit Profile',
      'Address'=>'Address',
@@ -192,7 +192,7 @@ return [
       'State'=>'State',
       'Block'=>'Block',
       'pincode'=>'Pincode',
-      'Field_Agent_ID'=>'Field_Agent_ID',
+      'Field_Agent_ID'=>'Agent ID',
       'education_level'=>'Education Level',
       'digital_profiency'=>'Digital Pprofiency',
       'Infrastructure_Available'=>'Infrastructure Available',
@@ -203,11 +203,14 @@ return [
       'loan_balance'=>'Loan Balance',
       'profile_picture'=>'Profile Picture',
       'Get_In_Touch'=>'Get In Touch',
-      'Terms_and_Conditions'=>'Terms_and_Conditions',
+      'Terms_and_Conditions'=>'Terms and Conditions',
       'Unicef_YouthHub'=>'Unicef YouthHub',
-      'About_Yuwaah'=>'About_Yuwaah',
+      'About_Yuwaah'=>'About Yuwaah',
       'division'=>'Division',
-      'Since'=>'Since'
+      'Since'=>'Since',
+      'email1'=>'Email',
+      'partner'=>'Partner',
+      'partner_division'=>'Divison'
 
      
 

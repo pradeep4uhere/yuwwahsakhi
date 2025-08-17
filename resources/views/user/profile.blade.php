@@ -19,122 +19,33 @@
       </div>
       <p class="text-center">{{$userDetails['Name']}}</p>
       <div class="mt-4 text-xs">
-        <div class="flex gap-4 ">
-          <p class="w-1/2 font-semibold"> {{__('messages.date_of_birth')}}</p>
-          <p class="w-1/2 text-gray-600">{{$userDetails['DateOfBirth']}}</p>
+       
+
+        <div class="flex gap-4 mt-1">
+          <p class="w-1/4 font-semibold">{{__('messages.email1')}}</p>
+          <p class="w-2/3 text-gray-600">{{$userDetails['Email']}}</p>
         </div>
 
         <div class="flex gap-4 mt-1">
-          <p class="w-1/2 font-semibold">{{__('messages.gender')}}</p>
-          <p class="w-1/2 text-gray-600">{{$userDetails['Gender']}}</p>
-        </div>
-
-        <div class="flex gap-4 mt-1">
-          <p class="w-1/2 font-semibold">{{__('messages.email')}}</p>
-          <p class="w-1/2 text-gray-600">{{$userDetails['Email']}}</p>
-        </div>
-
-        <div class="flex gap-4 mt-1">
-          <p class="w-1/2 font-semibold">{{__('messages.mobile_number')}}</p>
-          <span class="flex items-center gap-2   w-1/2 text-gray-600">
+          <p class="w-1/4 font-semibold">{{__('messages.mobile_number')}}</p>
+          <span class="flex items-center gap-2   w-2/3 text-gray-600">
             <p>+91-{{$userDetails['ContactNumber']}}</p>
             <img src="Images/Profile-star.png" alt="" class="h-[12px] w-[12px]">
             <!-- <p class="text-[#05A7D1]">{{__('messages.verified')}}</p> -->
           </span>
         </div>
-
-
-        <div class="flex gap-4 mt-1">
-          <p class="w-1/2 font-semibold">{{__('messages.Address')}}</p>
-          <p class="w-1/2 text-gray-600">{{$userDetails['Address']}}</p>
-        </div>
-
-        <div class="flex gap-4 mt-1">
-          <p class="w-1/2 font-semibold">{{__('messages.District')}}</p>
-          <p class="w-1/2 text-gray-600">{{$userDetails['District']}}</p>
-        </div>
-
-        <div class="flex gap-4 mt-1">
-          <p class="w-1/2 font-semibold">{{__('messages.State')}}</p>
-          <p class="w-1/2 text-gray-600">{{$userDetails['State']}}</p>
-        </div>
-        <div class="flex gap-4 mt-1">
-          <p class="w-1/2 font-semibold">{{__('messages.District')}}</p>
-          <p class="w-1/2 text-gray-600">{{$userDetails['District']}}</p>
-        </div>
-        <div class="flex gap-4 mt-1">
-          <p class="w-1/2 font-semibold">{{__('messages.Block')}}</p>
-          <p class="w-1/2 text-gray-600">{{$userDetails['Block']}}</p>
-        </div>
-
-        <div class="flex gap-4 mt-1">
-          <p class="w-1/2 font-semibold">{{__('messages.pincode')}}</p>
-          <p class="w-1/2 text-gray-600">{{$userDetails['Pincode']}}</p>
-        </div> 
-
          <div class="flex gap-4 mt-1">
-          <p class="w-1/2 font-semibold">{{__('messages.Field_Agent_ID')}}</p>
-          <p class="w-1/2 text-gray-600">{{$userDetails['sakhiId']}}</p>
+          <p class="w-1/4 font-semibold">{{__('messages.Field_Agent_ID')}}</p>
+          <p class="w-2/3 text-gray-600">{{$userDetails['sakhiId']}}</p>
+        </div>
+        <div class="flex gap-4 mt-1">
+          <p class="w-1/4 font-semibold">{{__('messages.partner')}}</p>
+          <p class="w-2/3 text-gray-600">{{$userDetails['Partner']}}</p>
         </div>
 
         <div class="flex gap-4 mt-1">
-          <p class="w-1/2 font-semibold">{{__('messages.education_level')}}</p>
-          <p class="w-1/2 text-gray-600">{{$userDetails['EducationLevel']}}</p>
-        </div>
-
-        <div class="flex gap-4 mt-1">
-          <p class="w-1/2 font-semibold">{{__('messages.digital_profiency')}}</p>
-          <p class="w-1/2 text-gray-600">{{$userDetails['DigitalProficiency']}}</p>
-        </div>
-
-        <div class="flex gap-4 mt-1">
-          <p class="w-1/2 font-semibold">{{__('messages.English_Knowledge')}}</p>
-          <p class="w-1/2 text-gray-600">{{$userDetails['EnglishProficiency']}}</p>
-        </div>
-
-        <div class="flex gap-4 mt-1">
-          <p class="w-1/2 font-semibold">{{__('messages.Year_of_Experience')}}</p>
-          <p class="w-1/2 text-gray-600">{{$userDetails['YearOfExp']}}</p>
-        </div>
-
-        <div class="flex gap-4 mt-1">
-          <p class="w-1/2 font-semibold">{{__('messages.No_of_Hours')}}</p>
-          <p class="w-1/2 text-gray-600">{{$userDetails['WorkHourInDay']}}</p>
-        </div>
-
-        <div class="flex gap-4 mt-1">
-          <p class="w-1/2 font-semibold">{{__('messages.Infrastructure_Available')}}</p>
-          <p class="w-1/2 text-gray-600">{{$userDetails['InfrastructureAvailable']}}</p>
-        </div>
-
-        <div class="flex gap-4 mt-1">
-          <p class="w-1/2 font-semibold">{{__('messages.Service_Offered')}}</p>
-          <p class="w-1/2 text-gray-600">{{$userDetails['ServiceOffered']}}</p>
-        </div>
-
-        <div class="flex gap-4 mt-1">
-          <p class="w-1/2 font-semibold">{{__('messages.Course_Completed')}}</p>
-          <p class="w-1/2 text-gray-600">{{$userDetails['CoursesCompleted']}}</p>
-        </div>
-
-        <div class="flex gap-4 mt-1">
-          <p class="w-1/2 font-semibold">{{__('messages.Loan_Taken')}}</p>
-          <p class="w-1/2 text-gray-600">{{$userDetails['LoanTaken']}}</p>
-        </div>
-
-        <div class="flex gap-4 mt-1">
-          <p class="w-1/2 font-semibold">{{__('messages.loan_type')}}</p>
-          <p class="w-1/2 text-gray-600">{{$userDetails['TypeOfLoan']}}</p>
-        </div>
-
-        <div class="flex gap-4 mt-1">
-          <p class="w-1/2 font-semibold">{{__('messages.loan_amount')}}</p>
-          <p class="w-1/2 text-gray-600">{{$userDetails['LoanAmount']}} INR</p>
-        </div>
-
-        <div class="flex gap-4 mt-1">
-          <p class="w-1/2 font-semibold">{{__('messages.loan_balance')}}</p>
-          <p class="w-1/2 text-gray-600">{{$userDetails['LoanBalance']}} INR</p>
+          <p class="w-1/4 font-semibold">{{__('messages.partner_division')}}</p>
+          <p class="w-2/3 text-gray-600">{{$userDetails['PartnerCenter']}}</p>
         </div>
       </div>
 

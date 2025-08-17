@@ -40,13 +40,6 @@
 
 // logic for hamburger
 
-function toggleSidebar() {
-  const sidebar = document.getElementById("sidebar");
-  const body = document.body;
-  sidebar.classList.toggle("open");
-  body.classList.toggle("sidebar-open");
-  console.log("Sidebar toggle: ", sidebar.classList.contains("open"));
-}
 
 // function toggleSidebar() {
 //   const sidebar = document.getElementById("sidebar");
@@ -91,8 +84,6 @@ function toggleSidebar() {
 
 //   console.log("Sidebar Open class removed from body: ", !body.classList.contains("sidebar-open"));
 // }
-
-
 
 // JavaScript for opening and closing language change form
 function toggleLanguageForm() {
