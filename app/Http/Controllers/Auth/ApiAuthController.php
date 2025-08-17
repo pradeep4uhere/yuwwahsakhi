@@ -1606,17 +1606,24 @@ public function fetchLearners(Request $request)
     {
 
         try {
-            $limit = $request->query('limit', 1000); // default limit
-            $startId = $request->query('id', 0);     // default to 0 if not provided
-            $learners = Learner::where('id', '>', $startId)
-                ->orderBy('id', 'asc')
-                ->limit($limit)
-                ->get();
+            $limit = (int) $request->query('limit', 1000); // default limit
+            $page  = (int) $request->query('page', 0);     // default page = 1
+
+            $offset = ($page) * $limit;
+
+            //$learners = Learner::orderBy('id', 'asc')
+                // ->skip($offset)
+                // ->take($limit)
+                // ->get();
+                // Use Laravel pagination
+            $paginator = Learner::orderBy('id', 'asc')
+            ->paginate($limit, ['*'], 'page', $page);
+
 
             $formattedLearners = [];
 
-            foreach ($learners as $key => $item) {
-                $formattedLearners[] = [
+            $formattedLearners = $paginator->map(function ($item) {
+               return [
                     "id" => $item->id,
                     "first_name" => $item->first_name,
                     "last_name" => $item->last_name,
@@ -1709,12 +1716,21 @@ public function fetchLearners(Request $request)
                     'WHEN_CAN_USER_START'=>$item->WHEN_CAN_USER_START,
                     'USER_NEED_HELP_WITH'=>$item->USER_NEED_HELP_WITH
                 ];
-            }
+            });
+        
             
-            if ($learners) {
+            if ($formattedLearners) {
                 return response()->json([
                     'status' => true,
-                    'data' => $formattedLearners
+                    'data' => $formattedLearners,
+                    'pagination' => [
+                        'total' => $paginator->total(),
+                        'per_page' => $paginator->perPage(),
+                        'current_page' => $paginator->currentPage(),
+                        'last_page' => $paginator->lastPage(),
+                        'next_page_url' => $paginator->nextPageUrl(),
+                        'prev_page_url' => $paginator->previousPageUrl(),
+                    ]
                 ]);
             } else {
                 return response()->json([
