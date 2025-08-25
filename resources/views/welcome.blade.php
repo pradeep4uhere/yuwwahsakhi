@@ -55,7 +55,7 @@
     </div>
     </a>
 
-    <div class="mt-2 absolute top-[630px] left-[122px] font-Montserrat">
+    <div class="mt-2 absolute top-[640px] left-[122px] font-Montserrat">
     @if(!Auth::check())
       <p class="text-center text-xs text-gray-600 font-Montserrat">
         Not Member ? <a href="{{route('register')}}" class="text-[#28388F] font-semibold hover:underline text-sm">Register</a>
