@@ -90,7 +90,6 @@
         </div>
        
         <div id="documentInputsContainer" class="space-y-1 mt-2">
-          
           @foreach($documentArr as $key=>$itemVal)
           <div class="space-y-1 mt-2">
               <label for="document_${index+1}" class="font-[400] text-[12px] leading-[14.63px] text-[#000000]">

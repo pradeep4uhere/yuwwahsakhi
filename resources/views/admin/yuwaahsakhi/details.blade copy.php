@@ -32,16 +32,35 @@ select option {
   <div id="screen8" class="max-w-md mx-auto p-6  ">
   <div class="flex justify-center">
     <?php if($userDetails['ProfilePicture']){ ?>
-      <img src="{{$userDetails['ProfilePicture']}}" alt="Profile Logo" height="100px" width="100px" class="h-16 w-16 rounded-full border border-gray-300">
+      <img src="{{$userDetails['ProfilePicture']}}" alt="Profile Logo" class="h-16 w-16 rounded-full border border-gray-300">
       <?php }else{ ?>
-    <img src="{{ asset('asset/images/Profilelogo.png') }}" alt="Profile Logo" height="100px" width="100px" class="h-16 w-16 rounded-full border border-gray-300">
+    <img src="{{ asset('asset/images/Profilelogo.png') }}" alt="Profile Logo" class="h-16 w-16 rounded-full border border-gray-300">
     <?php } ?>
   </div>
   @php
       $profileFields = [
+        'Date of Birth' => 'DateOfBirth',
+        'Gender' => 'Gender',
         'Email Address' => 'Email',
         'Mobile Number' => 'ContactNumber',
+        'Address' => 'Address',
+        'District' => 'District',
+        'State' => 'State',
+        'Block' => 'Block',
+        'Pin Code' => 'Pincode',
         'YS ID' => 'sakhiId',
+        'Education Level' => 'EducationLevel',
+        'Digital Proficiency' => 'DigitalProficiency',
+        'English Knowledge' => 'EnglishProficiency',
+        'Year of Experience' => 'YearOfExp',
+        'No. of Hours I can work/Day' => 'WorkHourInDay',
+        'Infrastructure Available' => 'InfrastructureAvailable',
+        'Service Offered' => 'ServiceOffered',
+        'Course Completed' => 'CoursesCompleted',
+        'Loan Taken' => 'LoanTaken',
+        'Loan Type' => 'TypeOfLoan',
+        'Loan Amount' => 'LoanAmount',
+        'Loan Balance' => 'LoanBalance',
       ];
     @endphp
   <h2 class="text-center text-lg font-semibold text-gray-800 mb-2">{{ $userDetails['Name'] }}</h2>

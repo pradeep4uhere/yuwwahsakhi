@@ -1226,7 +1226,7 @@ As a catalytic multi-stakeholder partnership, YuWaah is dedicated to transformin
 
         //Get All Category List
         $eventCategoryList = YuwaahEventMaster::where('event_type_id',$event_tpe_id)->where('status',1)->get();
-       // dd( $eventCategoryList);
+       //dd( $eventCategoryList);
 
         $documentTypeArr = [];
         $documentTypeArr[] = $eventCategoryList[0]['document_1'];
@@ -1238,6 +1238,7 @@ As a catalytic multi-stakeholder partnership, YuWaah is dedicated to transformin
        $count =0;
        $documentNewArr = [];
         foreach($documentTypeArr as $key=>$val){
+            if($documentTypeArr[$count]==''){ continue;}
             $documentNewArr[] = [
                 'doc_name' => $documentTypeArr[$count],
                 'document'=> $val
@@ -1245,6 +1246,7 @@ As a catalytic multi-stakeholder partnership, YuWaah is dedicated to transformin
             $count++;
         }
         //dd($eventCategoryList);
+        //dd($documentNewArr);
        
 
        

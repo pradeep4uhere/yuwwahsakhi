@@ -46,7 +46,8 @@
                                 <th>Partner Division</th>
                                 <th>Contact Number</th>
                                 <th>Email</th>
-                                <th>Created On</th>
+                                <th>Learner</th>
+                                <th>Status</th>
                                 <th>Actions</th>
                             </tr>
                         </thead>
@@ -62,13 +63,14 @@
                                 <td>{{ucwords($item['PartnerCenter'])}}</td>
                                 <td>{{$item['ContactNumber']}}</td>
                                 <td>{{$item['Email']}}</td>
-                                
+                                <td>0</td>
                                 <td><?php if($item['Status']=='Active'){ ?>
                                    <span class="badge badge-success">Active</span>
                                 <?php }else{ ?>
                                     <span class="badge badge-danger">InActive</span>
                                 <?php } ?>
                                 </td>
+                                
                                 <td>
                                     <a href="{{route('admin.yuwaahsakhi.update',['id'=>encryptString($item['id'])])}}"><i class="uil uil-edit" style="color: #27272A; font-size: 15px;"></i></a>
                                     <a href="javascript:void(0);" 
