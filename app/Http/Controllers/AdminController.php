@@ -1367,9 +1367,22 @@ public function importLearners(Request $request)
 
         // Create learner
        //dd($data);
+       $lastName = isset($data['LAST NAME'])
+       ? iconv('Windows-1252', 'UTF-8//IGNORE', $data['LAST NAME'])
+       : null;
+        
+        $firstName = isset($data['FIRST NAME'])
+            ? iconv('Windows-1252', 'UTF-8//IGNORE', $data['FIRST NAME'])
+            : null;
+        
+        $unitInstitute = isset($data['UNIT_INSTITUTE'])
+            ? iconv('Windows-1252', 'UTF-8//IGNORE', $data['UNIT_INSTITUTE'])
+            : null;
+
+
         \App\Models\Learner::create([
-            'first_name' => $data['FIRST NAME'] ?? null,
-            'last_name' => $data['LAST NAME'] ?? null,
+            'first_name' => $firstName,
+            'last_name' => $lastName,
             'email' => 'NA',
             'primary_phone_number' => $data['USER PHONE NUMBER'] ?? null,
             'gender' => $gender,
@@ -1384,7 +1397,7 @@ public function importLearners(Request $request)
             'PROGRAM_CODE' => $data['PROGRAM CODE'] ?? null,
             'PROGRAM_STATE' => $data['PROGRAM STATE'] ?? null,
             'PROGRAM_DISTRICT' => $data['PROGRAM DISTRICT'] ?? null,
-            'UNIT_INSTITUTE' => $data['UNIT/INSTITUTE'] ?? null,
+            'UNIT_INSTITUTE' => $unitInstitute,
             'SOCIAL_CATEGORY' => $data['SOCIAL CATEGORY'] ?? null,
             'RELIGION' => $data['RELIGION'] ?? null,
             'USER_MARIAL_STATUS' => $data['USER MARIAL STATUS'] ?? null,
