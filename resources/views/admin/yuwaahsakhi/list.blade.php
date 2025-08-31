@@ -22,7 +22,7 @@
         </div>
         <!-- <section class="dashboard-partners"> -->
         <div class="dash-content">
-            <span class="texttitle">Field Center [{{count($response['data'])}}]</span>
+            <span class="texttitle">Field Center [{{$response['total']}}]</span>
             <div class="activity">
                 <div class="activitybutton">
                     <a  href="{{ route('yuwaahSakhi.export') }}" class="ml-2">
