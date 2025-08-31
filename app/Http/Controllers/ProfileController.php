@@ -29,18 +29,24 @@ use App\Models\EventTransaction;
 use App\Models\YuwaahEventMaster;
 use App\Models\YuwaahEventType;
 
+
 use Illuminate\Support\Facades\Validator;
 use Carbon\Carbon;
 use Illuminate\Support\Str;
 use DB;
-    
-
-
-
+use SMS;
+use App\Services\SMSService;
 class ProfileController extends Controller
 {
 
     public $dir = 'user';
+
+    protected $sms;
+
+    public function __construct(SMSService $sms)
+    {
+        $this->sms = $sms;
+    }
 
      /**
      * Handle admin login requests.
@@ -1069,6 +1075,9 @@ As a catalytic multi-stakeholder partnership, YuWaah is dedicated to transformin
             ]);
             // Here you can trigger your SMS API
             // sendOtpSms($mobile, $otp);
+            $message = "Dear User, your OTP for mobile verification on UNICEF Youthhub Partner App is $otp. This OTP is sent by Inverted Mushrooms (DLT registered entity). Do not share it with anyone. - YUTPAT";
+            $response = SMS::sendSMS('91'.$mobile, $message);
+            Log::debug('OTP SMS sent to ' . $mobile, $response);
             return redirect()->route('verify.otp.page')
             ->with('success', 'OTP sent successfully.')
             ->with('mobileNumber', $mobile);
@@ -1094,8 +1103,10 @@ As a catalytic multi-stakeholder partnership, YuWaah is dedicated to transformin
         })
         ->orderBy('id', 'desc')
         ->first();
+        //dd($mobileOTP);
         // Optional: Retrieve success message if needed
         $successMessage = session('success');
+        //dd($successMessage);
         if ($request->isMethod('post')) {
             // Store mobile number in session on POST request
             $mobile = $request->get('mobile');
