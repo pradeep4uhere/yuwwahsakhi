@@ -95,34 +95,34 @@
             </div>
             @if ($response['last_page'] > 1)
             <div class="pagination">
-                <table>
-                    <tr>
-                        {{-- Previous Page Link --}}
-                        <td>
-                            @if ($response['prev_page_url'])
-                                <a href="{{ $response['prev_page_url'] }}"><i class="uil uil-angle-left"></i></a>
-                            @else
-                                <span class="disabled"><i class="uil uil-angle-left"></i></span>
-                            @endif
-                        </td>
+            <table>
+    <tr>
+        {{-- Previous Page Link --}}
+        <td>
+            @if ($response['prev_page_url'])
+                <a href="{{ $response['prev_page_url'] }}">Prev</a>
+            @else
+                <span class="disabled">Prev</span>
+            @endif
+        </td>
 
-                        {{-- Page Numbers --}}
-                        @for ($page = 1; $page <= $response['last_page']; $page++)
-                            <td class="page-number @if ($response['current_page'] == $page) active @endif">
-                                <a href="{{ url()->current() . '?page=' . $page }}">{{ $page }}</a>
-                            </td>
-                        @endfor
+        {{-- Page Info --}}
+        <td>
+            Page {{ $response['current_page'] }} of {{ $response['last_page'] }} 
+            | Total: {{ $response['total'] }}
+        </td>
 
-                        {{-- Next Page Link --}}
-                        <td>
-                            @if ($response['next_page_url'])
-                                <a href="{{ $response['next_page_url'] }}"><i class="uil uil-angle-right"></i></a>
-                            @else
-                                <span class="disabled"><i class="uil uil-angle-right"></i></span>
-                            @endif
-                        </td>
-                    </tr>
-                </table>
+        {{-- Next Page Link --}}
+        <td>
+            @if ($response['next_page_url'])
+                <a href="{{ $response['next_page_url'] }}">Next</a>
+            @else
+                <span class="disabled">Next</span>
+            @endif
+        </td>
+    </tr>
+</table>
+
             </div>
         @endif
         </div>

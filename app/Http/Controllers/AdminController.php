@@ -22,6 +22,9 @@ use App\Exports\LearnersExport;
 use App\Exports\PartnersExport;
 use App\Imports\LearnersImport;
 use App\Exports\YhubLearnersMatchedExport;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+
 
 use GuzzleHttp\Client;
 use Maatwebsite\Excel\Facades\Excel;
@@ -1316,6 +1319,59 @@ public function exportPartners()
 }
 
 
+
+
+
+public function importVLEForm(Request $request){
+    $partnerList = Partner::where('status','=',1)->get();
+    return view('admin.learner.importvleform', [
+        'title' => 'field Agent Import',
+        'partnerList'=>$partnerList
+    ]);
+}
+
+
+
+public function importvle(Request $request)
+{
+    $request->validate([
+        'partner_id'        => 'required',
+        'partner_center_id' => 'required',
+        'file'              => 'required|mimes:csv,txt'
+    ]);
+
+    $path = $request->file('file')->getRealPath();
+    $file = fopen($path, 'r');
+    $header = fgetcsv($file); // skip header row
+
+    // ✅ Hash once
+    $defaultPassword = Hash::make('password@123');
+
+    while (($row = fgetcsv($file, 1000, ',')) !== FALSE) {
+        $email = isset($row[6]) ? trim($row[6]) : null;
+        $email = preg_replace('/[^\x20-\x7E]/', '', $email); 
+        // remove all non-digits (keeps only 0-9)
+        $contact = isset($row[5]) ? trim($row[5]) : null;
+        $contact = preg_replace('/\D+/', '', $contact);
+        YuwaahSakhi::create([
+            'password'          => $defaultPassword,  // reuse hashed password
+            'sakhi_id'          => generateYuwaahSakhiCode($request['partner_id'],$request['partner_center_id']),
+            'name'              => $row[4],
+            'email'             => $email,
+            'district'          => $row[2],
+            'state'             => $row[1],
+            'city'              => $row[3],
+            'contact_number'    => $contact,
+            'partner_id'        => $request['partner_id'],
+            'partner_center_id' => $request['partner_center_id'],
+            'onboard_date'      => now()
+        ]);
+    }
+
+    fclose($file);
+
+    return back()->with('success', 'CSV Imported Successfully!');
+}
 
 
 

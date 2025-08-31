@@ -4,7 +4,7 @@
 <section class="dashboard">
         <div class="top">
             <div class="title">
-                <span class="">Dashboard > Import Learner</span> <br />
+                <span class="">Dashboard > Import Field Agent</span> <br />
             </div>
             <div class="search-box">
                 <i class="uil uil-search"></i>
@@ -17,9 +17,9 @@
         </div>
         <!-- <section class="dashboard-partners"> -->
         <div class="dash-content">
-            <span class="texttitle">Import Learner</span>
+            <span class="texttitle">Import Field Agent</span>
             <div class="activity">
-                
+               
                 <div class="activity-data">
                 @if ($errors->any())
                     <div class="alert alert-danger">
@@ -37,18 +37,45 @@
                 @endif
                     </div>
                     <div style="width=100%;overflow-x: auto;">
-                    <form action="{{ route('admin.import.learner.action') }}" method="POST" enctype="multipart/form-data">
+                    <form action="{{ route('admin.import.vle.action') }}" method="POST" enctype="multipart/form-data">
                     @csrf
-                    <div class="popup-grid">
-                        <div class="input-container">
-                            <label for="field4">Choose Learner File</label>
-                            <input type="file" name="file" id="fileInput">
-                        </div>
-                        <div class="formbuttons">
-                            <button type="button" id="discardBtn">Discard</button>
-                            <button type="submit" id="saveBtn" name="submit">Save Details</button>
-                        </div>
-                    </div>
+                    <table class="table table-striped table-bordered" style="font-size:12px;">
+                        <tr>
+                        <td> <label for="field1"><strong>Choose Partner</strong></label></td>
+                        <td>
+                        <select id="partner" name="partner_id" class="form-control">
+                            <option value="">Choose Partner</option>
+                            <?php foreach($partnerList as $item111){ ?>
+                                <option value="{{$item111['id']}}">{{$item111['name']}}</option>
+                            <?php } ?>
+                        </select>
+                        </td>
+                        </tr>
+                        <tr>
+                        <td> <label for="field1"><strong>Choose Partner Center</strong></label></td>
+                        <td>
+                            <select id="partner_center" class="form-control" name="partner_center_id">
+                            <option value="">Choose Partner Center</option>
+                            </select>
+                        </td>
+                        </tr>
+                        <tr>
+                        <td> <label for="field1"><strong>Status</strong></label></td>
+                        <td>
+                            <select id="field5" class="form-control" name="status">
+                            <option value="1" {{ old('status') == '1' ? 'selected' : '' }}>Active</option>
+                            <option value="0" {{ old('status') == '0' ? 'selected' : '' }}>Inactive</option>
+                            </select>
+                        </td>
+                        </tr>
+                        <tr>
+                        <td>  <label for="field4">Choose VLE CSV File</label>
+                        <input type="file" name="file" id="fileInput"></td>
+                        <td>
+                        <button type="submit" id="saveBtn" name="submit">Import Data</button>
+                        </td>
+                        </tr>
+                    </table>
                 </form>
                 <!-- Progress Bar -->
                 <progress id="progress-bar" value="10" max="100"></progress>

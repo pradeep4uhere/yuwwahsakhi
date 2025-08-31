@@ -174,6 +174,16 @@
                             ">Import Learner</span>
                     </a>
                 </li>
+                <li class="{{ request()->is('promotions') ? 'activelink' : '' }}">                    
+                    <a href="{{route('admin.import.vle')}}" id="promotion-link">
+                        <i class="uil uil-import
+                            {{ request()->routeIs('admin.yuwaahsakhi.homepage.update') ? 'activelinktext' : '' }}
+                            "></i>
+                        <span class="link-name
+                            {{ request()->routeIs('admin.yuwaahsakhi.homepage.update') ? 'activelinktext' : '' }}
+                            ">Import VLE</span>
+                    </a>
+                </li>
 
 
                 <li>

@@ -111,6 +111,9 @@ Route::middleware('auth:admin')->group(function () {
     Route::any('/import-learners', [AdminController::class, 'importLearnerForm'])->name('admin.import.learner');
     Route::post('/importlearners', [AdminController::class, 'importLearners'])->name('admin.import.learner.action');
 
+    Route::any('/import-vle', [AdminController::class, 'importVLEForm'])->name('admin.import.vle');
+    Route::post('/importvle', [AdminController::class, 'importvle'])->name('admin.import.vle.action');
+
     Route::get('/learner-skills', [AdminController::class, 'allLearnerSkillsList'])->name('admin.learner.skills');
     Route::get('/export-dashboard-learners', [AdminController::class, 'exportDashboardLearnersCSV'])->name('admin.learner.skills.export');
     Route::get('/export-dashboard-matched-learners', [AdminController::class, 'exportDashboardMatchedLearnersCSV'])->name('admin.learner.skills.matched.export');
