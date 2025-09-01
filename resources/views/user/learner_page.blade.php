@@ -91,22 +91,36 @@
         </div>
       </div>
       <div class="grid grid-cols-1 gap-4 px-6">
-      <div class="w-[375px] h-[30px] absolute top-[150px] mb-2 p-2  left-[14px] bg-[#fff5f5] flex gap-2 items-center justify-between " style="box-shadow: 0px 4px 10px 0px #00000026;">
+      <div class="w-[375px] h-30px] absolute top-[150px] mb-2 p-2  left-[14px] bg-[#fff5f5] flex gap-2 items-center justify-between " style="box-shadow: 0px 4px 10px 0px #00000026;">
       <span class="text-[10px] text-gray-500">No Action</span>
-      <div class="w-2 h-2 rounded-full bg-gray-500"></div>
+      <div class="w-3 h-3 rounded-full bg-gray-500"></div>
+
+      <span class="text-[10px] text-green-700">Skilling Completed</span>
+      <div class="w-3 h-3 rounded-full bg-green-500"></div>
 
       <span class="text-[10px] text-blue-500">Job Submitted</span>
-      <div class="w-2 h-2 rounded-full bg-blue-500"></div>
+      <div class="w-3 h-3 rounded-full bg-blue-500"></div>
 
-      <span class="text-[10px] text-orange-500">Event Saved</span>
-      <div class="w-2 h-2 rounded-full bg-orange-500"></div>
+      
 
-      <span class="text-[10px] text-green-500">Event Submitted</span>
-      <div class="w-2 h-2 rounded-full bg-green-500"></div>
+      
+
+      </div>
+      <div class="w-[375px] h-[30px] absolute top-[190px] mb-2 p-2  left-[14px] bg-[#fff5f5] flex gap-2 items-center justify-between " style="box-shadow: 0px 4px 10px 0px #00000026;">
+
+      <span class="text-[10px] text-orange-700">Action Required</span>
+      <div class="w-3 h-3 rounded-full bg-orange-500"></div>
+
+      <span class="text-[10px] text-green-700">Event Submitted</span>
+      <div class="w-3 h-3 rounded-full bg-green-500"></div>
+
+      <span class="text-[10px] text-red-700">Event Rejected</span>
+      <div class="w-3 h-3 rounded-full bg-red-500"></div>
+
       </div>
       @foreach($leanerList as $item)
       @php
-        $top =200 + ($loop->index * 80);
+        $top =230 + ($loop->index * 80);
       @endphp
       <!-- <div class="mt-6 flex gap-2 items-center justify-between"> -->
       <a href="{{route('learner.details',['id'=>encryptString($item['id'])])}}"

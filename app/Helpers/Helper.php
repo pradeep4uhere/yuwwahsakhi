@@ -625,7 +625,7 @@ if (!function_exists('generateYuwaahSakhiCode')) {
             $newSuffix = str_pad($maxSuffix + 1, 3, '0', STR_PAD_LEFT);
         } else {
             // First code for this partner-center pair
-            $newSuffix = '001';
+            $newSuffix = '1001';
         }
 
         // Combine the base prefix with the newly generated suffix to form the complete sakhi_id
