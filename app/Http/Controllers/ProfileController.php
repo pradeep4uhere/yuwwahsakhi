@@ -188,8 +188,7 @@ class ProfileController extends Controller
         $allEventCount = EventTransaction::where('ys_id',getUserId())->count();
         $allsubmittedEventCount = EventTransaction::where('ys_id',getUserId())->where('event_date_submitted','<>',NULL)->count();
         $cscid = strtolower(Auth::user()->csc_id);
-        $learnerCount = Learner::where('status', 'Active')
-        ->whereRaw('LOWER(UNIT_INSTITUTE) = ?', [$cscid])
+        $learnerCount = Learner::whereRaw('LOWER(UNIT_INSTITUTE) = ?', [$cscid])
         ->count();
         return view($this->dir.'.dashboard',[
             'opportunites'=> $opportunites,
