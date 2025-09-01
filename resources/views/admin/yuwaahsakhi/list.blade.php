@@ -63,7 +63,7 @@
                                 <td>{{ucwords($item['PartnerCenter'])}}</td>
                                 <td>{{$item['ContactNumber']}}</td>
                                 <td>{{$item['Email']}}</td>
-                                <td>0</td>
+                                <td>{{getLearnerCount($item['CSC_ID'])}}</td>
                                 <td><?php if($item['Status']=='Active'){ ?>
                                    <span class="badge badge-success">Active</span>
                                 <?php }else{ ?>

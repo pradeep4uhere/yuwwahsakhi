@@ -771,6 +771,7 @@ class AdminController extends Controller
             $query->where(function($q) use ($searchQuery) {
                 $q->where('sakhi_id', 'like', '%' . $searchQuery . '%')
                 ->orWhere('name', 'like', '%' . $searchQuery . '%')
+                ->orWhere('csc_id', 'like', '%' . $searchQuery . '%')
                 ->orWhere('email', 'like', '%' . $searchQuery . '%')
                 ->orWhere('dob', 'like', '%' . $searchQuery . '%')
                 ->orWhere('address', 'like', '%' . $searchQuery . '%')

@@ -690,4 +690,21 @@ if (!function_exists('isLearnerMatched')) {
 
 
 
+if (!function_exists('getLearnerCount')) {
+    function getLearnerCount($csc_id)
+    {
+        //dd($csc_id);
+        if($csc_id!=null){
+            return \App\Models\Learner::where('UNIT_INSTITUTE', $csc_id)->count();
+        }else{
+            return 0;
+        }
+    }
+}
+
+
+
+
+
+
 
