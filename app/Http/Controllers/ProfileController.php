@@ -187,7 +187,8 @@ class ProfileController extends Controller
         $totalOpportunites = $opportunitesWithPagination->total();
         $allEventCount = EventTransaction::where('ys_id',getUserId())->count();
         $allsubmittedEventCount = EventTransaction::where('ys_id',getUserId())->where('event_date_submitted','<>',NULL)->count();
-        $learnerCount = Learner::where('status','Active')->count();
+        $cscid = Auth::user()->csc_id;
+        $learnerCount = Learner::where('status','Active')->where('UNIT_INSTITUTE',$cscid)->count();
         return view($this->dir.'.dashboard',[
             'opportunites'=> $opportunites,
             'learnerCount'=>$learnerCount,
@@ -249,7 +250,8 @@ class ProfileController extends Controller
 
     public function LearnerList(Request $request)
     {
-        $query = Learner::where('status', 'Active');
+        $cscid = Auth::user()->csc_id;
+        $query = Learner::where('status', 'Active')->where('UNIT_INSTITUTE',$cscid);
         //dd($request->all());
         // Apply filters only if it's a POST or if filters are present in GET
         $filters = $request->only([
