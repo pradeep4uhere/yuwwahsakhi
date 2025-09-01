@@ -69,8 +69,8 @@
 
       <div class="flex justify-between">
         <span></span>
-        <a href="{{route('recoverpassword')}}" class="relative right-2 w-[120px] h-[15px] font-[500] text-[12px] leading-[14.63px] text-[#05A7D1] hover:underline cursor-pointer ">Forgot
-          Password</a>
+        <a href="{{route('recoverpassword')}}" class="relative right-2 w-[220px] h-[15px] font-[500] text-[12px] leading-[14.63px] text-[#05A7D1] hover:underline cursor-pointer ">Forgot
+          Password&nbsp;/&nbsp;Generate Password</a>
       </div>
 
       <!-- <div class="flex justify-center items-center">
