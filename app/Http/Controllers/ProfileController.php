@@ -63,7 +63,7 @@ class ProfileController extends Controller
             'password' => ['required', 'string', 'min:8'],
         ]);
 
-        $yuwaahSakhi = YuwaahSakhi::whereRaw('LOWER(sakhi_id) = ?', [strtolower($request->email)])
+        $YuwaahSakhi = YuwaahSakhi::whereRaw('LOWER(sakhi_id) = ?', [strtolower($request->email)])
         ->where('status', 1)
         ->first();
         if (!$YuwaahSakhi) {
