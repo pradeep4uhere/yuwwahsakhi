@@ -182,8 +182,8 @@ class ProfileController extends Controller
 
     public function dashboard(Request $request){
         $YuwaahSakhi= YuwaahSakhi::with(['Partner','PartnerCenter'])->find(Auth::user()->id);
-        echo "<pre>";
-        print_r(Auth::user());
+        //echo "<pre>";
+        //print_r(Auth::user());
         $opportunitesWithPagination = Opportunity::where('status','1')->paginate();
         $opportunites = (array) Opportunity::getFormatedData($opportunitesWithPagination);
         $totalOpportunites = $opportunitesWithPagination->total();
