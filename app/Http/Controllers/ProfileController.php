@@ -66,7 +66,10 @@ class ProfileController extends Controller
         $YuwaahSakhiArr = YuwaahSakhi::where('sakhi_id', $request->email)->where('status',1)->get();
         echo "<pre>";
         print_r($YuwaahSakhiArr);
-        $YuwaahSakhi= $YuwaahSakhiArr[0];//dd($YuwaahSakhi);
+        
+        $YuwaahSakhi= $YuwaahSakhiArr[0];
+        print_r($YuwaahSakhi);
+        die;
         if (!$YuwaahSakhi) {
             throw ValidationException::withMessages([
                 'email' => ['Account is not active, Please contact to admin.'],
