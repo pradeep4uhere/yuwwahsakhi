@@ -63,7 +63,7 @@ class ProfileController extends Controller
             'password' => ['required', 'string', 'min:8'],
         ]);
 
-        $YuwaahSakhi = YuwaahSakhi::where('sakhi_id', $request->email)->where('status',1)->get();
+        $YuwaahSakhi = YuwaahSakhi::where('sakhi_id', $request->email)->where('status',1)->first();
         if (!$YuwaahSakhi) {
             throw ValidationException::withMessages([
                 'email' => ['Account is not active, Please contact to admin.'],
