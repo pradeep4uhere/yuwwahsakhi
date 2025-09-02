@@ -64,6 +64,8 @@ class ProfileController extends Controller
         ]);
 
         $YuwaahSakhiArr = YuwaahSakhi::where('sakhi_id', $request->email)->where('status',1)->get();
+        echo "<pre>";
+        printe_r($YuwaahSakhiArr);
         $YuwaahSakhi= $YuwaahSakhiArr[0];//dd($YuwaahSakhi);
         if (!$YuwaahSakhi) {
             throw ValidationException::withMessages([
