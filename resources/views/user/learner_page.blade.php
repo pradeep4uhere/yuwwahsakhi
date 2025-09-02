@@ -160,11 +160,12 @@
             @endif
             @php
                 $transactions = $item['eventTransactions'];
+                //dd($transactions)
                 $count = $transactions->count();
                 $allAccepted = $transactions->every(fn($t) => $t->review_status === 'Accepted');
 
                 // This is your additional condition
-               $hasAcceptedJob = $transactions->contains(function ($t) use ($jobEventId) {
+                  $hasAcceptedJob = $transactions->contains(function ($t) use ($jobEventId) {
                   return $t->event_type == $jobEventId && $t->review_status === 'Accepted';
                });
             @endphp
@@ -173,11 +174,11 @@
             <div class="w-5 h-5 rounded-full bg-gray-500"></div>
             @else
             @if($hasAcceptedJob)
-                <div class="w-5 h-5 rounded-full bg-green-500"></div>
-            @elseif($count > 0)
                 <div class="w-5 h-5 rounded-full bg-blue-500"></div>
+            @elseif($count > 0)
+                <div class="w-5 h-5 rounded-full bg-orange-500"></div>
             @endif
-            @if($count === 3 && $allAccepted)
+            @if($allAccepted)
                 <div class="w-5 h-5 rounded-full bg-green-500"></div>
             @elseif($count > 0)
                 <div class="w-5 h-5 rounded-full bg-orange-500"></div>
