@@ -56,14 +56,16 @@ class ProfileController extends Controller
      */
     public function login(Request $request)
     {
-       dd($request->all());
+       //dd($request->all());
         // Validate the incoming login data
         $request->validate([
             'email' => ['required', 'string', 'min:3'],
             'password' => ['required', 'string', 'min:8'],
         ]);
 
-        $YuwaahSakhi = YuwaahSakhi::where('sakhi_id', trim($request->email))->where('status',1)->first();
+        $yuwaahSakhi = YuwaahSakhi::whereRaw('LOWER(sakhi_id) = ?', [strtolower($request->email)])
+        ->where('status', 1)
+        ->first();
         if (!$YuwaahSakhi) {
             throw ValidationException::withMessages([
                 'email' => ['Account is not active, Please contact to admin.'],
