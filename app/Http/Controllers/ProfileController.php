@@ -182,6 +182,7 @@ class ProfileController extends Controller
 
 
     public function dashboard(Request $request){
+        dd(Auth::user());
         $YuwaahSakhi= YuwaahSakhi::with(['Partner','PartnerCenter'])->find(Auth::user()->id);
         //echo "<pre>";
         //print_r(Auth::user());
