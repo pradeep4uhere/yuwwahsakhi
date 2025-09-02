@@ -182,17 +182,19 @@ class ProfileController extends Controller
 
 
     public function dashboard(Request $request){
-       // dd(Auth::user());
+       dd(Auth::user()->id);
         $YuwaahSakhi= YuwaahSakhi::with(['Partner','PartnerCenter'])->find(Auth::user()->id);
-        //echo "<pre>";
-        //print_r(Auth::user());
         $opportunitesWithPagination = Opportunity::where('status','1')->paginate();
         $opportunites = (array) Opportunity::getFormatedData($opportunitesWithPagination);
         $totalOpportunites = $opportunitesWithPagination->total();
         $allEventCount = EventTransaction::where('ys_id',getUserId())->count();
         $allsubmittedEventCount = EventTransaction::where('ys_id',getUserId())->where('event_date_submitted','<>',NULL)->count();
-        $cscid = strtolower($YuwaahSakhi['csc_id']);
-        $learnerCount = Learner::whereRaw('LOWER(UNIT_INSTITUTE) = ?', [$cscid])->count();
+        if($YuwaahSakhi['csc_id']!=null){
+            $cscid = strtolower($YuwaahSakhi['csc_id']);
+            $learnerCount = Learner::whereRaw('LOWER(UNIT_INSTITUTE) = ?', [$cscid])->count();
+        }else{
+            $learnerCount = 0;
+        }
         return view($this->dir.'.dashboard',[
             'opportunites'=> $opportunites,
             'learnerCount'=>$learnerCount,

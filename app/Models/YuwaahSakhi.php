@@ -15,6 +15,8 @@ class YuwaahSakhi extends Authenticatable
      // Define the table name if it's not the plural form of the model
      protected $table = 'yuwaah_sakhi';
 
+     protected $primaryKey = 'id';
+
 
      public function getAuthIdentifierName()
     {
