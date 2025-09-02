@@ -49,7 +49,7 @@
     <form class="space-y-4 text-xs" action="{{route('user.login')}}" method="post">
       @csrf
       <div class="space-y-1">
-        <label for="username" class="w-[63px] h-[15px] font-[400] text-[12px] leading-[14.63px] text-[#000000]">Sakhi ID</label>
+        <label for="username" class="w-[63px] h-[15px] font-[400] text-[12px] leading-[14.63px] text-[#000000]">Field Agent ID</label>
         <input id="username" type="text" placeholder="Enter username" name="email"
           class="w-[330px] h-[40px] rounded-[10px] border-[1px] bg-[#FFFFFF] placeholder:text-[10px] placeholder:font-[400] placeholder:font-Montserrat placeholder:leading-[12.19px] placeholder:pl-0" style="padding:5px;">
           <x-input-error :messages="$errors->get('email')" class="mt-2" />
