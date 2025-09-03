@@ -255,66 +255,68 @@ class ProfileController extends Controller
 
 
     public function LearnerList(Request $request)
-    {
-        $cscid = Auth::user()->csc_id;
-        $query = Learner::where('status', 'Active')->where('UNIT_INSTITUTE',$cscid);
-        //dd($request->all());
-        // Apply filters only if it's a POST or if filters are present in GET
-        $filters = $request->only([
-            'name',
-            'phone',
-            'email',
-        ]);
+{
+    $cscid = Auth::user()->csc_id;
 
-        if (!empty($filters)) {
-           
-            // Base query with join on phone number (stripped of "+91 ")
-                $query = Learner::where('learners.status', 'Active')
-                ->leftJoin('yhub_learners', function ($join) {
-                    $join->on('learners.primary_phone_number', '=', DB::raw("REPLACE(yhub_learners.email_address, '+91 ', '')"));
-                })
-                ->select(['learners.*',
-                'yhub_learners.email_address as yhub_email_address',
-                'yhub_learners.completion_status as completion_status'
-                ]); // Ensure we select only learner fields
+    // Base query
+    $query = Learner::where('learners.status', 'Active')
+        ->where('learners.UNIT_INSTITUTE', $cscid);
 
-            // Apply filters
-            if ($request->filled('name')) {
-                $query->where(function ($q) use ($request) {
-                    $q->where('learners.first_name', 'like', '%' . $request->name . '%')
-                      ->orWhere('learners.last_name', 'like', '%' . $request->name . '%');
-                });
-            }
-            if ($request->filled('email')) {
-                $query->where('learners.email', 'like', '%' . $request->email . '%');
-            }
+    // Filters
+    if ($request->filled('name')) {
+        $query->where(function ($q) use ($request) {
+            $q->where('learners.first_name', 'like', '%' . $request->name . '%')
+              ->orWhere('learners.last_name', 'like', '%' . $request->name . '%');
+        });
+    }
+    if ($request->filled('email')) {
+        $query->where('learners.email', 'like', '%' . $request->email . '%');
+    }
+    if ($request->filled('phone')) {
+        $query->where('primary_phone_number', 'like', '%' . $request->phone . '%');
+    }
+    if ($request->filled('gender')) {
+        $query->where('gender', $request->gender);
+    }
 
-            if ($request->filled('phone')) {
-                $query->where('primary_phone_number', 'like', '%' . $request->phone . '%');
-            }
+    // Add latest events join
+    $latestEvents = DB::table('event_transactions')
+        ->select('learner_id', DB::raw('MAX(updated_at) as last_event_update'))
+        ->groupBy('learner_id');
 
-            if ($request->filled('gender')) {
-                $query->where('gender', $request->gender);
-            }
+    $query->leftJoin('yhub_learners', function ($join) {
+            $join->on('learners.primary_phone_number', '=', DB::raw("REPLACE(yhub_learners.email_address, '+91 ', '')"));
+        })
+        ->leftJoinSub($latestEvents, 'et', function ($join) {
+            $join->on('learners.id', '=', 'et.learner_id');
+        })
+        ->select([
+            'learners.*',
+            'yhub_learners.email_address as yhub_email_address',
+            'yhub_learners.completion_status as completion_status',
+            DB::raw('COALESCE(et.last_event_update, learners.updated_at) as sort_updated_at')
+        ])
+        ->orderBy('sort_updated_at', 'desc');
 
-           
-        }
+    // Debug SQL if needed
+    // dd($query->toSql(), $query->getBindings());
 
-    // Paginate with query string to preserve filters in pagination
-    $learnerList = $query->with('eventTransactions')->paginate(20)->appends($request->query());
-    //dd($learnerList);
+    // Now paginate once, at the very end
+    $learnerList = $query->with('eventTransactions')
+        ->paginate(20)
+        ->appends($request->query());
 
+    // Get job event type id
     $eventTypeId = DB::table('yuwaah_event_type')
-    ->whereRaw('LOWER(name) = ?', ['job'])
-    ->value('id');
-
-    //dd($eventTypeId );
+        ->whereRaw('LOWER(name) = ?', ['job'])
+        ->value('id');
 
     return view($this->dir . '.learner_page', [
         'leanerList' => $learnerList,
         'jobEventId'=> $eventTypeId
     ]);
 }
+
 
 
 

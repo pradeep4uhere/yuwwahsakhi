@@ -154,7 +154,7 @@ return [
     'New_Opportunities'=>'New Opportunities',
     'Assign_Learners'=>'Assign Learners',
     'Enter_Learner_Name'=>'Enter Learner Name',
-    'Primary_Phone_Number'=>'Primary_Phone_Number',
+    'Primary_Phone_Number'=>'Primary Phone Number',
     'email'=>'Email Address',
      'Learner_Search_Filter'=>'Learner Search Filter',
      'Search_Filter'=>'Search Filter',
