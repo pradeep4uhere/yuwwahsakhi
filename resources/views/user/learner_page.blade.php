@@ -174,9 +174,9 @@
             <div class="w-5 h-5 rounded-full bg-gray-500"></div>
             @else
             @if($hasAcceptedJob)
-                <div class="w-5 h-5 rounded-full bg-blue-500"></div>
+                <div class="w-5 h-5 rounded-full bg-green-500"></div>
             @elseif($count > 0)
-                <div class="w-5 h-5 rounded-full bg-orange-500"></div>
+                <div class="w-5 h-5 rounded-full bg-blue-500"></div>
             @endif
             @if($allAccepted)
                 <div class="w-5 h-5 rounded-full bg-green-500"></div>
