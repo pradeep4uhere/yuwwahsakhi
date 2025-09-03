@@ -98,7 +98,7 @@
       <span class="text-[10px] text-green-700">Skilling Completed</span>
       <div class="w-3 h-3 rounded-full bg-green-500"></div>
 
-      <span class="text-[10px] text-blue-500">Job Submitted</span>
+      <span class="text-[10px] text-blue-500">Event Submitted</span>
       <div class="w-3 h-3 rounded-full bg-blue-500"></div>
 
       
@@ -111,7 +111,7 @@
       <span class="text-[10px] text-orange-700">Action Required</span>
       <div class="w-3 h-3 rounded-full bg-orange-500"></div>
 
-      <span class="text-[10px] text-green-700">Event Submitted</span>
+      <span class="text-[10px] text-green-700">Event Accepted</span>
       <div class="w-3 h-3 rounded-full bg-green-500"></div>
 
       <span class="text-[10px] text-red-700">Event Rejected</span>
