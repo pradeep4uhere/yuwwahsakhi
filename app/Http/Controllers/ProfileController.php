@@ -276,9 +276,8 @@ class ProfileController extends Controller
         $query->where('primary_phone_number', 'like', '%' . $request->phone . '%');
     }
     if ($request->filled('gender')) {
-        $query->where('gender', $request->gender);
+        $query->where('learners.gender', $request->gender);
     }
-
     // Add latest events join
     $latestEvents = DB::table('event_transactions')
         ->select('learner_id', DB::raw('MAX(updated_at) as last_event_update'))

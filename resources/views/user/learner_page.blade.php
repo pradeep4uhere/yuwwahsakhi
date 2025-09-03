@@ -72,9 +72,9 @@
                 <option value="" disabled selected
                   class="w-[106px] h-[12px] font-[400] text-[10px] leading-[12.19px]  text-[#000000]">Please choose Gender
                 </option>
-                <option value="yes" class="w-[106px] h-[12px] font-[400] text-[10px] leading-[12.19px]  text-[#000000]">
+                <option value="Male" class="w-[106px] h-[12px] font-[400] text-[10px] leading-[12.19px]  text-[#000000]">
                   Male</option>
-                <option value="no" class="w-[106px] h-[12px] font-[400] text-[10px] leading-[12.19px]  text-[#000000]">
+                <option value="Female" class="w-[106px] h-[12px] font-[400] text-[10px] leading-[12.19px]  text-[#000000]">
                   Female</option>
               </select>
             </div>
