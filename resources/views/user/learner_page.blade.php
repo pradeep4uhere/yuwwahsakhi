@@ -98,7 +98,7 @@
       <span class="text-[10px] text-green-700">Skilling Completed</span>
       <div class="w-3 h-3 rounded-full bg-green-500"></div>
 
-      <span class="text-[10px] text-blue-500">Event Submitted</span>
+      <span class="text-[10px] text-blue-500">Submitted</span>
       <div class="w-3 h-3 rounded-full bg-blue-500"></div>
 
       
@@ -111,16 +111,26 @@
       <span class="text-[10px] text-orange-700">Action Required</span>
       <div class="w-3 h-3 rounded-full bg-orange-500"></div>
 
-      <span class="text-[10px] text-green-700">Event Accepted</span>
+      <span class="text-[10px] text-green-700">Accepted</span>
       <div class="w-3 h-3 rounded-full bg-green-500"></div>
 
-      <span class="text-[10px] text-red-700">Event Rejected</span>
+      <span class="text-[10px] text-red-700">Rejected</span>
       <div class="w-3 h-3 rounded-full bg-red-500"></div>
+
+      </div>
+
+      <div class="w-[375px] h-[30px] absolute top-[230px] mb-2 p-2  left-[14px] bg-[#fff5f5] flex gap-2 items-center justify-between " style="box-shadow: 0px 4px 10px 0px #00000026;">
+
+      <span class="text-[10px] text-black-700">First Cirle - Sikkiling</span>
+
+      <span class="text-[10px] text-black-700">Second Cirlce - Job</span>
+
+      <span class="text-[10px] text-black-700">Third - Social Protection</span>
 
       </div>
       @foreach($leanerList as $item)
       @php
-        $top =230 + ($loop->index * 80);
+        $top =270 + ($loop->index * 80);
       @endphp
       <!-- <div class="mt-6 flex gap-2 items-center justify-between"> -->
       <a href="{{route('learner.details',['id'=>encryptString($item['id'])])}}"
@@ -170,20 +180,24 @@
                });
             @endphp
             @if($count == 0)
+          {{-- Case: No records --}}
             <div class="w-3 h-3 rounded-full bg-white border border-black"></div>
             <div class="w-3 h-3 rounded-full bg-white border border-black"></div>
-            @else
+        @else
+            {{-- First indicator --}}
             @if($allAccepted)
                 <div class="w-5 h-5 rounded-full bg-green-500"></div>
             @elseif($count > 0)
                 <div class="w-5 h-5 rounded-full bg-orange-500"></div>
             @endif
+
+            {{-- Second indicator --}}
             @if($hasAcceptedJob)
                 <div class="w-5 h-5 rounded-full bg-green-500"></div>
             @elseif($count > 0)
                 <div class="w-5 h-5 rounded-full bg-blue-500"></div>
             @endif
-            @endif
+  @endif
           </div>
         </div>
           <!-- Event Transactions: Only if present -->
