@@ -91,25 +91,16 @@
         </div>
       </div>
       <div class="grid grid-cols-1 gap-4 px-6">
-      <div class="w-[375px] h-30px] absolute top-[150px] mb-2 p-2  left-[14px] bg-[#fff5f5] flex gap-2 items-center justify-between " style="box-shadow: 0px 4px 10px 0px #00000026;">
-      <span class="text-[10px] text-gray-500">No Action</span>
-      <div class="w-3 h-3 rounded-full bg-white border border-black"></div>
+      
+      <div class="w-[375px] h-[30px] absolute top-[160px] mb-2 p-2  left-[14px] bg-[#fff5f5] flex gap-2 items-left justify-left " style="box-shadow: 0px 4px 10px 0px #00000026;">
 
-      <span class="text-[10px] text-green-700">Skilling Completed</span>
-      <div class="w-3 h-3 rounded-full bg-green-500"></div>
+
+      <span class="text-[10px] text-orange-700">Action Required</span>
+      <div class="w-3 h-3 rounded-full bg-orange-500"></div>
 
       <span class="text-[10px] text-blue-500">Submitted</span>
       <div class="w-3 h-3 rounded-full bg-blue-500"></div>
 
-      
-
-      
-
-      </div>
-      <div class="w-[375px] h-[30px] absolute top-[190px] mb-2 p-2  left-[14px] bg-[#fff5f5] flex gap-2 items-center justify-between " style="box-shadow: 0px 4px 10px 0px #00000026;">
-
-      <span class="text-[10px] text-orange-700">Action Required</span>
-      <div class="w-3 h-3 rounded-full bg-orange-500"></div>
 
       <span class="text-[10px] text-green-700">Accepted</span>
       <div class="w-3 h-3 rounded-full bg-green-500"></div>
@@ -119,7 +110,7 @@
 
       </div>
 
-      <div class="w-[375px] h-[30px] absolute top-[230px] mb-2 p-2  left-[14px] bg-[#fff5f5] flex gap-2 items-center justify-between " style="box-shadow: 0px 4px 10px 0px #00000026;">
+      <div class="w-[375px] h-[30px] absolute top-[200px] mb-2 p-2  left-[14px] bg-[#fff5f5] flex gap-2 items-center justify-between " style="box-shadow: 0px 4px 10px 0px #00000026;">
 
       <span class="text-[10px] text-black-700">First Cirle - Sikkiling</span>
 
@@ -130,7 +121,7 @@
       </div>
       @foreach($leanerList as $item)
       @php
-        $top =270 + ($loop->index * 80);
+        $top =240 + ($loop->index * 80);
       @endphp
       <!-- <div class="mt-6 flex gap-2 items-center justify-between"> -->
       <a href="{{route('learner.details',['id'=>encryptString($item['id'])])}}"
@@ -183,6 +174,7 @@
           {{-- Case: No records --}}
             <div class="w-3 h-3 rounded-full bg-white border border-black"></div>
             <div class="w-3 h-3 rounded-full bg-white border border-black"></div>
+
         @else
             {{-- First indicator --}}
             @if($allAccepted)
