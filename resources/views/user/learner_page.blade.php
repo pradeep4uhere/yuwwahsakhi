@@ -93,7 +93,7 @@
       <div class="grid grid-cols-1 gap-4 px-6">
       <div class="w-[375px] h-30px] absolute top-[150px] mb-2 p-2  left-[14px] bg-[#fff5f5] flex gap-2 items-center justify-between " style="box-shadow: 0px 4px 10px 0px #00000026;">
       <span class="text-[10px] text-gray-500">No Action</span>
-      <div class="w-3 h-3 rounded-full bg-gray-500"></div>
+      <div class="w-3 h-3 rounded-full bg-white border border-black"></div>
 
       <span class="text-[10px] text-green-700">Skilling Completed</span>
       <div class="w-3 h-3 rounded-full bg-green-500"></div>
@@ -170,18 +170,18 @@
                });
             @endphp
             @if($count == 0)
-            <div class="w-5 h-5 rounded-full bg-gray-500"></div>
-            <div class="w-5 h-5 rounded-full bg-gray-500"></div>
+            <div class="w-3 h-3 rounded-full bg-white border border-black"></div>
+            <div class="w-3 h-3 rounded-full bg-white border border-black"></div>
             @else
-            @if($hasAcceptedJob)
-                <div class="w-5 h-5 rounded-full bg-green-500"></div>
-            @elseif($count > 0)
-                <div class="w-5 h-5 rounded-full bg-blue-500"></div>
-            @endif
             @if($allAccepted)
                 <div class="w-5 h-5 rounded-full bg-green-500"></div>
             @elseif($count > 0)
                 <div class="w-5 h-5 rounded-full bg-orange-500"></div>
+            @endif
+            @if($hasAcceptedJob)
+                <div class="w-5 h-5 rounded-full bg-green-500"></div>
+            @elseif($count > 0)
+                <div class="w-5 h-5 rounded-full bg-blue-500"></div>
             @endif
             @endif
           </div>

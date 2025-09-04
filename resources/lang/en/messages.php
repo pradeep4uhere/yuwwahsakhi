@@ -210,7 +210,10 @@ return [
       'Since'=>'Since',
       'email1'=>'Email',
       'partner'=>'Partner',
-      'partner_division'=>'Divison'
+      'partner_division'=>'Divison',
+      'Save_Opportunity'=>'Save Opportunity',
+      'all_comment'=>'All Comment',
+      'date'=>'Date'
 
      
 
