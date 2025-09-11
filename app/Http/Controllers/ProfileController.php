@@ -1223,6 +1223,10 @@ As a catalytic multi-stakeholder partnership, YuWaah is dedicated to transformin
 
 
 
+    /**
+     * public function getBeneficiaries(Request $request) { $csc_id = Auth::user()->csc_id; $query = $request->input('name'); $results = Learner::where('status','Active') ->where('first_name', 'like', "%$query%") ->where('UNIT_INSTITUTE',$csc_id) ->select('first_name','primary_phone_number','id') ->limit(10) ->get(); return response()->json($results); }
+     */
+
     public function getBeneficiaries(Request $request)
 {
     $user = Auth::user();
