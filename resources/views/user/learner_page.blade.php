@@ -112,11 +112,11 @@
 
       <div class="w-[375px] h-[30px] absolute top-[200px] mb-2 p-2  left-[14px] bg-[#fff5f5] flex gap-2 items-center justify-between " style="box-shadow: 0px 4px 10px 0px #00000026;">
 
-      <span class="text-[10px] text-black-700">First Cirle - Sikkiling</span>
+      <span class="text-[10px] text-black-700">First Circle - Sikkls</span>
 
-      <span class="text-[10px] text-black-700">Second Cirlce - Job</span>
+      <span class="text-[10px] text-black-700">Second Cirlce - Social Protection</span>
 
-      <span class="text-[10px] text-black-700">Third - Social Protection</span>
+      <span class="text-[10px] text-black-700">Third Circle - Job</span>
 
       </div>
       @foreach($leanerList as $item)
@@ -157,38 +157,86 @@
             @if($item['completion_status']==1)
             <div class="w-5 h-5 rounded-full bg-green-500"></div>
             @else
-            <div class="w-5 h-5 rounded-full bg-gray-500"></div>
+            <div class="w-5 h-5 rounded-full bg-white border border-black"></div>
             @endif
             @php
+            
+                //dd($item['eventTransactions']);
                 $transactions = $item['eventTransactions'];
+                $hasAcceptedJob = '';
+                $hasActionRequiredOnJob = '';
+                $hasJobsubmitted = '';
+                $hasJobRejected='';
+
+
+
+                $hasAcceptedEvent = '';
+                $hasActionRequiredOnEvent = '';
+                $hasEventSubmitted = '';
+                $hasEventRejected = '';
+
+                foreach($item['eventTransactions'] as $eventTransactionItem){ 
+                if($jobEventId == $eventTransactionItem['event_type']){
+                  // If Review Status NULL
+                  if($eventTransactionItem['review_status']=='Accepted'){
+                    $hasAcceptedJob = true;
+                  }else if($eventTransactionItem['review_status']==''){
+                    $hasJobsubmitted = true;
+                  }else if($eventTransactionItem['review_status']=='Rejected'){
+                    $hasJobRejected = true;
+                  }else{
+                    $hasActionRequiredOnJob = true;
+                  }
+                }else{
+                  // If Review Status NULL
+                  if($eventTransactionItem['review_status']=='Accepted'){
+                    $hasAcceptedEvent = true;
+                  }else if($eventTransactionItem['review_status']==''){
+                    $hasEventSubmitted = true;
+                  }else if($eventTransactionItem['review_status']=='Rejected'){
+                    $hasEventRejected = true;
+                  }else{
+                    $hasActionRequiredOnEvent = true;
+                  }
+                } 
+              }
+
+
                 //dd($transactions)
                 $count = $transactions->count();
                 $allAccepted = $transactions->every(fn($t) => $t->review_status === 'Accepted');
 
                 // This is your additional condition
-                  $hasAcceptedJob = $transactions->contains(function ($t) use ($jobEventId) {
+                $hasAcceptedJob = $transactions->contains(function ($t) use ($jobEventId) {
                   return $t->event_type == $jobEventId && $t->review_status === 'Accepted';
-               });
+              });
             @endphp
             @if($count == 0)
           {{-- Case: No records --}}
-            <div class="w-3 h-3 rounded-full bg-white border border-black"></div>
-            <div class="w-3 h-3 rounded-full bg-white border border-black"></div>
+            <div class="w-5 h-5 rounded-full bg-white border border-black"></div>
+            <div class="w-5 h-5 rounded-full bg-white border border-black"></div>
 
         @else
-            {{-- First indicator --}}
-            @if($allAccepted)
-                <div class="w-5 h-5 rounded-full bg-green-500"></div>
-            @elseif($count > 0)
-                <div class="w-5 h-5 rounded-full bg-orange-500"></div>
-            @endif
+           
+
+           
 
             {{-- Second indicator --}}
-            @if($hasAcceptedJob)
-                <div class="w-5 h-5 rounded-full bg-green-500"></div>
-            @elseif($count > 0)
-                <div class="w-5 h-5 rounded-full bg-blue-500"></div>
-            @endif
+            @if($hasAcceptedEvent) <div class="w-5 h-5 rounded-full bg-green-500"></div>
+            @elseif($hasActionRequiredOnEvent)<div class="w-5 h-5 rounded-full bg-orange-500"></div>
+            @elseif($hasEventSubmitted)<div class="w-5 h-5 rounded-full bg-blue-500"></div>
+            @elseif($hasEventRejected)<div class="w-5 h-5 rounded-full bg-red-500"></div>
+            @else<div class="w-5 h-5 rounded-full bg-white border border-black"></div>@endif
+
+
+            {{-- Third indicator --}}
+            @if($hasAcceptedJob) <div class="w-5 h-5 rounded-full bg-green-500"></div>
+            @elseif($hasActionRequiredOnJob)<div class="w-5 h-5 rounded-full bg-orange-500"></div>
+            @elseif($hasJobsubmitted)<div class="w-5 h-5 rounded-full bg-blue-500"></div>
+            @elseif($hasJobRejected)<div class="w-5 h-5 rounded-full bg-red-500"></div>
+            @else<div class="w-5 h-5 rounded-full bg-white border border-black"></div>@endif
+            
+
   @endif
           </div>
         </div>
