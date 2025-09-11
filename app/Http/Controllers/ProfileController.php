@@ -609,6 +609,11 @@ class ProfileController extends Controller
             'comment'                  => 'nullable|string|max:1000',
             'document_type'            => 'nullable|string|max:1000',
             ];
+            $messages = [
+                'event_value.required' => 'The monthly value field is required.',
+                'event_value.numeric'  => 'The monthly value must be a number.',
+                'event_value.min'      => 'The monthly value must be greater than or equal to 0.',
+            ];
 
             // Step 3: Add document rules
             foreach ($documentFields as $field) {
@@ -1218,17 +1223,30 @@ As a catalytic multi-stakeholder partnership, YuWaah is dedicated to transformin
 
 
 
-    
     public function getBeneficiaries(Request $request)
-    {
-        $query = $request->input('name');
-        $results = Learner::where('status','Active')
-            ->where('first_name', 'like', "%$query%")
-            ->select('first_name','primary_phone_number','id')
-            ->limit(10)
-            ->get();
-        return response()->json($results);
+{
+    $user = Auth::user();
+    if (!$user) {
+        return response()->json(['error' => 'Unauthorized'], 401);
     }
+
+    $csc_id = $user->csc_id;
+    $query  = $request->input('name');
+
+    $results = Learner::where('status', 'Active')
+        ->where('UNIT_INSTITUTE', $csc_id)
+        ->when($query, function ($q) use ($query) {
+            $q->where('first_name', 'like', '%' . $query . '%');
+        })
+        ->select('id', 'first_name', 'primary_phone_number')
+        ->limit(10)
+        ->get();
+
+    return response()->json([
+        'success' => true,
+        'data'    => $results
+    ]);
+}
 
 
 
