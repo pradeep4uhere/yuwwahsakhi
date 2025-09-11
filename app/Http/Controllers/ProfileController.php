@@ -1223,34 +1223,33 @@ As a catalytic multi-stakeholder partnership, YuWaah is dedicated to transformin
 
 
 
-    /**
-     * public function getBeneficiaries(Request $request) { $csc_id = Auth::user()->csc_id; $query = $request->input('name'); $results = Learner::where('status','Active') ->where('first_name', 'like', "%$query%") ->where('UNIT_INSTITUTE',$csc_id) ->select('first_name','primary_phone_number','id') ->limit(10) ->get(); return response()->json($results); }
-     */
+      public function getBeneficiaries(Request $request) { $csc_id = Auth::user()->csc_id; $query = $request->input('name'); $results = Learner::where('status','Active') ->where('first_name', 'like', "%$query%") ->where('UNIT_INSTITUTE',$csc_id) ->select('first_name','primary_phone_number','id') ->limit(10) ->get(); return response()->json($results); }
+     
 
-    public function getBeneficiaries(Request $request)
-{
-    $user = Auth::user();
-    if (!$user) {
-        return response()->json(['error' => 'Unauthorized'], 401);
-    }
+//     public function getBeneficiaries(Request $request)
+// {
+//     $user = Auth::user();
+//     if (!$user) {
+//         return response()->json(['error' => 'Unauthorized'], 401);
+//     }
 
-    $csc_id = $user->csc_id;
-    $query  = $request->input('name');
+//     $csc_id = $user->csc_id;
+//     $query  = $request->input('name');
 
-    $results = Learner::where('status', 'Active')
-        ->where('UNIT_INSTITUTE', $csc_id)
-        ->when($query, function ($q) use ($query) {
-            $q->where('first_name', 'like', '%' . $query . '%');
-        })
-        ->select('id', 'first_name', 'primary_phone_number')
-        ->limit(10)
-        ->get();
+//     $results = Learner::where('status', 'Active')
+//         ->where('UNIT_INSTITUTE', $csc_id)
+//         ->when($query, function ($q) use ($query) {
+//             $q->where('first_name', 'like', '%' . $query . '%');
+//         })
+//         ->select('id', 'first_name', 'primary_phone_number')
+//         ->limit(10)
+//         ->get();
 
-    return response()->json([
-        'success' => true,
-        'data'    => $results
-    ]);
-}
+//     return response()->json([
+//         'success' => true,
+//         'data'    => $results
+//     ]);
+// }
 
 
 
