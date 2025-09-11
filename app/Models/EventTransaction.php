@@ -25,7 +25,8 @@ class EventTransaction extends Model
         'ys_id',
         'uploaded_doc_links',
         'comment',
-        'document_type'
+        'document_type',
+        'field_type'
     ];
 
     protected $casts = [
