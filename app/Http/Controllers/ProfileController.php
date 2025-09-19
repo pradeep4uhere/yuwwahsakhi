@@ -345,18 +345,29 @@ class ProfileController extends Controller
             'description' => 'required|string|max:255',
             'opportunity_type' => 'required|string|max:255',
             'payout_monthly'=>'required|integer',
-            'document.*' => 'file|mimes:pdf,jpg,jpeg,png,doc,docx|max:2048',
+             // New date validations
+            'start_date' => 'required|date|after_or_equal:today',
+            'end_date' => 'required|date|after:start_date',
+            'document' => 'file|mimes:pdf,jpg,jpeg,png,doc,docx|max:2048',
+        ]
+        , [
+            'payout_monthly.required' => 'The Monthly Income field is required.',
+            'payout_monthly.integer'  => 'The Monthly Income must be a valid number.',
         ]);
-
         
         $uploadedPaths = [];
 
         // Handle multiple file uploads
+        // if ($request->hasFile('document')) {
+        //     foreach ($request->file('document') as $file) {
+        //         $path = $file->store('uploads/opportunities', 'public'); // store in storage/app/public/uploads/opportunities
+        //         $uploadedPaths[] = $path;
+        //     }
+        // }
         if ($request->hasFile('document')) {
-            foreach ($request->file('document') as $file) {
-                $path = $file->store('uploads/opportunities', 'public'); // store in storage/app/public/uploads/opportunities
-                $uploadedPaths[] = $path;
-            }
+            $file = $request->file('document');
+            $path = $file->store('uploads/opportunities', 'public'); // stores in storage/app/public/uploads/opportunities
+            $uploadedPath = $path; // single file path
         }
 
         try {
@@ -369,7 +380,7 @@ class ProfileController extends Controller
                 'end_date'=>$request->input('end_date'),
                 'number_of_openings'=>$request->input('number_of_openings'),
                 'provider_name'=>'NA',
-                'document' => json_encode($uploadedPaths),
+                'document' => $uploadedPath,
                 'sakhi_id'=>Auth::user()->id
                 // Add other fields if needed
             ]);

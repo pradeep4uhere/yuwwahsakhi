@@ -64,6 +64,7 @@ class Opportunity extends Model
     
     public static function getFormatedSingleData(Opportunity $opportunity)
     {
+        //dd($opportunity->document);
         if ($opportunity) {
             return [
                 'id' => $opportunity->id,
@@ -77,7 +78,7 @@ class Opportunity extends Model
                 'incentive'=> $opportunity->incentive,
                 'number_of_openings' => $opportunity->number_of_openings,
                 'provider_name' => $opportunity->provider_name,
-                'document' => asset('/storage/documents/' . $opportunity->document),
+                'document' => asset('/storage/' . $opportunity->document),
                 'patheway'=>[]
             ];
         }

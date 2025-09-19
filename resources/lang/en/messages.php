@@ -140,7 +140,7 @@ return [
     'description'=>'Description',
     'type'=>'type',
     'job'=>'Job',
-    'Entrepreneurship'=>'Entrepreneurship',
+    'Entrepreneurship'=>'Self Employment',
     'Earning_Potential'=>'Earning Potential (Per Month)',
     'start_date'=>'Start Date',
     'end_date'=>'End Date',
@@ -149,7 +149,7 @@ return [
     'add_opportunity'=>'Add Opportunity',
     'Save Opportunity'=>'Save Opportunity',
     'Please_Enter_Opportunity_Name'=>'Please Enter Opportunity Name',
-    'Please_Enter_Description'=>'Please_Enter_Description',
+    'Please_Enter_Description'=>'Please Enter Description',
     'opportunity2'=>'Please enter how much can be earned in a month',
     'New_Opportunities'=>'New Opportunities',
     'Assign_Learners'=>'Assign Learners',
@@ -211,9 +211,10 @@ return [
       'email1'=>'Email',
       'partner'=>'Partner',
       'partner_division'=>'Divison',
-      'Save_Opportunity'=>'Save Opportunity',
+      'Save_Opportunity'=>'Submit Opportunity',
       'all_comment'=>'All Comment',
-      'date'=>'Date'
+      'date'=>'Date',
+      'monthly_incentive'=>'Incentive'
 
      
 

@@ -112,9 +112,9 @@
 
       <div class="w-[375px] h-[30px] absolute top-[200px] mb-2 p-2  left-[14px] bg-[#fff5f5] flex gap-2 items-center justify-between " style="box-shadow: 0px 4px 10px 0px #00000026;">
 
-      <span class="text-[10px] text-black-700">First Circle - Sikkls</span>
+      <span class="text-[10px] text-black-700">First Circle - Skills</span>
 
-      <span class="text-[10px] text-black-700">Second Cirlce - Social Protection</span>
+      <span class="text-[10px] text-black-700">Second Circle - Social Protection</span>
 
       <span class="text-[10px] text-black-700">Third Circle - Job</span>
 

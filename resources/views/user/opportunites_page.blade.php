@@ -56,8 +56,10 @@
       <div class="w-[340px] h-[40px]  bg-red-100 text-red-700 p-3 rounded mt-5 text-[12px]">{{__('messages.No_Opportunites_Found')}}</div>  
       @else
       <?php if(isset($opportunitesList['data'])){ $count=1; ?>
-      <?php foreach($opportunitesList['data'] as $key=>$item){  ?>
-     
+      <?php foreach($opportunitesList['data'] as $key=>$item){  
+        //$documents = json_decode($item['document'],true);
+        //dd($item['document']);?>
+        
       <!-- Other Opportunites Start Here-->
        
       <div class="opportunity-card min-w-[330px] min-h-[260px] w-auto min-h-[50px] h-auto bg-[#FFFFFF] px-3 py-3 mt-3 overflow-auto cursor-pointer" style="box-shadow: 0px 3px 10px 0px #28388F33;" >
@@ -109,25 +111,20 @@
           </div>
           <div class="">
             <p
-              class="w-[43px] h-[22px] font-Montserrat font-[500] text-[9px] leading-[7.97px] text-center text-[#000000]  mt-[-10px] ml-[9px]">
-               {{__('messages.monthly_salary')}}
+              class="w-[43px] h-[22px] font-Montserrat font-[500] text-[12px] leading-[7.97px] text-center text-[#000000]  mt-[-10px] ml-[9px]">
+               {{__('messages.monthly_incentive')}}
             </p>
             <div
-              class="w-[60px] h-[50px] bg-[#FAFAFA] mt-1 mr-[20px] flex items-center justify-center">
+              class="w-[60px] h-[30px] bg-[#FAFAFA] mt-1 mr-[20px] flex items-center justify-center">
               <p
                 class="w-[60px] h-[30px] font-Montserrat font-[700] text-[12px] leading-[14.63px] text-center text-[#000000]">
-                50/ {{__('messages.learner')}}
+                ₹ 1600 / {{__('messages.learner')}}
                 <img src="{{asset('asset/images/rupeeIcon.png')}}" alt="engLogo" class="w-[8px] h-[12px] mt-[-30px] ml-[10px]">
               </p>
 
             </div>
 
-            <div class="flex mt-[16px] ml-[-54px] gap-2.5">
-              <img src="{{asset('asset/images/briefcase.png')}}" alt="engLogo" class="w-[14px] h-[14px]">
-              <p class="w-[120px] h-[12px] font-[500] text-[10px] leading-[12.19px] text-[#000000] mt-[1.5px] ">
-              {{$item['provider_name']}}
-              </p>
-            </div>
+           
             
           </div>
          

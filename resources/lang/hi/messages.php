@@ -206,6 +206,7 @@ return [
     'partner_division'=>'साझेदार प्रभाग',
     'email1'=>'ईमेल',
     'all_comment'=>'सभी टिप्पणी',
-    'date'=>'तारीख'
+    'date'=>'तारीख',
+    'monthly_incentive'=>'प्रोत्साहन'
     
 ];

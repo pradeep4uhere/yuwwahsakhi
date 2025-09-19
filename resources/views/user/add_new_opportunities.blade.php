@@ -76,15 +76,14 @@
           <label class="font-[400] text-[12px] leading-[14.63px] text-[#000000]">{{__('messages.Attach_Documents')}}</label>
           <div class="flex items-center space-x-2">
             <div class="flex items-center border border-gray-300 rounded-[10px] px-2 py-3 w-full">
-              <span id="file-name[]" class="font-[400] text-[12px] leading-[12.19px] text-[#A7A7A7]  flex-grow ">Upload Document</span>
               <label class="hover:text-blue-500 cursor-pointer">
-                <input type="file" id="file-upload[]" name=document[] class="hidden" onchange="handleFileUploadFile(event)">
-                <img src="{{asset('asset/images/paperclip.png')}}" alt="" class="w-[16px] h-[16px]">
+                <input type="file" id="file-upload" name=document >
+                <!-- <img src="{{asset('asset/images/paperclip.png')}}" alt="" class="w-[16px] h-[16px]"> -->
               </label>
             </div>
-            <a class="text-gray-500 hover:text-red-500 border border-gray-300 rounded-full p-1" onclick="addNewUploadFile()">
+            <!-- <a class="text-gray-500 hover:text-red-500 border border-gray-300 rounded-full p-1" onclick="addNewUploadFile()">
                 <img src="{{asset('asset/images/Add-plus-circle.png')}}" alt="add file" class=" h[20px] w-[20px]">
-            </a>
+            </a> -->
           </div>
         </div>
        
