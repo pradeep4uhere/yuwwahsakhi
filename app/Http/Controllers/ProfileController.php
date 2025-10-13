@@ -353,8 +353,8 @@ class ProfileController extends Controller
     }
     
 
-    Log::debug('Learner List',json_encode($learnerList));
-   // dd($learnerList);
+    //Log::debug('Learner ',json_encode($learnerList));
+   dd($learnerList);
     return view($this->dir . '.learner_page', [
         'leanerList' => $learnerList,
         'total'=>count($learnerList),
