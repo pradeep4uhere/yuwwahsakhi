@@ -150,7 +150,8 @@
             </div>
           </div>
           <!-- <div class="flex gap-1.5">
-           <?php if($_SERVER['REMOTE_ADDR']=='106.221.235.248'){  dd($item);  } ?>
+           <?php if($_SERVER['REMOTE_ADDR']=='106.221.235.248'){  //dd($item); 
+             } ?>
             
           </div> -->
           <div class="flex gap-2.5">
