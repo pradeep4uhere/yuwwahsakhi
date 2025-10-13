@@ -178,7 +178,10 @@
                   <?php }else{ ?>
                     <div class="w-5 h-5 rounded-full bg-white border border-black"></div>
                   <?php } ?>
+          <?php }else{?>
+            <div class="w-5 h-5 rounded-full bg-white border border-black"></div>
           <?php } ?>
+            
           
           
           <?php if($item['job_event']['is_job_event']){ ?>
@@ -193,6 +196,8 @@
                   <?php }else{ ?>
                     <div class="w-5 h-5 rounded-full bg-white border border-black"></div>
                   <?php } ?>
+          <?php }else{?>
+            <div class="w-5 h-5 rounded-full bg-white border border-black"></div>
           <?php } ?>
 
   
