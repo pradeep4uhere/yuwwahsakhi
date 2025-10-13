@@ -353,6 +353,7 @@ class ProfileController extends Controller
     }
     
 
+    Log::debug('Learner List',json_encode($learnerList));
    // dd($learnerList);
     return view($this->dir . '.learner_page', [
         'leanerList' => $learnerList,
@@ -454,7 +455,7 @@ private function checkEventTypeJobSocialProtection($eventTransactionList, $learn
 
         
         } catch (Exception $e) {
-            // Log the error for debugging
+            // LogLog the error for debugging
             Log::error('Failed to create opportunity: ' . $e->getMessage());
             return back()->with('error', 'Opportunity not created!'.$e->getMessage());
         }
