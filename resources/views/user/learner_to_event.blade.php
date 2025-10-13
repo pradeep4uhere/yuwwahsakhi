@@ -297,13 +297,18 @@ $('#event_type').on('change', function () {
                 type: "GET",
                 data: { name: query },
                 success: function (data) {
+                  if(data.status===false){
+                    let suggestions = $('#suggestions');
+                    suggestions.empty().removeClass('hidden');
+                    suggestions.html('<div class="px-3 py-1 text-sm text-red-500"> Opps, '+data.message+'</div>');
+                  }else{
                     let suggestions = $('#suggestions');
                     suggestions.empty().removeClass('hidden');
                     
-                    if (data.length === 0) {
+                    if (data.dataSet.length === 0) {
                         suggestions.html('<div class="px-3 py-1 text-sm text-gray-500">No results found</div>');
                     } else {
-                        $.each(data, function (i, item) {
+                        $.each(data.dataSet, function (i, item) {
                             suggestions.append(
                                 `<div class="px-3 py-2 cursor-pointer hover:bg-blue-100 text-sm" data-name="${item.first_name}" data-number="${item.primary_phone_number}">
                                     ${item.first_name} | ${item.primary_phone_number}
@@ -311,6 +316,7 @@ $('#event_type').on('change', function () {
                             );
                         });
                     }
+                  }
                 }
             });
         } else {

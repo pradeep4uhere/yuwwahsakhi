@@ -159,14 +159,34 @@ class ApiAuthController extends Controller
     {
        
         Log::info('Locale set to: ' . app()->getLocale());
-        $validator = Validator::make($request->all(), [
+        /*$validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
             'partner_id' => 'required|string|max:255',
             'email' => 'required|email|unique:partners,email,'. $partnerId,
             'contact_number' => 'required|string|max:15',
             'password' => 'required|string|max:255',
             'status' => 'required|boolean',
+        ]);*/
+
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|string|max:255',
+            'partner_id' => [
+                'required',
+                'string',
+                'max:255',
+                Rule::unique('partners', 'partner_id')->ignore($partnerId),
+            ],
+            'email' => [
+                'required',
+                'email',
+                Rule::unique('partners', 'email')->ignore($partnerId),
+            ],
+            'contact_number' => 'required|string|max:15',
+            'password' => 'required|string|max:255',
+            'status' => 'required|boolean',
         ]);
+
+
         if ($validator->fails()) {
             return response()->json([
                 'status'=>false,
@@ -206,7 +226,7 @@ class ApiAuthController extends Controller
             return response()->json([
                 'status'=>false,
                 'message' => _('message.failed_to_update_partner'),
-                'error' => $e->getMessage(),
+                'errors' => $e->getMessage(),
             ], 500);
         }
     }

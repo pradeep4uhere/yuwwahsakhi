@@ -257,6 +257,7 @@ class ProfileController extends Controller
     public function LearnerList(Request $request)
 {
     $cscid = Auth::user()->csc_id;
+    $ys_id = Auth::user()->id;
 
     // Base query
     $query = Learner::where('learners.status', 'Active')
@@ -280,8 +281,10 @@ class ProfileController extends Controller
     }
     // Add latest events join
     $latestEvents = DB::table('event_transactions')
-        ->select('learner_id', DB::raw('MAX(updated_at) as last_event_update'))
-        ->groupBy('learner_id');
+    ->select('learner_id', 'updated_at as last_event_update','ys_id')
+    ->where('ys_id', $ys_id)
+    ->orderBy('id', 'DESC');
+   
 
     $query->leftJoin('yhub_learners', function ($join) {
             $join->on('learners.primary_phone_number', '=', DB::raw("REPLACE(yhub_learners.email_address, '+91 ', '')"));
@@ -310,6 +313,15 @@ class ProfileController extends Controller
         ->whereRaw('LOWER(name) = ?', ['job'])
         ->value('id');
 
+        // After building the $query but before paginate()
+        $sql = $query->toSql();
+        $bindings = $query->getBindings();
+
+        //dd(vsprintf(str_replace('?', '%s', $sql), collect($bindings)->map(function ($binding) {
+        //    return is_numeric($binding) ? $binding : "'{$binding}'";
+        //})->toArray()));
+
+    //dd($learnerList);
     return view($this->dir . '.learner_page', [
         'leanerList' => $learnerList,
         'jobEventId'=> $eventTypeId
@@ -402,10 +414,12 @@ class ProfileController extends Controller
     public function AssignLearnerOpportunities(Request $request, $id)
     {
         $idStirng = decryptString($id);
+        $cscid = Auth::user()->csc_id;
         $opportunities = Opportunity::find($idStirng);
 
         $query = Learner::with(['OpportunitiesAssigned'])
-            ->where('status', 'Active');
+            ->where('status', 'Active')
+            ->where('UNIT_INSTITUTE', $cscid);
 
         // Extract filters
         $filters = $request->only([
@@ -1234,33 +1248,64 @@ As a catalytic multi-stakeholder partnership, YuWaah is dedicated to transformin
 
 
 
-      public function getBeneficiaries(Request $request) { $csc_id = Auth::user()->csc_id; $query = $request->input('name'); $results = Learner::where('status','Active') ->where('first_name', 'like', "%$query%") ->where('UNIT_INSTITUTE',$csc_id) ->select('first_name','primary_phone_number','id') ->limit(10) ->get(); return response()->json($results); }
-     
+      public function getBeneficiaries(Request $request) { 
+        try {
+            $csc_id = Auth::user()->csc_id;
+            // ❌ If CSC ID is missing, return proper error
+            if (empty($csc_id)) {
+                return response()->json([
+                    'status'  => false,
+                    'message' => 'Unit Name (CSC ID) not found for the authenticated user.',
+                ], 400);
+            }
 
-//     public function getBeneficiaries(Request $request)
-// {
-//     $user = Auth::user();
-//     if (!$user) {
-//         return response()->json(['error' => 'Unauthorized'], 401);
-//     }
+            // ✅ Validate input
+            $validated = $request->validate([
+                'name' => 'nullable|string|max:100',
+            ]);
 
-//     $csc_id = $user->csc_id;
-//     $query  = $request->input('name');
+            $query = $validated['name'] ?? '';
 
-//     $results = Learner::where('status', 'Active')
-//         ->where('UNIT_INSTITUTE', $csc_id)
-//         ->when($query, function ($q) use ($query) {
-//             $q->where('first_name', 'like', '%' . $query . '%');
-//         })
-//         ->select('id', 'first_name', 'primary_phone_number')
-//         ->limit(10)
-//         ->get();
+              // ✅ Build query with proper conditions
+            $resultsArr = Learner::where('status', 'Active')
+            ->where('UNIT_INSTITUTE', $csc_id)
+            ->when($query, function ($q) use ($query) {
+                $q->where(function ($inner) use ($query) {
+                    $inner->where('first_name', 'like', "%{$query}%")
+                        ->orWhere('last_name', 'like', "%{$query}%");
+                });
+            })
+            ->select('id', 'first_name', 'primary_phone_number')
+            ->limit(20)
+            ->get();
 
-//     return response()->json([
-//         'success' => true,
-//         'data'    => $results
-//     ]);
-// }
+        return response()->json([
+            'status'  => true,
+            'dataSet' => $resultsArr,
+        ], 200);
+
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            // ❌ Validation error handling
+            return response()->json([
+                'status'  => false,
+                'message' => 'Validation failed.',
+                'errors'  => $e->errors(),
+            ], 422);
+
+        } catch (\Exception $e) {
+            // ❌ General error handling
+            \Log::error('Error in getBeneficiaries: '.$e->getMessage(), [
+                'trace' => $e->getTraceAsString(),
+            ]);
+
+            return response()->json([
+                'status'  => false,
+                'message' => 'An unexpected error occurred. Please try again later.',
+            ], 500);
+        }
+    }
+        
+
 
 
 

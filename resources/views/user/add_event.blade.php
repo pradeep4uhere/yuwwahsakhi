@@ -83,7 +83,7 @@
       </div>
         <div class="space-y-1">
           <label for="opportunity" class="font-[400] text-[12px] leading-[14.63px] text-[#000000]">{{__('messages.beneficiary_phone_number')}}</label>
-          <input id="beneficiary_number" type="text" name="beneficiary_phone_number" placeholder="Please Enter  phone number" class="text-xs w-full border rounded px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 placeholder:font-[400] placeholder:text-[10px] placeholder:leading-[12.19px] placeholder:text-[#A7A7A7] rounded-[10px] placeholder:border-[1px]"  value="{{ old('beneficiary_phone_number') }}">
+          <input id="beneficiary_number" type="text" name="beneficiary_phone_number" placeholder="Please Enter  phone number" class="text-xs w-full border rounded px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 placeholder:font-[400] placeholder:text-[10px] placeholder:leading-[12.19px] placeholder:text-[#A7A7A7] rounded-[10px] placeholder:border-[1px]"  value="{{ old('beneficiary_phone_number') }}" readonly="readonly">
         </div>
       
        
@@ -275,13 +275,18 @@ $('#event_category').on('change', function () {
                 type: "GET",
                 data: { name: query },
                 success: function (data) {
+                  console.log(data);
+                  if(data.status===false){
                     let suggestions = $('#suggestions');
                     suggestions.empty().removeClass('hidden');
-                    
-                    if (data.length === 0) {
-                        suggestions.html('<div class="px-3 py-1 text-sm text-gray-500">No results found</div>');
+                    suggestions.html('<div class="px-3 py-1 text-sm text-red-500"> Opps, '+data.message+'</div>');
+                  }else{
+                    let suggestions = $('#suggestions');
+                    suggestions.empty().removeClass('hidden');
+                    if (data.dataSet.length === 0) {
+                        suggestions.html('<div class="px-3 py-1 text-sm text-red-500">No results found</div>');
                     } else {
-                        $.each(data, function (i, item) {
+                        $.each(data.dataSet, function (i, item) {
                           console.log(item)
                             suggestions.append(
                                 `<div class="px-3 py-2 cursor-pointer hover:bg-blue-100 text-sm" data-name="${item.first_name}" data-learner_id="${item.id}" data-number="${item.primary_phone_number}">
@@ -290,6 +295,7 @@ $('#event_category').on('change', function () {
                             );
                         });
                     }
+                  }
                 }
             });
         } else {

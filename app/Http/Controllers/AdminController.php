@@ -189,8 +189,9 @@ class AdminController extends Controller
             //dd($response);
             // If the response is a JsonResponse, you can convert it into an array
             $responseArray = $response->getData(true);  // Convert to array
-            //dd($responseArray);
+           // dd($responseArray);
             // Optionally, dump the response for debugging
+            //dd($responseArray['error']);
             if ($responseArray['status'] === false) {
                 $errors = $responseArray['errors'];
                 $success = [];
