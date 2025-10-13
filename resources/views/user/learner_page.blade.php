@@ -9,7 +9,7 @@
       <div class="mt-2 flex justify-between items-center">
         <h1
           class="w-[262px] h-[17px] absolute top-[106px] left-[32px] font-[500] text-[14px] leading-[17.07px] text-[#000000]">
-          {{__('messages.Learner_Search_Filter')}} [{{$leanerList->total()}}]
+          {{__('messages.Learner_Search_Filter')}} [{{$total}}]
         </h1>
         <button class="w-[60px] h-[30px] absolute top-[100px] left-[310px] rounded-[10px] bg-[#28388F1A]"
           onclick="toggleFilterForm()">

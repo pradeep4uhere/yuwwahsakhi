@@ -284,7 +284,14 @@ class ProfileController extends Controller
     ->select('learner_id', 'updated_at as last_event_update','ys_id')
     ->where('ys_id', $ys_id)
     ->orderBy('id', 'DESC');
-   
+
+
+    
+    // $sql = $latestEvents->toSql();
+    // $bindings = $latestEvents->getBindings();
+    // dd(vsprintf(str_replace('?', '%s', $sql), collect($bindings)->map(function ($binding) {
+    //        return is_numeric($binding) ? $binding : "'{$binding}'";
+    //     })->toArray()));
 
     $query->leftJoin('yhub_learners', function ($join) {
             $join->on('learners.primary_phone_number', '=', DB::raw("REPLACE(yhub_learners.email_address, '+91 ', '')"));
@@ -293,19 +300,32 @@ class ProfileController extends Controller
             $join->on('learners.id', '=', 'et.learner_id');
         })
         ->select([
-            'learners.*',
+            'learners.id',
+            'learners.UNIT_INSTITUTE',
+            'learners.first_name','learners.last_name','learners.primary_phone_number',
             'yhub_learners.email_address as yhub_email_address',
             'yhub_learners.completion_status as completion_status',
             DB::raw('COALESCE(et.last_event_update, learners.updated_at) as sort_updated_at')
         ])
-        ->orderBy('sort_updated_at', 'desc');
+        ->groupBy(
+            'learners.id',
+            'learners.UNIT_INSTITUTE',
+            'learners.first_name',
+            'learners.last_name',
+            'learners.primary_phone_number',
+            'yhub_learners.email_address',
+            'yhub_learners.completion_status',
+            'et.last_event_update',
+            'learners.updated_at'
+        )
+        ->orderBy('sort_updated_at', 'desc')
+        ->distinct();   // 👈 Ensures unique rows;
 
     // Debug SQL if needed
     // dd($query->toSql(), $query->getBindings());
 
     // Now paginate once, at the very end
-    $learnerList = $query->with('eventTransactions')
-        ->paginate(20)
+    $learnerListArr = $query->paginate(20)
         ->appends($request->query());
 
     // Get job event type id
@@ -314,16 +334,20 @@ class ProfileController extends Controller
         ->value('id');
 
         // After building the $query but before paginate()
-        $sql = $query->toSql();
-        $bindings = $query->getBindings();
+        //$sql = $query->toSql();
+        //$bindings = $query->getBindings();
 
-        //dd(vsprintf(str_replace('?', '%s', $sql), collect($bindings)->map(function ($binding) {
+        // dd(vsprintf(str_replace('?', '%s', $sql), collect($bindings)->map(function ($binding) {
         //    return is_numeric($binding) ? $binding : "'{$binding}'";
-        //})->toArray()));
+        // })->toArray()));
 
-    //dd($learnerList);
+    //dd($learnerListArr);
+    foreach($learnerListArr as $item){
+        $learnerList[$item['id']]=$item;
+    }
     return view($this->dir . '.learner_page', [
         'leanerList' => $learnerList,
+        'total'=>count($learnerList),
         'jobEventId'=> $eventTypeId
     ]);
 }
