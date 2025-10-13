@@ -175,7 +175,9 @@
                     <div class="w-5 h-5 rounded-full bg-orange-500"></div>
                   <?php }elseif($item['social_protection']['is_submitted']=='' &&  $item['social_protection']['review_status']==''){ ?>
                     <div class="w-5 h-5 rounded-full bg-blue-500"></div>
-                  <?php }else{ ?>
+                  <?php }elseif($item['social_protection']['is_submitted']!='' &&  $item['social_protection']['review_status']==''){ ?>
+                    <div class="w-5 h-5 rounded-full bg-blue-500"></div>
+                 <?php }else{ ?>
                     <div class="w-5 h-5 rounded-full bg-white border border-black"></div>
                   <?php } ?>
           <?php }else{?>
