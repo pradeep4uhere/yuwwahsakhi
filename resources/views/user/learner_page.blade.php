@@ -119,12 +119,13 @@
       <span class="text-[10px] text-black-700">Third Circle - Job</span>
 
       </div>
+<?php //dd($leanerList); ?>
       @foreach($leanerList as $item)
       @php
         $top =240 + ($loop->index * 80);
       @endphp
       <!-- <div class="mt-6 flex gap-2 items-center justify-between"> -->
-      <a href="{{route('learner.details',['id'=>encryptString($item['id'])])}}"
+      <a href="{{route('learner.details',['id'=>encryptString($item['item']['id'])])}}"
         class="w-[375px] h-[70px] absolute top-[{{$top}}px]  left-[14px] rounded-[10px] bg-[#FFFFFF] flex gap-2 items-center justify-between cursor-pointer"
         style="box-shadow: 0px 4px 10px 0px #00000026;">
         <div class="flex justify-center gap-2 items-center">
@@ -137,13 +138,13 @@
           <div class="flex flex-col items-center gap-1.5">
             <div
               class="w-[200px] h-[17px] ml-[5px] font-Montserrat font-[500] text-[12px] leading-[17.07px] text-[#000000]">
-             {{ \Illuminate\Support\Str::limit($item['first_name'], 20) }}<br/>
+             {{ \Illuminate\Support\Str::limit($item['item']['first_name'], 20) }}<br/>
              <div class="flex gap-1.5 ">
               <span>
                 <img src="{{asset('asset/images/phone.png')}}" class="w-[10px] h-[10px]" alt="">
               </span>
               <span class="min-w-[64px] min-h-[12px] w-auto h-auto font-[500] text-[10px] leading-[12.19px] text-[#000000]">
-              {{$item['primary_phone_number']}}
+              {{$item['item']['primary_phone_number']}}
               </span>
             </div>
             </div>
@@ -154,99 +155,52 @@
           </div> -->
           <div class="flex gap-2.5">
             <!--  -->
-            @if($item['completion_status']==1)
+            <?php //dd($item);
+            //die;
+            ?>
+            @if($item['item']['completion_status']==1)
             <div class="w-5 h-5 rounded-full bg-green-500"></div>
             @else
             <div class="w-5 h-5 rounded-full bg-white border border-black"></div>
             @endif
-            @php
-            
-                //dd($item['eventTransactions']);
-                $transactions = $item['eventTransactions'];
-                $hasAcceptedJob = '';
-                $hasActionRequiredOnJob = '';
-                $hasJobsubmitted = '';
-                $hasJobRejected='';
-
-
-
-                $hasAcceptedEvent = '';
-                $hasActionRequiredOnEvent = '';
-                $hasEventSubmitted = '';
-                $hasEventRejected = '';
-
-                foreach($item['eventTransactions'] as $eventTransactionItem){ 
-                if($jobEventId == $eventTransactionItem['event_type']){
-                  // If Review Status NULL
-                  if($eventTransactionItem['review_status']=='Accepted'){
-                    $hasAcceptedJob = true;
-                  }else if($eventTransactionItem['review_status']==''){
-                    $hasJobsubmitted = true;
-                  }else if($eventTransactionItem['review_status']=='Rejected'){
-                    $hasJobRejected = true;
-                  }else{
-                    $hasActionRequiredOnJob = true;
-                  }
-                }else{
-                  // If Review Status NULL
-                  if($eventTransactionItem['review_status']=='Accepted'){
-                    $hasAcceptedEvent = true;
-                  }else if($eventTransactionItem['review_status']==''){
-                    $hasEventSubmitted = true;
-                  }else if($eventTransactionItem['review_status']=='Rejected'){
-                    $hasEventRejected = true;
-                  }else{
-                    $hasActionRequiredOnEvent = true;
-                  }
-                } 
-              }
-
-
-                //dd($transactions)
-                $count = $transactions->count();
-                $allAccepted = $transactions->every(fn($t) => $t->review_status === 'Accepted');
-
-                // This is your additional condition
-                $hasAcceptedJob = $transactions->contains(function ($t) use ($jobEventId) {
-                  return $t->event_type == $jobEventId && $t->review_status === 'Accepted';
-              });
-            @endphp
-            @if($count == 0)
-          {{-- Case: No records --}}
-            <div class="w-5 h-5 rounded-full bg-white border border-black"></div>
-            <div class="w-5 h-5 rounded-full bg-white border border-black"></div>
-
-        @else
            
-
            
+         
+          <?php if($item['social_protection']['is_social_event']){ ?>
+                  <?php if($item['social_protection']['is_submitted']!='' &&  $item['social_protection']['review_status']!='Accepted'){ ?>
+                    <div class="w-5 h-5 rounded-full bg-orange-500"></div>
+                  <?php }elseif($item['social_protection']['is_submitted']!='' &&  $item['social_protection']['review_status']=='Rejected'){ ?>
+                    <div class="w-5 h-5 rounded-full bg-red-500"></div>
+                  <?php }elseif($item['social_protection']['is_submitted']!='' &&  $item['social_protection']['review_status']=='Accepted'){ ?>
+                    <div class="w-5 h-5 rounded-full bg-orange-500"></div>
+                  <?php }elseif($item['social_protection']['is_submitted']=='' &&  $item['social_protection']['review_status']==''){ ?>
+                    <div class="w-5 h-5 rounded-full bg-blue-500"></div>
+                  <?php }else{ ?>
+                    <div class="w-5 h-5 rounded-full bg-white border border-black"></div>
+                  <?php } ?>
+          <?php } ?>
+          
+          
+          <?php if($item['job_event']['is_job_event']){ ?>
+                  <?php if($item['job_event']['is_submitted']!='' &&  $item['job_event']['review_status']!='Accepted'){ ?>
+                    <div class="w-5 h-5 rounded-full bg-orange-500"></div>
+                  <?php }elseif($item['job_event']['is_submitted']!='' &&  $item['job_event']['review_status']=='Rejected'){ ?>
+                    <div class="w-5 h-5 rounded-full bg-red-500"></div>
+                  <?php }elseif($item['job_event']['is_submitted']!='' &&  $item['job_event']['review_status']=='Accepted'){ ?>
+                    <div class="w-5 h-5 rounded-full bg-orange-500"></div>
+                  <?php }elseif($item['job_event']['is_submitted']=='' &&  $item['job_event']['review_status']==''){ ?>
+                    <div class="w-5 h-5 rounded-full bg-blue-500"></div>
+                  <?php }else{ ?>
+                    <div class="w-5 h-5 rounded-full bg-white border border-black"></div>
+                  <?php } ?>
+          <?php } ?>
 
-            {{-- Second indicator --}}
-            @if($hasAcceptedEvent) <div class="w-5 h-5 rounded-full bg-green-500"></div>
-            @elseif($hasActionRequiredOnEvent)<div class="w-5 h-5 rounded-full bg-orange-500"></div>
-            @elseif($hasEventSubmitted)<div class="w-5 h-5 rounded-full bg-blue-500"></div>
-            @elseif($hasEventRejected)<div class="w-5 h-5 rounded-full bg-red-500"></div>
-            @else<div class="w-5 h-5 rounded-full bg-white border border-black"></div>@endif
-
-
-            {{-- Third indicator --}}
-            @if($hasAcceptedJob) <div class="w-5 h-5 rounded-full bg-green-500"></div>
-            @elseif($hasActionRequiredOnJob)<div class="w-5 h-5 rounded-full bg-orange-500"></div>
-            @elseif($hasJobsubmitted)<div class="w-5 h-5 rounded-full bg-blue-500"></div>
-            @elseif($hasJobRejected)<div class="w-5 h-5 rounded-full bg-red-500"></div>
-            @else<div class="w-5 h-5 rounded-full bg-white border border-black"></div>@endif
-            
-
-  @endif
+  
           </div>
         </div>
           <!-- Event Transactions: Only if present -->
-       
-
-        
       </a>
       @endforeach
-      
     </div>
     </div>
   </div>

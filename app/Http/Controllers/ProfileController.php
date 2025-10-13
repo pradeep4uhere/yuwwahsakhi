@@ -281,7 +281,7 @@ class ProfileController extends Controller
     }
     // Add latest events join
     $latestEvents = DB::table('event_transactions')
-    ->select('learner_id', 'updated_at as last_event_update','ys_id')
+    ->select('*', 'updated_at as last_event_update')
     ->where('ys_id', $ys_id)
     ->orderBy('id', 'DESC');
 
@@ -342,9 +342,18 @@ class ProfileController extends Controller
         // })->toArray()));
 
     //dd($learnerListArr);
+    $eventTransactionList = $latestEvents->get();
+
     foreach($learnerListArr as $item){
-        $learnerList[$item['id']]=$item;
+        $learnerList[$item['id']]=array(
+            'item'=>$item,
+            'job_event'=> $this->checkIsJobEvent($eventTransactionList,$item['id']),
+            'social_protection' => $this->checkEventTypeJobSocialProtection($eventTransactionList,$item['id'])
+        );
     }
+    
+
+   // dd($learnerList);
     return view($this->dir . '.learner_page', [
         'leanerList' => $learnerList,
         'total'=>count($learnerList),
@@ -354,6 +363,27 @@ class ProfileController extends Controller
 
 
 
+private function checkIsJobEvent($eventTransactionList, $learner_id)
+{
+    foreach ($eventTransactionList as $item) {
+        if ($item->learner_id == $learner_id && (int)$item->event_id === 2) {
+            return array('is_job_event'=>true, 'is_submitted'=> $item->event_date_submitted,'review_status'=> $item->review_status);
+        }
+    }
+    return array('is_job_event'=>false, 'is_submitted'=> "",'review_status'=> "");
+}
+
+
+
+private function checkEventTypeJobSocialProtection($eventTransactionList, $learner_id)
+{
+    foreach ($eventTransactionList as $item) {
+        if ($item->learner_id == $learner_id && (int)$item->event_id === 1) {
+            return array('is_social_event'=>true, 'is_submitted'=> $item->event_date_submitted,'review_status'=> $item->review_status);
+        }
+    }
+    return array('is_social_event'=>false, 'is_submitted'=> "",'review_status'=> "");
+}
 
 
 
