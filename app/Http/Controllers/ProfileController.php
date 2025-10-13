@@ -367,7 +367,7 @@ class ProfileController extends Controller
 private function checkIsJobEvent($eventTransactionList, $learner_id)
 {
     foreach ($eventTransactionList as $item) {
-        if ($item->learner_id == $learner_id && (int)$item->event_id === 2) {
+        if ($item->learner_id == $learner_id && (int)$item->event_id != 3) {
             return array('is_job_event'=>true, 'is_submitted'=> $item->event_date_submitted,'review_status'=> $item->review_status);
         }
     }
@@ -379,7 +379,7 @@ private function checkIsJobEvent($eventTransactionList, $learner_id)
 private function checkEventTypeJobSocialProtection($eventTransactionList, $learner_id)
 {
     foreach ($eventTransactionList as $item) {
-        if ($item->learner_id == $learner_id && (int)$item->event_id === 1) {
+        if ($item->learner_id == $learner_id && (int)$item->event_id === 3) {
             return array('is_social_event'=>true, 'is_submitted'=> $item->event_date_submitted,'review_status'=> $item->review_status);
         }
     }
