@@ -342,6 +342,7 @@ class ProfileController extends Controller
         // })->toArray()));
 
     //dd($learnerListArr);
+    $learnerList =[];
     $eventTransactionList = $latestEvents->get();
     //dd($eventTransactionList);
     foreach($learnerListArr as $item){
