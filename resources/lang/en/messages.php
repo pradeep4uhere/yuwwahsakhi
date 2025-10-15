@@ -96,7 +96,7 @@ return [
     'edit_event_type'=>'Edit Event Type',
     'edit_event_category'=>'Edit Event Category',
     'incentive'=>'Incentive',
-    'job_oppening'=>'Job Ooppening',
+    'job_oppening'=>'Job Oppening',
     'filters'=>'Filter',
     'sort_by'=>'Sort By',
     'all_submitted_event'=>'All Submitted Event',
