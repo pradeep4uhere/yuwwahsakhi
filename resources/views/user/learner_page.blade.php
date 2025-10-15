@@ -188,14 +188,14 @@
           
           
           <?php if($item['job_event']['is_job_event']){ ?>
-                  <?php if($item['job_event']['is_submitted']!='' &&  $item['job_event']['review_status']!='Accepted'){ ?>
-                    <div class="w-5 h-5 rounded-full bg-orange-500"></div>
+                  <?php if($item['job_event']['is_submitted']!='' &&  $item['job_event']['review_status']==''){ ?>
+                    <div class="w-5 h-5 rounded-full bg-blue-500"></div>
                   <?php }elseif($item['job_event']['is_submitted']!='' &&  $item['job_event']['review_status']=='Rejected'){ ?>
                     <div class="w-5 h-5 rounded-full bg-red-500"></div>
                   <?php }elseif($item['job_event']['is_submitted']!='' &&  $item['job_event']['review_status']=='Accepted'){ ?>
                     <div class="w-5 h-5 rounded-full bg-green-500"></div>
-                  <?php }elseif($item['job_event']['is_submitted']=='' &&  $item['job_event']['review_status']==''){ ?>
-                    <div class="w-5 h-5 rounded-full bg-blue-500"></div>
+                  <?php }elseif($item['job_event']['is_submitted']!='' &&  $item['job_event']['review_status']!='Accepted'){ ?>
+                    <div class="w-5 h-5 rounded-full bg-orange-500"></div>
                   <?php }else{ ?>
                     <div class="w-5 h-5 rounded-full bg-white border border-black"></div>
                   <?php } ?>
