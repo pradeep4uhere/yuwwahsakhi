@@ -27,6 +27,7 @@ class YuwaahSakhi extends Authenticatable
      // Define fillable fields
     protected $fillable = [
         'sakhi_id',
+        
         'name',
         'contact_number',
         'email',

@@ -1358,6 +1358,7 @@ public function importvle(Request $request)
         YuwaahSakhi::create([
             'password'          => $defaultPassword,  // reuse hashed password
             'sakhi_id'          => generateYuwaahSakhiCode($request['partner_id'],$request['partner_center_id']),
+            'csc_id'            => $row[0],
             'name'              => $row[4],
             'email'             => $email,
             'district'          => $row[2],

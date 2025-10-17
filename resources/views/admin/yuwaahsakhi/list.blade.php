@@ -35,12 +35,13 @@
                     <div class="activity-data">
                         <x-alert />
                     </div>
-                    <div class="table-containers">
+                    <div class="table-container overflow">
                         <table class="table table-striped table-bordered">
                         <thead>
                             <tr>
                                 <th>SN</th>
                                 <th>Field Center ID</th>
+                                <th>Program Code</th>
                                 <th>Field Center Name</th>
                                 <th>Partner</th>
                                 <th>Partner Division</th>
@@ -57,10 +58,11 @@
                                   foreach($response['data'] as $item){ //dd($item); ?>
                             <tr>
                                 <td>{{$count}}</td>
-                                <td>{{$item['sakhiId']}}</td>
-                                <td>{{$item['Name']}}</td>
-                                <td>{{ucwords($item['Partner'])}}</td>
-                                <td>{{ucwords($item['PartnerCenter'])}}</td>
+                                <td nowrap="nowrap">{{$item['sakhiId']}}</td>
+                                <td nowrap="nowrap">{{$item['CSC_ID']}}</td>
+                                <td nowrap="nowrap">{{$item['Name']}}</td>
+                                <td nowrap="nowrap">{{ucwords($item['Partner'])}}</td>
+                                <td nowrap="nowrap">{{ucwords($item['PartnerCenter'])}}</td>
                                 <td>{{$item['ContactNumber']}}</td>
                                 <td>{{$item['Email']}}</td>
                                 <td>{{getLearnerCount($item['CSC_ID'])}}</td>
