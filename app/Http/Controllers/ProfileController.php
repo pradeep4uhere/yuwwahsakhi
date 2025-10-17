@@ -700,7 +700,7 @@ private function checkEventTypeJobSocialProtection($eventTransactionList, $learn
             foreach ($documentFields as $field) {
             $others = array_diff($documentFields, [$field]);
             $rules[$field] = 'required_without_all:' . implode(',', $others) 
-                        . '|file|mimes:pdf,jpg,jpeg,png,doc,docx|max:2048';
+                        . '|file|mimes:pdf,jpg,jpeg,png,doc,docx|max:10240';
             }
 
             // Step 4: Custom messages
