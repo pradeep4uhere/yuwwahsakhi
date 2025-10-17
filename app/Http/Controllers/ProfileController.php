@@ -416,7 +416,7 @@ private function checkEventTypeJobSocialProtection($eventTransactionList, $learn
              // New date validations
             'start_date' => 'required|date|after_or_equal:today',
             'end_date' => 'required|date|after:start_date',
-            'document' => 'file|mimes:pdf,jpg,jpeg,png,doc,docx|max:2048',
+            'document' => 'file|mimes:pdf,jpg,jpeg,png,doc,docx|max:10240',
         ]
         , [
             'payout_monthly.required' => 'The Monthly Income field is required.',
