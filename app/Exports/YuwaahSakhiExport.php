@@ -19,6 +19,7 @@ class YuwaahSakhiExport implements FromCollection, WithHeadings
         ->leftJoin('partner_centers as pc', 'ys.partner_center_id', '=', 'pc.id')
         ->select(
             'ys.id',
+            'ys.csc_id',
             'ys.sakhi_id',
             'ys.name',
             'ys.contact_number',
@@ -37,6 +38,7 @@ class YuwaahSakhiExport implements FromCollection, WithHeadings
     {
         return [
             'ID',
+            'Program Name',
             'Sakhi ID',
             'Name',
             'Contact Number',
