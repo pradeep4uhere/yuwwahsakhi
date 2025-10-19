@@ -15,6 +15,7 @@ use App\Models\YuwaahSakhi;
 use App\Models\YuwaahEventMaster;
 use App\Models\YuwaahEventType;
 use App\Models\YhubLearner;
+use App\Models\EventTransaction;
 use Illuminate\Support\Facades\Storage;
 use App\Models\YuwaahSakhiSetting;
 use App\Models\Learner;
@@ -1832,6 +1833,65 @@ public function allLearnerSkillsList(Request $request){
     ]);
 }
 
+
+
+
+public function importEventTransactionForm(Request $request){
+    $partnerList = Partner::where('status','=',1)->get();
+    return view('admin.eventtransaction.importform', [
+        'title' => 'Event Transaction Import',
+        'partnerList'=>$partnerList
+    ]);
+}
+
+
+
+public function importEventTransaction(Request $request)
+{
+    $request->validate([
+        'partner_id'        => 'required',
+        'partner_center_id' => 'required',
+        'file'              => 'required|mimes:csv,txt'
+    ]);
+
+    $path = $request->file('file')->getRealPath();
+    $file = fopen($path, 'r');
+    $header = fgetcsv($file); // skip header row
+
+    //dd($request->all());
+
+    while (($row = fgetcsv($file, 1000, ',')) !== FALSE) {
+          // Convert all columns to UTF-8
+    $row = array_map(function ($field) {
+        return mb_convert_encoding($field, 'UTF-8', 'ISO-8859-1');
+    }, $row);
+    $eventValue = preg_replace('/[^0-9.\-]/', '', $row[1]); 
+
+    
+    // If it's empty or not numeric, set it to 0
+    if ($eventValue === '' || !is_numeric($eventValue)) {
+        $eventValue = 0;
+    }
+    
+    EventTransaction::create([
+            'beneficiary_phone_number'  => $row[0],  // reuse hashed password
+            'event_value'               => $eventValue,
+            'event_id'                  => $row[6],
+            'event_type'                => $row[6],
+            'event_category'            => $row[7],
+            'event_name'                => $row[5],
+            'review_status'             => $row[9],
+            'event_date_created'        => now(),
+            'event_date_submitted'      => now(),
+            'ys_id'                     => $row[10]
+        ]);
+       
+    }
+
+    fclose($file);
+
+    return back()->with('success', 'CSV Imported Successfully!');
+}
 
 
 

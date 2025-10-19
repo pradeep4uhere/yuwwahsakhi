@@ -25,6 +25,7 @@ class EventTransaction extends Model
         'ys_id',
         'uploaded_doc_links',
         'comment',
+        'review_status',
         'document_type',
         'field_type'
     ];

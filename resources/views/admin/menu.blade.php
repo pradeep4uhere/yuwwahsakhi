@@ -177,11 +177,21 @@
                 <li class="{{ request()->is('promotions') ? 'activelink' : '' }}">                    
                     <a href="{{route('admin.import.vle')}}" id="promotion-link">
                         <i class="uil uil-import
-                            {{ request()->routeIs('admin.yuwaahsakhi.homepage.update') ? 'activelinktext' : '' }}
+                            {{ request()->routeIs('admin.import.vle') ? 'activelinktext' : '' }}
                             "></i>
                         <span class="link-name
-                            {{ request()->routeIs('admin.yuwaahsakhi.homepage.update') ? 'activelinktext' : '' }}
+                            {{ request()->routeIs('admin.import.vle') ? 'activelinktext' : '' }}
                             ">Import VLE</span>
+                    </a>
+                </li>
+                <li class="{{ request()->is('promotions') ? 'activelink' : '' }}">                    
+                    <a href="{{route('admin.import.eventtransaction')}}" id="promotion-link">
+                        <i class="uil uil-import
+                            {{ request()->routeIs('admin.import.eventtransaction') ? 'activelinktext' : '' }}
+                            "></i>
+                        <span class="link-name
+                            {{ request()->routeIs('admin.import.eventtransaction') ? 'activelinktext' : '' }}
+                            ">Import Event Transactions</span>
                     </a>
                 </li>
 
