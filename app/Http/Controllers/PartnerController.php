@@ -24,6 +24,11 @@ use App\Exports\PartnersExport;
 use Maatwebsite\Excel\Facades\Excel;
 use DB;
 use Carbon\Carbon;
+use App\Exports\EventTransactionsExport;
+use App\Exports\EventTransactionsWithCommentsExport;
+
+
+
 
 
 
@@ -215,11 +220,19 @@ class PartnerController extends Controller
     {
         $partner = Auth::guard('partner')->user(); // Fetch the logged-in partner
         $partner->fill($request->validated());
-    
+
+        // Handle password update securely
+        if (!empty($data['password'])) {
+            $data['password'] = bcrypt($data['password']);
+        } else {
+            unset($data['password']); // Don't overwrite password if field is empty
+        }
+
+        $partner->fill($data);
         if ($partner->isDirty('email')) {
             $partner->email_verified_at = null;
         }
-    
+        //dd($partner);
         $partner->save();
     
         return Redirect::route($this->dir.'.profile.edit')->with('status', 'profile-updated');
@@ -402,7 +415,18 @@ class PartnerController extends Controller
      * All Event List
      */
     public function eventList(Request $request){
-        $eventList = YuwaahEventMaster::where('status','1')->paginate(env('PAGINATION'));
+
+        $partnerId = Auth::guard('partner')->user()->id; // example
+
+        $eventList = DB::table('event_transactions as et')
+            ->join('yuwaah_sakhi as ys', 'et.ys_id', '=', 'ys.id')
+            ->join('yuwaah_event_masters as em', 'em.id', '=', 'et.event_category')
+            ->where('ys.partner_id', $partnerId)
+            ->select('et.*', 'em.event_category')
+            ->get();
+
+            
+        //$eventList = YuwaahEventMaster::where('status','1')->paginate(env('PAGINATION'));
         //dd($eventList);
         return view($this->dir.'.event.list', [
             'data' => $eventList, // Fetch authenticated partner
@@ -465,6 +489,27 @@ class PartnerController extends Controller
     }
     
 
+
+
+    public function getComments($eventTransactionId)
+    {
+        // Fetch from the other database connection
+        $comments = DB::connection('mysql2')
+            ->table('event_transaction_comments')
+            ->where('event_transaction_id', $eventTransactionId)
+            ->select('comment', 'comment_type','user_name', 'created_at')
+            ->orderBy('created_at', 'desc')
+            ->get();
+    
+        return response()->json($comments);
+    }
+
+
+  
+    public function export()
+    {
+        return Excel::download(new EventTransactionsWithCommentsExport, date('d_M_Y_h_i_s_a').'_event_transactions_with_comments.xlsx');
+    }
 
 
 }

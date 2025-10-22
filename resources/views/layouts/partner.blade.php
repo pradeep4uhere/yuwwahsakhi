@@ -48,7 +48,7 @@
       /* margin-right: 20px; */
       top: 10px;
       /* left: 30px; */
-      width: 130px;
+      width: 100px;
     }
 
     .header .nav {

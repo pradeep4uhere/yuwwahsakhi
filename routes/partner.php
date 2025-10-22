@@ -12,6 +12,7 @@ use App\Http\Controllers\Auth\PasswordController;
 use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\Auth\VerifyEmailController;
+use App\Exports\EventTransactionsExport;
 
 
 
@@ -56,6 +57,8 @@ Route::middleware('auth:partner')->group(function () {
     Route::post('partner_password', [PartnerAuthController::class, 'changePassword'])->name('partner.password.change');
     Route::get('promotion_view/{id}', [PartnerController::class, 'promotionalDetails'])->name('patner.promotion.view');
 
-    
+    Route::get('/event/comments/{id}', [PartnerController::class, 'getComments']);
+    Route::get('/event/export', [PartnerController::class, 'export'])->name('partner.event.export');
+
     
 });

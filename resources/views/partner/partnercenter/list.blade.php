@@ -3,7 +3,7 @@
 @section('content')
 @include('partner.menu')
 <div class="container">
-        <h1>Partner Centers [{{count($data['data'])}}]</h1>
+        <h1>Partner Division [{{count($data['data'])}}]</h1>
         <table class="table table-striped table-bordered">
         <thead class="table-dark">
             <tr>
@@ -13,7 +13,7 @@
                 <th>Contact Number</th>
                 <th>Email</th>
                 <th>Onboard On</th>
-                <th>Sakhi Associated</th>
+                <th>Field Associated</th>
                 <th>Status</th>
                 <th>Created</th>
                 

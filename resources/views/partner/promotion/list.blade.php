@@ -5,7 +5,7 @@
 @include('partner.menu')
 <div class="container">
         <h1>Promotions [{{count($data['data'])}}]</h1>
-<div class="table-containers">
+            <div class="table-containers">
                 <table class="table table-striped table-bordered">
                 <thead class="table-dark">
                     <tr>
@@ -18,9 +18,6 @@
                         <th>Actions</th>
                     </tr>
                 </thead>
-
-              
-
                 <tbody>
                 @forelse($data['data'] as $item)
                     <tr>
@@ -39,7 +36,7 @@
                                     class="banner" width="100px">
                         </td>
                         
-                        <<td style="text-align: center;">Document</td>
+                        <td style="text-align: center;">Document</td>
                         <td>{{ $item['created_at'] ?? 'N/A' }}</td>
                         <td>
                             <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="20" height="20" viewBox="0 0 48 48">

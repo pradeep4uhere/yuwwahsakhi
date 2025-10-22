@@ -2,13 +2,13 @@
 <div class="main_header">  
  <div class="header">
         <div class="header-left">
-          <img src="{{asset('asset/images/YuwaahLogocolo.png')}}" alt="LogoImage" class="logoimageclass">
+          <img src="{{asset('asset/images/YuwaahLogocolo.png')}}" alt="LogoImage" class="logoimageclass" width="100px" height="70px">
           <div class="nav">
             <a class="{{ request()->routeIs('partner.dashboard') ? 'active' : '' }}"   href="{{route('partner.dashboard')}}">Performance</a>
             <a class="
             {{ request()->routeIs('partner.partnercenter') ? 'active' : '' }}
             {{ request()->routeIs('partner.partnercenter.viewyuwaahsakhi') ? 'active' : '' }}" 
-             href="{{route('partner.partnercenter')}}">Partner Center Details</a>
+             href="{{route('partner.partnercenter')}}">Partner Division Details</a>
             <a  class="{{ request()->routeIs('partner.promotional') ? 'active' : '' }}"  href="{{route('partner.promotional')}}">Promotions</a>
             <a class="
             {{ request()->routeIs('partner.opportunites') ? 'active' : '' }}
@@ -20,7 +20,7 @@
         </div>
     
         <!-- Wrapper for Icons and Hamburger -->
-        <div class="header-right" style="width:352px">
+        <div class="header-right" style="width:400px">
        
         <div class="stat-label">
           <p>{{ucwords(Auth::user()->name)}}&nbsp;|&nbsp;{{ucwords(Auth::user()->email)}}</p>

@@ -50,7 +50,7 @@
       /* margin-right: 20px; */
       top: 10px;
       /* left: 30px; */
-      width: 130px;
+      width: 100px;
     }
 
     .header .nav {
@@ -387,6 +387,9 @@ tr {
 @yield('content')
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 <script src="{{asset('asset/js/script.js')}}"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
 <script>
 function deleteConfirm(id, route) {
     // Display confirmation alert
@@ -464,6 +467,60 @@ window.addEventListener('click', (event) => {
     }
 });
 
+</script>
+
+<script>
+$(document).ready(function() {
+    $('.view-comments').on('click', function(e) {
+        e.preventDefault();
+        
+        const eventId = $(this).data('event-id');
+        const modal = $('#commentModal');
+        const commentList = $('#commentList');
+
+        commentList.html('Loading...'); // Reset content
+        modal.modal('show'); // Open modal
+
+        $.ajax({
+            url: '/partner/event/comments/' + eventId, // your route
+            type: 'GET',
+            success: function(response) {
+                if (!response || response.length === 0) {
+                    commentList.html('<p class="text-danger">No comments available.</p>');
+                } else {
+                    let html = `
+                        <table class="table table-bordered table table-striped table-bordered">
+                            <thead>
+                                <tr>
+                                    <th><b>Comment</b></th>
+                                    <th><b>Comment By</b></th>
+                                    <th><b>Comment Date</b></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                    `;
+                    response.forEach(function(comment) {
+                        html += `
+                            <tr>
+                                <td>${comment.comment}</td>
+                                <td>${comment.user_name}</td>
+                                <td>${comment.created_at}</td>
+                            </tr>
+                        `;
+                    });
+                    html += `
+                            </tbody>
+                        </table>
+                    `;
+                    commentList.html(html);
+                }
+            },
+            error: function() {
+                commentList.html('<p class="text-danger">Error loading comments.</p>');
+            }
+        });
+    });
+});
 </script>
 </body>
 

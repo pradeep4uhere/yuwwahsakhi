@@ -205,16 +205,22 @@ class ApiAuthController extends Controller
                 ], 404);
             }
         
-            // Update partner data
-            $partner->update([
-                'name' => $request->name,
-                'partner_id'=>$request->partner_id,
-                'email' => $request->email,
-                'password' => $request->password,
-                'contact_number' => $request->contact_number,
-                'status' => $request->status,
-            ]);
 
+
+                        // Prepare update data
+            $updateData = [
+                'name'           => $request->name,
+                'partner_id'     => $request->partner_id,
+                'email'          => $request->email,
+                'contact_number' => $request->contact_number,
+                'status'         => $request->status,
+            ];
+            // Only update password if provided
+            if (!empty($request->password)) {
+                $updateData['password'] = bcrypt($request->password);
+            }
+            // Update partner data
+            $partner->update($updateData);
             $partnerData = Partner::formatedPartnerData($partner);
             
             return response()->json([
