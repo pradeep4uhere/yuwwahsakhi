@@ -2057,7 +2057,7 @@ public function fetchOppertunites(Request $request)
             $page  = (int) $request->query('page', 1);     // default page = 1
         
             $paginator = DB::table('event_transactions')
-                ->join('yuwaah_event_type', 'event_transactions.event_type', '=', 'yuwaah_event_type.id')
+                ->leftJoin('yuwaah_event_type', 'event_transactions.event_type', '=', 'yuwaah_event_type.id')
                 ->orderBy('event_transactions.id', 'asc')
                 ->select(
                     'event_transactions.*',
