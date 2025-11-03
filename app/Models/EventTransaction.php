@@ -27,7 +27,8 @@ class EventTransaction extends Model
         'comment',
         'review_status',
         'document_type',
-        'field_type'
+        'field_type',
+        'event_category_name'
     ];
 
     protected $casts = [

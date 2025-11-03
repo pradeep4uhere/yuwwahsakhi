@@ -2070,8 +2070,9 @@ public function fetchOppertunites(Request $request)
             $formatteddata = $paginator->getCollection()->map(function ($item) {
                 return [
                     "id" => $item->id,
+                    "event_type_name"=>$item->event_type_name,
                     "event_type_id" => $item->event_type,
-                    "EventName" => $item->event_type_name,
+                    "EventName" => $item->event_name,
                     "review_status" => $item->review_status,
                     "beneficiary_phone_number" => $item->beneficiary_phone_number,
                     "beneficiary_name" => $item->beneficiary_name,

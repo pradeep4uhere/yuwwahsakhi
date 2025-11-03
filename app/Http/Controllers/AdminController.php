@@ -1876,14 +1876,15 @@ public function importEventTransaction(Request $request)
     EventTransaction::create([
             'beneficiary_phone_number'  => $row[0],  // reuse hashed password
             'event_value'               => $eventValue,
-            'event_id'                  => $row[6],
-            'event_type'                => $row[6],
-            'event_category'            => $row[7],
-            'event_name'                => $row[5],
+            'event_id'                  => $row[7], //Event Type Id
+            'event_type'                => $row[7], //Event Type Id
+            'event_category'            => $row[8], // Event Master Value id
+            'event_name'                => $row[11],
             'review_status'             => $row[9],
             'event_date_created'        => now(),
             'event_date_submitted'      => now(),
-            'ys_id'                     => $row[10]
+            'ys_id'                     => $row[10],
+            'event_category_name'       => $row[6],
         ]);
        
     }
