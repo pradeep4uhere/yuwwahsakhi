@@ -38,6 +38,7 @@ Route::get('/fetch-eventtype', [ApiAuthController::class, 'fetchEventType']);
 Route::get('/fetch-eventcategory', [ApiAuthController::class, 'fetchEventCategory']);
 Route::get('/fetch-eventtransaction', [ApiAuthController::class, 'fetchEventTransaction']);
 Route::get('/fetch-assigned-opportunities', [ApiAuthController::class, 'fetchAssignedOpportunities']);
+Route::get('/fetch-field-center', [ApiAuthController::class, 'fetchFieldAgent']);
 
 
 

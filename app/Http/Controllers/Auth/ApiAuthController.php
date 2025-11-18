@@ -2182,4 +2182,64 @@ public function fetchOppertunites(Request $request)
      
 
 
+
+
+     public function fetchFieldAgent(Request $request)
+{
+    try {
+        $limit = (int) $request->query('limit', 1000); // default limit
+        $page  = (int) $request->query('page', 1);     // default page = 1
+
+        // Laravel pagination
+        $paginator = YuwaahSakhi::where('csc_id', '!=', '')
+            ->orderBy('id', 'asc')
+            ->paginate($limit, ['*'], 'page', $page);
+
+        // If no records
+        if ($paginator->isEmpty()) {
+            return response()->json([
+                'status' => false,
+                'message' => __('Not Found')
+            ], 404);
+        }
+
+        // Format data using your existing method
+        $formattedAgents = $paginator->items();
+        $formattedAgents = collect($paginator->items())->map(function ($item) {
+            return [
+                'id'        => $item->id,
+                'ProgramCode' => $item->csc_id,
+                'PartnerCenterId'     => $item->partner_center_id,
+                'PartnerId'     => $item->partner_id,
+                'FieldID'=>$item->sakhi_id,
+                'Name'=>$item->name,
+                'ContactNumber'=>$item->contact_number,
+                'Email'=>$item->email,
+                "status"=>$item->status
+            ];
+        })->values();
+
+        return response()->json([
+            'status' => true,
+            'message' => __('Field Agent Found'),
+            'data' => $formattedAgents,
+            'pagination' => [
+                'total' => $paginator->total(),
+                'per_page' => $paginator->perPage(),
+                'current_page' => $paginator->currentPage(),
+                'last_page' => $paginator->lastPage(),
+                'next_page_url' => $paginator->nextPageUrl(),
+                'prev_page_url' => $paginator->previousPageUrl(),
+            ]
+        ]);
+
+    } catch (\Exception $e) {
+        return response()->json([
+            'status' => false,
+            'message' => 'Exception occurred: ' . $e->getMessage()
+        ], 500);
+    }
+}
+
+
 }
