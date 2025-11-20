@@ -2205,10 +2205,12 @@ public function fetchOppertunites(Request $request)
 
         // Format data using your existing method
         $formattedAgents = $paginator->items();
+        //dd( $formattedAgents );
         $formattedAgents = collect($paginator->items())->map(function ($item) {
             return [
                 'id'        => $item->id,
-                'ProgramCode' => $item->csc_id,
+                'ProgramType' => $item->csc_id,
+                'ProgramCode' => $this->getPatnerName($item->partner_id),
                 'PartnerCenterId'     => $item->partner_center_id,
                 'PartnerId'     => $item->partner_id,
                 'FieldID'=>$item->sakhi_id,
@@ -2241,5 +2243,11 @@ public function fetchOppertunites(Request $request)
     }
 }
 
+
+private function getPatnerName($id){
+    $partenr = Partner::where('id',$id)->first();
+    return  $partenr['name'];
+
+}
 
 }
