@@ -2244,10 +2244,25 @@ public function fetchOppertunites(Request $request)
 }
 
 
-private function getPatnerName($id){
-    $partenr = Partner::where('id',$id)->first();
-    return  $partenr['name'];
+private function getPatnerName($id)
+{
+    try {
+        $partner = Partner::find($id);
 
+        if (!$partner) {
+            // Return fallback value or null if not found
+            return 'Unknown Partner';
+        }
+
+        return $partner->name ?? 'Unknown Partner';
+
+    } catch (\Exception $e) {
+        // Log the actual error for debugging
+        \Log::error('Error fetching partner name: '.$e->getMessage());
+
+        // Return safe output
+        return 'Error Fetching Partner';
+    }
 }
 
 }
