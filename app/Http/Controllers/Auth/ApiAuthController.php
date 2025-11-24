@@ -2212,6 +2212,7 @@ public function fetchOppertunites(Request $request)
                 'ProgramType' => $item->csc_id,
                 'ProgramCode' => $this->getPatnerName($item->partner_id),
                 'PartnerCenterId'     => $item->partner_center_id,
+                'PartnerDivision'=> $this->getPartnerDivisionName($item->partner_center_id),
                 'PartnerId'     => $item->partner_id,
                 'FieldID'=>$item->sakhi_id,
                 'Name'=>$item->name,
@@ -2243,6 +2244,10 @@ public function fetchOppertunites(Request $request)
     }
 }
 
+
+private function getPartnerDivisionName($partner_center_id){
+    return \App\Models\PartnerCenter::find($partner_center_id)?->center_name ?? null;
+}
 
 private function getPatnerName($id)
 {
