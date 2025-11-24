@@ -1850,6 +1850,7 @@ public function fetchOppertunites(Request $request)
             $page  = (int) $request->query('page', 1);     // default page = 1
         
             $paginator = Partner::orderBy('id', 'asc')
+                ->where('status',1)
                 ->paginate($limit, ['*'], 'page', $page);
         
             // Format data
@@ -1899,7 +1900,8 @@ public function fetchOppertunites(Request $request)
             $limit = (int) $request->query('limit', 1000); // default limit
             $page  = (int) $request->query('page', 1);     // default page = 1
         
-            $paginator = PartnerCenter::orderBy('id', 'asc')
+            $paginator = PartnerCenter::where('status',1)
+                ->orderBy('id', 'asc')
                 ->paginate($limit, ['*'], 'page', $page);
         
             // Format data
@@ -2259,7 +2261,7 @@ private function getPatnerName($id)
             return 'Unknown Partner';
         }
 
-        return $partner->partner_id ?? 'Unknown Partner';
+        return $partner->name ?? 'Unknown Partner';
 
     } catch (\Exception $e) {
         // Log the actual error for debugging
