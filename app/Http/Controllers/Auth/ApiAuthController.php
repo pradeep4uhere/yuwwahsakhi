@@ -2259,7 +2259,7 @@ private function getPatnerName($id)
             return 'Unknown Partner';
         }
 
-        return $partner->name ?? 'Unknown Partner';
+        return $partner->partner_id ?? 'Unknown Partner';
 
     } catch (\Exception $e) {
         // Log the actual error for debugging
