@@ -16,6 +16,8 @@ use App\Models\Promotion;
 use App\Models\YuwaahSakhi;
 use App\Models\YuwaahEventType;
 use App\Models\YuwaahEventMaster;
+use App\Models\PartnerPlacementUser;
+
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Session; 
 use Illuminate\Support\Facades\Http;
@@ -2271,5 +2273,138 @@ private function getPatnerName($id)
         return 'Error Fetching Partner';
     }
 }
+
+
+
+
+     /**
+     * Add New Partner In Admin section
+     */
+    public function addNewPlacementPartner(Request $request){
+        //dd($request->all());
+         // Validate incoming request
+         $validator = Validator::make($request->all(), [
+            'name' => 'required|string|max:255',
+            'pp_code' => 'required|string|max:255',
+            'email' => 'required|email|unique:partner_placement_users,email',
+            'phone' => 'required|string|max:10',
+            'password' => 'required|string|max:255',
+            'status' => 'required|boolean',
+        ]);
+        
+
+        if ($validator->fails()) {
+            return response()->json([ 'status'=>false,'errors' => $validator->errors()], 422);
+        }
+
+        try {
+            // Create a new partner
+            $partner = PartnerPlacementUser::create([
+                'pp_code' => $request->pp_code, // Generate unique partner ID
+                'name' => $request->name,
+                'email' => $request->email,
+                'password' => Hash::make($request->password),
+                'phone' => $request->phone,
+                'status' => $request->status,
+                'created_at' => now(),
+            ]);
+
+            return response()->json([
+                'status'=>true,
+                'message' => 'Placement Partner added successfully.',
+                'partner' => $partner,
+            ], 201);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status'=>false,
+                'message' => 'Failed to add partner.',
+                'error' => $e->getMessage(),
+            ], 500);
+        }
+    }
+
+
+
+
+
+
+/**
+ * Update Partner Data
+ */
+public function updatePlacementPartner(Request $request, $partnerId)
+{
+   
+    Log::info('Locale set to: ' . app()->getLocale());
+    $validator = Validator::make($request->all(), [
+        'name' => 'required|string|max:255',
+        'pp_code' => [
+            'required',
+            'string',
+            'max:255',
+            Rule::unique('partner_placement_users', 'pp_code')->ignore($partnerId),
+        ],
+        'email' => [
+            'required',
+            'email',
+            Rule::unique('partner_placement_users', 'email')->ignore($partnerId),
+        ],
+        'phone' => 'required|string|max:15',
+        'password' => 'required|string|max:255',
+        'status' => 'required|boolean',
+    ]);
+
+
+    if ($validator->fails()) {
+        return response()->json([
+            'status'=>false,
+            'errors' => $validator->errors()], 422);
+    }
+  
+
+    try {
+        // Find the partner by ID
+        $partner = PartnerPlacementUser::find($partnerId);
+        //dd($partner);
+        if (!$partner) {
+            return response()->json([
+                'status'=>false,
+                'message' => 'Partner not found.',
+            ], 404);
+        }
+    
+
+
+                    // Prepare update data
+        $updateData = [
+            'name'      => $request->name,
+            'pp_code'   => $request->pp_code,
+            'email'     => $request->email,
+            'phone'     => $request->phone,
+            'status'    => $request->status,
+        ];
+        // Only update password if provided
+        if (!empty($request->password)) {
+            $updateData['password'] = bcrypt($request->password);
+        }
+        // Update partner data
+        $partner->update($updateData);
+        $partnerData = $partner;
+        
+        return response()->json([
+            'status'=>true,
+            'message' => __('messages.partner_updated_successfully'),
+            'partner' => $partnerData,
+        ], 200);
+    } catch (\Exception $e) {
+        return response()->json([
+            'status'=>false,
+            'message' => _('message.failed_to_update_partner'),
+            'errors' => $e->getMessage(),
+        ], 500);
+    }
+}
+
+
+
 
 }

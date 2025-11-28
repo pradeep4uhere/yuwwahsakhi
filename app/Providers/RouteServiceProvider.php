@@ -53,6 +53,11 @@ class RouteServiceProvider extends ServiceProvider
                 ->prefix('partnercenter')  // Optional: You can use 'admin' as a prefix for all admin routes
                 ->namespace($this->namespace)
                 ->group(base_path('routes/partnercenter.php')); 
+
+            Route::middleware('web')  // Optional: Use the 'web' middleware group for session-based authentication
+                ->prefix('placementpartner')  // Optional: You can use 'admin' as a prefix for all admin routes
+                ->namespace($this->namespace)
+                ->group(base_path('routes/placementpartner.php')); 
         });
 
         // Admin routes (for admin authentication and other admin-specific routes)

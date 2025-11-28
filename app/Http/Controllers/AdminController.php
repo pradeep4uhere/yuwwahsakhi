@@ -16,6 +16,7 @@ use App\Models\YuwaahEventMaster;
 use App\Models\YuwaahEventType;
 use App\Models\YhubLearner;
 use App\Models\EventTransaction;
+use App\Models\PartnerPlacementUser;
 use Illuminate\Support\Facades\Storage;
 use App\Models\YuwaahSakhiSetting;
 use App\Models\Learner;
@@ -33,6 +34,8 @@ use Illuminate\Support\MessageBag;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Validator;
 use App\Exports\YhubLearnersExport;
+use App\Exports\PartnerPlacementUserExport;
+
 
 
 
@@ -52,6 +55,7 @@ class AdminController extends Controller
         $event = YuwaahEventMaster::getAllEvents();
         $learner = Learner::getAllCount();
         $learnerAgeGroup = Learner::getLearnerAgeGroup();
+        $PartnerPlacementUser = PartnerPlacementUser::getAllCount();
        
 
         $dashboard = [
@@ -62,7 +66,8 @@ class AdminController extends Controller
             'Promotions'=>$Promotions,
             'eventcount'=>$event,
             'Learner'=>$learner,
-            'learnerAgeGroup'=>$learnerAgeGroup
+            'learnerAgeGroup'=>$learnerAgeGroup,
+            'PartnerPlacementUser'=>$PartnerPlacementUser
         ];
         return view('admin.dashboard', [
             'title' => 'Dashboard',
@@ -1893,6 +1898,168 @@ public function importEventTransaction(Request $request)
 
     return back()->with('success', 'CSV Imported Successfully!');
 }
+
+
+
+
+
+    /**
+     * Get All Partner List
+     */
+    public function allPlacementPartnerList(Request $request){
+        // Create an instance of the controller
+        // Optional: validate or sanitize 'search' input
+        $searchQuery = $request->input('search');
+        $authApiController = new ApiAuthController();
+        //$response = $authApiController->getPartnerList($request);
+            // Initialize the query
+            $query = PartnerPlacementUser::with(['state', 'district']);
+            if ($request->has('status')) {
+            $query->where('status', $request->status);
+        }
+         // Apply search filters on name, email, and contact_number
+        if (!empty($searchQuery)) {
+            $query->where(function($q) use ($searchQuery) {
+                $q->where('name', 'like', '%' . $searchQuery . '%')
+                ->orWhere('email', 'like', '%' . $searchQuery . '%')
+                ->orWhere('phone', 'like', '%' . $searchQuery . '%');
+            });
+        }
+
+        // Filter by status if provided in the request
+        if ($request->has('status')) {
+            $query->where('status', $request->status);
+        }
+
+        // Sorting logic based on 'sort_by' and 'sort_order' parameters
+        if ($request->has('sort_by')) {
+            $sortBy = $request->input('sort_by', 'id');  // Default sort by 'id'
+            $sortOrder = $request->input('sort_order', 'id');  // Default sort order 'asc'
+            $query->orderBy($sortBy, $sortOrder);
+        }
+
+        $query->orderBy('name','asc');
+        // Set the number of items per page from the request, or default to 10
+        $perPage = $request->get('per_page', env('PAGINATION'));
+
+        // Execute the query and return paginated results
+        $response =  $query->paginate($perPage);
+
+        //dd($response);
+
+        // Call the 'getPartnerList' method
+        return view('admin.placementpartner.list', [
+            'response'=>$response,
+            'title' => 'All Placement Partner',
+        ]);
+    }
+    
+
+
+    
+
+
+   
+    /*
+    * Edit Partner List
+    */
+    public function editPlacementPartner(Request $request, $id){
+        $responseArray = [];
+        $errors = [];
+        $success = [];
+        $id = decryptString($id);
+       
+        if($request->isMethod('POST')) {
+            // Create an instance of the ApiAuthController
+            $authApiController = new ApiAuthController();
+            // Call the 'addNewPartner' method and capture the response
+            //dd($request);
+            $response = $authApiController->updatePlacementPartner($request, $id);  // Get the response directly
+            //dd($response);
+            // If the response is a JsonResponse, you can convert it into an array
+            $responseArray = $response->getData(true);  // Convert to array
+           // dd($responseArray);
+            // Optionally, dump the response for debugging
+            //dd($responseArray['error']);
+            if ($responseArray['status'] === false) {
+                $errors = $responseArray['errors'];
+                $success = [];
+            }
+            if ($responseArray['status'] === true) {
+                $errors = [];
+                $success = $responseArray['message'];
+            }
+        }
+
+        
+        $partnerDetails = PartnerPlacementUser::find($id);
+        //dd( $partnerDetails);
+        // Call the 'getPartnerList' method
+        return view('admin.placementpartner.edit', [
+            'response'=>$responseArray,
+            'errors'=> $errors,
+            'success'=>$success,
+            'partnerDetails'=>$partnerDetails,
+            'title' => __('Edit Placement Partner'),
+        ]);
+    }
+
+
+
+
+    /**
+     * Add New Parter
+     */
+    public function addNewPlacementPartner(Request $request){
+        $responseArray = [];
+        $errors = [];
+        $success = [];
+        $inputs['name']='';
+        $inputs['email']='';
+        $inputs['contact_number']='';
+        $inputs['partner_id']='';
+       
+        if($request->isMethod('POST')) {
+            // Create an instance of the ApiAuthController
+            $authApiController = new ApiAuthController();
+            
+            // Call the 'addNewPartner' method and capture the response
+            $response = $authApiController->addNewPlacementPartner($request);  // Get the response directly
+        
+            // If the response is a JsonResponse, you can convert it into an array
+            $responseArray = $response->getData(true);  // Convert to array
+           
+        
+            // Optionally, dump the response for debugging
+            if ($responseArray['status'] === false) {
+                $errors = $responseArray['errors'];
+                $success = [];
+                $inputs = $request->all();
+            }
+            if ($responseArray['status'] === true) {
+                $errors = [];
+                $success = $responseArray['message'];
+                $inputs = $request->all();
+            }
+            
+        }
+        
+        // Call the 'getPartnerList' method
+        return view('admin.placementpartner.add', [
+            'response'=>$responseArray,
+            'errors'=> $errors,
+            'success'=>$success,
+            'inputs'=>$inputs,
+            'title' => __('Add New Placement Partner'),
+        ]);
+    }
+
+
+
+    public function export()
+    {
+        return Excel::download(new PartnerPlacementUserExport, 'partner_users.xlsx');
+    }
 
 
 

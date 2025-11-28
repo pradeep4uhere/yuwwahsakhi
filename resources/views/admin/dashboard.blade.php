@@ -59,12 +59,27 @@
                         </div>
                     </div>
                     <div class="box box5">
+                        <span class="text">Placement Partner</span>
+                        <span class="number">{{$dashboard['PartnerPlacementUser']}}</span>
+                        <div class="editclass">
+                        <a href="{{route('admin.pppartner')}}"> <img src="{{asset('asset/images/Editiconmain.png')}}" alt="" style="height: 100px; width: 120px; cursor: pointer;"></a>
+                        </div>
+                    </div>
+                    <div class="box box5">
                         <span class="text">Learners</span>
                         <span class="number">{{$dashboard['Learner']}}</span>
                         <div class="editclass">
                         <a href="{{route('admin.learner')}}"> <img src="{{asset('asset/images/Editiconmain.png')}}" alt="" style="height: 100px; width: 120px; cursor: pointer;"></a>
                         </div>
                     </div>
+                    <div class="box box5">
+                        <span class="text">&nbsp;</span>
+                        <span class="number">&nbsp;</span>
+                        <div class="editclass">
+                        
+                        </div>
+                    </div>
+                   
                 </div>
             </div>
         </div>

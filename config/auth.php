@@ -53,6 +53,10 @@ return [
                 'driver' => 'session',
                 'provider' => 'partner_centers',
             ],
+            'pp_partner' => [
+                'driver' => 'session',
+                'provider' => 'partner_users',
+        ],
         ],
 
     /*
@@ -91,6 +95,12 @@ return [
             'driver' => 'eloquent',
             'model' => App\Models\PartnerCenter::class,
         ],
+        'partner_users' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\PartnerPlacementUser::class,
+        ],
+
+        
 
         // 'users' => [
         //     'driver' => 'database',

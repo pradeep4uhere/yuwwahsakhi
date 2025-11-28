@@ -38,6 +38,16 @@ Route::middleware('auth:admin')->group(function () {
     Route::any('/delete-partner/{id}', [AdminController::class, 'deletePartner'])->name('admin.partner.delete');
 
 
+    //All Placement Partner
+    
+    Route::get('/pppartner', [AdminController::class, 'allPlacementPartnerList'])->name('admin.pppartner');
+    Route::any('/add-pppartner', [AdminController::class, 'addNewPlacementPartner'])->name('admin.pppartner.add');
+    Route::any('/edit-pppartner/{id}', [AdminController::class, 'editPlacementPartner'])->name('admin.pppartner.edit');
+    Route::get('/export', [AdminController::class, 'export'])
+    ->name('partner.users.export');
+
+
+
     //All Partner Center routes Here
     Route::get('/partner-center', [AdminController::class, 'allPartnerCenterList'])->name('admin.partnercenter');
     Route::any('/add-partner-center', [AdminController::class, 'addNewPartnerCenter'])->name('admin.partnercenter.add');

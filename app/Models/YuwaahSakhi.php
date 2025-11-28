@@ -178,4 +178,9 @@ class YuwaahSakhi extends Authenticatable
     }
 
 
+    public function partnerPlacementUser()
+    {
+        return $this->belongsTo(PartnerPlacementUser::class, 'partner_placement_user_id');
+    }
+
 }
