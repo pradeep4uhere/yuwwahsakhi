@@ -36,7 +36,7 @@
                 <td nowrap="nowrap">{{ $item->csc_id }}</td>
                 <td nowrap="nowrap"> {{ $item->sakhi_id }}</td>
                 <td nowrap="nowrap">{{ $item->name }}</td>
-                <td> nowrap="nowrap"{{ $item->contact_number }}</td>
+                <td nowrap="nowrap">{{ $item->contact_number }}</td>
                 <td nowrap="nowrap">{{ $item->email }}</td>
                 <td nowrap="nowrap">{{ $item->partner_name }}&nbsp;[{{ $item->partnerID }}]</td>
                 <td nowrap="nowrap">{{ $item->partner_center_name }}&nbsp;[{{ $item->partner_division_id }}]</td>
