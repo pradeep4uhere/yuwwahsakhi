@@ -44,7 +44,7 @@
     <a href="{{route('login')}}"
     class="font-Montserrat font-[600] text-[14px] leading-[17.07px] text-[#FFFFFF] ">
     <div
-      class="w-[250px] h-[40px] relative top-[600px] left-[82px] rounded-[10px] bg-[#28388F] text-center pt-2.5 font-Montserrat">
+      class="w-[250px] h-[40px] relative top-[650px] left-[82px] rounded-[10px] bg-[#28388F] text-center pt-2.5 font-Montserrat">
       <div>
     @if(Auth::check())
         Home
@@ -55,7 +55,7 @@
     </div>
     </a>
 
-    <div class="mt-2 absolute top-[640px] left-[122px] font-Montserrat">
+    <div class="mt-2 absolute top-[690px] left-[122px] font-Montserrat">
     @if(!Auth::check())
       <p class="text-center text-xs text-gray-600 font-Montserrat">
         Not Member ? <a href="{{route('register')}}" class="text-[#28388F] font-semibold hover:underline text-sm">Register</a>
