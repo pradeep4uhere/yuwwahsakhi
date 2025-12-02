@@ -58,7 +58,7 @@
     <div class="mt-2 absolute top-[690px] left-[122px] font-Montserrat">
     @if(!Auth::check())
       <p class="text-center text-xs text-gray-600 font-Montserrat">
-        Not Member ? <a href="{{route('register')}}" class="text-[#28388F] font-semibold hover:underline text-sm">Register</a>
+      <a href="{{route('recoverpassword')}}" class="text-[#28388F] font-semibold hover:underline text-sm">Generate New Password</a>
       </p>
       @else
       <form method="POST" action="{{ route('logout') }}">
