@@ -28,7 +28,7 @@
     <div class="w-[150px] h-[86px] flex justify-center mb-4 relative left-[90px] mb-[50px]">
       <img src="{{asset('asset/images/Yuwaahlogo.png')}}" alt="YuWaah Logo" class="h-14 w-[82px] h-[82px]">
     </div>
-    <h1 class="w-[358px] h-[34px] font-[600] text-[28px] leading-[34.13px] mb-4"> Rest / Forgot Password </h1>
+    <h1 class="w-[358px] h-[34px] font-[600] text-[28px] leading-[34.13px] mb-4"> Reset / Forgot Password </h1>
    
       @if ($errors->any())
       <div class="bg-red-100 text-red-700 p-4 rounded mb-4">
