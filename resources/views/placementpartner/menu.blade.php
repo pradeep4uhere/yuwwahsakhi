@@ -8,7 +8,7 @@
             <a class="
             {{ request()->routeIs('placementpartner.viewyuwaahsakhi') ? 'active' : '' }}
             {{ request()->routeIs('placementpartner.viewyuwaahsakhi') ? 'active' : '' }}" 
-             href="{{route('placementpartner.viewyuwaahsakhi')}}">Field Centers</a>
+             href="{{route('placementpartner.viewyuwaahsakhi')}}">Field Agents</a>
             <!-- <a class="{{ request()->routeIs('partner.event') ? 'active' : '' }}"  href="{{route('partner.event')}}">Event Transactions</a> -->
           </div>
         </div>

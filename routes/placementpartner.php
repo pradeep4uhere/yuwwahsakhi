@@ -33,35 +33,13 @@ Route::middleware('auth:pp_partner')->group(function () {
     Route::get('/dashboard', [PlacementPartnerAuthController::class, 'viewAllFieldCenter'])->name('placementpartner.dashboard');
     Route::get('/viewyuwaahsakhi', [PlacementPartnerAuthController::class, 'viewAllFieldCenter'])->name('placementpartner.viewyuwaahsakhi');
     Route::get('export-placement-yuwaah-sakhi', [PlacementPartnerAuthController::class, 'exportPlacementYuwaahSakhi'])->name('export.placementpartner.viewyuwaahsakhi');
+    Route::get('/viewlearner/{id}', [PlacementPartnerAuthController::class, 'viewLearner'])->name('viewlearner');
 
+    
    
-   
-    Route::get('/profile', [PartnerController::class, 'edit'])->name('partner.profile.edit');
-    Route::patch('/profile', [PartnerController::class, 'update'])->name('partner.profile.update');
-    Route::delete('/profile', [PartnerController::class, 'destroy'])->name('partner.profile.destroy');
-    Route::post('email/verification-notification', [EmailVerificationNotificationController::class, 'store'])
-    ->middleware('throttle:6,1')
-    ->name('partner.verification.send');
-    Route::get('confirm-password', [ConfirmablePasswordController::class, 'show'])
-    ->name('password.confirm');
-    Route::post('confirm-password', [ConfirmablePasswordController::class, 'store']);
-    Route::put('password', [PartnerController::class, 'updatePassowrd'])->name('partner.password.update');
-    Route::get('promotional', [PartnerController::class, 'getAllPromotionalList'])->name('partner.promotional');
-    Route::get('partnercenter', [PartnerController::class, 'getAllPartnerCenterList'])->name('partner.partnercenter');
-    Route::get('opportunites', [PartnerController::class, 'getAllOpportunitesList'])->name('partner.opportunites');
-    Route::get('opportunites-details/{id}', [PartnerController::class, 'getOpportunitesDetails'])->name('partner.opportunites.details');
-    Route::any('updatepartnercenter/{id}', [PartnerController::class, 'udatePartnerCenterDetails'])->name('partner.partnercenter.edit');
-    Route::post('update-partner-center-action', [PartnerController::class, 'udatePartnerCenterAction'])->name('partner.partnercenter.updatepartnercenter');
-    Route::get('partner.event', [PartnerController::class, 'eventList'])->name('partner.event');
-    Route::get('viewyuwaahsakhi/{id}', [PartnerController::class, 'viewAssociatedYuwaahSakhi'])->name('partner.partnercenter.viewyuwaahsakhi');
-    Route::get('viewyuwaahsakhi_details/{id}', [PartnerController::class, 'viewAssociatedYuwaahSakhi'])->name('partner.partnercenter.viewyuwaahsakhi.details');
-    Route::get('setting', [PartnerController::class, 'settingProfile'])->name('partner.setting');
-    Route::post('partner_password', [PartnerAuthController::class, 'changePassword'])->name('partner.password.change');
-    Route::get('promotion_view/{id}', [PartnerController::class, 'promotionalDetails'])->name('patner.promotion.view');
-
-    Route::get('/event/comments/{id}', [PartnerController::class, 'getComments']);
-    Route::get('/event/export', [PartnerController::class, 'export'])->name('partner.event.export');
-
+    Route::get('/profile', [PlacementPartnerAuthController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [PlacementPartnerAuthController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [PlacementPartnerAuthController::class, 'destroy'])->name('profile.destroy');
    
     
 });

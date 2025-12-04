@@ -8,10 +8,11 @@ use App\Exports\PartnerPlacementUserExport;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\PlacementYuwaahSakhiExport;
 use DB;
+use Log;
 use App\Models\YuwaahSakhi;
-
+use App\Models\Learner;
+use Illuminate\Contracts\Encryption\DecryptException;
 use Carbon\Carbon;
-
 
 class PlacementPartnerAuthController extends Controller
 {
@@ -82,7 +83,10 @@ class PlacementPartnerAuthController extends Controller
             'pc.center_name as partner_center_name',
             'ys.profile_picture',
             'ys.status',
-            'ys.created_at'
+            'ys.state',
+            'ys.district',
+            'ys.created_at',
+            DB::raw('(SELECT COUNT(*) FROM learners WHERE learners.UNIT_INSTITUTE = ys.csc_id) AS learner_count')
         )
         ->where('partner_placement_user_id', $id)
         ->paginate(50);
@@ -105,5 +109,44 @@ class PlacementPartnerAuthController extends Controller
     }
     
 
+
+
+    /**
+     * Learner View Page
+     */
+     public function viewLearner(Request $request,$id){
+        try {
+            $cscValue = decryptString($id);
+            //Get all Learner List
+            //$LearnerList = Learner::where('UNIT_INSTITUTE',$cscValue)->paginate(50);
+            $LearnerList = DB::table('learners as l')
+            ->leftJoin('yhub_learners as yh', function ($join) {
+                $join->on(DB::raw('RIGHT(l.primary_phone_number, 10)'), '=', DB::raw('RIGHT(yh.email_address, 10)'));
+            })
+            ->where('l.UNIT_INSTITUTE', $cscValue)
+            ->select(
+                'l.*',
+                DB::raw("
+                    CASE 
+                        WHEN yh.id IS NOT NULL 
+                        THEN 'Completed' 
+                        ELSE 'Not Completed' 
+                    END AS completion_status
+                ")
+            )
+            ->paginate(50);
+            //dd($LearnerList);
+            return view('placementpartner.LearnerList', [
+                'title' => 'All Learners',
+                'data'=>$LearnerList
+            ]);
+        }catch(DecryptException $e){
+            // Invalid encrypted string
+            Log::warning("Decrypt failed for learner link: " . $e->getMessage());
+            return redirect()
+                ->back()
+                ->with('error', 'Invalid or expired link.');
+        }
+    }
 
 }
