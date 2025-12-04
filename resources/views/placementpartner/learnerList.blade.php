@@ -44,7 +44,7 @@
                 <td nowrap="nowrap">{{ $item->primary_phone_number }}</td>
                 <td nowrap="nowrap">{{ $item->education_level }}</td>
                 <td nowrap="nowrap">{{ $item->digital_proficiency }}</td>
-                <td nowrap="nowrap">{{ $item->english_knowledge }}]</td>
+                <td nowrap="nowrap">{{ $item->english_knowledge }}</td>
                 <td nowrap="nowrap">{{$item->DISTRICT_CITY}}</td>
                 <td nowrap="nowrap">{{$item->STATE}}</td>
                 <td nowrap="nowrap">{{$item->DIFFRENTLY_ABLED}}</td>
