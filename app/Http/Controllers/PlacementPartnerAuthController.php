@@ -136,7 +136,7 @@ class PlacementPartnerAuthController extends Controller
             )
             ->paginate(50);
             //dd($LearnerList);
-            return view('placementpartner.LearnerList', [
+            return view('placementpartner.learnerList', [
                 'title' => 'All Learners',
                 'data'=>$LearnerList
             ]);
