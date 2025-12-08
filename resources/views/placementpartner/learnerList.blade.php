@@ -16,9 +16,11 @@
         <thead class="table-dark">
             <tr>
                 <th>SN</th>
-                <th>Skill Completed</th>
+                <th>Certificated</th>
+                <th>Jobs</th>
+                <th>Social Protections</th>
                 <th>Name</th>
-                <th>Date Birthday</th>
+                <th>Date Of Birthday</th>
                 <th>Mobile</th>
                 <th>Education Level</th>
                 <th>Digital Proficiency</th>
@@ -39,6 +41,8 @@
                 @else
                 <td nowrap="nowrap"><span style="color:red;font-weight:bold">{{$item->completion_status}}</span></td>
                 @endif
+                <td nowrap="nowrap">NA</td>
+                <td nowrap="nowrap">NA</td>
                 <td nowrap="nowrap"> {{ $item->first_name }}&nbsp;{{ $item->last_name }}</td>
                 <td nowrap="nowrap">{{ $item->date_of_birth }}</td>
                 <td nowrap="nowrap">{{ $item->primary_phone_number }}</td>

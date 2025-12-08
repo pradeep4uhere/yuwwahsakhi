@@ -27,6 +27,7 @@ class Learner extends Model
         'job_mobility',
         'job_kind',
         'job_qualifications',
+        'create_date',
         'job_timing',
         'experience_years',
         'work_hours_per_day',
