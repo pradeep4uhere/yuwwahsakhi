@@ -2088,6 +2088,7 @@ public function fetchOppertunites(Request $request)
                     "ys_id" => $item->ys_id,
                     "uploaded_doc_links" => $item->uploaded_doc_links,
                     "document_type" => $item->document_type,
+                    "field_type"=> $item->field_type,
                     "comment" => $item->comment,
                     "created_at" => $item->created_at,
                     "updated_at" => $item->updated_at,
@@ -2220,6 +2221,7 @@ public function fetchOppertunites(Request $request)
                 'PartnerId'     => $item->partner_id,
                 'FieldID'=>$item->sakhi_id,
                 'Name'=>$item->name,
+                'LocationType'=>$item->location_type,
                 'ContactNumber'=>$item->contact_number,
                 'Email'=>$item->email,
                 "status"=>$item->status
