@@ -79,6 +79,7 @@ class Kernel extends HttpKernel
         'set.language' => \App\Http\Middleware\SetLanguage::class,
         'partnercenter.guest' => \App\Http\Middleware\RedirectIfPartnerCenterAuthenticated::class,
         'pp_partner.guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
+        'powerbi.auth' => \App\Http\Middleware\PowerBiApiAuth::class,
     ];
 
 }

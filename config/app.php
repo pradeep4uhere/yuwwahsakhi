@@ -5,6 +5,7 @@ use Illuminate\Support\ServiceProvider;
 
 return [
 
+    'powerbi_api_key' => env('POWERBI_API_KEY'),
     /*
     |--------------------------------------------------------------------------
     | Application Name

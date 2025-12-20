@@ -30,15 +30,15 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 
-Route::get('/fetch-learners', [ApiAuthController::class, 'fetchLearners']);
-Route::get('/fetch-opportunity', [ApiAuthController::class, 'fetchOppertunites']);
-Route::get('/fetch-partner', [ApiAuthController::class, 'fetchPartner']);
-Route::get('/fetch-partnercenter', [ApiAuthController::class, 'fetchPartnerCenter']);
-Route::get('/fetch-eventtype', [ApiAuthController::class, 'fetchEventType']);
-Route::get('/fetch-eventcategory', [ApiAuthController::class, 'fetchEventCategory']);
-Route::get('/fetch-eventtransaction', [ApiAuthController::class, 'fetchEventTransaction']);
-Route::get('/fetch-assigned-opportunities', [ApiAuthController::class, 'fetchAssignedOpportunities']);
-Route::get('/fetch-field-center', [ApiAuthController::class, 'fetchFieldAgent']);
+Route::middleware(['powerbi.auth', 'throttle:30,1'])->get('/fetch-learners', [ApiAuthController::class, 'fetchLearners']);
+Route::middleware(['powerbi.auth', 'throttle:30,1'])->get('/fetch-opportunity', [ApiAuthController::class, 'fetchOppertunites']);
+Route::middleware(['powerbi.auth', 'throttle:30,1'])->get('/fetch-partner', [ApiAuthController::class, 'fetchPartner']);
+Route::middleware(['powerbi.auth', 'throttle:30,1'])->get('/fetch-partnercenter', [ApiAuthController::class, 'fetchPartnerCenter']);
+Route::middleware(['powerbi.auth', 'throttle:30,1'])->get('/fetch-eventtype', [ApiAuthController::class, 'fetchEventType']);
+Route::middleware(['powerbi.auth', 'throttle:30,1'])->get('/fetch-eventcategory', [ApiAuthController::class, 'fetchEventCategory']);
+Route::middleware(['powerbi.auth', 'throttle:30,1'])->get('/fetch-eventtransaction', [ApiAuthController::class, 'fetchEventTransaction']);
+Route::middleware(['powerbi.auth', 'throttle:30,1'])->get('/fetch-assigned-opportunities', [ApiAuthController::class, 'fetchAssignedOpportunities']);
+Route::middleware(['powerbi.auth', 'throttle:30,1'])->get('/fetch-field-center', [ApiAuthController::class, 'fetchFieldAgent']);
 
 
 
