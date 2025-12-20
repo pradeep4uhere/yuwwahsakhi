@@ -15,6 +15,10 @@ class PowerBiApiAuth
      */
     public function handle(Request $request, Closure $next): Response
     {
+        \Log::info('PowerBI Key:', [
+            'header' => $request->header('X-POWERBI-KEY'),
+            'config' => config('app.powerbi_key')
+        ]);
         $apiKey = $request->header('X-POWERBI-KEY');
         if ($apiKey !== config('app.powerbi_api_key')) {
             return response()->json([
