@@ -16,17 +16,17 @@
         <thead class="table-dark">
             <tr>
                 <th>SN</th>
-                <th>Certificated</th>
-                <th>Jobs</th>
-                <th>Social Protections</th>
                 <th>Name</th>
-                <th>Date Of Birthday</th>
+                <th>Date Of Bith</th>
+                <th>State</th>
+                <th>District</th>
                 <th>Mobile</th>
                 <th>Education Level</th>
                 <th>Digital Proficiency</th>
                 <th>English Knowledge</th>
-                <th>District</th>
-                <th>State</th>
+                <th>Certificated</th>
+                <th>Jobs</th>
+                <th>Social Protections</th>
                 <th>Diffrently Abled</th>
                 
             </tr>
@@ -36,6 +36,14 @@
             @foreach ($data as $item)
             <tr>
                 <td>{{$count}}</td>
+                <td nowrap="nowrap"> {{ $item->first_name }}&nbsp;{{ $item->last_name }}</td>
+                <td nowrap="nowrap">{{ $item->date_of_birth }}</td>
+                <td nowrap="nowrap">{{$item->STATE}}</td>
+                <td nowrap="nowrap">{{$item->DISTRICT_CITY}}</td>
+                <td nowrap="nowrap">{{ $item->primary_phone_number }}</td>
+                <td nowrap="nowrap">{{ $item->education_level }}</td>
+                <td nowrap="nowrap">{{ $item->digital_proficiency }}</td>
+                <td nowrap="nowrap">{{ $item->english_knowledge }}</td>
                 @if($item->completion_status=='Completed')
                 <td nowrap="nowrap"><span style="color:green;font-weight:bold">{{$item->completion_status}}</span></td>
                 @else
@@ -43,16 +51,7 @@
                 @endif
                 <td nowrap="nowrap">NA</td>
                 <td nowrap="nowrap">NA</td>
-                <td nowrap="nowrap"> {{ $item->first_name }}&nbsp;{{ $item->last_name }}</td>
-                <td nowrap="nowrap">{{ $item->date_of_birth }}</td>
-                <td nowrap="nowrap">{{ $item->primary_phone_number }}</td>
-                <td nowrap="nowrap">{{ $item->education_level }}</td>
-                <td nowrap="nowrap">{{ $item->digital_proficiency }}</td>
-                <td nowrap="nowrap">{{ $item->english_knowledge }}</td>
-                <td nowrap="nowrap">{{$item->DISTRICT_CITY}}</td>
-                <td nowrap="nowrap">{{$item->STATE}}</td>
                 <td nowrap="nowrap">{{$item->DIFFRENTLY_ABLED}}</td>
-                
             </tr>
             <?php $count++; ?>
             @endforeach
