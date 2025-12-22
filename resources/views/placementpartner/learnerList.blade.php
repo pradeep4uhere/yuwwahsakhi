@@ -51,7 +51,9 @@
                 @endif
                 <td nowrap="nowrap">NA</td>
                 <td nowrap="nowrap">NA</td>
-                <td nowrap="nowrap">{{$item->DIFFRENTLY_ABLED}}</td>
+                <td nowrap="nowrap">
+                    {{ $item->DIFFRENTLY_ABLED == 0 ? 'No' : 'Yes' }}
+                </td>
             </tr>
             <?php $count++; ?>
             @endforeach
