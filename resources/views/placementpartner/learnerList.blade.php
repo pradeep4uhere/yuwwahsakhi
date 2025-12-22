@@ -17,7 +17,7 @@
             <tr>
                 <th>SN</th>
                 <th>Name</th>
-                <th>Date Of Bith</th>
+                <th>Date Of Birth</th>
                 <th>State</th>
                 <th>District</th>
                 <th>Mobile</th>
