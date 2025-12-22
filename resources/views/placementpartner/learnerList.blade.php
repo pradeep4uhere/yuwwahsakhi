@@ -38,8 +38,8 @@
                 <td>{{$count}}</td>
                 <td nowrap="nowrap"> {{ $item->first_name }}&nbsp;{{ $item->last_name }}</td>
                 <td nowrap="nowrap">{{ $item->date_of_birth }}</td>
-                <td nowrap="nowrap">{{$item->STATE}}</td>
-                <td nowrap="nowrap">{{$item->DISTRICT_CITY}}</td>
+                <td nowrap="nowrap">{{$item->PROGRAM_STATE}}</td>
+                <td nowrap="nowrap">{{$item->PROGRAM_DISTRICT}}</td>
                 <td nowrap="nowrap">{{ $item->primary_phone_number }}</td>
                 <td nowrap="nowrap">{{ $item->education_level }}</td>
                 <td nowrap="nowrap">{{ $item->digital_proficiency }}</td>
