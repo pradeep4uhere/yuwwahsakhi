@@ -52,7 +52,7 @@
                 <td nowrap="nowrap">NA</td>
                 <td nowrap="nowrap">NA</td>
                 <td nowrap="nowrap">
-                    {{ $item->DIFFRENTLY_ABLED == 0 ? 'No' : 'Yes' }}
+                    {{ in_array($item->DIFFRENTLY_ABLED, [0, '0', 'No', null], true) ? 'No' : 'Yes' }}
                 </td>
             </tr>
             <?php $count++; ?>
