@@ -7,7 +7,7 @@
             <tr>
                 <td style="width:88%"><h1>Learner [{{$data->total()}}]</h1></td>
                 <td text-align="right">
-                    <!-- <a href="{{route('export.placementpartner.viewyuwaahsakhi')}}"><b><img src="{{asset('asset/images/export.jpg')}}" width="25px" height="25px">&nbsp;Export Learner</b></a> -->
+                    <a href="{{route('export.placementpartner.exportpplearner',['id'=>$ppid])}}"><b><img src="{{asset('asset/images/export.jpg')}}" width="25px" height="25px">&nbsp;Export Learner</b></a>
                 </td>
             </tr>
         </table>
@@ -17,17 +17,18 @@
             <tr>
                 <th>SN</th>
                 <th>Name</th>
-                <th>Date Of Birth</th>
+                <th nowrap="nowrap">Date Of Birth</th>
                 <th>State</th>
                 <th>District</th>
                 <th>Mobile</th>
-                <th>Education Level</th>
-                <th>Digital Proficiency</th>
-                <th>English Knowledge</th>
-                <th>Certificated</th>
+                <th nowrap="nowrap">Education Level</th>
+                <th nowrap="nowrap">Digital Proficiency</th>
+                <th nowrap="nowrap">English Knowledge</th>
+                <th nowrap="nowrap">Certificated</th>
                 <th>Jobs</th>
-                <th>Social Protections</th>
-                <th>Diffrently Abled</th>
+                <th nowrap="nowrap">Social Protections</th>
+                <th>Verified</th>
+                <th nowrap="nowrap">Diffrently Abled</th>
                 
             </tr>
         </thead>
@@ -49,6 +50,7 @@
                 @else
                 <td nowrap="nowrap"><span style="color:red;font-weight:bold">{{$item->completion_status}}</span></td>
                 @endif
+                <td nowrap="nowrap">NA</td>
                 <td nowrap="nowrap">NA</td>
                 <td nowrap="nowrap">NA</td>
                 <td nowrap="nowrap">

@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\Auth;
 use App\Exports\PartnerPlacementUserExport;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\PlacementYuwaahSakhiExport;
+use App\Exports\PlacementYuwaahSakhiLearnerExport;
+
 use DB;
 use Log;
 use App\Models\YuwaahSakhi;
@@ -49,6 +51,7 @@ class PlacementPartnerAuthController extends Controller
     public function dashboard(Request $request)
     {
        
+
         return view('placementpartner.dashboard', [
             'title' => 'Dashboard',
             'chartsData'=>"",
@@ -67,7 +70,7 @@ class PlacementPartnerAuthController extends Controller
        //All field Center
         $id = Auth::user()->id;
         //$data = YuwaahSakhi::where('partner_placement_user_id',$id)->paginate(50);
-        $data = DB::table('yuwaah_sakhi as ys')
+        $query = DB::table('yuwaah_sakhi as ys')
         ->leftJoin('partners as p', 'ys.partner_id', '=', 'p.id')
         ->leftJoin('partner_centers as pc', 'ys.partner_center_id', '=', 'pc.id')
         ->select(
@@ -88,12 +91,45 @@ class PlacementPartnerAuthController extends Controller
             'ys.created_at',
             DB::raw('(SELECT COUNT(*) FROM learners WHERE learners.UNIT_INSTITUTE = ys.csc_id) AS learner_count')
         )
-        ->where('partner_placement_user_id', $id)
-        ->paginate(50);
+        ->where('partner_placement_user_id', $id);
+
+
+        // 🔍 Apply Filters (Only if present)
+        if ($request->filled('csc_id')) {
+            $query->where('ys.sakhi_id', 'LIKE', '%' . $request->csc_id . '%');
+        }
+
+        if ($request->filled('state')) {
+            $query->where('ys.state', $request->state);
+        }
+
+        if ($request->filled('district')) {
+            $query->where('ys.district', $request->district);
+        }
+
+        if ($request->filled('contact_number')) {
+            $query->where('ys.contact_number', $request->contact_number);
+        }
+
+
+        
+        // Pagination with query string preserved
+        $data = $query->paginate(50)->withQueryString();
         //dd($data );
+  
+
+
+        //Get All State List and District
+        $statetdata = DB::table('yuwaah_sakhi as ys')
+        ->select('ys.state')        
+        ->distinct()
+        ->orderBy('ys.state')
+        ->get();
+       // dd($statetdata);
         return view('placementpartner.fieldCenterList', [
             'title' => 'All Field Center',
-            'data'=>$data
+            'data'=>$data,
+            'statetdata'=>$statetdata
         ]);
     }
 
@@ -138,7 +174,8 @@ class PlacementPartnerAuthController extends Controller
             //dd($LearnerList);
             return view('placementpartner.learnerList', [
                 'title' => 'All Learners',
-                'data'=>$LearnerList
+                'data'=>$LearnerList,
+                'ppid'=>$id
             ]);
         }catch(DecryptException $e){
             // Invalid encrypted string
@@ -147,6 +184,39 @@ class PlacementPartnerAuthController extends Controller
                 ->back()
                 ->with('error', 'Invalid or expired link.');
         }
+    }
+
+
+
+    /**
+     *  Export All Learner Of the VLE
+     */
+    public function exportPlacementYuwaahSakhiLearner(Request $request,$id)
+    {
+        $cscValue = decryptString($id);
+       // $partnerPlacementUserId = $request->partner_placement_user_id;
+      
+        return Excel::download(
+            new PlacementYuwaahSakhiLearnerExport($cscValue),
+                'placement_learners_'.$cscValue.'.xlsx'
+        );
+    }
+    
+
+
+
+    
+    
+    public function getDistricts(Request $request)
+    {
+        $districts = DB::table('yuwaah_sakhi')
+            ->select('district')
+            ->where('state', $request->state)
+            ->distinct()
+            ->orderBy('district')
+            ->get();
+
+        return response()->json($districts);
     }
 
 }

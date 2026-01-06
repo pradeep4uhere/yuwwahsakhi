@@ -3,12 +3,35 @@
 @section('content')
 @include('placementpartner.menu')
 <div class="container">
+       <form>
        <table class="table w-100">
             <tr>
-                <td style="width:88%"><h1>Field Agent [{{$data->total()}}]</h1></td>
+                <td style="width:88%" colspan="5"><h1>Field Agent [{{$data->total()}}]</h1></td>
                 <td text-align="right"><a href="{{route('export.placementpartner.viewyuwaahsakhi')}}"><b><img src="{{asset('asset/images/export.jpg')}}" width="25px" height="25px">&nbsp;Export Field Agent</b></a></td>
             </tr>
+            <tr>
+                <td style="width:10%"><input type="text" name="csc_id" class="form-control" placeholder="Agent ID"/></td>
+                <td style="width:10%"><input type="text" name="contact_number" class="form-control" placeholder="Mobile Number"/></td>
+                <td style="width:10%"><input type="text" name="email" class="form-control" placeholder="Email Address"/></td>
+                <td style="width:10%">
+                    <select name="state" class="form-control" id="state">
+                    <option value="">--Choose State--</option>
+                    @foreach($statetdata as $item)
+                        <option value="{{ $item->state }}">
+                            {{ $item->state }}
+                        </option>
+                    @endforeach
+                    </select>
+                </td>
+                <td style="width:10%">
+                    <select name="district" id="district"  class="form-control">
+                        <option value="">--Choose District--</option>
+                    </select>
+                </td>
+                <td style="width:10%"><input type="submit" name="submit" class="form-control bg-primary font-white" Value="Search"/></td>
+            </tr>
         </table>
+</form>
         <div class="table-responsive">
         <table class="table table-striped table-bordered">
         <thead class="table-dark">
