@@ -59,7 +59,7 @@
                 <td nowrap="nowrap">{{ $item->contact_number }}</td>
                 <td nowrap="nowrap">{{ $item->email }}</td>
                 <td nowrap="nowrap">{{ $item->state }}</td>
-                <td nowrap="nowrap">{{ $item->district }}]</td>
+                <td nowrap="nowrap">{{ $item->district }}</td>
                 <td><a href="">{{$item->learner_count}}</a></td>
                 <td nowrap="nowrap">
                 @if($item->learner_count > 0)
