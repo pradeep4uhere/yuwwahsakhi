@@ -1653,6 +1653,7 @@ public function fetchLearners(Request $request)
             $formattedLearners = $paginator->map(function ($item) {
                return [
                     "id" => $item->id,
+                    "course_completed" => $item->course_completed,
                     "first_name" => $item->first_name,
                     "last_name" => $item->last_name,
                     "status" => "Active", // Static or based on logic
