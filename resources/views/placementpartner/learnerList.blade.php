@@ -5,11 +5,41 @@
 <div class="container">
        <table class="table w-100">
             <tr>
-                <td style="width:88%"><h1>Learner [{{count($data)}}]</h1></td>
-                <td text-align="right">
+                <td style="width:88%" style="padding-top:35px;" ><h1>Learner [{{count($data)}}]</h1></td>
+                <td>
+                <table><tr>
+                <td nowrap="nowrap">
+                <span>Action Required</span>
+                </td>
+                <td>
+                <div style="width:20px; height:20px; border-radius:50%; background-color:#f97316;"></div>
+                </td>
+                <td>
+                <span class="text-[10px] text-blue-500">Submitted</span>
+                </td>
+                <td>
+                <div style="width:20px; height:20px; border-radius:50%; background-color:#3b82f6;"></div>
+                </td>
+                <td>
+                <span class="text-[10px] text-green-700">Accepted</span>
+                </td>
+                <td>
+                <div style="width:20px; height:20px; border-radius:50%; background-color:#22c55e;"></div>
+                </td>
+                <td>
+                <span class="text-[10px] text-red-700">Rejected</span>
+                </td>
+                <td>
+                    <div style="width:20px; height:20px; border-radius:50%; background-color:#ef4444;"></div>
+                </td>
+                </tr>
+                </table>
+                </td>
+                <td text-align="right" nowrap="nowrap" style="padding-top:25px;">
                     <a href="{{route('export.placementpartner.exportpplearner',['id'=>$ppid])}}"><b><img src="{{asset('asset/images/export.jpg')}}" width="25px" height="25px">&nbsp;Export Learner</b></a>
                 </td>
             </tr>
+          
         </table>
         <div class="table-responsive">
         <table class="table table-striped table-bordered">
