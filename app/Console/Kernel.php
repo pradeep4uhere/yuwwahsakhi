@@ -18,6 +18,14 @@ class Kernel extends ConsoleKernel
         ->dailyAt('02:00')
         ->withoutOverlapping()
         ->appendOutputTo(storage_path('logs/mysql-backup.log'));
+
+        $schedule->call(function () {
+            $logPath = storage_path('logs');
+    
+            foreach (glob($logPath . '/*.log') as $file) {
+                file_put_contents($file, '');
+            }
+        })->weeklyOn(6, '03:00');
     }
 
     /**

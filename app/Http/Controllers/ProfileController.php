@@ -780,6 +780,7 @@ private function checkEventTypeJobSocialProtection($eventTransactionList, $learn
 
             if ($action === 'submit') {
                 $data['event_date_submitted'] = now(); // Only on submit
+                $data['review_status'] = 'Open'; // Only on submit
             }
 
             if ($existingEvent) {
