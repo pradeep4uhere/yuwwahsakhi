@@ -5,7 +5,7 @@
 <div class="container">
        <table class="table w-100">
             <tr>
-                <td style="width:88%"><h1>Learner [{{$data->total()}}]</h1></td>
+                <td style="width:88%"><h1>Learner [{{count($data)}}]</h1></td>
                 <td text-align="right">
                     <a href="{{route('export.placementpartner.exportpplearner',['id'=>$ppid])}}"><b><img src="{{asset('asset/images/export.jpg')}}" width="25px" height="25px">&nbsp;Export Learner</b></a>
                 </td>
@@ -24,10 +24,10 @@
                 <th nowrap="nowrap">Education Level</th>
                 <th nowrap="nowrap">Digital Proficiency</th>
                 <th nowrap="nowrap">English Knowledge</th>
-                <th nowrap="nowrap">Certificated</th>
+                <th nowrap="nowrap">Certification</th>
                 <th>Jobs</th>
                 <th nowrap="nowrap">Social Protections</th>
-                <th>Verified</th>
+             
                 <th nowrap="nowrap">Diffrently Abled</th>
                 
             </tr>
@@ -37,24 +37,62 @@
             @foreach ($data as $item)
             <tr>
                 <td>{{$count}}</td>
-                <td nowrap="nowrap"> {{ $item->first_name }}&nbsp;{{ $item->last_name }}</td>
-                <td nowrap="nowrap">{{ $item->date_of_birth }}</td>
-                <td nowrap="nowrap">{{$item->PROGRAM_STATE}}</td>
-                <td nowrap="nowrap">{{$item->PROGRAM_DISTRICT}}</td>
-                <td nowrap="nowrap">{{ $item->primary_phone_number }}</td>
-                <td nowrap="nowrap">{{ $item->education_level }}</td>
-                <td nowrap="nowrap">{{ $item->digital_proficiency }}</td>
-                <td nowrap="nowrap">{{ $item->english_knowledge }}</td>
-                @if($item->completion_status=='Completed')
-                <td nowrap="nowrap"><span style="color:green;font-weight:bold">{{$item->completion_status}}</span></td>
+                <td nowrap="nowrap"> {{ $item['item']['first_name'] }}&nbsp;{{ $item['item']['last_name'] }}</td>
+                <td nowrap="nowrap">{{ $item['item']['date_of_birth'] }}</td>
+                <td nowrap="nowrap">{{ $item['item']['PROGRAM_STATE']}}</td>
+                <td nowrap="nowrap">{{ $item['item']['PROGRAM_DISTRICT']}}</td>
+                <td nowrap="nowrap">{{ $item['item']['primary_phone_number'] }}</td>
+                <td nowrap="nowrap">{{ $item['item']['education_level'] }}</td>
+                <td nowrap="nowrap">{{ $item['item']['digital_proficiency'] }}</td>
+                <td nowrap="nowrap">{{ $item['item']['english_knowledge'] }}</td>
+                @if($item['item']['completion_status']==1)
+                <td nowrap="nowrap" style="text-align:center;">
+                    <div style="width:20px; height:20px; border-radius:50%; background-color:#22c55e;"></div>
+                </td>
                 @else
-                <td nowrap="nowrap"><span style="color:red;font-weight:bold">{{$item->completion_status}}</span></td>
+                <td nowrap="nowrap" style="text-align:center;">
+                    <div style="width:20px; height:20px; border-radius:50%; background-color:#ffffff; border:1px solid #000000;"></div>
+                </td>
                 @endif
-                <td nowrap="nowrap">NA</td>
-                <td nowrap="nowrap">NA</td>
-                <td nowrap="nowrap">NA</td>
                 <td nowrap="nowrap">
-                    {{ in_array($item->DIFFRENTLY_ABLED, [0, '0', 'No', null], true) ? 'No' : 'Yes' }}
+                       
+                    <?php if($item['job_event']['is_job_event']){ ?>
+                            <?php if($item['job_event']['is_submitted']!='' &&  $item['job_event']['review_status']==''){ ?>
+                                <div style="width:20px; height:20px; border-radius:50%; background-color:#3b82f6;"></div>
+                            <?php }elseif($item['job_event']['is_submitted']!='' &&  $item['job_event']['review_status']=='Rejected'){ ?>
+                                <div style="width:20px; height:20px; border-radius:50%; background-color:#ef4444;"></div>
+                            <?php }elseif($item['job_event']['is_submitted']!='' &&  $item['job_event']['review_status']=='Accepted'){ ?>
+                                <div style="width:20px; height:20px; border-radius:50%; background-color:#22c55e;"></div>
+                            <?php }elseif($item['job_event']['is_submitted']!='' &&  $item['job_event']['review_status']!='Accepted'){ ?>
+                                <div style="width:20px; height:20px; border-radius:50%; background-color:#f97316;"></div>
+                            <?php }else{ ?>
+                                <div style="width:20px; height:20px; border-radius:50%; background-color:#ffffff; border:1px solid #000000;"></div>                       
+                                 <?php } ?>
+                        <?php }else{?>
+                            <div style="width:20px; height:20px; border-radius:50%; background-color:#ffffff; border:1px solid #000000;"></div>                       
+                        <?php } ?>
+
+                </td>
+                <td nowrap="nowrap">
+                        <?php if($item['social_protection']['is_social_event']){ ?>
+                        <?php if($item['social_protection']['is_submitted']!='' &&  $item['social_protection']['review_status']==''){ ?>
+                            <div style="width:20px; height:20px; border-radius:50%; background-color:#3b82f6;"></div>
+                        <?php }elseif($item['social_protection']['is_submitted']!='' &&  $item['social_protection']['review_status']=='Rejected'){ ?>
+                            <div style="width:20px; height:20px; border-radius:50%; background-color:#ef4444;"></div>
+                        <?php }elseif($item['social_protection']['is_submitted']!='' &&  $item['social_protection']['review_status']=='Accepted'){ ?>
+                            <div style="width:20px; height:20px; border-radius:50%; background-color:#22c55e;"></div>
+                        <?php }elseif($item['social_protection']['is_submitted']=='' &&  $item['social_protection']['review_status']==''){ ?>
+                            <div style="width:20px; height:20px; border-radius:50%; background-color:#3b82f6;"></div>
+                        <?php }elseif($item['social_protection']['is_submitted']!='' &&  $item['social_protection']['review_status']!='Accepted'){ ?>
+                            <div style="width:20px; height:20px; border-radius:50%; background-color:#f97316;"></div>
+                        <?php }else{ ?>
+                            <div style="width:20px; height:20px; border-radius:50%; background-color:#ffffff; border:1px solid #000000;"></div>                        <?php } ?>
+                <?php }else{?>
+                    <div style="width:20px; height:20px; border-radius:50%; background-color:#ffffff; border:1px solid #000000;"></div>
+                <?php } ?>
+                </td>
+                <td nowrap="nowrap">
+                    {{ in_array($item['item']['DIFFRENTLY_ABLED'], [0, '0', 'No', null], true) ? 'No' : 'Yes' }}
                 </td>
             </tr>
             <?php $count++; ?>
@@ -63,7 +101,7 @@
     </table>
     <div class="pagination">
     <div class="d-flex justify-content-center mt-3">
-    {{ $data->links('pagination::bootstrap-5') }}
+   
     </div>
     </div> 
     </div> 
