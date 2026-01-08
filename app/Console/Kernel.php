@@ -14,6 +14,10 @@ class Kernel extends ConsoleKernel
     {
         // $schedule->command('inspire')->hourly();
         $schedule->command('import:learner-data')->dailyAt('02:00');
+        $schedule->command('backup:mysql')
+        ->dailyAt('02:00')
+        ->withoutOverlapping()
+        ->appendOutputTo(storage_path('logs/mysql-backup.log'));
     }
 
     /**
