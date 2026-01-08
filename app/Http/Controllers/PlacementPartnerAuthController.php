@@ -178,7 +178,7 @@ class PlacementPartnerAuthController extends Controller
         try {
             $cscValue = decryptString($id); 
 
-            $ys_id = YuwaahSakhi::select('id')->where('csc_id',$cscValue)->get(); 
+            $ys_id = YuwaahSakhi::where('csc_id', $cscValue)->value('id');
             //Get all Learner List
             //$LearnerList = Learner::where('UNIT_INSTITUTE',$cscValue)->paginate(50);
             // $LearnerList = DB::table('learners as l')
