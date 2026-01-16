@@ -2090,6 +2090,7 @@ public function fetchOppertunites(Request $request)
                     "uploaded_doc_links" => $item->uploaded_doc_links,
                     "document_type" => $item->document_type,
                     "field_type"=> $item->field_type,
+                    "industry_type"=> $item->industry_type,
                     "comment" => $item->comment,
                     "created_at" => $item->created_at,
                     "updated_at" => $item->updated_at,
