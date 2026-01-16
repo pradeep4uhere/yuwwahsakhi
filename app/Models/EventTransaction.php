@@ -28,7 +28,8 @@ class EventTransaction extends Model
         'review_status',
         'document_type',
         'field_type',
-        'event_category_name'
+        'event_category_name',
+        'industry_type'
     ];
 
     protected $casts = [
