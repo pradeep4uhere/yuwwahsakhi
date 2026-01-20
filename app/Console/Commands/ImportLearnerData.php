@@ -65,6 +65,8 @@ class ImportLearnerData extends Command
                             'yuwaah_resume_create_date' => $this->parseDate($row['user_profile_created_date']),
                             'yuwaah_resume_update_date' => Carbon::now(),
                             'last_month_salary' => $row['monthly_family_income_range'],
+                            'english_knowledge'=> $row['engilsh_proficiency_level'],
+                            'digital_proficiency'=> $row['digital_proficiency_level'],
                             'created_at' => Carbon::now(),
                             'updated_at' => Carbon::now(),
                         ]

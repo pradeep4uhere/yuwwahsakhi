@@ -245,8 +245,12 @@ class PlacementPartnerAuthController extends Controller
                     })
                     ->select([
                         'learners.id',
+                        'learners.date_of_birth',
+                        'learners.education_level',
                         'learners.UNIT_INSTITUTE',
+                        'learners.digital_proficiency',
                         'learners.DIFFRENTLY_ABLED',
+                        'learners.english_knowledge',
                         'learners.first_name','learners.last_name','learners.primary_phone_number',
                         'yhub_learners.email_address as yhub_email_address',
                         'yhub_learners.completion_status as completion_status',
