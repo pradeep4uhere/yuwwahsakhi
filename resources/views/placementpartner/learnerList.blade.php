@@ -68,7 +68,7 @@
             <tr>
                 <td>{{$count}}</td>
                 <td nowrap="nowrap"> {{ $item['item']['first_name'] }}&nbsp;{{ $item['item']['last_name'] }}</td>
-                <td nowrap="nowrap">{{ $item['item']['date_of_birth'] }}</td>
+                <td nowrap="nowrap">{{ date('d-m-Y', strtotime($item['item']['date_of_birth']))}}</td>
                 <td nowrap="nowrap">{{ $item['item']['PROGRAM_STATE']}}</td>
                 <td nowrap="nowrap">{{ $item['item']['PROGRAM_DISTRICT']}}</td>
                 <td nowrap="nowrap">{{ $item['item']['primary_phone_number'] }}</td>
