@@ -253,9 +253,10 @@ class PlacementPartnerAuthController extends Controller
                         'learners.english_knowledge',
                         'learners.PROGRAM_STATE',
                         'learners.PROGRAM_DISTRICT',
+                        'learners.course_completed',
                         'learners.first_name','learners.last_name','learners.primary_phone_number',
                         'yhub_learners.email_address as yhub_email_address',
-                        'yhub_learners.completion_status as completion_status',
+                        'yhub_learners.course_completed as completion_status',
                         DB::raw('COALESCE(et.last_event_update, learners.updated_at) as sort_updated_at')
                     ])
                     ->groupBy(
