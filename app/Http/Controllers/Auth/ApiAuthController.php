@@ -1661,7 +1661,7 @@ public function fetchLearners(Request $request)
                     "gender" => $item->gender,
                     "email" => $item->email,
                     "institution" => null,
-                    "education_level" => null,
+                    "education_level" => $item->education_level,
                     "digital_proficiency" => null,
                     "english_knowledge" => null,
                     "interested_in_opportunities" => false,
