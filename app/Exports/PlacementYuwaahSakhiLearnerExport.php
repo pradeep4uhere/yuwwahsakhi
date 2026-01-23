@@ -37,7 +37,7 @@ class PlacementYuwaahSakhiLearnerExport implements FromCollection, WithHeadings,
             'l.*',
             DB::raw("
                 CASE 
-                    WHEN yh.id IS NOT NULL 
+                    WHEN yh.course_completed = 1 
                     THEN 'Completed' 
                     ELSE 'Not Completed' 
                 END AS completion_status
@@ -60,7 +60,6 @@ class PlacementYuwaahSakhiLearnerExport implements FromCollection, WithHeadings,
             'Digital Proficiency',
             'English Knowledge',
             'Completion Status',
-            'Verified',
             'DIFFRENTLY ABLED',
         ];
     }
@@ -78,7 +77,6 @@ class PlacementYuwaahSakhiLearnerExport implements FromCollection, WithHeadings,
             $learner->education_level,
             $learner->digital_proficiency,
             $learner->english_knowledge,
-            $learner->completion_status,
             $learner->course_completed,
             $learner->DIFFRENTLY_ABLED,
         ];
