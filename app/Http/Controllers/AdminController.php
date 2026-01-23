@@ -1370,6 +1370,7 @@ public function importvle(Request $request)
             'district'          => $row[2],
             'state'             => $row[1],
             'city'              => $row[3],
+            'location_type'     => $row[7],
             'contact_number'    => $contact,
             'partner_id'        => $request['partner_id'],
             'partner_center_id' => $request['partner_center_id'],
