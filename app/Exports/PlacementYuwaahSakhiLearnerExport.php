@@ -81,7 +81,7 @@ class PlacementYuwaahSakhiLearnerExport implements FromCollection, WithHeadings,
             $learner->education_level,
             $learner->digital_proficiency,
             $learner->english_knowledge,
-            $learner->course_completed,
+            $learner->completion_status,
             $learner->DIFFRENTLY_ABLED,
         ];
     }
