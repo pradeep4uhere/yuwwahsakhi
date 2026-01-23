@@ -41,7 +41,7 @@ class PlacementYuwaahSakhiLearnerExport implements FromCollection, WithHeadings,
             'l.*',
             DB::raw("
                 CASE 
-                    WHEN yh.course_completed = 1 
+                    WHEN l.course_completed = 1 
                     THEN 'Completed'
                     ELSE 'Not Completed'
                 END AS completion_status
