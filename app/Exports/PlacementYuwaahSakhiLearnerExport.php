@@ -28,9 +28,13 @@ class PlacementYuwaahSakhiLearnerExport implements FromCollection, WithHeadings,
     */
     public function collection()
     {
-        return  DB::table('learners as l')
+        return DB::table('learners as l')
         ->leftJoin('yhub_learners as yh', function ($join) {
-            $join->on(DB::raw('RIGHT(l.primary_phone_number, 10)'), '=', DB::raw('RIGHT(yh.email_address, 10)'));
+            $join->on(
+                DB::raw('RIGHT(l.primary_phone_number, 10)'),
+                '=',
+                DB::raw('RIGHT(yh.email_address, 10)')
+            );
         })
         ->where('l.UNIT_INSTITUTE', $this->cscValue)
         ->select(
@@ -38,8 +42,8 @@ class PlacementYuwaahSakhiLearnerExport implements FromCollection, WithHeadings,
             DB::raw("
                 CASE 
                     WHEN yh.course_completed = 1 
-                    THEN 'Completed' 
-                    ELSE 'Not Completed' 
+                    THEN 'Completed'
+                    ELSE 'Not Completed'
                 END AS completion_status
             ")
         )
