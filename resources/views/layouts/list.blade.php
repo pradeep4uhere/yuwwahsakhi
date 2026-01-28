@@ -555,6 +555,38 @@ $(document).ready(function () {
     });
 });
 </script>
+
+<script>
+$(document).ready(function () {
+    $('#state').on('change', function () {
+        let state = $(this).val();
+
+        $('#district').html('<option value="">Loading...</option>');
+
+        if (state) {
+            $.ajax({
+                url: "{{ route('partner.get.districts') }}",
+                type: "GET",
+                data: { state: state },
+                success: function (data) {
+                    $('#district').empty();
+                    $('#district').append('<option value="">--Choose District--</option>');
+
+                    $.each(data, function (key, value) {
+                        $('#district').append(
+                            '<option value="' + value.district + '">' +
+                            value.district +
+                            '</option>'
+                        );
+                    });
+                }
+            });
+        } else {
+            $('#district').html('<option value="">--Choose District--</option>');
+        }
+    });
+});
+</script>
 </body>
 
 </html>

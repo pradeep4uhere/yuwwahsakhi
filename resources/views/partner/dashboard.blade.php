@@ -21,8 +21,8 @@
             </div>
         </div>
         <div class="card">
-            <h2 class="name-value-box">
-                <span class="name">Partner Center</span>
+            <h2 class="name-value-box" style="width:300px">
+                <span class="name">Partner Division</span>
                 <span class="value">{{$totalCount['totalPartnerCenter']}}</span>
             </h2>
             <div class="chart-container">
@@ -33,8 +33,8 @@
             </div>
         </div>
         <div class="card">
-            <h2 class="name-value-box" style="width:200px">
-                <span class="name">YuWaah Sakhi</span>
+            <h2 class="name-value-box" style="width:300px">
+                <span class="name">Field Agent</span>
                 <span class="value">{{$totalCount['totalYuwaahSakhi']}}</span>
             </h2>
             <div class="chart-container">

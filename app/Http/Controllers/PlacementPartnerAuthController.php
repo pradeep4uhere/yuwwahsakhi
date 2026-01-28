@@ -329,7 +329,7 @@ class PlacementPartnerAuthController extends Controller
      */
     public function exportPlacementYuwaahSakhiLearner(Request $request,$id)
     {
-        $cscValue = decryptString($id);
+         $cscValue = decryptString($id); 
        // $partnerPlacementUserId = $request->partner_placement_user_id;
       
         return Excel::download(

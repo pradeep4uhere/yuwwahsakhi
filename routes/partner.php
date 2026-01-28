@@ -12,6 +12,8 @@ use App\Http\Controllers\Auth\PasswordController;
 use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\Auth\VerifyEmailController;
+use App\Http\Controllers\PlacementPartnerAuthController;
+
 use App\Exports\EventTransactionsExport;
 
 
@@ -51,6 +53,14 @@ Route::middleware('auth:partner')->group(function () {
     Route::any('updatepartnercenter/{id}', [PartnerController::class, 'udatePartnerCenterDetails'])->name('partner.partnercenter.edit');
     Route::post('update-partner-center-action', [PartnerController::class, 'udatePartnerCenterAction'])->name('partner.partnercenter.updatepartnercenter');
     Route::get('partner.event', [PartnerController::class, 'eventList'])->name('partner.event');
+    Route::get('partner.fieldagents', [PartnerController::class, 'fieldAgentList'])->name('partner.fieldagents');
+    Route::get('partner.viewfieldagent/{id}', [PartnerController::class, 'viewFieldAgent'])->name('partner.viewfieldagent');
+    Route::get('export-placement-learner/{id}', [PlacementPartnerAuthController::class, 'exportPlacementYuwaahSakhiLearner'])->name('export.partner.exportpplearner');
+    Route::get('/get-districts', [PartnerController::class, 'getDistricts'])->name('partner.get.districts');
+    Route::get('/partner/filed-agents/export', [PartnerController::class, 'exportFiledAgents'])->name('partner.filed-agents.export');
+
+
+   
     Route::get('viewyuwaahsakhi/{id}', [PartnerController::class, 'viewAssociatedYuwaahSakhi'])->name('partner.partnercenter.viewyuwaahsakhi');
     Route::get('viewyuwaahsakhi_details/{id}', [PartnerController::class, 'viewAssociatedYuwaahSakhi'])->name('partner.partnercenter.viewyuwaahsakhi.details');
     Route::get('setting', [PartnerController::class, 'settingProfile'])->name('partner.setting');

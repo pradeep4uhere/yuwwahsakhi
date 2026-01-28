@@ -183,4 +183,9 @@ class YuwaahSakhi extends Authenticatable
         return $this->belongsTo(PartnerPlacementUser::class, 'partner_placement_user_id');
     }
 
+    public function learners()
+    {
+        return $this->hasMany(Learner::class, 'UNIT_INSTITUTE', 'csc_id');
+    }
+
 }
