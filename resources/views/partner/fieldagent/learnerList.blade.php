@@ -94,7 +94,7 @@
                             <?php }elseif($item['job_event']['is_submitted']!='' &&  $item['job_event']['review_status']=='Accepted'){ ?>
                                 <div style="width:20px; height:20px; border-radius:50%; background-color:#22c55e;"></div>
                             <?php }elseif($item['job_event']['is_submitted']!='' &&  $item['job_event']['review_status']!='Accepted'){ ?>
-                                <div style="width:20px; height:20px; border-radius:50%; background-color:#f97316;"></div>
+                                <div style="width:20px; height:20px; border-radius:50%; background-color:#3b82f6;"></div>
                             <?php }else{ ?>
                                 <div style="width:20px; height:20px; border-radius:50%; background-color:#ffffff; border:1px solid #000000;"></div>                       
                                  <?php } ?>
