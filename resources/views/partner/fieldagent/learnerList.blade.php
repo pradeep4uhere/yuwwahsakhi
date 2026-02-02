@@ -65,6 +65,8 @@
         <tbody>
         <?php $count=1; ?>
             @foreach ($data as $item)
+            @if($item['item']['primary_phone_number']==='9938211033')
+            @endif
             <tr>
                 <td>{{$count}}</td>
                 <td nowrap="nowrap"> {{ $item['item']['first_name'] }}&nbsp;{{ $item['item']['last_name'] }}</td>
@@ -86,15 +88,17 @@
                 @endif
                 <td nowrap="nowrap">
                        
-                    <?php if($item['job_event']['is_job_event']){ ?>
+                    <?php if($item['job_event']['is_job_event']===true){ ?>
                             <?php if($item['job_event']['is_submitted']!='' &&  $item['job_event']['review_status']==''){ ?>
                                 <div style="width:20px; height:20px; border-radius:50%; background-color:#3b82f6;"></div>
                             <?php }elseif($item['job_event']['is_submitted']!='' &&  $item['job_event']['review_status']=='Rejected'){ ?>
                                 <div style="width:20px; height:20px; border-radius:50%; background-color:#ef4444;"></div>
                             <?php }elseif($item['job_event']['is_submitted']!='' &&  $item['job_event']['review_status']=='Accepted'){ ?>
                                 <div style="width:20px; height:20px; border-radius:50%; background-color:#22c55e;"></div>
-                            <?php }elseif($item['job_event']['is_submitted']!='' &&  $item['job_event']['review_status']!='Accepted'){ ?>
+                            <?php }elseif($item['job_event']['is_submitted']!='' &&  $item['job_event']['review_status']=='Open'){ ?>
                                 <div style="width:20px; height:20px; border-radius:50%; background-color:#3b82f6;"></div>
+                            <?php }elseif($item['job_event']['is_submitted']!='' &&  $item['job_event']['review_status']=='Pending'){ ?>
+                                 <div style="width:20px; height:20px; border-radius:50%; background-color:#f97316;"></div>
                             <?php }else{ ?>
                                 <div style="width:20px; height:20px; border-radius:50%; background-color:#ffffff; border:1px solid #000000;"></div>                       
                                  <?php } ?>
@@ -111,9 +115,9 @@
                             <div style="width:20px; height:20px; border-radius:50%; background-color:#ef4444;"></div>
                         <?php }elseif($item['social_protection']['is_submitted']!='' &&  $item['social_protection']['review_status']=='Accepted'){ ?>
                             <div style="width:20px; height:20px; border-radius:50%; background-color:#22c55e;"></div>
-                        <?php }elseif($item['social_protection']['is_submitted']=='' &&  $item['social_protection']['review_status']==''){ ?>
+                        <?php }elseif($item['social_protection']['is_submitted']!='' &&  $item['social_protection']['review_status']=='Open'){ ?>
                             <div style="width:20px; height:20px; border-radius:50%; background-color:#3b82f6;"></div>
-                        <?php }elseif($item['social_protection']['is_submitted']!='' &&  $item['social_protection']['review_status']!='Accepted'){ ?>
+                        <?php }elseif($item['social_protection']['is_submitted']!='' &&  $item['social_protection']['review_status']!='Pending'){ ?>
                             <div style="width:20px; height:20px; border-radius:50%; background-color:#f97316;"></div>
                         <?php }else{ ?>
                             <div style="width:20px; height:20px; border-radius:50%; background-color:#ffffff; border:1px solid #000000;"></div>                        <?php } ?>

@@ -685,8 +685,10 @@ class PartnerController extends Controller
                  $eventTransactionList = $latestEvents->get();
                  //dd($eventTransactionList);
                  foreach($learnerListArr as $item){
+                    //dd( $item);
                      $learnerList[$item['id']]=array(
                          'item'=>$item,
+                         'course_completed'=>$item['course_completed'],
                          'job_event'=> $this->checkIsJobEvent($eventTransactionList,$item['id']),
                          'social_protection' => $this->checkEventTypeJobSocialProtection($eventTransactionList,$item['id'])
                      );
@@ -696,39 +698,68 @@ class PartnerController extends Controller
                 $jobEventCount = 0;
                 $jobEventAcceptedCount = 0;
                 $jobEventSubmittedCount = 0;
+                $jobEventOpenCount = 0;
+                $jobEventPendingCount = 0;
+                $jobEventRejectedCount = 0;
 
                 $socialEventCount = 0;
                 $socialEventAcceptedCount = 0;
+                $socialSubmittedCount = 0;
                 $socialEventOpenCount = 0;
+                $socialEventPendingCount = 0;
+                $socialEventRejectedCount = 0;
+
+                $courseCompletedCount = 0;
        
                //dd($learnerList);
                foreach ($learnerList as $agentLearners) {
                // dd($agentLearners);
-               
+               if($agentLearners['course_completed']==1){
+                $courseCompletedCount++;
+               }
     
                 if (empty($agentLearners)) {
                     continue;
                 }
-                $learner = $agentLearners;
+                    $learner = $agentLearners;
                     // ✅ Job Event Count
                     if (
-                        isset($learner['job_event']['is_job_event']) && $learner['job_event']['is_job_event'] === true
+                        isset($learner['job_event']['is_job_event']) && $learner['job_event']['is_job_event'] === true && $learner['job_event']['is_submitted']!= "" 
                     ) {
-                      
-                       
                         $jobEventCount++;
                         // ✅ Accepted Job Event Count
-                        if (
-                            isset($learner['job_event']['review_status']) &&
-                            $learner['job_event']['review_status'] === 'Accepted'
-                        ) {
+                        if (isset($learner['job_event']['review_status']) && $learner['job_event']['review_status'] === 'Accepted') {
                              $jobEventAcceptedCount++; 
                         }
                         if (
                             isset($learner['job_event']['review_status']) &&
-                            $learner['job_event']['review_status'] === 'Open'
+                            $learner['job_event']['review_status'] == 'Open' &&
+                             $learner['job_event']['is_submitted']!= ''
                         ) {
-                             $jobEventSubmittedCount++; 
+                            $jobEventSubmittedCount++; 
+                        }
+                        if (
+                            isset($learner['job_event']['review_status']) &&
+                            $learner['job_event']['review_status'] === 'Pending' &&
+                            $learner['job_event']['is_submitted']!= ''
+                        ) {
+                            $jobEventPendingCount++;
+                        }
+
+                        if (
+                            isset($learner['job_event']['review_status']) &&
+                            $learner['job_event']['review_status'] === '' &&
+                            $learner['job_event']['is_submitted']!= ''
+                        ) {
+                            $jobEventOpenCount++;
+                        }
+
+                        if (
+                            isset($learner['job_event']['review_status']) &&
+                            $learner['job_event']['review_status'] === 'Rejected' &&
+                            $learner['job_event']['is_submitted']!= ''
+                        ) {
+                            $jobEventRejectedCount++;
                         }
                     }
             
@@ -751,16 +782,42 @@ class PartnerController extends Controller
                         ) {
                             $socialEventOpenCount++;
                         }
+                        if (
+                            isset($learner['social_protection']['review_status']) &&
+                            $learner['social_protection']['review_status'] === 'Pending' &&
+                            $learner['social_protection']['is_submitted']!= ''
+                        ) {
+                            $socialEventPendingCount++;
+                        }
+
+                        if (
+                            isset($learner['social_protection']['review_status']) &&
+                            $learner['social_protection']['review_status'] === 'Rejected' &&
+                            $learner['social_protection']['is_submitted']!= ''
+                        ) {
+                            $socialEventRejectedCount++;
+                        }
+
+                        
+                        
                     }
             }
 
             return [
                 'job_total' => $jobEventCount,
                 'job_accepted' => $jobEventAcceptedCount,
-                'job_open'=>$jobEventSubmittedCount,
+                'job_open'=>$jobEventOpenCount,
+                'job_submitted'=>$jobEventSubmittedCount,
+                'job_pending'=>$jobEventPendingCount,
+                'job_rejected'=>$jobEventRejectedCount,
+
                 'social_total' => $socialEventCount,
                 'social_accepted' => $socialEventAcceptedCount,
                 'social_open'=>$socialEventOpenCount,
+                'social_submitted'=>$socialSubmittedCount,
+                'social_pending'=>$socialEventPendingCount,
+                'social_rejected'=>$socialEventRejectedCount,
+                'course_completed'=>$courseCompletedCount
             ];
         }catch(DecryptException $e){
             // Invalid encrypted string
