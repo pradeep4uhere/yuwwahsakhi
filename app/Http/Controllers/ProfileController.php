@@ -302,6 +302,7 @@ class ProfileController extends Controller
         ->select([
             'learners.id',
             'learners.UNIT_INSTITUTE',
+            'learners.course_completed',
             'learners.first_name','learners.last_name','learners.primary_phone_number',
             'yhub_learners.email_address as yhub_email_address',
             'yhub_learners.completion_status as completion_status',

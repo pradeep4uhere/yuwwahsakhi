@@ -38,12 +38,15 @@
             <tr>
                 <th>SN</th>
                 <th>Programe Code</th>
-                <th>Agent ID</th>
+                <th nowrap="nowrap">Agent ID</th>
                 <th>Name</th>
                 <th>Contact Number</th>
                 <th>Email</th>
                 <th>Partner Division</th>
-                <th>Learner</th>
+                <th>Learner Regisration</th>
+                <th>Total Certification</th>
+                <th>Total Jobs</th>
+                <th>Social Protection</th>
                 <th>Created Date</th>
                 <th>Action</th>
             </tr>
@@ -58,14 +61,20 @@
             @endphp
             <tr>
                 <td>{{$count}}</td>
-                <td><a href="{{route('partner.viewfieldagent',['id'=>encryptString($item->id)])}}" class="text-primary">{{ $item->csc_id }}</a></td>
-                <td>{{ $item->sakhi_id }}</td>
-                <td>{{ $item->name }}</td>
+                <td nowrap="nowrap"><a href="{{route('partner.viewfieldagent',['id'=>encryptString($item->id)])}}" class="text-primary">{{ $item->csc_id }}</a></td>
+                <td nowrap="nowrap">{{ $item->sakhi_id }}</td>
+                <td nowrap="nowrap">{{ $item->name }}</td>
                 <td>{{ $item->contact_number }}</td>
                 <td>{{ $item->email }}</td>
-             
                 <td>{{ $item->PartnerCenter->center_name}}</td>
                 <td class="text-center">{{ $item->learner_count}}</td>
+                <td class="text-center">{{ $item->learner_count}}</td>
+                <td class="text-center" nowrap="nowrap">{{ $item['Learner']['job_accepted']}}</td>
+                <td class="text-center" nowrap="nowrap">
+                <span style="color:#0d6efd;font-weight:bold">[{{ $item['Learner']['social_total']}}]</span>
+                <span style="color:green;font-weight:bold">[{{ $item['Learner']['social_accepted']}}]</span>
+                <span style="color:orange;font-weight:bold">[{{ $item['Learner']['social_total']}}]</span>
+                </td>
                 <td>{{ $item->created_at }}</td>
                 <td>@if($item->learner_count>0)
                     <a href="{{route('partner.viewfieldagent',['id'=>encryptString($item->id)])}}" class="text-primary fw-bold">View</a>
