@@ -56,6 +56,17 @@ class PartnerExportFiledAgents implements FromQuery, WithHeadings, WithMapping
             'District',
             'Contact Number',
             'Learner Count',
+            'Total Certification',
+            'Job Events Submitted',
+            'Job Events Pending For Verification',
+            'Job Events Action Required',
+            'Job Event Accepted',
+            'Job  Event Rejected',
+            'Social Protection Events Submitted',
+            'Social Protection Events Pending For Verification',
+            'Social Protection Events Action Required',
+            'Social Protection Events Accepted',
+            'Social Protection Events Rejected'
         ];
     }
 
@@ -69,6 +80,17 @@ class PartnerExportFiledAgents implements FromQuery, WithHeadings, WithMapping
             $agent->district,
             $agent->contact_number,
             $agent->learner_count,
+            $agent->learner_count,
+            $agent->learner_count,
+            $agent->learner_count,
+            $agent->learner_count,
+            $agent->learner_count,
+            $agent->learner_count,
+            $agent->learner_count,
+            $agent->learner_count,
+            $agent->learner_count,
+            $agent->learner_count,
+            $agent->learner_count
         ];
     }
 

@@ -8,6 +8,7 @@
     overflow-x: auto;
     -webkit-overflow-scrolling: touch; /* smooth scroll on mobile */
 }
+
 .circle-badge {
     display: inline-flex;
     align-items: center;
@@ -74,8 +75,15 @@
 <form>
        <table class="table w-100">
             <tr>
-                <td style="width:88%" colspan="5"><h1>Field Agent [{{$data->total()}}]</h1></td>
-                <td text-align="right"><a href="{{route('partner.filed-agents.export')}}"><b><img src="{{asset('asset/images/export.jpg')}}" width="25px" height="25px">&nbsp;Export Field Agent</b></a></td>
+                <td  colspan="2"><h1>Field Agent [{{$data->total()}}]</h1></td>
+                <td text-align="right" colspan="4">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <strong>Total Job / Event</strong>&nbsp;&nbsp;<span class="circle-badge" >21</span>&nbsp;&nbsp;|&nbsp;&nbsp;
+                Total Submitted&nbsp;&nbsp;<span class="circle-badge-blue">11</span>&nbsp;&nbsp;|&nbsp;&nbsp;
+                Total Action Required&nbsp;&nbsp;<span class="circle-badge-orange">5</span>&nbsp;&nbsp;|&nbsp;&nbsp;
+                Total Accepted&nbsp;&nbsp;<span class="circle-badge-green">2</span>&nbsp;&nbsp;|&nbsp;&nbsp;
+                Total Rejected&nbsp;&nbsp;<span class="circle-badge-red">3</span>&nbsp;&nbsp;|&nbsp;&nbsp;
+                <a href="{{route('partner.filed-agents.export')}}"><b><img src="{{asset('asset/images/export.jpg')}}" width="25px" height="25px">&nbsp;Export Field Agent</b></a></td>
             </tr>
             <tr>
                 <td style="width:10%"><input type="text" name="csc_id" class="form-control" placeholder="Agent ID"/></td>
@@ -112,7 +120,7 @@
                     <th>Email</th>
                     <th>Partner Division</th>
                     <th>Learner Reg.</th>
-                    <th>Total Cert.</th>
+                    <th title="Total course completed">Total Cert.</th>
                     <th>Total Jobs</th>
                     <th>Social Protection</th>
                 
@@ -137,7 +145,7 @@
                 <td>{{ $item->PartnerCenter->center_name}}</td>
                 <td class="text-center">{{ $item->learner_count}}</td>
                 <td class="text-center">
-                <span class="circle-badge-green">{{ $item['Learner']['course_completed']}}</span></td>
+                <span class="circle-badge"  >{{ $item['Learner']['course_completed']}}</span></td>
                 <td class="text-center" nowrap="nowrap">
                 @if($item['Learner']['job_total'])
                 <span class="circle-badge">{{$item['Learner']['job_total']}}</span>
