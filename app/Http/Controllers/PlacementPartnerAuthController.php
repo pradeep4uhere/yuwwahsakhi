@@ -283,7 +283,7 @@ class PlacementPartnerAuthController extends Controller
                 // Now paginate once, at the very end
                 $learnerListArr = $query->paginate(500)
                     ->appends($request->query());
-                        dd($learnerListArr);
+                        //dd($learnerListArr);
                 // Get job event type id
                 $eventTypeId = DB::table('yuwaah_event_type')
                     ->whereRaw('LOWER(name) = ?', ['job'])
