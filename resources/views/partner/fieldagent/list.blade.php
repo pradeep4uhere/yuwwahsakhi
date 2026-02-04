@@ -75,9 +75,11 @@
 <form>
        <table class="table w-100">
             <tr>
-                <td  colspan="2"><h1>Field Agent [{{$data->total()}}]</h1></td>
-                <td text-align="right" colspan="4">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <td  colspan="1"><h1>Field Agent [{{$data->total()}}]</h1></td>
+                <td text-align="right" colspan="5">
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 <strong>Total Job / Event</strong>&nbsp;&nbsp;<span class="circle-badge" >21</span>&nbsp;&nbsp;|&nbsp;&nbsp;
                 Total Submitted&nbsp;&nbsp;<span class="circle-badge-blue">11</span>&nbsp;&nbsp;|&nbsp;&nbsp;
                 Total Action Required&nbsp;&nbsp;<span class="circle-badge-orange">5</span>&nbsp;&nbsp;|&nbsp;&nbsp;
