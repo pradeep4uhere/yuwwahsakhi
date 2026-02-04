@@ -7,6 +7,7 @@ use App\Models\YuwaahSakhi;
 use Maatwebsite\Excel\Concerns\FromQuery;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithMapping;
+use DB;
 
 
 class PartnerExportFiledAgents implements FromQuery, WithHeadings, WithMapping
@@ -23,6 +24,11 @@ class PartnerExportFiledAgents implements FromQuery, WithHeadings, WithMapping
             ->withCount([
                 'learners as learner_count' => function ($q) {
                     $q->whereColumn('learners.UNIT_INSTITUTE', 'yuwaah_sakhi.csc_id');
+                },
+                'learners as completed_learners_count' => function ($q) {
+                    $q->join('yhub_learners as yl', 'learners.normalized_mobile', '=', 'yl.normalized_mobile')
+                    ->whereColumn('learners.UNIT_INSTITUTE', 'yuwaah_sakhi.csc_id')
+                    ->whereNotNull('learners.normalized_mobile');
                 }
             ]);
 
@@ -42,7 +48,6 @@ class PartnerExportFiledAgents implements FromQuery, WithHeadings, WithMapping
         if ($this->request->filled('contact_number')) {
             $query->where('contact_number', 'LIKE', '%' . $this->request->contact_number . '%');
         }
-
         return $query;
     }
 
@@ -66,7 +71,7 @@ class PartnerExportFiledAgents implements FromQuery, WithHeadings, WithMapping
             'Social Protection Events Pending For Verification',
             'Social Protection Events Action Required',
             'Social Protection Events Accepted',
-            'Social Protection Events Rejected'
+            'Total Social Protection rejected',
         ];
     }
 
@@ -80,7 +85,7 @@ class PartnerExportFiledAgents implements FromQuery, WithHeadings, WithMapping
             $agent->district,
             $agent->contact_number,
             $agent->learner_count,
-            $agent->learner_count,
+            $agent->completed_learners_count,
             $agent->learner_count,
             $agent->learner_count,
             $agent->learner_count,
