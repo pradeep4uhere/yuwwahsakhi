@@ -713,10 +713,11 @@ class PartnerController extends Controller
        
                //dd($learnerList);
                foreach ($learnerList as $agentLearners) {
-               // dd($agentLearners);
-               if($agentLearners['course_completed']==1){
-                $courseCompletedCount++;
-               }
+                //dd($agentLearners);
+               // echo $agentLearners['item']['primary_phone_number'];
+                if(checkYhubPhoneExists($agentLearners['item']['primary_phone_number'])){
+                   $courseCompletedCount++;
+                }
     
                 if (empty($agentLearners)) {
                     continue;
