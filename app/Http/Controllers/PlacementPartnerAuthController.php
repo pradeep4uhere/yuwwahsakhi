@@ -281,7 +281,7 @@ class PlacementPartnerAuthController extends Controller
                 //dd($query->toSql(), $query->getBindings());
 
                 // Now paginate once, at the very end
-                $learnerListArr = $query->paginate(5)
+                $learnerListArr = $query->paginate(500)
                     ->appends($request->query());
                         dd($learnerListArr);
                 // Get job event type id
