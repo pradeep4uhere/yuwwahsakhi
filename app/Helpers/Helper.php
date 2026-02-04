@@ -704,6 +704,31 @@ if (!function_exists('getLearnerCount')) {
 
 
 
+if (!function_exists('checkYhubPhoneExists')) {
+
+    function checkYhubPhoneExists($phone)
+    {
+        // keep only digits
+        $phone = preg_replace('/\D/', '', $phone);
+
+        // get last 10 digit
+        $phone = substr($phone, -10);
+
+        $query =  DB::table('yhub_learners')
+            ->whereRaw("
+                RIGHT(
+                    REGEXP_REPLACE(email_address, '[^0-9]', ''),
+                    10
+                ) = ?
+            ", [$phone]);
+//            ->exists();
+
+        //dd($query->toSql(), $query->getBindings());
+        // run query
+        return $query->exists();
+    }
+}
+
 
 
 

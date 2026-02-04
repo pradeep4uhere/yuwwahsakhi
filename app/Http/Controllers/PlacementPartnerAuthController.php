@@ -254,7 +254,9 @@ class PlacementPartnerAuthController extends Controller
                         'learners.PROGRAM_STATE',
                         'learners.PROGRAM_DISTRICT',
                         'learners.course_completed',
-                        'learners.first_name','learners.last_name','learners.primary_phone_number',
+                        'learners.first_name',
+                        'learners.last_name',
+                        'learners.primary_phone_number',
                         'yhub_learners.email_address as yhub_email_address',
                         'yhub_learners.completion_status as completion_status',
                         DB::raw('COALESCE(et.last_event_update, learners.updated_at) as sort_updated_at')
@@ -273,13 +275,15 @@ class PlacementPartnerAuthController extends Controller
                     ->orderBy('sort_updated_at', 'desc')
                     ->distinct();   // 👈 Ensures unique rows;
 
+
+                //dd($result);
                 // Debug SQL if needed
-                // dd($query->toSql(), $query->getBindings());
+                //dd($query->toSql(), $query->getBindings());
 
                 // Now paginate once, at the very end
-                $learnerListArr = $query->paginate(100)
+                $learnerListArr = $query->paginate(5)
                     ->appends($request->query());
-
+                        dd($learnerListArr);
                 // Get job event type id
                 $eventTypeId = DB::table('yuwaah_event_type')
                     ->whereRaw('LOWER(name) = ?', ['job'])
@@ -329,7 +333,7 @@ class PlacementPartnerAuthController extends Controller
      */
     public function exportPlacementYuwaahSakhiLearner(Request $request,$id)
     {
-         $cscValue = decryptString($id); 
+        $cscValue = decryptString($id); 
        // $partnerPlacementUserId = $request->partner_placement_user_id;
       
         return Excel::download(

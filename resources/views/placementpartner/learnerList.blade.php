@@ -75,8 +75,10 @@
                 <td nowrap="nowrap">{{ $item['item']['education_level'] }}</td>
                 <td nowrap="nowrap">{{ $item['item']['digital_proficiency'] }}</td>
                 <td nowrap="nowrap">{{ $item['item']['english_knowledge'] }}</td>
-                @if($item['item']['course_completed']==1)
+                
+                @if(checkYhubPhoneExists($item['item']['primary_phone_number']))
                 <td nowrap="nowrap" style="text-align:center;">
+                   
                     <div style="width:20px; height:20px; border-radius:50%; background-color:#22c55e;"></div>
                 </td>
                 @else
