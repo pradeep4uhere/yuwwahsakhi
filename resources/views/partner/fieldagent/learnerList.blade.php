@@ -65,8 +65,7 @@
         <tbody>
         <?php $count=1; ?>
             @foreach ($data as $item)
-            @if($item['item']['primary_phone_number']==='9938211033')
-            @endif
+           
             <tr>
                 <td>{{$count}}</td>
                 <td nowrap="nowrap"> {{ $item['item']['first_name'] }}&nbsp;{{ $item['item']['last_name'] }}</td>
@@ -77,7 +76,7 @@
                 <td nowrap="nowrap">{{ $item['item']['education_level'] }}</td>
                 <td nowrap="nowrap">{{ $item['item']['digital_proficiency'] }}</td>
                 <td nowrap="nowrap">{{ $item['item']['english_knowledge'] }}</td>
-                @if($item['item']['course_completed']==1)
+                @if(checkYhubPhoneExists($item['item']['primary_phone_number']))
                 <td nowrap="nowrap" style="text-align:center;">
                     <div style="width:20px; height:20px; border-radius:50%; background-color:#22c55e;"></div>
                 </td>
