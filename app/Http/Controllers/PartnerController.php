@@ -525,9 +525,78 @@ class PartnerController extends Controller
         $query = YuwaahSakhi::with(['Partner', 'PartnerCenter'])
         ->where('partner_id', getUserId())
         ->withCount([
+            // Total event transactions
+            'eventTransactions',
+
+            // All Job Event Transactions Count
+            'eventTransactions as job_transactions_count' => function ($q) {
+                $q->whereIn('event_type', [1,5]);
+            },
+
+           // Submitted Job Event Transactions Count
+            'eventTransactions as open_job_event__transactions_count' => function ($q) {
+                $q->where('review_status', 'Open')
+                ->whereIn('event_type', [1, 5]);
+            },
+
+            // Pending Job Event Transactions Count
+            'eventTransactions as pending_job_event__transactions_count' => function ($q) {
+                $q->where('review_status', 'Pending')
+                ->whereIn('event_type', [1, 5]);
+            },
+
+            // Accepted Job Event Transactions Count
+            'eventTransactions as accepted_job_event__transactions_count' => function ($q) {
+                $q->where('review_status', 'Accepted')
+                ->whereIn('event_type', [1, 5]);
+            },
+
+            // Rejected Job  Event Transactions Count
+            'eventTransactions as rejected_job_event_transactions_count' => function ($q) {
+                $q->where('review_status', 'Rejected')
+                ->whereIn('event_type', [1, 5]);
+            },
+
+            
+
+            // All SocialProtecion Event Transactions Count
+            'eventTransactions as socialprotection_transactions_count' => function ($q) {
+                $q->whereIn('event_type', [3]);
+            },
+
+          
+            // All SocialProtecion Event Transactions Count
+            'eventTransactions as open_social_protection_event_transactions_count' => function ($q) {
+                $q->where('review_status', 'Open')
+                ->whereIn('event_type', [3]);
+            },
+
+            // Pending Job Event Transactions Count
+            'eventTransactions as pending_social_protection_transactions_count' => function ($q) {
+                $q->where('review_status', 'Pending')
+                ->whereIn('event_type', [3]);
+            },
+
+            // Accepted Job Event Transactions Count
+            'eventTransactions as accepted_social_protection_transactions_count' => function ($q) {
+                $q->where('review_status', 'Accepted')
+                ->whereIn('event_type', [3]);
+            },
+
+            // Rejected Job  Event Transactions Count
+            'eventTransactions as rejected_social_protection_transactions_count' => function ($q) {
+                $q->where('review_status', 'Rejected')
+                ->whereIn('event_type', [3]);
+            },
             'learners as learner_count' => function ($q) {
                 $q->whereColumn('learners.UNIT_INSTITUTE', 'yuwaah_sakhi.csc_id');
-            }
+            },
+             // Completed learners count
+            'learners as completed_learners_count' => function ($q) {
+                $q->join('yhub_learners as yl', 'learners.normalized_mobile', '=', 'yl.normalized_mobile')
+                ->whereColumn('learners.UNIT_INSTITUTE', 'yuwaah_sakhi.csc_id')
+                ->whereNotNull('learners.normalized_mobile');
+            },
         ]);
 
         // 🔍 Apply Filters (only if present)

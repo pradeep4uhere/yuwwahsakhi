@@ -149,22 +149,22 @@
                 <td class="text-center">
                 <span class="circle-badge"  >{{ $item['Learner']['course_completed']}}</span></td>
                 <td class="text-center" nowrap="nowrap">
-                @if($item['Learner']['job_total'])
-                <span class="circle-badge">{{$item['Learner']['job_total']}}</span>
-                <span class="circle-badge-blue">{{ $item['Learner']['job_submitted']}}</span>
-                <span class="circle-badge-orange">{{ $item['Learner']['job_pending']}}</span>
-                <span class="circle-badge-green">{{ $item['Learner']['job_accepted']}}</span>
-                <span class="circle-badge-red">{{ $item['Learner']['job_rejected']}}</span>
+                @if($item['job_transactions_count'])
+                <span class="circle-badge">{{$item['job_transactions_count']}}</span>
+                <span class="circle-badge-blue">{{ $item['open_job_event__transactions_count']}}</span>
+                <span class="circle-badge-orange">{{ $item['pending_job_event__transactions_count']}}</span>
+                <span class="circle-badge-green">{{ $item['accepted_job_event__transactions_count']}}</span>
+                <span class="circle-badge-red">{{ $item['rejected_job_event_transactions_count']}}</span>
                 @endif
                 
                 </td>
                 <td class="text-center" nowrap="nowrap" >
-                @if($item['Learner']['social_total'])
-                <span class="circle-badge" >{{ $item['Learner']['social_total']}}</span>
-                <span class="circle-badge-blue">{{ $item['Learner']['social_open']}}</span>
-                <span class="circle-badge-orange">{{ $item['Learner']['social_pending']}}</span>
-                <span class="circle-badge-green">{{ $item['Learner']['social_accepted']}}</span>
-                <span class="circle-badge-red">{{ $item['Learner']['social_rejected']}}</span>
+                @if($item['socialprotection_transactions_count'])
+                <span class="circle-badge" >{{ $item['socialprotection_transactions_count']}}</span>
+                <span class="circle-badge-blue">{{ $item['open_social_protection_event_transactions_count']}}</span>
+                <span class="circle-badge-orange">{{ $item['pending_social_protection_transactions_count']}}</span>
+                <span class="circle-badge-green">{{ $item['accepted_social_protection_transactions_count']}}</span>
+                <span class="circle-badge-red">{{ $item['rejected_social_protection_transactions_count']}}</span>
                 @endif
                 </td>
                

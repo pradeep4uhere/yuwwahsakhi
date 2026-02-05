@@ -25,6 +25,11 @@ class PartnerExportFiledAgents implements FromQuery, WithHeadings, WithMapping
             // Total event transactions
             'eventTransactions',
 
+            // Pending event transactions count
+              'eventTransactions as job_transactions_count' => function ($q) {
+                $q->whereIn('event_type', [1,5]);
+            },
+
             // Open event transactions count
             'eventTransactions as open_transactions_count' => function ($q) {
                 $q->where('review_status', 'Open');
@@ -45,14 +50,63 @@ class PartnerExportFiledAgents implements FromQuery, WithHeadings, WithMapping
                 $q->where('review_status', 'Rejected');
             },
 
-            // Pending event transactions count
-            'eventTransactions as job_transactions_count' => function ($q) {
+             // All Job Event Transactions Count
+             'eventTransactions as job_transactions_count' => function ($q) {
                 $q->whereIn('event_type', [1,5]);
             },
 
-            // Pending event transactions count
+           // Submitted Job Event Transactions Count
+            'eventTransactions as open_job_event_transactions_count' => function ($q) {
+                $q->where('review_status', 'Open')
+                ->whereIn('event_type', [1, 5]);
+            },
+
+            // Pending Job Event Transactions Count
+            'eventTransactions as pending_job_event_transactions_count' => function ($q) {
+                $q->where('review_status', 'Pending')
+                ->whereIn('event_type', [1, 5]);
+            },
+
+            // Accepted Job Event Transactions Count
+            'eventTransactions as accepted_job_event_transactions_count' => function ($q) {
+                $q->where('review_status', 'Accepted')
+                ->whereIn('event_type', [1, 5]);
+            },
+
+            // Rejected Job  Event Transactions Count
+            'eventTransactions as rejected_job_event_transactions_count' => function ($q) {
+                $q->where('review_status', 'Rejected')
+                ->whereIn('event_type', [1, 5]);
+            },
+
+          
+
+            // All SocialProtecion Event Transactions Count
             'eventTransactions as socialprotection_transactions_count' => function ($q) {
                 $q->whereIn('event_type', [3]);
+            },
+            // All Submitted SocialProtecion Event Transactions Count
+            'eventTransactions as open_social_protection_event_transactions_count' => function ($q) {
+                $q->where('review_status', 'Open')
+                ->whereIn('event_type', [3]);
+            },
+
+            // Pending Job Event Transactions Count
+            'eventTransactions as pending_social_protection_transactions_count' => function ($q) {
+                $q->where('review_status', 'Pending')
+                ->whereIn('event_type', [3]);
+            },
+
+            // Accepted Job Event Transactions Count
+            'eventTransactions as accepted_social_protection_transactions_count' => function ($q) {
+                $q->where('review_status', 'Accepted')
+                ->whereIn('event_type', [3]);
+            },
+
+            // Rejected Job  Event Transactions Count
+            'eventTransactions as rejected_social_protection_transactions_count' => function ($q) {
+                $q->where('review_status', 'Rejected')
+                ->whereIn('event_type', [3]);
             },
 
           
@@ -67,7 +121,7 @@ class PartnerExportFiledAgents implements FromQuery, WithHeadings, WithMapping
                 $q->join('yhub_learners as yl', 'learners.normalized_mobile', '=', 'yl.normalized_mobile')
                 ->whereColumn('learners.UNIT_INSTITUTE', 'yuwaah_sakhi.csc_id')
                 ->whereNotNull('learners.normalized_mobile');
-            },
+            }
         ]);
 
         // Filters
@@ -106,15 +160,15 @@ class PartnerExportFiledAgents implements FromQuery, WithHeadings, WithMapping
             'Total Event Accepted',
             'Total Event Rejected',
             'Job Events Submitted',
-            // 'Job Events Pending For Verification',
-            // 'Job Events Action Required',
-            // 'Job Event Accepted',
-            // 'Job  Event Rejected',
+            'Job Events Pending For Verification',
+            'Job Events Action Required',
+            'Job Event Accepted',
+            'Job  Event Rejected',
             'Social Protection Events Submitted',
-            // 'Social Protection Events Pending For Verification',
-            // 'Social Protection Events Action Required',
-            // 'Social Protection Events Accepted',
-            // 'Total Social Protection rejected',
+            'Social Protection Events Pending For Verification',
+            'Social Protection Events Action Required',
+            'Social Protection Events Accepted',
+            'Total Social Protection rejected',
         ];
     }
 
@@ -130,13 +184,24 @@ class PartnerExportFiledAgents implements FromQuery, WithHeadings, WithMapping
             $agent->contact_number,
             $agent->learner_count,
             $agent->completed_learners_count,
+
             $agent->event_transactions_count,
             $agent->open_transactions_count,
             $agent->pending_transactions_count,
             $agent->accepted_transactions_count,
             $agent->rejected_transactions_count,
+
             $agent->job_transactions_count,
+            $agent->open_job_event_transactions_count,
+            $agent->pending_job_event_transactions_count,
+            $agent->accepted_job_event_transactions_count,
+            $agent->rejected_job_event_transactions_count,
+
             $agent->socialprotection_transactions_count,
+            $agent->open_social_protection_event_transactions_count,
+            $agent->pending_social_protection_transactions_count,
+            $agent->accepted_social_protection_transactions_count,
+            $agent->rejected_social_protection_transactions_count
         ];
     }
 
