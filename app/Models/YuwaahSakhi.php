@@ -188,4 +188,11 @@ class YuwaahSakhi extends Authenticatable
         return $this->hasMany(Learner::class, 'UNIT_INSTITUTE', 'csc_id');
     }
 
+    // App\Models\YuwaahSakhi.php
+
+    public function eventTransactions()
+    {
+        return $this->hasMany(EventTransaction::class, 'ys_id', 'id');
+    }
+
 }

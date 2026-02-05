@@ -65,5 +65,10 @@ class EventTransaction extends Model
         return $this->belongsTo(Learner::class, 'learner_id');
     }
 
+    public function yuwaahSakhi()
+    {
+        return $this->belongsTo(YuwaahSakhi::class, 'ys_id', 'id');
+    }
+
     
 }

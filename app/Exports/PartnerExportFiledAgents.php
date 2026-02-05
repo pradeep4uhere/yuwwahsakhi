@@ -21,16 +21,54 @@ class PartnerExportFiledAgents implements FromQuery, WithHeadings, WithMapping
     public function query()
     {
         $query = YuwaahSakhi::where('partner_id', getUserId())
-            ->withCount([
-                'learners as learner_count' => function ($q) {
-                    $q->whereColumn('learners.UNIT_INSTITUTE', 'yuwaah_sakhi.csc_id');
-                },
-                'learners as completed_learners_count' => function ($q) {
-                    $q->join('yhub_learners as yl', 'learners.normalized_mobile', '=', 'yl.normalized_mobile')
-                    ->whereColumn('learners.UNIT_INSTITUTE', 'yuwaah_sakhi.csc_id')
-                    ->whereNotNull('learners.normalized_mobile');
-                }
-            ]);
+        ->withCount([
+            // Total event transactions
+            'eventTransactions',
+
+            // Open event transactions count
+            'eventTransactions as open_transactions_count' => function ($q) {
+                $q->where('review_status', 'Open');
+            },
+
+            // Pending event transactions count
+            'eventTransactions as pending_transactions_count' => function ($q) {
+                $q->where('review_status', 'Pending');
+            },
+
+            // Pending event transactions count
+            'eventTransactions as accepted_transactions_count' => function ($q) {
+                $q->where('review_status', 'Accepted');
+            },
+
+            // Pending event transactions count
+            'eventTransactions as rejected_transactions_count' => function ($q) {
+                $q->where('review_status', 'Rejected');
+            },
+
+            // Pending event transactions count
+            'eventTransactions as job_transactions_count' => function ($q) {
+                $q->whereIn('event_type', [1,5]);
+            },
+
+            // Pending event transactions count
+            'eventTransactions as socialprotection_transactions_count' => function ($q) {
+                $q->whereIn('event_type', [3]);
+            },
+
+          
+
+            // Learners count
+            'learners as learner_count' => function ($q) {
+                $q->whereColumn('learners.UNIT_INSTITUTE', 'yuwaah_sakhi.csc_id');
+            },
+
+            // Completed learners count
+            'learners as completed_learners_count' => function ($q) {
+                $q->join('yhub_learners as yl', 'learners.normalized_mobile', '=', 'yl.normalized_mobile')
+                ->whereColumn('learners.UNIT_INSTITUTE', 'yuwaah_sakhi.csc_id')
+                ->whereNotNull('learners.normalized_mobile');
+            },
+        ]);
 
         // Filters
         if ($this->request->filled('csc_id')) {
@@ -62,22 +100,28 @@ class PartnerExportFiledAgents implements FromQuery, WithHeadings, WithMapping
             'Contact Number',
             'Learner Count',
             'Total Certification',
+            'Total Event Submitted',
+            'Total Event Pending For Verification',
+            'Total Event Action Required',
+            'Total Event Accepted',
+            'Total Event Rejected',
             'Job Events Submitted',
-            'Job Events Pending For Verification',
-            'Job Events Action Required',
-            'Job Event Accepted',
-            'Job  Event Rejected',
+            // 'Job Events Pending For Verification',
+            // 'Job Events Action Required',
+            // 'Job Event Accepted',
+            // 'Job  Event Rejected',
             'Social Protection Events Submitted',
-            'Social Protection Events Pending For Verification',
-            'Social Protection Events Action Required',
-            'Social Protection Events Accepted',
-            'Total Social Protection rejected',
+            // 'Social Protection Events Pending For Verification',
+            // 'Social Protection Events Action Required',
+            // 'Social Protection Events Accepted',
+            // 'Total Social Protection rejected',
         ];
     }
 
 
     public function map($agent): array
     {
+        //dd($agent);
         return [
             $agent->sakhi_id,
             $agent->name ?? '',
@@ -86,16 +130,13 @@ class PartnerExportFiledAgents implements FromQuery, WithHeadings, WithMapping
             $agent->contact_number,
             $agent->learner_count,
             $agent->completed_learners_count,
-            $agent->learner_count,
-            $agent->learner_count,
-            $agent->learner_count,
-            $agent->learner_count,
-            $agent->learner_count,
-            $agent->learner_count,
-            $agent->learner_count,
-            $agent->learner_count,
-            $agent->learner_count,
-            $agent->learner_count
+            $agent->event_transactions_count,
+            $agent->open_transactions_count,
+            $agent->pending_transactions_count,
+            $agent->accepted_transactions_count,
+            $agent->rejected_transactions_count,
+            $agent->job_transactions_count,
+            $agent->socialprotection_transactions_count,
         ];
     }
 
