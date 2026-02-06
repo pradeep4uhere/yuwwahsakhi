@@ -147,6 +147,7 @@ class PartnerExportFiledAgents implements FromQuery, WithHeadings, WithMapping
     public function headings(): array
     {
         return [
+            'Agent ID',
             'CSC ID',
             'Name',
             'State',
@@ -178,6 +179,7 @@ class PartnerExportFiledAgents implements FromQuery, WithHeadings, WithMapping
         //dd($agent);
         return [
             $agent->sakhi_id,
+            $agent->csc_id,
             $agent->name ?? '',
             $agent->state,
             $agent->district,
