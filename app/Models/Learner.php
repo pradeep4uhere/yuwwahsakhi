@@ -170,9 +170,9 @@ class Learner extends Model
     
     
 
-    public static function getTotalCompletionCount()
+    public static function getTotalCompletionCount($partner_code)
     {
-        $totalcount = Learner::where('PROGRAM_CODE', 'CSC')
+        $totalcount = Learner::where('PROGRAM_CODE', $partner_code)
             ->whereNotNull('normalized_mobile')
             ->count();
     

@@ -192,7 +192,7 @@ class YuwaahSakhi extends Authenticatable
 
     public function eventTransactions()
     {
-        return $this->hasMany(EventTransaction::class, 'ys_id', 'id');
+        return $this->hasMany(EventTransaction::class, 'ys_id', 'id')->whereNotNull('review_status');;
     }
 
 }

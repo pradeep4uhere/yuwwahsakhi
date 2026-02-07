@@ -5,7 +5,7 @@
 <div class="container">
        <table class="table w-100">
             <tr>
-                <td style="width:88%" style="padding-top:35px;" ><h1>Learner [{{count($data)}}]&nbsp;::&nbsp;{{$agentArray['name']}}&nbsp;[{{$agentArray['sakhi_id']}}]</h1></td>
+                <td style="width:88%" style="padding-top:35px;" ><h1 style="font-size:17px">Learner [{{count($data)}}]&nbsp;|&nbsp;{{$agentArray['name']}}&nbsp;[{{$agentArray['sakhi_id']}}]&nbsp;&nbsp;|&nbsp;&nbsp;Certification Completed&nbsp;[{{$completedLearnersCount}}]</h1></td>
                 <td>
                 <table><tr>
                 <td nowrap="nowrap">
@@ -36,7 +36,12 @@
                 </table>
                 </td>
                 <td text-align="right" nowrap="nowrap" style="padding-top:25px;">
-                    <a href="{{route('export.partner.exportpplearner',['id'=>$ppid])}}"><b><img src="{{asset('asset/images/export.jpg')}}" width="25px" height="25px">&nbsp;Export Learner</b></a>
+                <a href="{{ route('partner.learners.export', array_merge(request()->all(), ['agent_id' => encryptString($agentArray->id)])) }}">
+                        <b>
+                            <img src="{{ asset('asset/images/export.jpg') }}" width="25" height="25">
+                            Export Learner
+                        </b>
+                    </a>
                 </td>
             </tr>
           
@@ -76,7 +81,8 @@
                 <td nowrap="nowrap">{{ $item['item']['education_level'] }}</td>
                 <td nowrap="nowrap">{{ $item['item']['digital_proficiency'] }}</td>
                 <td nowrap="nowrap">{{ $item['item']['english_knowledge'] }}</td>
-                @if(checkYhubPhoneExists($item['item']['primary_phone_number']))
+                
+                @if($item['item']['course_completed_status']=='Yes')
                 <td nowrap="nowrap" style="text-align:center;">
                     <div style="width:20px; height:20px; border-radius:50%; background-color:#22c55e;"></div>
                 </td>

@@ -31,6 +31,7 @@ use App\Exports\EventTransactionsExport;
 use App\Exports\PartnerAllLearnersExport;
 use App\Exports\EventTransactionsWithCommentsExport;
 use App\Exports\PartnerExportFiledAgents;
+use App\Exports\PartnerAllLearnersOfFliedAgentExport;
 
 
 
@@ -546,11 +547,12 @@ class PartnerController extends Controller
      * Get All the Field Agent List
      */
     public function fieldAgentList(Request $request){
-        $totalYuwwahSakhi = YuwaahSakhi::where('partner_id',getUserId())->count();
+        $totalYuwwahSakhi = YuwaahSakhi::where('partner_id',getUserId()) ->where('csc_id','!=' ,'Sandbox_Testing')->count();
         
         // Start query builder
         $query = YuwaahSakhi::with(['Partner', 'PartnerCenter'])
         ->where('partner_id', getUserId())
+        ->where('csc_id','!=' ,'Sandbox_Testing')
         ->withCount([
             // Total event transactions
             'eventTransactions',
@@ -931,127 +933,144 @@ class PartnerController extends Controller
     public function viewFieldAgent(Request $request,$id){
         try {
             $ys_id = decryptString($id);
-
-            $agentArray= YuwaahSakhi::where('id', $ys_id)->first();
-
-            $cscValue = $agentArray['csc_id'];
-                        // Base query
-            $query = Learner::where('learners.status', 'Active')
+        
+            $agentArray = YuwaahSakhi::findOrFail($ys_id);
+            $cscValue   = $agentArray->csc_id;
+        
+            /*
+            |--------------------------------------------------------------------------
+            | Base Learner Query (Reusable)
+            |--------------------------------------------------------------------------
+            */
+            $baseLearnerQuery = Learner::query()
+                ->where('learners.status', 'Active')
                 ->where('learners.UNIT_INSTITUTE', $cscValue);
+        
+            /* ---------------- Filters ---------------- */
+            $baseLearnerQuery
+                ->when($request->filled('name'), function ($q) use ($request) {
+                    $q->where(function ($sub) use ($request) {
+                        $sub->where('learners.first_name', 'like', "%{$request->name}%")
+                            ->orWhere('learners.last_name', 'like', "%{$request->name}%");
+                    });
+                })
+                ->when($request->filled('email'), fn ($q) =>
+                    $q->where('learners.email', 'like', "%{$request->email}%")
+                )
+                ->when($request->filled('phone'), fn ($q) =>
+                    $q->where('learners.primary_phone_number', 'like', "%{$request->phone}%")
+                )
+                ->when($request->filled('gender'), fn ($q) =>
+                    $q->where('learners.gender', $request->gender)
+                );
+        
+            /*
+            |--------------------------------------------------------------------------
+            | ✅ Completed / Verified Learners Count
+            |--------------------------------------------------------------------------
+            */
+            $completedLearnersCount = (clone $baseLearnerQuery)
+                ->join('yhub_learners as yl', function ($join) {
+                    $join->on('learners.normalized_mobile', '=', 'yl.normalized_mobile')
+                         ->whereNotNull('learners.normalized_mobile');
+                })
+                ->distinct('learners.id')
+                ->count('learners.id');
 
-            // Filters
-            if ($request->filled('name')) {
-                $query->where(function ($q) use ($request) {
-                    $q->where('learners.first_name', 'like', '%' . $request->name . '%')
-                    ->orWhere('learners.last_name', 'like', '%' . $request->name . '%');
-                });
-            }
-            if ($request->filled('email')) {
-                $query->where('learners.email', 'like', '%' . $request->email . '%');
-            }
-            if ($request->filled('phone')) {
-                $query->where('primary_phone_number', 'like', '%' . $request->phone . '%');
-            }
-            if ($request->filled('gender')) {
-                $query->where('learners.gender', $request->gender);
-            }
-            // Add latest events join
+            //dd($completedLearnersCount);
+        
+            /*
+            |--------------------------------------------------------------------------
+            | Latest Event Subquery
+            |--------------------------------------------------------------------------
+            */
             $latestEvents = DB::table('event_transactions')
-            ->select('*', 'updated_at as last_event_update')
-            ->where('ys_id', $ys_id)
-            ->orderBy('id', 'DESC');
+                ->select('learner_id', 'updated_at as last_event_update')
+                ->where('ys_id', $ys_id)
+                ->orderByDesc('id');
+        
+            /*
+            |--------------------------------------------------------------------------
+            | Learner Listing Query
+            |--------------------------------------------------------------------------
+            */
+            $learnerListArr = (clone $baseLearnerQuery)
+            ->leftJoin('yhub_learners as yl', function ($join) {
+                $join->on('learners.normalized_mobile', '=', 'yl.normalized_mobile');
+            })
+            ->leftJoinSub($latestEvents, 'et', function ($join) {
+                $join->on('learners.id', '=', 'et.learner_id');
+            })
+            ->select([
+                'learners.id',
+                'learners.first_name',
+                'learners.last_name',
+                'learners.primary_phone_number',
+                'learners.date_of_birth',
+                'learners.education_level',
+                'learners.UNIT_INSTITUTE',
+                'learners.digital_proficiency',
+                'learners.DIFFRENTLY_ABLED',
+                'learners.english_knowledge',
+                'learners.PROGRAM_STATE',
+                'learners.PROGRAM_DISTRICT',
 
+                // 👇 YHub (optional)
+                'yl.email_address as yhub_email_address',
+                'yl.completion_status',
 
+                // 👇 Course completed label
+                DB::raw("
+                    CASE 
+                        WHEN yl.completion_status = 1 THEN 'Yes'
+                        ELSE 'No'
+                    END AS course_completed_status
+                "),
 
-                // $sql = $latestEvents->toSql();
-                // $bindings = $latestEvents->getBindings();
-                // dd(vsprintf(str_replace('?', '%s', $sql), collect($bindings)->map(function ($binding) {
-                //        return is_numeric($binding) ? $binding : "'{$binding}'";
-                //     })->toArray()));
-
-                $query->leftJoin('yhub_learners', function ($join) {
-                        $join->on('learners.primary_phone_number', '=', DB::raw("REPLACE(yhub_learners.email_address, '+91 ', '')"));
-                    })
-                    ->leftJoinSub($latestEvents, 'et', function ($join) {
-                        $join->on('learners.id', '=', 'et.learner_id');
-                    })
-                    ->select([
-                        'learners.id',
-                        'learners.date_of_birth',
-                        'learners.education_level',
-                        'learners.UNIT_INSTITUTE',
-                        'learners.digital_proficiency',
-                        'learners.DIFFRENTLY_ABLED',
-                        'learners.english_knowledge',
-                        'learners.PROGRAM_STATE',
-                        'learners.PROGRAM_DISTRICT',
-                        'learners.course_completed',
-                        'learners.first_name','learners.last_name','learners.primary_phone_number',
-                        'yhub_learners.email_address as yhub_email_address',
-                        'yhub_learners.completion_status as completion_status',
-                        DB::raw('COALESCE(et.last_event_update, learners.updated_at) as sort_updated_at')
-                    ])
-                    ->groupBy(
-                        'learners.id',
-                        'learners.UNIT_INSTITUTE',
-                        'learners.first_name',
-                        'learners.last_name',
-                        'learners.primary_phone_number',
-                        'yhub_learners.email_address',
-                        'yhub_learners.completion_status',
-                        'et.last_event_update',
-                        'learners.updated_at'
-                    )
-                    ->orderBy('sort_updated_at', 'desc')
-                    ->distinct();   // 👈 Ensures unique rows;
-
-                // Debug SQL if needed
-                // dd($query->toSql(), $query->getBindings());
-
-                // Now paginate once, at the very end
-                $learnerListArr = $query->paginate(500)
-                    ->appends($request->query());
-
-                // Get job event type id
-                $eventTypeId = DB::table('yuwaah_event_type')
-                    ->whereRaw('LOWER(name) = ?', ['job'])
-                    ->value('id');
-
-                    // After building the $query but before paginate()
-                    //$sql = $query->toSql();
-                    //$bindings = $query->getBindings();
-
-                    // dd(vsprintf(str_replace('?', '%s', $sql), collect($bindings)->map(function ($binding) {
-                    //    return is_numeric($binding) ? $binding : "'{$binding}'";
-                    // })->toArray()));
+                // 👇 Sort key
+                DB::raw('COALESCE(et.last_event_update, learners.updated_at) as sort_updated_at')
+            ])
+            ->groupBy(
+                'learners.id',
+                'yl.email_address',
+                'yl.completion_status',
+                'et.last_event_update'
+            )
+            ->orderByDesc('sort_updated_at')
+            ->paginate(2000)
+            ->appends($request->query());
 
                 //dd($learnerListArr);
-                $learnerList =[];
-                $eventTransactionList = $latestEvents->get();
-                //dd($eventTransactionList);
-                foreach($learnerListArr as $item){
-                    $learnerList[$item['id']]=array(
-                        'item'=>$item,
-                        'job_event'=> $this->checkIsJobEvent($eventTransactionList,$item['id']),
-                        'social_protection' => $this->checkEventTypeJobSocialProtection($eventTransactionList,$item['id'])
-                    );
-                }
-
-               //dd($learnerList);
-
-            //dd($id);
+        
+            /*
+            |--------------------------------------------------------------------------
+            | Post Processing (Events Mapping)
+            |--------------------------------------------------------------------------
+            */
+            $eventTransactionList = DB::table('event_transactions')
+                ->where('ys_id', $ys_id)
+                ->get();
+        
+            $learnerList = [];
+            foreach ($learnerListArr as $item) {
+                $learnerList[$item->id] = [
+                    'item'              => $item,
+                    'job_event'         => $this->checkIsJobEvent($eventTransactionList, $item->id),
+                    'social_protection' => $this->checkEventTypeJobSocialProtection($eventTransactionList, $item->id),
+                ];
+            }
+        
             return view('partner.fieldagent.learnerList', [
-                'title' => 'All Learners',
-                'data'=>$learnerList,
-                'ppid'=>encryptString($cscValue),
-                'agentArray'=>$agentArray
+                'title'                    => 'All Learners',
+                'data'                     => $learnerList,
+                'completedLearnersCount'   => $completedLearnersCount,
+                'ppid'                     => encryptString($cscValue),
+                'agentArray'               => $agentArray
             ]);
-        }catch(DecryptException $e){
-            // Invalid encrypted string
+        
+        } catch (DecryptException $e) {
             Log::warning("Decrypt failed for learner link: " . $e->getMessage());
-            return redirect()
-                ->back()
-                ->with('error', 'Invalid or expired link.');
+            return redirect()->back()->with('error', 'Invalid or expired link.');
         }
         
     }
@@ -1207,6 +1226,18 @@ class PartnerController extends Controller
 
 
 
+    public function exportPartnerFliendAgentLearners(Request $request,$agent_id)
+    {
+        $partner = Partner::find(getUserId());
+        $partnerId = $partner->partner_id;
+        $ys_id = decryptString($agent_id);
+        $agentArray = YuwaahSakhi::findOrFail($ys_id);
+        $cscValue   = $agentArray->sakhi_id;
+        return Excel::download(
+            new PartnerAllLearnersOfFliedAgentExport($request, getUserId(),$agent_id),
+            $partnerId.'_'.$cscValue.'_partner_all_learners_'.now()->format('Y-m-d-H-i-s-a').'.xlsx'
+        );
+    }
 
 
 
