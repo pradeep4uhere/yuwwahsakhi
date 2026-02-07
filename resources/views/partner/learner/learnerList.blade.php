@@ -98,8 +98,8 @@
                 <td>{{$count}}</td>
                 <td nowrap="nowrap"> {{ $item->first_name }}&nbsp;{{ $item->last_name }}</td>
                 <td nowrap="nowrap">{{ date('d M, Y', strtotime($item->date_of_birth))}}</td>
-                <td nowrap="nowrap">{{ $item->PROGRAM_STATE}}</td>
                 <td nowrap="nowrap">{{ $item->UNIT_INSTITUTE}}</td>
+                <td nowrap="nowrap">{{ $item->PROGRAM_STATE}}</td>
                 <td nowrap="nowrap">{{ $item->PROGRAM_DISTRICT}}</td>
                 <td nowrap="nowrap">{{ $item->primary_phone_number }}</td>
                 <td nowrap="nowrap">{{ $item->education_level }}</td>
