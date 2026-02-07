@@ -36,7 +36,13 @@
                 </table>
                 </td>
                 <td text-align="right" nowrap="nowrap" style="padding-top:25px;">
-                    <a href="{{route('partner.learners.export',['id'=>$ppid])}}"><b><img src="{{asset('asset/images/export.jpg')}}" width="25px" height="25px">&nbsp;Export Learner</b></a>
+                <a href="{{ route('partner.learners.export', request()->query()) }}">
+                        <b>
+                            <img src="{{ asset('asset/images/export.jpg') }}" width="25" height="25">
+                            &nbsp;Export Learner
+                        </b>
+                    </a>
+
                 </td>
             </tr>
           
@@ -73,6 +79,7 @@
                 <th>SN</th>
                 <th>Name</th>
                 <th nowrap="nowrap">Date Of Birth</th>
+                <th>Unit Institute</th>
                 <th>State</th>
                 <th>District</th>
                 <th>Mobile</th>
@@ -92,6 +99,7 @@
                 <td nowrap="nowrap"> {{ $item->first_name }}&nbsp;{{ $item->last_name }}</td>
                 <td nowrap="nowrap">{{ date('d M, Y', strtotime($item->date_of_birth))}}</td>
                 <td nowrap="nowrap">{{ $item->PROGRAM_STATE}}</td>
+                <td nowrap="nowrap">{{ $item->UNIT_INSTITUTE}}</td>
                 <td nowrap="nowrap">{{ $item->PROGRAM_DISTRICT}}</td>
                 <td nowrap="nowrap">{{ $item->primary_phone_number }}</td>
                 <td nowrap="nowrap">{{ $item->education_level }}</td>

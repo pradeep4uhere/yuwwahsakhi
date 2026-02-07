@@ -19,6 +19,8 @@ use App\Models\YuwaahEventMaster;
 use App\Models\State;
 use App\Models\Learner;
 use App\Models\YhubLearner;
+use App\Models\Partner;
+
 
 use Illuminate\Support\Facades\Validator;
 use App\Exports\PartnersExport;
@@ -1157,8 +1159,8 @@ class PartnerController extends Controller
             $query->where('l.first_name', 'like', '%' . $request->name . '%');
         }
         
-        if ($request->filled('phone')) {
-            $query->where('l.primary_phone_number', 'like', '%' . $request->phone . '%');
+        if ($request->filled('primary_phone_number')) {
+            $query->where('l.primary_phone_number',  $request->primary_phone_number);
         }
         
         if ($request->filled('PROGRAM_STATE')) {
@@ -1192,9 +1194,12 @@ class PartnerController extends Controller
 
     public function exportPartnerLearners(Request $request)
     {
+        $partner = Partner::find(getUserId());
+        $partneerID = $partner['partner_id'];
+        //dd($request);
         return Excel::download(
             new PartnerAllLearnersExport($request, getUserId()),
-            'partner_all_learners.xlsx'
+            $partneerID.'_partner_all_learners'.date('Y-m-d-H-i-s-a').'.xlsx'
         );
     }
 

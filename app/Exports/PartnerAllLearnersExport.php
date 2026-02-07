@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\DB;
 use App\Models\Partner;
 use Maatwebsite\Excel\Concerns\FromQuery;
 use Maatwebsite\Excel\Concerns\WithHeadings;
+use Illuminate\Http\Request;
 
 class PartnerAllLearnersExport implements FromQuery, WithHeadings
 {
@@ -15,6 +16,7 @@ class PartnerAllLearnersExport implements FromQuery, WithHeadings
 
     public function __construct($request, $partnerId)
     {
+        //dd($this->request);
         $this->request   = $request;
         $this->partnerId = $partnerId;
     }
@@ -62,16 +64,17 @@ class PartnerAllLearnersExport implements FromQuery, WithHeadings
                 $q->where('l.first_name', 'like', '%' . $this->request->name . '%');
             });
 
-            $query->when($this->request->filled('phone'), function ($q) {
-                $q->where('l.primary_phone_number', 'like', '%' . $this->request->phone . '%');
+            $query->when($this->request->filled('primary_phone_number'), function ($q) {
+                $q->where('l.primary_phone_number', $this->request->primary_phone_number );
             });
 
             $query->when($this->request->filled('PROGRAM_STATE'), function ($q) {
                 $q->where('l.PROGRAM_STATE', $this->request->PROGRAM_STATE);
             });
 
+            //dd($this->request->filled('unit_institute'));
             $query->when($this->request->filled('unit_institute'), function ($q) {
-                $q->where('l.UNIT_INSTITUTE', 'like', '%' . $this->request->unit_institute . '%');
+                $q->where('l.UNIT_INSTITUTE',  $this->request->unit_institute );
             });
 
             return $query; // ✅ MUST return Query Builder
