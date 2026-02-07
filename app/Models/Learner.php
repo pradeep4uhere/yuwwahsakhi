@@ -152,7 +152,40 @@ class Learner extends Model
     {
         return $this->hasMany(EventTransaction::class, 'learner_id');
     }
+
+
+    public function getCompletionPercentAttribute()
+    {
+        return $this->yhubLearners->max('completion_percent');
+    }
+
+    public function yhubLearner()
+    {
+        return $this->hasOne(
+            YhubLearner::class,
+            'normalized_mobile', // FK in yhub_learners
+            'normalized_mobile'  // PK in learners
+        );
+    }
     
     
+
+    public static function getTotalCompletionCount()
+    {
+        $totalcount = Learner::where('PROGRAM_CODE', 'CSC')
+            ->whereNotNull('normalized_mobile')
+            ->count();
+    
+        $completedLearners = Learner::where('PROGRAM_CODE', 'CSC')
+            ->whereNotNull('normalized_mobile')
+            ->whereHas('yhubLearner')
+            ->distinct()
+            ->count('id');
+    
+        return [
+            'Total Learners'   => $totalcount,
+            'Total Completion'=> $completedLearners,
+        ];
+    } 
 
 }

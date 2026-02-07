@@ -18,6 +18,7 @@ use App\Models\YuwaahSakhi;
 use App\Models\YuwaahEventMaster;
 use App\Models\State;
 use App\Models\Learner;
+use App\Models\YhubLearner;
 
 use Illuminate\Support\Facades\Validator;
 use App\Exports\PartnersExport;
@@ -25,6 +26,7 @@ use Maatwebsite\Excel\Facades\Excel;
 use DB;
 use Carbon\Carbon;
 use App\Exports\EventTransactionsExport;
+use App\Exports\PartnerAllLearnersExport;
 use App\Exports\EventTransactionsWithCommentsExport;
 use App\Exports\PartnerExportFiledAgents;
 
@@ -149,6 +151,29 @@ class PartnerController extends Controller
         $totalYuwaahSakhiIds = YuwaahSakhi::where('partner_id', getUserId())->pluck('id');
         // Step 2: Count Opportunities where sakhi_id is in the above IDs
         $opportunitiesVerified = Opportunity::whereIn('sakhi_id', $totalYuwaahSakhiIds)->count();
+
+        $completedLearners = Learner::join(
+            'yhub_learners as yl',
+            'learners.normalized_mobile',
+            '=',
+            'yl.normalized_mobile'
+        )
+        ->where('learners.PROGRAM_CODE', 'CSC')
+        ->whereNotNull('learners.normalized_mobile')
+        ->distinct('learners.id')
+        ->count('learners.id');
+
+        $completedLearners = Learner::join(
+            'yhub_learners as yl',
+            'learners.normalized_mobile',
+            '=',
+            'yl.normalized_mobile'
+        )
+        ->where('learners.PROGRAM_CODE', 'CSC')
+        ->whereNotNull('learners.normalized_mobile')
+        ->distinct('learners.id')
+        ->count('learners.id');
+        //dd($completedLearners);
        
         $monthlyopportunitiesCounts = $this->opportunitiesMonthly($start, $end, $totalYuwaahSakhiIds);
         $chartsData = [
@@ -1078,5 +1103,109 @@ class PartnerController extends Controller
             'filed_agents_' . date('Ymd_His') . '.xlsx'
         );
     }
+
+
+
+
+    /**
+     * All Learner List
+     */
+    public function learnerList(Request $request){
+
+        $completedLearners = Learner::join(
+            'yhub_learners as yl',
+            'learners.normalized_mobile',
+            '=',
+            'yl.normalized_mobile'
+        )
+        ->where('learners.PROGRAM_CODE', 'CSC')
+        ->whereNotNull('learners.normalized_mobile')
+    
+        ->when($request->filled('name'), function ($q) use ($request) {
+            $q->where('learners.first_name', 'like', '%' . $request->name . '%');
+        })
+    
+        ->when($request->filled('phone'), function ($q) use ($request) {
+            $q->where('learners.primary_phone_number', 'like', '%' . $request->phone . '%');
+        })
+    
+        ->when($request->filled('PROGRAM_STATE'), function ($q) use ($request) {
+            $q->where('learners.PROGRAM_STATE', $request->PROGRAM_STATE);
+        })
+    
+        ->when($request->filled('unit_institute'), function ($q) use ($request) {
+            $q->where('learners.UNIT_INSTITUTE', 'like', '%' . $request->unit_institute . '%');
+        })
+    
+        ->distinct()
+        ->count('learners.id');
+
+        
+
+        $query = DB::table('learners as l')
+        ->leftJoin('yhub_learners as yl', 'l.normalized_mobile', '=', 'yl.normalized_mobile')
+        ->where('l.PROGRAM_CODE', 'CSC')
+        ->whereNotNull('l.normalized_mobile')
+        ->select(
+            'l.*',
+            DB::raw('MAX(yl.completion_percent) as completion_percent')
+        )
+        ->groupBy('l.id');
+
+
+        if ($request->filled('name')) {
+            $query->where('l.first_name', 'like', '%' . $request->name . '%');
+        }
+        
+        if ($request->filled('phone')) {
+            $query->where('l.primary_phone_number', 'like', '%' . $request->phone . '%');
+        }
+        
+        if ($request->filled('PROGRAM_STATE')) {
+            $query->where('l.PROGRAM_STATE', $request->PROGRAM_STATE);
+        }
+        
+        if ($request->filled('unit_institute')) {
+            $query->where('l.UNIT_INSTITUTE', 'like', '%' . $request->unit_institute . '%');
+        }
+        
+
+        $learners = $query->paginate(20)->withQueryString();
+
+        $partner_id = getUserId();
+        $statetdata = DB::table('yuwaah_sakhi as ys')
+        ->select('ys.state')        
+        ->distinct()
+        ->orderBy('ys.state')
+        ->get();
+        return view($this->dir.'.learner.learnerList', [
+            'data' => $learners, // Fetch authenticated partner,
+            'totalCompletionLearner'=>$completedLearners,
+            'ppid'=>encryptString($partner_id),
+            'statetdata'=>$statetdata
+        ]);
+    }
+
+
+
+
+
+    public function exportPartnerLearners(Request $request)
+    {
+        return Excel::download(
+            new PartnerAllLearnersExport($request, getUserId()),
+            'partner_all_learners.xlsx'
+        );
+    }
+
+
+
+
+
+
+
+
+
+
 
 }

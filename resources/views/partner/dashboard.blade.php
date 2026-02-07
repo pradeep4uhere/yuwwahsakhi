@@ -83,7 +83,7 @@
                 
                     <!-- Section 3 -->
                     <div class="section">
-                    <div class="section-title">Gender Count</div>
+                    <div class="section-title">Learner Total Certification</div>
                     <canvas id="otherdonutChartId"></canvas>
                     </div>
 

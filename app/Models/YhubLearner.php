@@ -62,4 +62,10 @@ class YhubLearner extends Model
             ->whereRaw("RIGHT(learners.primary_phone_number, 10) = RIGHT(yhub_learners.primary_contact_number, 10)");
         });
     }
+
+
+    public function yhubLearner()
+    {
+        return $this->hasOne(YhubLearner::class, 'normalized_mobile', 'normalized_mobile');
+    }
 }
