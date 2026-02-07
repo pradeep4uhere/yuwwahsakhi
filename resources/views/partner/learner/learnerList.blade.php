@@ -80,11 +80,7 @@
                 <th nowrap="nowrap">Digital Proficiency</th>
                 <th nowrap="nowrap">English Knowledge</th>
                 <th nowrap="nowrap">Certification</th>
-                <th>Jobs</th>
-                <th nowrap="nowrap">Social Protections</th>
-             
                 <th nowrap="nowrap">Diffrently Abled</th>
-                
             </tr>
         </thead>
         <tbody>
@@ -110,14 +106,7 @@
                     <div style="width:20px; height:20px; border-radius:50%; background-color:#ffffff; border:1px solid #000000;"></div>
                 </td>
                 @endif
-                <td nowrap="nowrap">
-                       
-                   
-
-                </td>
-                <td nowrap="nowrap">
-                     
-                </td>
+               
                 <td nowrap="nowrap">
                     {{ in_array($item->DIFFRENTLY_ABLED, [0, '0', 'No', null], true) ? 'No' : 'Yes' }}
                 </td>
