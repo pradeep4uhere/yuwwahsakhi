@@ -1644,8 +1644,15 @@ public function fetchLearners(Request $request)
                 // ->take($limit)
                 // ->get();
                 // Use Laravel pagination
-            $paginator = Learner::orderBy('id', 'asc')
-            ->paginate($limit, ['*'], 'page', $page);
+                $paginator = Learner::whereNotIn('PROGRAM_CODE', [
+                    'Maharashtra_Pune',
+                    'West Bengal_Uttar Dinajpur',
+                    'Telangana_Vikarabad Step Up - Bano Job Ready Program',
+                    'Andaman and Nicobar Island_Nicobar National Skill Development Mission (NSDM)',
+                    'Karnataka_Bangalore Urban UDGI FOUNDATION'
+                ])
+                ->orderBy('id', 'asc')
+                ->paginate($limit, ['*'], 'page', $page);
 
 
             $formattedLearners = [];
