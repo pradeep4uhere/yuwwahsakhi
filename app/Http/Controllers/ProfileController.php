@@ -678,6 +678,7 @@ private function checkEventTypeJobSocialProtection($eventTransactionList, $learn
       // Step 1: Detect document fields
             // OR safer way: merge input + files
            // Get all keys that start with document_doc_
+           $message  = "";
            $documentFields = $request->input('document_fields', []);
        
             //dd($documentFields);
@@ -759,6 +760,10 @@ private function checkEventTypeJobSocialProtection($eventTransactionList, $learn
                     ->where('primary_phone_number', $request->input('beneficiary_phone_number'))
                     ->value('id');
             }
+            $eventCategoryName = YuwaahEventMaster::where('id', $request->input('event_category'))
+            ->value('event_category');
+
+            //echo $eventCategoryName; die;
 
             //Get Event Name Based on Event Type 
             $event_name = YuwaahEventType::where('id', $request->input('event_type'))
@@ -777,11 +782,16 @@ private function checkEventTypeJobSocialProtection($eventTransactionList, $learn
                 'uploaded_doc_links'       => $uploadedDocLinks,
                 'event_date_created'       => now(),
                 'learner_id'               => $learner_id,
+                'review_status'            => 'Open',
+                'event_category_name'      => $eventCategoryName
             ];
 
             if ($action === 'submit') {
                 $data['event_date_submitted'] = now(); // Only on submit
                 $data['review_status'] = 'Open'; // Only on submit
+                $message = "Event Transaction Submit Successfully!";
+            }else{
+                $message = "Event Transaction Save Successfully!";
             }
 
             if ($existingEvent) {
@@ -824,8 +834,17 @@ private function checkEventTypeJobSocialProtection($eventTransactionList, $learn
                 EventTransaction::create($data);
             }
     
-            return redirect()->back()
-                ->with('success', 'Event transaction saved successfully!');
+            //return redirect()->back()
+            //    ->with('success', $message);
+            if ($message === 'Event Transaction Submit Successfully!') {
+                $type = 'success';
+            } else {
+                $type = 'info';
+            }
+            return redirect()->back()->with([
+                'success' => $message,
+                'type'    => $type
+            ]);
         } catch (\Exception $e) {
             \Log::error('Event transaction save error: '.$e->getMessage());
             return redirect()->back()
@@ -876,6 +895,10 @@ private function checkEventTypeJobSocialProtection($eventTransactionList, $learn
         $orderBy = $request->query('order_by', 'id'); // default to 'id'
         
         // Start query
+        $allEventCount = EventTransaction::with(['Event','EventType'])
+        ->where('ys_id', getUserId())->count();
+        //dd( $eventCount);
+
         $query = EventTransaction::with(['Event','EventType'])
         ->where('ys_id', getUserId());
 
@@ -900,7 +923,7 @@ private function checkEventTypeJobSocialProtection($eventTransactionList, $learn
         $eventList = $query->orderBy($orderBy, $filter)->paginate();
        //dd($eventList );
 
-       
+       //dd($allEventCount);
 
         return view($this->dir.'.all_event_transaction_list',[
             'eventList' => $eventList,
@@ -1417,5 +1440,89 @@ As a catalytic multi-stakeholder partnership, YuWaah is dedicated to transformin
 
     }
 
+
+
+
+
+
+    public function getBeneficiariesLocalJobs(Request $request) { 
+        try {
+            $csc_id = Auth::user()->csc_id;
+            $event_type = $request->get('event_type'); 
+            $learner_id = $request->get('learner_id');
+            $event_transaction_id = $request->input('event_transaction_id', 0);
+            if($event_transaction_id  > 0){
+                $eventTransaction = EventTransaction::find($event_transaction_id);
+                if($event_type == $eventTransaction['event_type']){
+                    return response()->json([
+                        'status'  => true,
+                        'message' => "Valid"
+                    ], 200);
+                }else{
+                    return response()->json([
+                        'status'  => false,
+                        'message' => "You can not change the Event Type."
+                    ], 200);
+                }
+            }
+
+            // ❌ If CSC ID is missing, return proper error
+            if (empty($csc_id)) {
+                return response()->json([
+                    'status'  => false,
+                    'message' => 'Unit Name (CSC ID) not found for the authenticated user.',
+                ], 400);
+            }
+
+            // ✅ Validate input
+            $validated = $request->validate([
+                'name' => 'nullable|string|max:100',
+            ]);
+
+            $query = $validated['name'] ?? '';
+
+              // ✅ Build query with proper conditions
+            $localJobCunt = EventTransaction::whereIn('event_type', [1,5])
+            ->where('learner_id', $learner_id)
+            ->where('review_status','!=','Rejected')
+            ->count();
+            if($localJobCunt > 0){
+                return response()->json([
+                    'status'  => true,
+                    'message' => "Job Event Found"
+                ], 200);
+            }else{
+                return response()->json([
+                    'status'  => false,
+                    'message' => "Please submit the Job Event before proceeding."
+                ], 200);
+            }
+
+        
+
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            // ❌ Validation error handling
+            return response()->json([
+                'status'  => false,
+                'message' => 'Validation failed.',
+                'errors'  => $e->errors(),
+            ], 422);
+
+        } catch (\Exception $e) {
+            // ❌ General error handling
+            \Log::error('Error in getBeneficiaries: '.$e->getMessage(), [
+                'trace' => $e->getTraceAsString(),
+            ]);
+
+            return response()->json([
+                'status'  => false,
+                'message' => 'An unexpected error occurred. Please try again later.',
+            ], 500);
+        }
+    }
+
+
+
+    
 
 }

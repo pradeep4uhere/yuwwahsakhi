@@ -1,6 +1,12 @@
 @extends('layouts.user')
 @section('title', 'Dashboard')
 @section('content')
+<style>
+  .swal2-popup {
+    width: 380px !important;
+    font-size: 14px;
+}
+</style>
 <div id="screen7" class="max-w-[26rem] mx-auto  bg-white shadow-md rounded-lg relative min-h-[100vh] h-auto">
     @include('user.header')
     <div id="screen12" class="max-w-sm mx-auto p-4 bg-white  rounded-lg">
@@ -11,11 +17,24 @@
       </div>
     <div class="mt-10">
     {{-- To show success or failure --}}
+
     @if (session('success'))
-        <div class="bg-green-100 text-green-700 p-4 rounded mb-4 mt-5">
+        @php
+            $type = session('type');
+
+            $classes = match ($type) {
+                'success' => 'bg-green-100 text-green-700',
+                'info'    => 'bg-blue-100 text-blue-700',
+                default   => 'bg-gray-100 text-gray-700',
+            };
+        @endphp
+
+        <div class="{{ $classes }} p-4 rounded mb-4 mt-5">
             {{ session('success') }}
         </div>
     @endif
+
+   
 
     @if (session('error'))
         <div class="bg-red-100 text-red-700 p-4 rounded mb-4">
@@ -61,7 +80,7 @@
         <div class="space-y-1">
           <label for="opportunity" class="font-[400] text-[12px] leading-[14.63px] text-[#000000]">{{__('messages.event_name')}}</label>
           <input value="{{$item['event_name']}}" id="event_name" type="text" name="event_name" placeholder="Please Enter Event Name" class="text-xs w-full border rounded px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 placeholder:font-[400] placeholder:text-[10px] placeholder:leading-[12.19px] placeholder:text-[#A7A7A7] rounded-[10px] placeholder:border-[1px]">
-          <input value="{{$item['id']}}" type="hidden" name="id"  >
+          <input value="{{$item['id']}}" type="hidden" name="id" id="evid"  >
         </div>
         
         <div class="space-y-1 relative">
@@ -166,6 +185,8 @@
     </div>
 </div>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 <script>
   $('#event_type').on('change', function () {
     var eventTypeId = $(this).val();
@@ -181,7 +202,12 @@
         $('#event_category').val(data.category_name);
       },
       error: function () {
-        alert('Error fetching categories');
+        
+        Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: 'Error fetching categories.'
+        });
       }
     });
   });
@@ -245,9 +271,12 @@ function removefile(el) {
 }
 </script>
 <script>
+function resetBeneficiaryFields() {
+    $('#beneficiary_name, #beneficiary_number, #learner_id').val('');
+}
 $('#event_type').on('change', function () {
         let eventTypeId = $(this).val();
-
+        resetBeneficiaryFields();
         if (eventTypeId) {
             $.ajax({
                 url: "{{route('user.event.document')}}",
@@ -274,12 +303,17 @@ $('#event_type').on('change', function () {
 
                     $('#event_category').empty().append('<option value="">Choose Event Category</option>');
                     $.each(response.category, function (key, value) {
-                        $('#event_category').append('<option value="'+ value+'">'+ value+'</option>');
+                        $('#event_category').append('<option value="'+ key+'">'+ value+'</option>');
                     });
                 },
                 error: function (xhr) {
-                    alert('Could not fetch document types.');
-                    console.log(xhr.responseText);
+                    //alert('Could not fetch document types.');
+                    Swal.fire({
+                      icon: 'error',
+                      title: 'Error',
+                      text: 'Could not fetch document types.'
+                  });
+                  console.log(xhr.responseText);
                 }
             });
         } else {
@@ -325,13 +359,78 @@ $('#event_type').on('change', function () {
     });
 
     // Handle click on suggestion
+    // Handle click on suggestion
     $(document).on('click', '#suggestions div', function () {
         let name = $(this).data('name');
         let primary_phone_number = $(this).data('number');
-        //alert(primary_phone_number);
-        $('#beneficiary_name').val(name);
-        $('#beneficiary_number').val(primary_phone_number);
-        $('#suggestions').addClass('hidden').empty();
+        let learner_id = $(this).data('learner_id');
+        let event_type = $("#event_type").val();
+        let event_transaction_id = $("#evid").val();
+        //alert(event_transaction_id);
+
+        if(event_type==3){
+           // Optional: show loader
+          Swal.fire({
+              title: 'Validating learner...',
+              text: 'Please wait',
+              allowOutsideClick: false,
+              didOpen: () => {
+                  Swal.showLoading();
+              }
+          });
+            $.ajax({
+              url: "{{ route('get.check-event-transaction') }}",
+              type: 'POST',
+              data: {
+                  event_type: event_type,
+                  learner_id: learner_id,
+                  event_transaction_id: event_transaction_id,
+                  _token: $('meta[name="csrf-token"]').attr('content')
+              },
+              success: function (response) {
+                  Swal.close();
+                  if (response.status === true) {
+                      // ✅ Assign values only if API allows
+                      $('#beneficiary_name').val(name);
+                      $('#learner_id').val(learner_id);
+                      $('#beneficiary_number').val(primary_phone_number);
+
+                      $('#suggestions').addClass('hidden').empty();
+
+                      Swal.fire({
+                        icon: 'success',
+                        title: 'success',
+                        text: 'Beneficiary selected successfully',
+                        timer: 1500,
+                        showConfirmButton: false
+                    });
+                  } else {
+                      // ❌ Block and show message
+                       // ❌ Blocked
+                      Swal.fire({
+                          icon: 'error',
+                          title: 'Not Allowed',
+                          text: response.message || 'Event already exists for this learner.'
+                      });
+                      //alert(response.message || 'Event already exists for this learner.');
+                  }
+              },
+              error: function () {
+                  Swal.close();
+                  Swal.fire({
+                      icon: 'error',
+                      title: 'Error',
+                      text: 'Something went wrong while validating the learner.'
+                  });
+                  //alert('Something went wrong while validating the learner.');
+              }
+          });
+       }else{
+          $('#beneficiary_name').val(name);
+          $('#learner_id').val(learner_id);
+          $('#beneficiary_number').val(primary_phone_number);
+          $('#suggestions').addClass('hidden').empty();
+        }
     });
 
     // Optional: hide suggestions when clicking outside

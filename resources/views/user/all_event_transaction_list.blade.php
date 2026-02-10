@@ -5,8 +5,8 @@
     @include('user.header')
     <div id="screen9" class=" max-w-[26rem] mx-auto p-4 bg-white mt-1 rounded-lg">
       <div class="mt-2 text-sm flex justify-between items-center">
-        <h1 class="w-[100px] h-[17px] font-[500] text-[14px] leading-[17.07px] text-[#000000]">
-        {{__('messages.all_events')}}
+        <h1 class="w-[120px] h-[17px] font-[500] text-[14px] leading-[17.07px] text-[#000000]">
+        {{__('messages.all_events')}}&nbsp;[{{$allEventCount}}]
         </h1>
         <div class="flex items-center gap-2">
           <div class="w-[69px] h-[30px] rounded-[10px] bg-[#28388F] flex items-center justify-center">

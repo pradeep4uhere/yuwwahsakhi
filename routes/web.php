@@ -67,6 +67,10 @@ Route::middleware('auth')->group(function () {
     Route::get('/get-beneficiaries', [ProfileController::class, 'getBeneficiaries'])->name('get.beneficiaries');
     Route::get('/viewevent/{id}', [ProfileController::class, 'getEventDetails'])->name('viewevent');
     Route::get('/get-event-category-documents', [ProfileController::class, 'getEventCategoryDocuments'])->name('user.eventcategory.document');
+
+    //Check LocalJob Of the Learner
+    Route::post('/get-beneficiaries-local-jobs', [ProfileController::class, 'getBeneficiariesLocalJobs'])->name('get.check-event-transaction');
+    
     
     
     
