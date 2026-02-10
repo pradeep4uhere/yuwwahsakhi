@@ -50,10 +50,10 @@ class PartnerExportFiledAgents implements FromQuery, WithHeadings, WithMapping
                 $q->where('review_status', 'Rejected');
             },
 
-             // All Job Event Transactions Count
-             'eventTransactions as job_transactions_count' => function ($q) {
-                $q->whereIn('event_type', [1,5]);
-            },
+            //  // All Job Event Transactions Count
+            //  'eventTransactions as job_transactions_count' => function ($q) {
+            //     $q->whereIn('event_type', [1,5]);
+            // },
 
            // Submitted Job Event Transactions Count
             'eventTransactions as open_job_event_transactions_count' => function ($q) {
@@ -153,8 +153,6 @@ class PartnerExportFiledAgents implements FromQuery, WithHeadings, WithMapping
             'State',
             'District',
             'Contact Number',
-            'Learner Count',
-            'Total Certification',
             'Total Event Submitted',
             'Total Event Pending For Verification',
             'Total Event Action Required',
@@ -169,14 +167,13 @@ class PartnerExportFiledAgents implements FromQuery, WithHeadings, WithMapping
             'Social Protection Events Pending For Verification',
             'Social Protection Events Action Required',
             'Social Protection Events Accepted',
-            'Total Social Protection rejected',
+            'Social Protection rejected',
         ];
     }
 
 
     public function map($agent): array
     {
-        //dd($agent);
         return [
             $agent->sakhi_id,
             $agent->csc_id,
@@ -184,26 +181,21 @@ class PartnerExportFiledAgents implements FromQuery, WithHeadings, WithMapping
             $agent->state,
             $agent->district,
             $agent->contact_number,
-            $agent->learner_count,
-            $agent->completed_learners_count,
-
-            $agent->event_transactions_count,
-            $agent->open_transactions_count,
-            $agent->pending_transactions_count,
-            $agent->accepted_transactions_count,
-            $agent->rejected_transactions_count,
-
-            $agent->job_transactions_count,
-            $agent->open_job_event_transactions_count,
-            $agent->pending_job_event_transactions_count,
-            $agent->accepted_job_event_transactions_count,
-            $agent->rejected_job_event_transactions_count,
-
-            $agent->socialprotection_transactions_count,
-            $agent->open_social_protection_event_transactions_count,
-            $agent->pending_social_protection_transactions_count,
-            $agent->accepted_social_protection_transactions_count,
-            $agent->rejected_social_protection_transactions_count
+            (int) $agent->event_transactions_count,
+            (int) $agent->open_transactions_count,
+            (int) $agent->pending_transactions_count,
+            (int) $agent->accepted_transactions_count,
+            (int) $agent->rejected_transactions_count,
+            (int) $agent->job_transactions_count,
+            (int) $agent->open_job_event_transactions_count,
+            (int) $agent->pending_job_event_transactions_count,
+            (int) $agent->accepted_job_event_transactions_count,
+            (int) $agent->rejected_job_event_transactions_count,
+            (int) $agent->socialprotection_transactions_count,
+            (int) $agent->open_social_protection_event_transactions_count,
+            (int) $agent->pending_social_protection_transactions_count,
+            (int) $agent->accepted_social_protection_transactions_count,
+            (int) $agent->rejected_social_protection_transactions_count,
         ];
     }
 
