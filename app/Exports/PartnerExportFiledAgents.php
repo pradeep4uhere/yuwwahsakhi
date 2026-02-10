@@ -21,6 +21,7 @@ class PartnerExportFiledAgents implements FromQuery, WithHeadings, WithMapping
     public function query()
     {
         $query = YuwaahSakhi::where('partner_id', getUserId())
+        ->where('csc_id','!=','Sandbox_Testing')
         ->withCount([
             // Total event transactions
             'eventTransactions',

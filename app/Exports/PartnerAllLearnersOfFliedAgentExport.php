@@ -184,7 +184,7 @@ ShouldAutoSize
             ->sortByDesc('updated_at')
             ->first();
             if (!$event || empty($event->review_status)) {
-                return 'NA';
+                return '';
             }
         
             return match ($event->review_status) {
@@ -204,7 +204,7 @@ ShouldAutoSize
         ->sortByDesc('updated_at')
         ->first();
         if (!$event || empty($event->review_status)) {
-            return 'NA';
+            return '';
         }
     
         return match ($event->review_status) {
