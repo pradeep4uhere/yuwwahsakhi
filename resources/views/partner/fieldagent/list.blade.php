@@ -121,8 +121,8 @@
                     <th>Contact Number</th>
                     <th>Email</th>
                     <th>Partner Division</th>
-                    <th>Learner Reg.</th>
-                    <th title="Total course completed">Total Cert.</th>
+                    <!-- <th>Learner Reg.</th>
+                    <th title="Total course completed">Total Cert.</th> -->
                     <th>Total Jobs</th>
                     <th>Social Protection</th>
                 
@@ -145,9 +145,9 @@
                 <td>{{ $item->contact_number }}</td>
                 <td>{{ $item->email }}</td>
                 <td>{{ $item->PartnerCenter->center_name}}</td>
-                <td class="text-center">{{ $item->learner_count}}</td>
+                <!-- <td class="text-center">{{ $item->learner_count}}</td>
                 <td class="text-center">
-                <span class="circle-badge"  >{{ $item['Learner']['course_completed']}}</span></td>
+                <span class="circle-badge"  >{{ $item['Learner']['course_completed']}}</span></td> -->
                 <td class="text-center" nowrap="nowrap">
                 @if($item['job_transactions_count'])
                 <span class="circle-badge">{{$item['job_transactions_count']}}</span>
