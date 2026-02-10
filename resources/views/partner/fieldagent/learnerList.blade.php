@@ -36,12 +36,12 @@
                 </table>
                 </td>
                 <td text-align="right" nowrap="nowrap" style="padding-top:25px;">
-                <a href="{{ route('partner.learners.export', array_merge(request()->all(), ['agent_id' => encryptString($agentArray->id)])) }}">
+                <!-- <a href="{{ route('partner.learners.export', array_merge(request()->all(), ['agent_id' => encryptString($agentArray->id)])) }}">
                         <b>
                             <img src="{{ asset('asset/images/export.jpg') }}" width="25" height="25">
                             Export Learner
                         </b>
-                    </a>
+                    </a> -->
                 </td>
             </tr>
           

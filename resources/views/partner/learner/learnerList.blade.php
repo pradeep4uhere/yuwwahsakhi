@@ -36,13 +36,7 @@
                 </table>
                 </td>
                 <td text-align="right" nowrap="nowrap" style="padding-top:25px;">
-                <a href="{{ route('partner.learners.export', request()->query()) }}">
-                        <b>
-                            <img src="{{ asset('asset/images/export.jpg') }}" width="25" height="25">
-                            &nbsp;Export Learner
-                        </b>
-                    </a>
-
+              
                 </td>
             </tr>
           
