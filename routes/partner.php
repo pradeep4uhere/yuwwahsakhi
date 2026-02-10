@@ -61,6 +61,8 @@ Route::middleware('auth:partner')->group(function () {
     Route::get('partner.learners', [PartnerController::class, 'learnerList'])->name('partner.learners');
     Route::get('/partner/learners/export/{agent_id}', [PartnerController::class, 'exportPartnerFliendAgentLearners'])
      ->name('partner.learners.export');
+     Route::get('/partner/export/learner', [PartnerController::class, 'exportPartnerLearners'])
+     ->name('export.partner.exportlearner');
 
 
 

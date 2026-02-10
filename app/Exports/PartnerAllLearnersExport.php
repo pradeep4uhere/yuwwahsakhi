@@ -44,7 +44,7 @@ class PartnerAllLearnersExport implements FromQuery, WithHeadings
                 // ✅ Completion status: 100 → Yes, else No
                 DB::raw("
                     CASE 
-                        WHEN MAX(yl.completion_percent) = 100 THEN 'Yes'
+                        WHEN MAX(yl.completion_status) = 1 THEN 'Yes'
                         ELSE 'No'
                     END AS completion_status
                 "),
@@ -95,7 +95,7 @@ class PartnerAllLearnersExport implements FromQuery, WithHeadings
                 'Digital Proficiency',
                 'English Knowledge',
                 'Certification',
-                'Diffrently Abled'
+                'Differently Abled'
             ];
         }
     /**

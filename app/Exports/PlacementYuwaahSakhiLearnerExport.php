@@ -64,7 +64,7 @@ class PlacementYuwaahSakhiLearnerExport implements FromCollection, WithHeadings,
             'Digital Proficiency',
             'English Knowledge',
             'Completion Status',
-            'DIFFRENTLY ABLED',
+            'Differently Abled',
         ];
     }
 

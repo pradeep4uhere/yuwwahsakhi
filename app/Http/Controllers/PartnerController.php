@@ -932,7 +932,7 @@ class PartnerController extends Controller
      */
     public function viewFieldAgent(Request $request,$id){
         try {
-            $ys_id = decryptString($id);
+            $ys_id = decryptString($id); 
         
             $agentArray = YuwaahSakhi::findOrFail($ys_id);
             $cscValue   = $agentArray->csc_id;
@@ -1060,6 +1060,7 @@ class PartnerController extends Controller
                 ];
             }
         
+            //dd($learnerList);
             return view('partner.fieldagent.learnerList', [
                 'title'                    => 'All Learners',
                 'data'                     => $learnerList,
@@ -1132,7 +1133,6 @@ class PartnerController extends Controller
      * All Learner List
      */
     public function learnerList(Request $request){
-
         $completedLearners = Learner::join(
             'yhub_learners as yl',
             'learners.normalized_mobile',
@@ -1224,6 +1224,10 @@ class PartnerController extends Controller
 
 
 
+
+
+
+    //
 
 
     public function exportPartnerFliendAgentLearners(Request $request,$agent_id)

@@ -36,7 +36,7 @@
                 </table>
                 </td>
                 <td text-align="right" nowrap="nowrap" style="padding-top:25px;">
-                <a href="{{ route('partner.learners.export', request()->query()) }}">
+                <a href="{{ route('export.partner.exportlearner', request()->query()) }}">
                         <b>
                             <img src="{{ asset('asset/images/export.jpg') }}" width="25" height="25">
                             &nbsp;Export Learner
@@ -87,7 +87,7 @@
                 <th nowrap="nowrap">Digital Proficiency</th>
                 <th nowrap="nowrap">English Knowledge</th>
                 <th nowrap="nowrap">Certification</th>
-                <th nowrap="nowrap">Diffrently Abled</th>
+                <th nowrap="nowrap">Differently Abled</th>
             </tr>
         </thead>
         <tbody>

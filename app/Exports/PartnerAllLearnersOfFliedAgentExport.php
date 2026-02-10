@@ -9,6 +9,7 @@ use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithMapping;
 use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 use App\Models\YuwaahSakhi;
+use App\Models\Learner;
 
 
 class PartnerAllLearnersOfFliedAgentExport implements FromQuery,
@@ -27,6 +28,12 @@ ShouldAutoSize
         $this->request   = $request;
         $this->partnerId = $partnerId;
         $this->agent_id = $agent_id;
+        $this->ys_id = decryptString($this->agent_id); 
+
+         // preload events once
+         $this->eventTransactionList = DB::table('event_transactions')
+         ->where('ys_id', $this->ys_id)
+         ->get();
     }
 
 
@@ -35,108 +42,177 @@ ShouldAutoSize
      */
     public function query()
     {
-        $ys_id = decryptString($this->agent_id);
-        $agentArray = YuwaahSakhi::findOrFail($ys_id);
+
+
+        $agentArray = YuwaahSakhi::findOrFail($this->ys_id);
         $cscValue   = $agentArray->csc_id;
-        $query = DB::table('learners as l')
-            ->leftJoin('yhub_learners as yl', 'l.normalized_mobile', '=', 'yl.normalized_mobile')
-            ->join('yuwaah_sakhi as ys', 'ys.csc_id', '=', 'l.UNIT_INSTITUTE')
-            ->where('ys.partner_id', $this->partnerId)
-            ->where('l.UNIT_INSTITUTE',$cscValue)
-            ->whereNotNull('l.normalized_mobile')
-            ->select(
-                'l.first_name',
-                'l.last_name',
-                'l.date_of_birth',
-                'l.normalized_mobile',
-                'l.PROGRAM_STATE',
-                'l.PROGRAM_DISTRICT',
-                'l.UNIT_INSTITUTE',
-                'l.education_level',
-                'l.english_knowledge',
-                'l.digital_proficiency',
-                DB::raw("
-                    CASE 
-                        WHEN MAX(yl.completion_status) = 1 THEN 'Yes'
-                        ELSE 'No'
-                    END as course_completed
-                "),
-                DB::raw("
-                    CASE 
-                        WHEN l.DIFFRENTLY_ABLED = 1 THEN 'Yes'
-                        ELSE 'No'
-                    END as differently_abled
-                ")
+
+        /*
+        |--------------------------------------------------------------------------
+        | Base Query
+        |--------------------------------------------------------------------------
+        */
+        $query = Learner::query()
+            ->where('learners.status', 'Active')
+            ->where('learners.UNIT_INSTITUTE', $cscValue);
+
+        /* ---------------- Filters ---------------- */
+        $query
+            ->when($this->request->filled('name'), function ($q) {
+                $q->where(function ($sub) {
+                    $sub->where('learners.first_name', 'like', "%{$this->request->name}%")
+                        ->orWhere('learners.last_name', 'like', "%{$this->request->name}%");
+                });
+            })
+            ->when($this->request->filled('email'), fn ($q) =>
+                $q->where('learners.email', 'like', "%{$this->request->email}%")
             )
-            ->groupBy(
-                'l.id',
-                'l.first_name',
-                'l.last_name',
-                'l.normalized_mobile',
-                'l.UNIT_INSTITUTE',
-                'l.DIFFRENTLY_ABLED'
-            )->orderBy('l.id');
+            ->when($this->request->filled('phone'), fn ($q) =>
+                $q->where('learners.primary_phone_number', 'like', "%{$this->request->phone}%")
+            )
+            ->when($this->request->filled('gender'), fn ($q) =>
+                $q->where('learners.gender', $this->request->gender)
+            );
 
-        /* 🔹 Filters from request */
-        $query->when($this->request->filled('name'), function ($q) {
-            $q->where('l.first_name', 'like', '%' . $this->request->name . '%');
-        });
+        /*
+        |--------------------------------------------------------------------------
+        | Latest Event Subquery
+        |--------------------------------------------------------------------------
+        */
+        $latestEvents = DB::table('event_transactions')
+            ->select('learner_id', 'updated_at as last_event_update')
+            ->where('ys_id', $this->ys_id)
+            ->orderByDesc('id');
 
-        $query->when($this->request->filled('unit_institute'), function ($q) {
-            $q->where('l.UNIT_INSTITUTE', $this->request->unit_institute);
-        });
-
-        return $query;
+        return $query
+                ->leftJoin('yhub_learners as yl', function ($join) {
+                    $join->on('learners.normalized_mobile', '=', 'yl.normalized_mobile');
+                })
+                ->leftJoinSub($latestEvents, 'et', function ($join) {
+                    $join->on('learners.id', '=', 'et.learner_id');
+                })
+                ->select([
+                    'learners.*',
+                    'yl.email_address as yhub_email_address',
+                    'yl.completion_status',
+                    DB::raw("CASE WHEN yl.completion_status = 1 THEN 'Yes' ELSE 'No' END as course_completed_status"),
+                    DB::raw('COALESCE(et.last_event_update, learners.updated_at) as sort_updated_at'),
+                ])
+                ->groupBy(
+                    'learners.id',
+                    'yl.email_address',
+                    'yl.completion_status',
+                    'et.last_event_update'
+                )
+                ->orderByDesc('sort_updated_at');
+    
     }
 
 
 
-    /**
-     * Excel headings
-     */
+   /*
+    |--------------------------------------------------------------------------
+    | Headings
+    |--------------------------------------------------------------------------
+    */
     public function headings(): array
     {
         return [
+            'Learner ID',
             'Name',
-            'Date Of Birth',
-            'Phone Number',
+            'Phone',
+            'DOB',
+            'Education',
+            'Digital Proficiency',
+            'Differently Abled',
+            'English Knowledge',
             'State',
             'District',
-            'Unit Institute',
-            'Education Level',
-            'Digital Proficiency',
-            'English Knowledge',
-            'Certification',
-            'Diffrently Abled'
+            'YHub Email',
+            'Course Completed',
+            'Job Event',
+            'Social Protection',
         ];
+
     }
 
-
-
-    /**
-     * Map row data
-     */
+    /*
+    |--------------------------------------------------------------------------
+    | Row Mapping
+    |--------------------------------------------------------------------------
+    */
     public function map($row): array
     {
+        //dd($row);
         return [
-            $row->first_name.' '.$row->last_name,
+            $row->id,
+            $row->first_name . ' ' . $row->last_name,
+            $row->primary_phone_number,
             $row->date_of_birth,
-            $row->normalized_mobile,
+            $row->education_level,
+            $row->digital_proficiency,
+            $row->DIFFRENTLY_ABLED,
+            $row->english_knowledge,
             $row->PROGRAM_STATE,
             $row->PROGRAM_DISTRICT,
-            $row->UNIT_INSTITUTE,
-            $row->education_level,
-            $row->english_knowledge,
-            $row->digital_proficiency,
-            $row->course_completed,
-            $row->differently_abled,
+            $row->yhub_email_address,
+            $row->course_completed_status,
+            $this->checkIsJobEvent($row->id),
+            $this->checkIsSocialProtection($row->id),
         ];
     }
+
     /**
     * @return \Illuminate\Support\Collection
     */
     public function collection()
     {
         //
+    }
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | Helpers
+    |--------------------------------------------------------------------------
+    */
+    protected function checkIsJobEvent($learnerId)
+    {
+          $event = $this->eventTransactionList
+            ->where('learner_id', $learnerId)
+            ->whereIn('event_type', [1, 5])
+            ->sortByDesc('updated_at')
+            ->first();
+            if (!$event || empty($event->review_status)) {
+                return 'NA';
+            }
+        
+            return match ($event->review_status) {
+                'Open'     => 'Submitted',
+                'Pending'  => 'Action Required',
+                'Accepted' => 'Accepted',
+                'Rejected' => 'Rejected',
+                default    => $event->review_status, // fallback safety
+            };
+    }
+
+    protected function checkIsSocialProtection($learnerId)
+    {
+        $event = $this->eventTransactionList
+        ->where('learner_id', $learnerId)
+        ->whereIn('event_type', [3])
+        ->sortByDesc('updated_at')
+        ->first();
+        if (!$event || empty($event->review_status)) {
+            return 'NA';
+        }
+    
+        return match ($event->review_status) {
+            'Open'     => 'Submitted',
+            'Pending'  => 'Action Required',
+            'Accepted' => 'Accepted',
+            'Rejected' => 'Rejected',
+            default    => $event->review_status, // fallback safety
+        };
     }
 }

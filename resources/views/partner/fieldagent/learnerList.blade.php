@@ -62,7 +62,6 @@
                 <th nowrap="nowrap">Certification</th>
                 <th>Jobs</th>
                 <th nowrap="nowrap">Social Protections</th>
-             
                 <th nowrap="nowrap">Diffrently Abled</th>
                 
             </tr>
