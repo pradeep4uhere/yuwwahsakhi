@@ -15,6 +15,7 @@ class EventTransactionsWithCommentsExport implements WithMultipleSheets
             ->join('yuwaah_sakhi as ys', 'et.ys_id', '=', 'ys.id')
             ->join('yuwaah_event_masters as em', 'em.id', '=', 'et.event_category')
             ->where('ys.partner_id', $partnerId)
+            ->where('ys.csc_id','!=','Sandbox_Testing')
             ->select(
                 'et.id',
                 'ys.name',
