@@ -17,6 +17,9 @@ class EventTransactionsWithCommentsExport implements WithMultipleSheets
             ->where('ys.partner_id', $partnerId)
             ->select(
                 'et.id',
+                'ys.name',
+                'ys.sakhi_id',
+                'ys.csc_id',
                 'et.beneficiary_name',
                 'et.beneficiary_phone_number',
                 'et.event_name',
@@ -26,6 +29,7 @@ class EventTransactionsWithCommentsExport implements WithMultipleSheets
                 'et.review_status',
                 'et.created_at',
                 'et.event_date_submitted',
+              
                 
             )
             ->get();

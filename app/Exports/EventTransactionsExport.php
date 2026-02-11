@@ -20,11 +20,13 @@ class EventTransactionsExport implements FromCollection, WithHeadings
             ->where('ys.partner_id', $partnerId)
             ->select(
                 'et.id',
+                'ys.name',
+                'ys.sakhi_id',
+                'ys.csc_id',
                 'et.beneficiary_name',
                 'et.beneficiary_phone_number',
                 'et.event_name',
                 'em.event_category as event_category',
-                'ys.sakhi_id',
                 'et.event_value', // example fields
                 'et.review_status',
                 'et.created_at',
@@ -46,7 +48,6 @@ class EventTransactionsExport implements FromCollection, WithHeadings
             'Event Name',
             'Event Category',
             'Field Agent ID',
-            'Monthly Income',
             'Event Status',
             'Created At',
             'Event Submitted',

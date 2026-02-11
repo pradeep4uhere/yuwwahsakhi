@@ -5,8 +5,8 @@
 <div class="container">
 <table width="100%">
     <tr>
-        <td style="text-align: left; font-size:24px"><b>Event Transactions List</b></td>
-        <!-- <td style="text-align: right; font-size:14px;font-weight:bold"><a href="{{ route('partner.event.export') }}"><img src="{{ asset('asset/images/download.png') }}" alt="Download" style="height:16px; vertical-align:middle;"> Export Event Transactions</a></td> -->
+        <td style="text-align: left; font-size:24px"><b>Event Transactions List&nbsp;[{{$data->total()}}]</b></td>
+        <td style="text-align: right; font-size:14px;font-weight:bold"><a href="{{ route('partner.event.export') }}"><img src="{{ asset('asset/images/download.png') }}" alt="Download" style="height:16px; vertical-align:middle;"> Export Event Transactions</a></td>
     </tr>
 </table>
         <div class="table-container">
@@ -14,13 +14,13 @@
         <thead class="table-dark">
             <tr>
                 <th>SN</th>
+                <th>Agent ID</th>
+                <th>Unit Institute</th>
                 <th>Event Name</th>
                 <th>Event Category</th>
                 <th>Beneficiary Name</th>
-                <th>Beneficiary Phone Number</th>
+                <th>Beneficiary Number</th>
                 <th>Event Status</th>
-                <th>Monthly Income</th>
-                <th>Event Created</th>
                 <th>Event Submitted</th>
                 <th>Documents</th>
                 <th>Comment</th>
@@ -35,13 +35,14 @@
             @endphp
             <tr>
                 <td>{{$count}}</td>
-                <td>{{ $item->event_name }}</td>
+                <td nowrap="nowrap">{{ $item->sakhi_id }}</td>
+                <td nowrap="nowrap">{{ $item->csc_id }}</td>
+                <td nowrap="nowrap">{{ $item->event_name }}</td>
                 <td>{{ $item->event_category }}</td>
                 <td>{{ $item->beneficiary_name }}</td>
                 <td>{{ $item->beneficiary_phone_number }}</td>
                 <td>{{ $item->review_status }}</td>
-                <td>Rs. {{ $item->event_value }}</td>
-                <td>{{ $item->created_at }}</td>
+               
                 <td>{{ $item->event_date_submitted }}</td>
                 <td>
                 @if(!empty($document))
@@ -56,7 +57,7 @@
                 <a href="#" 
                         class="btn btn-primary btn-sm view-comments" 
                         data-event-id="{{ $item->id }}">
-                        View Comment
+                        Comment
                     </a>
                 </td>
             </tr>
@@ -65,7 +66,7 @@
         </tbody>
     </table>
             <div class="pagination">
-            {{ $data['pagination_links'] ?? '' }}
+            {{ $data->links('pagination::bootstrap-5') }}
             </div>
         </div>
     </div>

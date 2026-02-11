@@ -452,8 +452,8 @@ class PartnerController extends Controller
             ->join('yuwaah_sakhi as ys', 'et.ys_id', '=', 'ys.id')
             ->join('yuwaah_event_masters as em', 'em.id', '=', 'et.event_category')
             ->where('ys.partner_id', $partnerId)
-            ->select('et.*', 'em.event_category')
-            ->get();
+            ->select('et.*', 'em.event_category','ys.csc_id','ys.sakhi_id')
+            ->paginate(25);
 
             
         //$eventList = YuwaahEventMaster::where('status','1')->paginate(env('PAGINATION'));

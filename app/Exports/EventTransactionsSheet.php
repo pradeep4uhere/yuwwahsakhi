@@ -29,11 +29,13 @@ class EventTransactionsSheet implements FromCollection, WithTitle, WithHeadings
     {
         return [
             'ID',
+            'Field Agent Name',
+            'Field Agent ID',
+            'Unit Institute Name',
             'Beneficiary Name',
             'Beneficiary Phone Number',
             'Event Name',
             'Event Category',
-            'Field Agent ID',
             'Monthly Income',
             'Event Status',
             'Created At',
