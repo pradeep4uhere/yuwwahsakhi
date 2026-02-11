@@ -6,35 +6,7 @@
        <table class="table w-100">
             <tr>
                 <td style="width:88%" style="padding-top:35px;" ><h1><img src="{{asset('asset/images/Profile.png')}}" hegiht="55px" width="55px">Learner [{{$data->total()}}]&nbsp;|&nbsp;<img src="{{asset('asset/images/certificate.png')}}" hegiht="25px" width="25px">&nbsp;Total Certification&nbsp;[{{$totalCompletionLearner}}]</h1></td>
-                <td>
-                <table><tr>
-                <td nowrap="nowrap">
                
-                </td>
-                <td>
-                
-                </td>
-                <td>
-                
-                </td>
-                <td>
-                
-                </td>
-                <td>
-               
-                </td>
-                <td>
-                
-                </td>
-                <td>
-                
-                </td>
-                <td>
-                  
-                </td>
-                </tr>
-                </table>
-                </td>
                 <td text-align="right" nowrap="nowrap" style="padding-top:25px;">
                 <a href="{{ route('export.partner.exportlearner', request()->query()) }}">
                         <b>
@@ -48,6 +20,40 @@
           
         </table>
         <form>
+        <div>
+        <div class="mb-3">
+        @php
+                $filters = [
+                    'name' => 'Name',
+                    'primary_phone_number' => 'Mobile',
+                    'PROGRAM_STATE' => 'State',
+                    'district' => 'District',
+                    'unit_institute' => 'Unit Institute'
+                ];
+            @endphp
+                <strong>Search Result For:</strong>
+
+                @if(request()->filled('name'))
+                    <span>Name: {{ request('name') }}</span> |
+                @endif
+
+                @if(request()->filled('primary_phone_number'))
+                    <span>Mobile: {{ request('primary_phone_number') }}</span> |
+                @endif
+
+                @if(request()->filled('PROGRAM_STATE'))
+                    <span>State: {{ request('PROGRAM_STATE') }}</span> |
+                @endif
+
+                @if(request()->filled('district'))
+                    <span>District: {{ request('district') }}</span> |
+                @endif
+
+                @if(request()->filled('unit_institute'))
+                    <span>Unit Institute: {{ request('unit_institute') }}</span>
+                @endif
+            </div>
+        </div>
         <table>
         <tr>
             <td style="width:10%"><input type="text" name="name" class="form-control" placeholder="Name"/></td>

@@ -684,11 +684,9 @@ class PartnerController extends Controller
     public function getAllLearnerList($request, $agent_id){
         try {
              $ys_id = $agent_id; 
-             
              $agentArray= YuwaahSakhi::where('id', $ys_id)->first();
- 
              $cscValue = $agentArray['csc_id'];
-                         // Base query
+             // Base query
              $query = Learner::where('learners.status', 'Active')
                  ->where('learners.UNIT_INSTITUTE', $cscValue);
  
@@ -713,14 +711,12 @@ class PartnerController extends Controller
              ->select('*', 'updated_at as last_event_update')
              ->where('ys_id', $ys_id)
              ->orderBy('id', 'DESC');
- 
- 
- 
-                 // $sql = $latestEvents->toSql();
-                 // $bindings = $latestEvents->getBindings();
-                 // dd(vsprintf(str_replace('?', '%s', $sql), collect($bindings)->map(function ($binding) {
-                 //        return is_numeric($binding) ? $binding : "'{$binding}'";
-                 //     })->toArray()));
+
+            // $sql = $latestEvents->toSql();
+            // $bindings = $latestEvents->getBindings();
+            // dd(vsprintf(str_replace('?', '%s', $sql), collect($bindings)->map(function ($binding) {
+            //        return is_numeric($binding) ? $binding : "'{$binding}'";
+            //     })->toArray()));
  
                  $query->leftJoin('yhub_learners', function ($join) {
                          $join->on('learners.primary_phone_number', '=', DB::raw("REPLACE(yhub_learners.email_address, '+91 ', '')"));
@@ -1153,6 +1149,11 @@ class PartnerController extends Controller
         ->when($request->filled('PROGRAM_STATE'), function ($q) use ($request) {
             $q->where('learners.PROGRAM_STATE', $request->PROGRAM_STATE);
         })
+
+        ->when($request->filled('district'), function ($q) use ($request) {
+            //echo "dasd"; die;
+            $q->where('learners.PROGRAM_DISTRICT', $request->district);
+        })
     
         ->when($request->filled('unit_institute'), function ($q) use ($request) {
             $q->where('learners.UNIT_INSTITUTE', 'like', '%' . $request->unit_institute . '%');
@@ -1185,6 +1186,11 @@ class PartnerController extends Controller
         if ($request->filled('PROGRAM_STATE')) {
             $query->where('l.PROGRAM_STATE', $request->PROGRAM_STATE);
         }
+
+        if ($request->filled('district')) {
+            $query->where('l.PROGRAM_DISTRICT', $request->district);
+        }
+
         
         if ($request->filled('unit_institute')) {
             $query->where('l.UNIT_INSTITUTE', 'like', '%' . $request->unit_institute . '%');
@@ -1203,7 +1209,8 @@ class PartnerController extends Controller
             'data' => $learners, // Fetch authenticated partner,
             'totalCompletionLearner'=>$completedLearners,
             'ppid'=>encryptString($partner_id),
-            'statetdata'=>$statetdata
+            'statetdata'=>$statetdata,
+            'request'=>$request
         ]);
     }
 

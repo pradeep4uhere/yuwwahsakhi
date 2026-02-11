@@ -80,11 +80,11 @@
                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                <strong>Total Job / Event</strong>&nbsp;&nbsp;<span class="circle-badge" >21</span>&nbsp;&nbsp;|&nbsp;&nbsp;
-                Total Submitted&nbsp;&nbsp;<span class="circle-badge-blue">11</span>&nbsp;&nbsp;|&nbsp;&nbsp;
-                Total Action Required&nbsp;&nbsp;<span class="circle-badge-orange">5</span>&nbsp;&nbsp;|&nbsp;&nbsp;
-                Total Accepted&nbsp;&nbsp;<span class="circle-badge-green">2</span>&nbsp;&nbsp;|&nbsp;&nbsp;
-                Total Rejected&nbsp;&nbsp;<span class="circle-badge-red">3</span>&nbsp;&nbsp;|&nbsp;&nbsp;
+                <strong>Total Job / Event</strong>&nbsp;&nbsp;<span class="circle-badge"  style="width:24px;height:24px;">&nbsp;</span>&nbsp;&nbsp;|&nbsp;&nbsp;
+                Total Submitted&nbsp;&nbsp;<span class="circle-badge-blue" style="width:24px;height:24px;">&nbsp;</span>&nbsp;&nbsp;|&nbsp;&nbsp;
+                Total Action Required&nbsp;&nbsp;<span class="circle-badge-orange" style="width:24px;height:24px;">&nbsp;</span>&nbsp;&nbsp;|&nbsp;&nbsp;
+                Total Accepted&nbsp;&nbsp;<span class="circle-badge-green" style="width:24px;height:24px;">&nbsp;</span>&nbsp;&nbsp;|&nbsp;&nbsp;
+                Total Rejected&nbsp;&nbsp;<span class="circle-badge-red" style="width:24px;height:24px;">&nbsp;</span>&nbsp;&nbsp;|&nbsp;&nbsp;
                 <a href="{{route('partner.filed-agents.export')}}"><b><img src="{{asset('asset/images/export.jpg')}}" width="25px" height="25px">&nbsp;Export Field Agent</b></a></td>
             </tr>
             <tr>
