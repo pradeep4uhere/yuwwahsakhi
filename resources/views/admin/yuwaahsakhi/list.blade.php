@@ -49,6 +49,7 @@
                                 <th>Email</th>
                                 <th>Learner</th>
                                 <th>Status</th>
+                                <th>Created</th>
                                 <th>Actions</th>
                             </tr>
                         </thead>
@@ -72,6 +73,7 @@
                                     <span class="badge badge-danger">InActive</span>
                                 <?php } ?>
                                 </td>
+                                <td>{{$item['CreatedAt']}}</td>
                                 
                                 <td>
                                     <a href="{{route('admin.yuwaahsakhi.update',['id'=>encryptString($item['id'])])}}"><i class="uil uil-edit" style="color: #27272A; font-size: 15px;"></i></a>

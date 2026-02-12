@@ -132,7 +132,15 @@ Route::middleware('auth:admin')->group(function () {
     Route::get('/export-dashboard-learners', [AdminController::class, 'exportDashboardLearnersCSV'])->name('admin.learner.skills.export');
     Route::get('/export-dashboard-matched-learners', [AdminController::class, 'exportDashboardMatchedLearnersCSV'])->name('admin.learner.skills.matched.export');
     
-
+    Route::get('/download-duplicate/{file}', function ($file) {
+        session()->forget('duplicate_file');
+        $path = storage_path('app/' . $file);
+        if (file_exists($path)) {
+            // Clear the session
+            return response()->download($path)->deleteFileAfterSend(true);
+        }
+        abort(404);
+    })->name('download.duplicate');
 
     
 

@@ -21,19 +21,33 @@
             <div class="activity">
                
                 <div class="activity-data">
-                @if ($errors->any())
-                    <div class="alert alert-danger">
-                        <ul>
-                            @foreach ($errors->all() as $error)
-                                <li>{{ $error }}</li>
-                            @endforeach
-                        </ul>
+                {{-- Success Message --}}
+                @if(session('success'))
+                    <div class="alert alert-success">
+                        <small>{{ session('success') }}</small>
                     </div>
                 @endif
-                @if(isset($success) && ($success!=null))
-                <div class="alert alert-success">
-                    <small>{{$success}}</small>
-                </div>
+
+                {{-- Duplicate Countdown --}}
+                @if(session()->has('duplicate_file'))
+                    <div id="countdown" class="alert alert-info mt-2">
+                        Download will start in 50 seconds...
+                    </div>
+
+                    <script>
+                        let seconds = 05;
+                        let countdown = document.getElementById("countdown");
+
+                        let interval = setInterval(function() {
+                            seconds--;
+                            countdown.innerHTML = "Download will start in " + seconds + " seconds...";
+
+                            if (seconds <= 0) {
+                                clearInterval(interval);
+                                window.location.href = "{{ route('download.duplicate', session('duplicate_file')) }}";
+                            }
+                        }, 1000);
+                    </script>
                 @endif
                     </div>
                     <div style="width=100%;overflow-x: auto;">
@@ -77,13 +91,7 @@
                         </tr>
                     </table>
                 </form>
-                <!-- Progress Bar -->
-                <progress id="progress-bar" value="10" max="100"></progress>
-                <!-- Add a loading spinner or some other UI element to indicate the process -->
-                <div id="loadingSpinner" style="display:none;">Importing...</div>
-                </div>
             </div>
-         
         </div>
     </section>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>

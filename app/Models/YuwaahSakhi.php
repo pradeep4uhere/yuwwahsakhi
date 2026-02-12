@@ -113,6 +113,7 @@ class YuwaahSakhi extends Authenticatable
             'Block'=>$yuwaahSakhi['Block']['name'] ?? 'N/A',
             'Pincode'=>$yuwaahSakhi['pincode'],
             'Address'=>$yuwaahSakhi['address'],
+            'CreatedAt'=>$yuwaahSakhi['created_at'],
             'Partner'=>optional($yuwaahSakhi->Partner)->name ?? 'N/A',
             'PartnerCenter'=>optional($yuwaahSakhi->PartnerCenter)->center_name ?? 'N/A',
             'Status'=>($yuwaahSakhi['status']==1)?'Active':'InActive',
