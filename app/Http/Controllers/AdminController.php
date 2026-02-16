@@ -1396,10 +1396,17 @@ public function importvle(Request $request)
 
         $cscId = $row[0] ?? null;
 
-        $existingRecord = YuwaahSakhi::where('csc_id', $cscId)
-            ->orWhere('contact_number', $contact)
+        if($request->get('partner_id')==10){
+            $existingRecord = YuwaahSakhi::where('contact_number', $contact)
             ->orWhere('email', $email)
             ->first();
+        }else{
+            $existingRecord = YuwaahSakhi::where('contact_number', $contact)
+            ->orWhere('csc_id', $cscId)
+            ->orWhere('email', $email)
+            ->first();
+        }
+     
 
         if ($existingRecord) {
 
