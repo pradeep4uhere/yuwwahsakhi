@@ -159,7 +159,7 @@
             <?php //dd($item);
             //die;
             ?>
-            @if($item['item']['course_completed']==1)
+            @if($item['item']['completion_status']==1) 
             <div class="w-5 h-5 rounded-full bg-green-500"></div>
             @else
             <div class="w-5 h-5 rounded-full bg-white border border-black"></div>

@@ -294,7 +294,7 @@ class ProfileController extends Controller
     //     })->toArray()));
 
     $query->leftJoin('yhub_learners', function ($join) {
-            $join->on('learners.primary_phone_number', '=', DB::raw("REPLACE(yhub_learners.email_address, '+91 ', '')"));
+            $join->on('learners.normalized_mobile', '=', 'yhub_learners.normalized_mobile');
         })
         ->leftJoinSub($latestEvents, 'et', function ($join) {
             $join->on('learners.id', '=', 'et.learner_id');
