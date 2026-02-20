@@ -14,14 +14,17 @@ class YuwaahSakhi extends Authenticatable
 
      // Define the table name if it's not the plural form of the model
      protected $table = 'yuwaah_sakhi';
+
      public $timestamps = true;
 
      protected $primaryKey = 'id';
 
+     protected $keyType = 'int';
+
 
      public function getAuthIdentifierName()
     {
-        return 'contact_number';
+        return 'sakhi_id';
     }
 
      // Define fillable fields

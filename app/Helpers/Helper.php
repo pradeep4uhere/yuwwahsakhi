@@ -381,6 +381,7 @@ if (!function_exists('getYuwaahSakhiID')) {
  */
 if (!function_exists('getYuwaahSakhiAuthID')) {
     function getYuwaahSakhiAuthID() {
+       // dd(Auth::guard('web')->user());
         return Auth::guard('web')->user()->sakhi_id;
     }
 }

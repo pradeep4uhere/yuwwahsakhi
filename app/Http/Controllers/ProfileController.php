@@ -66,9 +66,11 @@ class ProfileController extends Controller
         $YuwaahSakhi = YuwaahSakhi::whereRaw('LOWER(sakhi_id) = ?', [strtolower(trim($request->email))])
         ->where('status', 1)
         ->first();
+
+       // dd( $YuwaahSakhi);
         if (!$YuwaahSakhi) {
             throw ValidationException::withMessages([
-                'email' => ['Account is not active, Please contact to admin.'],
+                'email' => ['Account not found, Please contact to admin.'],
             ]);
         }
 
@@ -78,36 +80,57 @@ class ProfileController extends Controller
                 'email' => ['The provided credentials are incorrect.'],
             ]);
         }
+        Auth::guard('web')->logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
 
          // Generate API token
          $token = $YuwaahSakhi->createToken('YuwaahSakhi API Token')->plainTextToken;
          $YuwaahSakhi->update(['remember_token' => $token]);
 
-        $credentials = $request->only('sakhi_id', 'password');
-        //dd($credentials);
-        if (Auth::guard('web')->login($YuwaahSakhi)) {
-            // Generate API token
-            $YuwaahSakhi->update(['remember_token' => $token]);
+        //$credentials = $request->only('sakhi_id', 'password');
+        $credentials = [
+            'sakhi_id' => $request->email,
+            'password'  => $request->password,
+            'status'    => 1, // only active users
+        ];
+    
+        //dd($YuwaahSakhi);
+        if (Auth::guard('web')->attempt($credentials)) {
+        $request->session()->regenerate();
+        //dd(Auth::guard('web')->user()->sakhi_id);
+        // Get logged user
+        $user = Auth::guard('web')->user();
+       // dd($user);
+        // Store custom session values if needed
+        session([
+            'sakhi_id' => $user->sakhi_id,
+            'user_name' => $user->name,
+            'user_id' => $user->id,
+        ]);
+        $ip = $request->ip();
+        $agent = new Agent();
+        $location = []; // Fetch location using GeoIP or other services
+        $YuwaahSakhi->update(['remember_token' => $token]);
 
-            $ip = $request->ip();
-            $agent = new Agent();
-            $location = []; // Fetch location using GeoIP or other services
-    
-            YuwaahSakhiLoginLog::create([
-                'user_id' => $YuwaahSakhi->id,
-                'user_type' => $YuwaahSakhi->type, // Assuming users have a type (Admin, Partner, etc.)
-                'ip_address' => $ip,
-                'device' => $agent->device(),
-                'platform' => $agent->platform(),
-                'browser' => $agent->browser(),
-                'location' => json_encode($location),
-                'login_time' => now(),
-            ]);
-    
-    
+        YuwaahSakhiLoginLog::create([
+            'user_id' => $YuwaahSakhi->id,
+            'user_type' => $YuwaahSakhi->type,
+            'ip_address' => $ip,
+            'device' => $agent->device(),
+            'platform' => $agent->platform(),
+            'browser' => $agent->browser(),
+            'location' => null,
+            'login_time' => now(),
+        ]);
+
+            // Generate API token
+          //  dd(Auth::guard('web')-user());
+            //dd($YuwaahSakhi);
             // Authentication passed, redirect to the admin dashboard
             return redirect()->intended('/dashboard');
         }
+        
 
         // Authentication failed, return back with error message
         throw ValidationException::withMessages([
@@ -182,7 +205,14 @@ class ProfileController extends Controller
 
 
     public function dashboard(Request $request){
-        //dd(Auth::user()->id);
+        //dd(Auth::guard('web')->check(), Auth::guard('web')->user());
+         //dd(Auth::guard('web')->user()->id);
+
+        //  dd(
+        //     Auth::guard('web')->check(),
+        //     Auth::guard('web')->user(),
+        //     session()->all()
+        // );
         $YuwaahSakhi= YuwaahSakhi::with(['Partner','PartnerCenter'])->find(Auth::user()->id);
         $opportunitesWithPagination = Opportunity::where('status','1')->paginate();
         $opportunites = (array) Opportunity::getFormatedData($opportunitesWithPagination);

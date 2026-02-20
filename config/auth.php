@@ -38,7 +38,7 @@ return [
         'guards' => [
             'web' => [
                 'driver' => 'session',
-                'provider' => 'users',
+                'provider' => 'yuwaah_sakhi',
             ],
             'admin' => [
                 'driver' => 'session',
@@ -81,6 +81,10 @@ return [
             'driver' => 'eloquent',
             'model' => App\Models\YuwaahSakhi::class,
             
+        ],
+        'yuwaah_sakhi' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\YuwaahSakhi::class,
         ],
      
         'admins' => [
