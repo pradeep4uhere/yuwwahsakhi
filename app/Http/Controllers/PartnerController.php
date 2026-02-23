@@ -1260,7 +1260,7 @@ class PartnerController extends Controller
         // Prevent directory traversal
         $file = basename($file); 
     
-        $filePath = 'storage/uploads/eventtransaction/' . $file;  
+        $filePath = 'uploads/eventtransaction/' . $file;  
     
         if (!Storage::disk('public')->exists($filePath)) {
             abort(404, 'File not found.');
