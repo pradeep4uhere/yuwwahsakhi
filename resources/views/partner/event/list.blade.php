@@ -32,6 +32,7 @@
             @php 
                 // Decode safely — handle null or invalid JSON
                 $document = json_decode($item->uploaded_doc_links ?? '[]', true) ?? [];
+                //dd($document)
             @endphp
             <tr>
                 <td>{{$count}}</td>
@@ -47,7 +48,7 @@
                 <td>
                 @if(!empty($document))
                         @foreach ($document as $doc)
-                            <a href="{{ $doc }}" target="_blank">View</a><br>
+                            <a href="{{ asset('storage/'.$doc) }}" target="_blank">View</a><br>
                         @endforeach
                     @else
                         <span>No Document</span>
