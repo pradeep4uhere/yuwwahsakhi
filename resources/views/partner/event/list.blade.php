@@ -23,6 +23,7 @@
                 <th>Event Status</th>
                 <th>Event Submitted</th>
                 <th>Documents</th>
+                <th>Download</th>
                 <th>Comment</th>
             </tr>
         </thead>
@@ -50,8 +51,23 @@
                         @foreach ($document as $doc)
                             <a href="{{ asset('storage/'.$doc) }}" target="_blank">View</a><br>
                         @endforeach
+                       
                     @else
                         <span>No Document</span>
+                    @endif
+                </td>
+                <td nowrap="nowrap">
+                @if(!empty($document))
+                     @foreach ($document as $doc)
+                        @php
+                            $fileName = basename($doc);
+                        @endphp
+                        <a href="{{ route('document.download', $fileName) }}">
+                            Download
+                        </a>
+                        <br/>
+                    @endforeach
+                    @else
                     @endif
                 </td>
                 <td>
@@ -61,6 +77,8 @@
                         Comment
                     </a>
                 </td>
+            
+               
             </tr>
             <?php $count++; ?>
             @endforeach

@@ -20,6 +20,9 @@ use App\Models\State;
 use App\Models\Learner;
 use App\Models\YhubLearner;
 use App\Models\Partner;
+use App\Models\EventTransaction;
+use ZipArchive;
+use Storage;
 
 
 use Illuminate\Support\Facades\Validator;
@@ -1252,7 +1255,19 @@ class PartnerController extends Controller
     }
 
 
-
+    public function download($file)
+    {
+        // Prevent directory traversal
+        $file = basename($file); 
+    
+        $filePath = 'storage/public/uploads/eventtransaction/' . $file;  
+    
+        if (!Storage::disk('public')->exists($filePath)) {
+            abort(404, 'File not found.');
+        }
+    
+        return Storage::disk('public')->download($filePath);
+    }
 
 
 

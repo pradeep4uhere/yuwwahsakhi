@@ -76,5 +76,9 @@ Route::middleware('auth:partner')->group(function () {
     Route::get('/event/comments/{id}', [PartnerController::class, 'getComments']);
     Route::get('/event/export', [PartnerController::class, 'export'])->name('partner.event.export');
 
+    Route::get('/download-document/{file}', [PartnerController::class, 'download'])
+    ->name('document.download');
+
+
     
 });
