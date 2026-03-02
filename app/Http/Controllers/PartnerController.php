@@ -1173,7 +1173,7 @@ class PartnerController extends Controller
         ->where('l.PROGRAM_CODE', 'CSC')
         ->whereNotNull('l.normalized_mobile')
         ->select(
-            'l.*',
+            'l.*', 'yl.completion_status',
             DB::raw('MAX(yl.completion_percent) as completion_percent')
         )
         ->groupBy('l.id');

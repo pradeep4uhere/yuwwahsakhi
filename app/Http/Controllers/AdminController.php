@@ -1467,6 +1467,11 @@ public function importvle(Request $request)
             'success',
             "CSV Imported! Inserted: $insertCount, Duplicates: $duplicateCount. Duplicate file will download in 30 seconds."
         );
+    }else{
+        return back()->with(
+            'success',
+            "CSV Imported! Inserted: $insertCount, Duplicates: 0"
+        );
     }
 }
 

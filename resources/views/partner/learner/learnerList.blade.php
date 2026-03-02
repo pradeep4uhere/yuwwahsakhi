@@ -111,7 +111,7 @@
                 <td nowrap="nowrap">{{ $item->education_level }}</td>
                 <td nowrap="nowrap">{{ $item->digital_proficiency }}</td>
                 <td nowrap="nowrap">{{ $item->english_knowledge }}</td>
-                @if($item->completion_percent==100)
+                @if($item->completion_status==1)
                 <td nowrap="nowrap" style="text-align:center;">
                     <div style="width:20px; height:20px; border-radius:50%; background-color:#22c55e;"></div>
                 </td>
