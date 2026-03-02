@@ -54,7 +54,8 @@ class PartnerAllLearnersExport implements FromQuery, WithHeadings
                         WHEN l.DIFFRENTLY_ABLED = 1 THEN 'Yes'
                         ELSE 'No'
                     END AS differently_abled
-                ")
+                "),
+                'l.create_date',
                 
             )
             ->groupBy('l.id')
@@ -95,7 +96,8 @@ class PartnerAllLearnersExport implements FromQuery, WithHeadings
                 'Digital Proficiency',
                 'English Knowledge',
                 'Certification',
-                'Differently Abled'
+                'Differently Abled',
+                'Created Date'
             ];
         }
     /**
