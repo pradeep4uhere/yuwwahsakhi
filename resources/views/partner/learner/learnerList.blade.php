@@ -94,6 +94,7 @@
                 <th nowrap="nowrap">English Knowledge</th>
                 <th nowrap="nowrap">Certification</th>
                 <th nowrap="nowrap">Differently Abled</th>
+                <th nowrap="nowrap">Create Date</th>
             </tr>
         </thead>
         <tbody>
@@ -124,6 +125,7 @@
                 <td nowrap="nowrap">
                     {{ in_array($item->DIFFRENTLY_ABLED, [0, '0', 'No', null], true) ? 'No' : 'Yes' }}
                 </td>
+                <td nowrap="nowrap">{{ $item->create_date }}</td>
             </tr>
             <?php $count++; ?>
             @endforeach

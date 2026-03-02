@@ -1132,91 +1132,101 @@ class PartnerController extends Controller
     /**
      * All Learner List
      */
-    public function learnerList(Request $request){
-        $completedLearners = Learner::join(
-            'yhub_learners as yl',
-            'learners.normalized_mobile',
-            '=',
-            'yl.normalized_mobile'
-        )
-        ->where('learners.PROGRAM_CODE', 'CSC')
-        ->whereNotNull('learners.normalized_mobile')
-    
-        ->when($request->filled('name'), function ($q) use ($request) {
-            $q->where('learners.first_name', 'like', '%' . $request->name . '%');
-        })
-    
-        ->when($request->filled('phone'), function ($q) use ($request) {
-            $q->where('learners.primary_phone_number', 'like', '%' . $request->phone . '%');
-        })
-    
-        ->when($request->filled('PROGRAM_STATE'), function ($q) use ($request) {
-            $q->where('learners.PROGRAM_STATE', $request->PROGRAM_STATE);
-        })
+    public function learnerList(Request $request)
+{
+    $program_code = Auth::user()->partner_id;
 
-        ->when($request->filled('district'), function ($q) use ($request) {
-            //echo "dasd"; die;
-            $q->where('learners.PROGRAM_DISTRICT', $request->district);
-        })
-    
-        ->when($request->filled('unit_institute'), function ($q) use ($request) {
-            $q->where('learners.UNIT_INSTITUTE', 'like', '%' . $request->unit_institute . '%');
-        })
-    
-        ->distinct()
-        ->count('learners.id');
+    /*
+    |--------------------------------------------------------------------------
+    | Subquery: Get Latest LMS Record Per Mobile
+    |--------------------------------------------------------------------------
+    */
+    $latestLms = DB::table('yhub_learners as y1')
+        ->select('y1.normalized_mobile', 'y1.completion_status')
+        ->whereRaw('y1.id = (
+            SELECT MAX(y2.id)
+            FROM yhub_learners y2
+            WHERE y2.normalized_mobile = y1.normalized_mobile
+        )');
 
-        
-
-        $query = DB::table('learners as l')
-        ->leftJoin('yhub_learners as yl', 'l.normalized_mobile', '=', 'yl.normalized_mobile')
-        ->where('l.PROGRAM_CODE', 'CSC')
+    /*
+    |--------------------------------------------------------------------------
+    | Main Query
+    |--------------------------------------------------------------------------
+    */
+    $query = DB::table('learners as l')
+        ->leftJoinSub($latestLms, 'yl', function ($join) {
+            $join->on('l.normalized_mobile', '=', 'yl.normalized_mobile');
+        })
+        ->where('l.PROGRAM_CODE', $program_code)
         ->whereNotNull('l.normalized_mobile')
-        ->select(
-            'l.*', 'yl.completion_status',
-            DB::raw('MAX(yl.completion_percent) as completion_percent')
-        )
-        ->groupBy('l.id');
+        ->select('l.*', 'yl.completion_status');
 
+    /*
+    |--------------------------------------------------------------------------
+    | Filters
+    |--------------------------------------------------------------------------
+    */
+    $query->when($request->filled('name'), function ($q) use ($request) {
+        $q->where('l.first_name', 'like', '%' . $request->name . '%');
+    });
 
-        if ($request->filled('name')) {
-            $query->where('l.first_name', 'like', '%' . $request->name . '%');
-        }
-        
-        if ($request->filled('primary_phone_number')) {
-            $query->where('l.primary_phone_number',  $request->primary_phone_number);
-        }
-        
-        if ($request->filled('PROGRAM_STATE')) {
-            $query->where('l.PROGRAM_STATE', $request->PROGRAM_STATE);
-        }
+    $query->when($request->filled('primary_phone_number'), function ($q) use ($request) {
+        $q->where('l.primary_phone_number', $request->primary_phone_number);
+    });
 
-        if ($request->filled('district')) {
-            $query->where('l.PROGRAM_DISTRICT', $request->district);
-        }
+    $query->when($request->filled('PROGRAM_STATE'), function ($q) use ($request) {
+        $q->where('l.PROGRAM_STATE', $request->PROGRAM_STATE);
+    });
 
-        
-        if ($request->filled('unit_institute')) {
-            $query->where('l.UNIT_INSTITUTE', 'like', '%' . $request->unit_institute . '%');
-        }
-        
+    $query->when($request->filled('district'), function ($q) use ($request) {
+        $q->where('l.PROGRAM_DISTRICT', $request->district);
+    });
 
-        $learners = $query->paginate(20)->withQueryString();
+    $query->when($request->filled('unit_institute'), function ($q) use ($request) {
+        $q->where('l.UNIT_INSTITUTE', 'like', '%' . $request->unit_institute . '%');
+    });
 
-        $partner_id = getUserId();
-        $statetdata = DB::table('yuwaah_sakhi as ys')
-        ->select('ys.state')        
+    /*
+    |--------------------------------------------------------------------------
+    | Pagination
+    |--------------------------------------------------------------------------
+    */
+    $learners = $query->paginate(20)->withQueryString();
+
+    /*
+    |--------------------------------------------------------------------------
+    | Total Completed Learners Count
+    |--------------------------------------------------------------------------
+    */
+    $completedLearners = DB::table('learners as l')
+        ->join('yhub_learners as yl', 'l.normalized_mobile', '=', 'yl.normalized_mobile')
+        ->where('l.PROGRAM_CODE', $program_code)
+        ->whereNotNull('l.normalized_mobile')
+        ->distinct('l.id')
+        ->count('l.id');
+
+    /*
+    |--------------------------------------------------------------------------
+    | State Data
+    |--------------------------------------------------------------------------
+    */
+    $statetdata = DB::table('yuwaah_sakhi as ys')
+        ->select('ys.state')
         ->distinct()
         ->orderBy('ys.state')
         ->get();
-        return view($this->dir.'.learner.learnerList', [
-            'data' => $learners, // Fetch authenticated partner,
-            'totalCompletionLearner'=>$completedLearners,
-            'ppid'=>encryptString($partner_id),
-            'statetdata'=>$statetdata,
-            'request'=>$request
-        ]);
-    }
+
+    $partner_id = getUserId();
+
+    return view($this->dir . '.learner.learnerList', [
+        'data' => $learners,
+        'totalCompletionLearner' => $completedLearners,
+        'ppid' => encryptString($partner_id),
+        'statetdata' => $statetdata,
+        'request' => $request
+    ]);
+}
 
 
 
