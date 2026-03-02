@@ -452,12 +452,15 @@ class PartnerController extends Controller
         $partnerId = Auth::guard('partner')->user()->id; // example
 
         $eventList = DB::table('event_transactions as et')
-            ->join('yuwaah_sakhi as ys', 'et.ys_id', '=', 'ys.id')
-            ->join('yuwaah_event_masters as em', 'em.id', '=', 'et.event_category')
-            ->where('ys.partner_id', $partnerId)
-            ->where('ys.csc_id','!=','Sandbox_Testing')
-            ->select('et.*', 'em.event_category','ys.csc_id','ys.sakhi_id')
-            ->paginate(25);
+        ->leftJoin('yuwaah_sakhi as ys', 'et.ys_id', '=', 'ys.id')
+        ->leftJoin('yuwaah_event_masters as em', 'em.id', '=', 'et.event_category')
+        ->where('ys.partner_id', $partnerId)
+        ->where('ys.csc_id','!=','Sandbox_Testing')
+        ->whereNotNull('et.review_status')
+        ->whereNotNull('et.learner_id')
+        ->whereNotNull('et.event_date_submitted')
+        ->select('et.*', 'em.event_category','ys.csc_id','ys.sakhi_id')
+        ->paginate(50);
 
             
         //$eventList = YuwaahEventMaster::where('status','1')->paginate(env('PAGINATION'));

@@ -2068,13 +2068,32 @@ public function fetchOppertunites(Request $request)
             $limit = (int) $request->query('limit', 1000); // default limit
             $page  = (int) $request->query('page', 1);     // default page = 1
         
-            $paginator = DB::table('event_transactions')
-                ->leftJoin('yuwaah_event_type', 'event_transactions.event_type', '=', 'yuwaah_event_type.id')
-                ->orderBy('event_transactions.id', 'asc')
+            // $paginator = DB::table('event_transactions')
+            //     ->leftJoin('yuwaah_event_type', 'event_transactions.event_type', '=', 'yuwaah_event_type.id')
+            //     ->orderBy('event_transactions.id', 'asc')
+            //     ->select(
+            //         'event_transactions.*',
+            //         'event_transactions.event_value as monthly_income',
+            //         'yuwaah_event_type.name as event_type_name'
+            //     )
+            //     ->paginate($limit, ['*'], 'page', $page);
+
+            //$partnerId = Auth::guard('partner')->user()->id;
+
+            $paginator = DB::table('event_transactions as et')
+                ->leftJoin('yuwaah_sakhi as ys', 'et.ys_id', '=', 'ys.id')
+                ->leftJoin('yuwaah_event_type as yet', 'et.event_type', '=', 'yet.id')
+                ->where('ys.csc_id', '!=', 'Sandbox_Testing')
+                ->whereNotNull('et.review_status')
+                ->whereNotNull('et.learner_id')
+                ->whereNotNull('et.event_date_submitted')
+                ->orderBy('et.id', 'asc')
                 ->select(
-                    'event_transactions.*',
-                    'event_transactions.event_value as monthly_income',
-                    'yuwaah_event_type.name as event_type_name'
+                    'et.*',
+                    'et.event_value as monthly_income',
+                    'yet.name as event_type_name',
+                    'ys.csc_id',
+                    'ys.sakhi_id'
                 )
                 ->paginate($limit, ['*'], 'page', $page);
         
