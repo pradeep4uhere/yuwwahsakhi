@@ -1744,7 +1744,7 @@ public function fetchLearners(Request $request)
                     'SOCIAL_CATEGORY'=>$item->SOCIAL_CATEGORY,
                     'RELIGION'=>$item->RELIGION,
                     'USER_MARIAL_STATUS'=>$item->USER_MARIAL_STATUS,
-                    'DIFFRENTLY_ABLED'=>$item->DIFFRENTLY_ABLED,
+                    'DIFFRENTLY_ABLED' => $item->DIFFRENTLY_ABLED == 1 ? 'Yes' : 'No',
                     'IDENTITY_DOCUMENTS'=>$item->IDENTITY_DOCUMENTS,
                     'REASON_FOR_LEARNING_NEW_SKILLS'=>$item->REASON_FOR_LEARNING_NEW_SKILLS,
                     'EARN_AT_MY_OWN_TIME'=>$item->EARN_AT_MY_OWN_TIME,
