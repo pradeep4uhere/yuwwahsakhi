@@ -23,7 +23,7 @@
                 <th>Event Status</th>
                 <th>Event Submitted</th>
                 <th>Documents</th>
-                <th>Download</th>
+            
                 <th>Comment</th>
                 <th>Updated</th>
             </tr>
@@ -57,7 +57,7 @@
                         <span>No Document</span>
                     @endif
                 </td>
-                <td nowrap="nowrap">
+                <!-- <td nowrap="nowrap">
                 @if(!empty($document))
                      @foreach ($document as $doc)
                         @php
@@ -70,7 +70,7 @@
                     @endforeach
                     @else
                     @endif
-                </td>
+                </td> -->
                 <td>
                 <a href="#" 
                         class="btn btn-primary btn-sm view-comments" 
