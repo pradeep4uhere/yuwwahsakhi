@@ -1747,7 +1747,7 @@ public function fetchLearners(Request $request)
                     'DIFFRENTLY_ABLED' => $item->DIFFRENTLY_ABLED == 1 ? 'Yes' : 'No',
                     'IDENTITY_DOCUMENTS'=>$item->IDENTITY_DOCUMENTS,
                     'REASON_FOR_LEARNING_NEW_SKILLS'=>$item->REASON_FOR_LEARNING_NEW_SKILLS,
-                    'EARN_AT_MY_OWN_TIME'=>$item->EARN_AT_MY_OWN_TIME,
+                    'EARN_AT_MY_OWN_TIME'=>$item->EARN_AT_MY_OWN_TIME == 1 ? 'Yes' : 'No',
                     'RELOCATE_FOR_JOB'=>$item->RELOCATE_FOR_JOB,
                     'WHEN_CAN_USER_START'=>$item->WHEN_CAN_USER_START,
                     'USER_NEED_HELP_WITH'=>$item->USER_NEED_HELP_WITH
