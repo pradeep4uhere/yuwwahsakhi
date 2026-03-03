@@ -25,6 +25,7 @@
                 <th>Documents</th>
                 <th>Download</th>
                 <th>Comment</th>
+                <th>Updated</th>
             </tr>
         </thead>
         <tbody>
@@ -77,8 +78,7 @@
                         Comment
                     </a>
                 </td>
-            
-               
+                <td>{{ $item->updated_at }}</td>
             </tr>
             <?php $count++; ?>
             @endforeach
