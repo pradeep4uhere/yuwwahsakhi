@@ -188,4 +188,10 @@ class Learner extends Model
         ];
     } 
 
+
+    public function courses()
+    {
+        return $this->hasMany(LearnerCourse::class, 'phone_number', 'normalized_mobile');
+    }
+
 }

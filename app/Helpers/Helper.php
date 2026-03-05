@@ -731,6 +731,19 @@ if (!function_exists('checkYhubPhoneExists')) {
 }
 
 
+if (!function_exists('getCourseNames')) {
+
+    function getCourseNames($courses)
+    {
+        if (!$courses || $courses->isEmpty()) {
+            return '-';
+        }
+
+        return $courses->pluck('course_name')->implode(', ');
+    }
+}
+
+
 
 
 

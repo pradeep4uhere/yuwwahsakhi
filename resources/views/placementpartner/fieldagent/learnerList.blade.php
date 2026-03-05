@@ -59,7 +59,9 @@
                 <th nowrap="nowrap">Education Level</th>
                 <th nowrap="nowrap">Digital Proficiency</th>
                 <th nowrap="nowrap">English Knowledge</th>
+                <th nowrap="nowrap">Course Name</th>
                 <th nowrap="nowrap">Certification</th>
+
                 <th>Jobs</th>
                 <th nowrap="nowrap">Social Protections</th>
                 <th nowrap="nowrap">Diffrently Abled</th>
@@ -80,7 +82,7 @@
                 <td nowrap="nowrap">{{ $item['item']['education_level'] }}</td>
                 <td nowrap="nowrap">{{ $item['item']['digital_proficiency'] }}</td>
                 <td nowrap="nowrap">{{ $item['item']['english_knowledge'] }}</td>
-                
+                <td nowrap="nowrap">{{ getCourseNames($item['item']['courses']) }}</td>
                 @if($item['item']['course_completed_status']=='Yes')
                 <td nowrap="nowrap" style="text-align:center;">
                     <div style="width:20px; height:20px; border-radius:50%; background-color:#22c55e;"></div>

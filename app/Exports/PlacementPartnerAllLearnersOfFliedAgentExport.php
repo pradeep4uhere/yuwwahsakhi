@@ -52,7 +52,7 @@ ShouldAutoSize
         | Base Query
         |--------------------------------------------------------------------------
         */
-        $query = Learner::query()
+        $query = Learner::with('courses')
             ->where('learners.status', 'Active')
             ->where('learners.UNIT_INSTITUTE', $cscValue);
 
@@ -91,18 +91,22 @@ ShouldAutoSize
                 ->leftJoin('yhub_learners as yl', function ($join) {
                     $join->on('learners.normalized_mobile', '=', 'yl.normalized_mobile');
                 })
+                ->leftJoin('learner_courses as lc', 'learners.normalized_mobile', '=', 'lc.phone_number')
                 ->leftJoinSub($latestEvents, 'et', function ($join) {
                     $join->on('learners.id', '=', 'et.learner_id');
                 })
+
                 ->select([
                     'learners.*',
                     'yl.email_address as yhub_email_address',
                     'yl.completion_status',
                     DB::raw("CASE WHEN yl.completion_status = 1 THEN 'Yes' ELSE 'No' END as course_completed_status"),
                     DB::raw('COALESCE(et.last_event_update, learners.updated_at) as sort_updated_at'),
+                    DB::raw("GROUP_CONCAT(DISTINCT lc.course_name SEPARATOR ', ') as course_name")
                 ])
                 ->groupBy(
                     'learners.id',
+                    'learners.normalized_mobile', // ✅ add this
                     'yl.email_address',
                     'yl.completion_status',
                     'et.last_event_update'
@@ -132,6 +136,7 @@ ShouldAutoSize
             'State',
             'District',
             'YHub Email',
+            'Course Name',
             'Course Completed',
             'Job Event',
             'Social Protection',
@@ -146,7 +151,6 @@ ShouldAutoSize
     */
     public function map($row): array
     {
-        //dd($row);
         return [
             $row->id,
             $row->first_name . ' ' . $row->last_name,
@@ -159,6 +163,7 @@ ShouldAutoSize
             $row->PROGRAM_STATE,
             $row->PROGRAM_DISTRICT,
             $row->yhub_email_address,
+            $row->course_name,
             $row->course_completed_status,
             $this->checkIsJobEvent($row->id),
             $this->checkIsSocialProtection($row->id),

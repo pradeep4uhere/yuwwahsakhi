@@ -503,6 +503,7 @@ class PlacementPartnerAuthController extends Controller
      */
     public function getAllLearnerList($request, $agent_id){
         try {
+           
              $ys_id = $agent_id; 
              $agentArray= YuwaahSakhi::where('id', $ys_id)->first();
              $cscValue = $agentArray['csc_id'];
@@ -765,7 +766,8 @@ class PlacementPartnerAuthController extends Controller
             | Base Learner Query (Reusable)
             |--------------------------------------------------------------------------
             */
-            $baseLearnerQuery = Learner::query()
+           
+            $baseLearnerQuery = Learner::with('courses')
                 ->where('learners.status', 'Active')
                 ->where('learners.UNIT_INSTITUTE', $cscValue);
         
@@ -837,10 +839,10 @@ class PlacementPartnerAuthController extends Controller
                 'learners.english_knowledge',
                 'learners.PROGRAM_STATE',
                 'learners.PROGRAM_DISTRICT',
-
                 // 👇 YHub (optional)
                 'yl.email_address as yhub_email_address',
                 'yl.completion_status',
+                'learners.normalized_mobile', // ✅ add this
 
                 // 👇 Course completed label
                 DB::raw("
@@ -855,6 +857,7 @@ class PlacementPartnerAuthController extends Controller
             ])
             ->groupBy(
                 'learners.id',
+                'learners.normalized_mobile', // ✅ add
                 'yl.email_address',
                 'yl.completion_status',
                 'et.last_event_update'
