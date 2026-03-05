@@ -8,11 +8,13 @@ use App\Exports\PartnerPlacementUserExport;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\PlacementYuwaahSakhiExport;
 use App\Exports\PlacementYuwaahSakhiLearnerExport;
-
+use App\Exports\PlacementPartnerExportFiledAgents;
+use App\Exports\PlacementPartnerAllLearnersOfFliedAgentExport;
 use DB;
 use Log;
 use App\Models\YuwaahSakhi;
 use App\Models\Learner;
+use App\Models\Partner;
 use Illuminate\Contracts\Encryption\DecryptException;
 use Carbon\Carbon;
 
@@ -359,4 +361,574 @@ class PlacementPartnerAuthController extends Controller
         return response()->json($districts);
     }
 
+
+
+
+    public function fieldAgentWithEventTransactions(Request $request){
+        $totalYuwwahSakhi = YuwaahSakhi::where('partner_placement_user_id',getUserId()) ->where('csc_id','!=' ,'Sandbox_Testing')->count();
+        
+        // Start query builder
+        $query = YuwaahSakhi::with(['Partner', 'PartnerCenter'])
+        ->where('partner_placement_user_id', getUserId())
+        ->where('csc_id','!=' ,'Sandbox_Testing')
+        ->withCount([
+            // Total event transactions
+            'eventTransactions',
+
+            // All Job Event Transactions Count
+            'eventTransactions as job_transactions_count' => function ($q) {
+                $q->whereIn('event_type', [1,5]);
+            },
+
+           // Submitted Job Event Transactions Count
+            'eventTransactions as open_job_event__transactions_count' => function ($q) {
+                $q->where('review_status', 'Open')
+                ->whereIn('event_type', [1, 5]);
+            },
+
+            // Pending Job Event Transactions Count
+            'eventTransactions as pending_job_event__transactions_count' => function ($q) {
+                $q->where('review_status', 'Pending')
+                ->whereIn('event_type', [1, 5]);
+            },
+
+            // Accepted Job Event Transactions Count
+            'eventTransactions as accepted_job_event__transactions_count' => function ($q) {
+                $q->where('review_status', 'Accepted')
+                ->whereIn('event_type', [1, 5]);
+            },
+
+            // Rejected Job  Event Transactions Count
+            'eventTransactions as rejected_job_event_transactions_count' => function ($q) {
+                $q->where('review_status', 'Rejected')
+                ->whereIn('event_type', [1, 5]);
+            },
+
+            
+
+            // All SocialProtecion Event Transactions Count
+            'eventTransactions as socialprotection_transactions_count' => function ($q) {
+                $q->whereIn('event_type', [3]);
+            },
+
+          
+            // All SocialProtecion Event Transactions Count
+            'eventTransactions as open_social_protection_event_transactions_count' => function ($q) {
+                $q->where('review_status', 'Open')
+                ->whereIn('event_type', [3]);
+            },
+
+            // Pending Job Event Transactions Count
+            'eventTransactions as pending_social_protection_transactions_count' => function ($q) {
+                $q->where('review_status', 'Pending')
+                ->whereIn('event_type', [3]);
+            },
+
+            // Accepted Job Event Transactions Count
+            'eventTransactions as accepted_social_protection_transactions_count' => function ($q) {
+                $q->where('review_status', 'Accepted')
+                ->whereIn('event_type', [3]);
+            },
+
+            // Rejected Job  Event Transactions Count
+            'eventTransactions as rejected_social_protection_transactions_count' => function ($q) {
+                $q->where('review_status', 'Rejected')
+                ->whereIn('event_type', [3]);
+            },
+            'learners as learner_count' => function ($q) {
+                $q->whereColumn('learners.UNIT_INSTITUTE', 'yuwaah_sakhi.csc_id');
+            },
+             // Completed learners count
+            'learners as completed_learners_count' => function ($q) {
+                $q->join('yhub_learners as yl', 'learners.normalized_mobile', '=', 'yl.normalized_mobile')
+                ->whereColumn('learners.UNIT_INSTITUTE', 'yuwaah_sakhi.csc_id')
+                ->whereNotNull('learners.normalized_mobile');
+            },
+        ]);
+
+        // 🔍 Apply Filters (only if present)
+        if ($request->filled('csc_id')) {
+        $query->where('sakhi_id', 'LIKE', '%' . $request->csc_id . '%');
+        }
+
+        if ($request->filled('state')) {
+        $query->where('state', $request->state);
+        }
+
+        if ($request->filled('district')) {
+        $query->where('district', $request->district);
+        }
+
+        if ($request->filled('contact_number')) {
+        $query->where('contact_number', $request->contact_number);
+        }
+
+        // Finally paginate
+       // $filedAgentList = $query->paginate(10)->withQueryString();
+        $filedAgentList = $query
+        ->paginate(30)
+        ->withQueryString()
+        ->through(function ($item) use ($request) {
+            $item->Learner = $this->getAllLearnerList($request, $item->id);
+            return $item;
+        });
+
+       //dd($filedAgentList);
+
+
+        
+       
+        
+        //learner_count
+        // Step 2: Count Opportunities where sakhi_id is in the above IDs
+        //Get All State List and District
+        $statetdata = DB::table('yuwaah_sakhi as ys')
+        ->select('ys.state')        
+        ->distinct()
+        ->orderBy('ys.state')
+        ->get();
+        return view('placementpartner.fieldagent.list', [
+            'data' => $filedAgentList, // Fetch authenticated partner,
+            'totalYuwwahSakhi'=>$totalYuwwahSakhi,
+            'statetdata'=>$statetdata
+        ]);
+    }
+
+
+
+
+
+    /**
+     * Get Details of Filed Agent
+     */
+    public function getAllLearnerList($request, $agent_id){
+        try {
+             $ys_id = $agent_id; 
+             $agentArray= YuwaahSakhi::where('id', $ys_id)->first();
+             $cscValue = $agentArray['csc_id'];
+             // Base query
+             $query = Learner::where('learners.status', 'Active')
+                 ->where('learners.UNIT_INSTITUTE', $cscValue);
+ 
+             // Filters
+             if ($request->filled('name')) {
+                 $query->where(function ($q) use ($request) {
+                     $q->where('learners.first_name', 'like', '%' . $request->name . '%')
+                     ->orWhere('learners.last_name', 'like', '%' . $request->name . '%');
+                 });
+             }
+             if ($request->filled('email')) {
+                 $query->where('learners.email', 'like', '%' . $request->email . '%');
+             }
+             if ($request->filled('phone')) {
+                 $query->where('primary_phone_number', 'like', '%' . $request->phone . '%');
+             }
+             if ($request->filled('gender')) {
+                 $query->where('learners.gender', $request->gender);
+             }
+             // Add latest events join
+             $latestEvents = DB::table('event_transactions')
+             ->select('*', 'updated_at as last_event_update')
+             ->where('ys_id', $ys_id)
+             ->orderBy('id', 'DESC');
+
+            // $sql = $latestEvents->toSql();
+            // $bindings = $latestEvents->getBindings();
+            // dd(vsprintf(str_replace('?', '%s', $sql), collect($bindings)->map(function ($binding) {
+            //        return is_numeric($binding) ? $binding : "'{$binding}'";
+            //     })->toArray()));
+ 
+                 $query->leftJoin('yhub_learners', function ($join) {
+                         $join->on('learners.primary_phone_number', '=', DB::raw("REPLACE(yhub_learners.email_address, '+91 ', '')"));
+                     })
+                     ->leftJoinSub($latestEvents, 'et', function ($join) {
+                         $join->on('learners.id', '=', 'et.learner_id');
+                     })
+                     ->select([
+                         'learners.id',
+                         'learners.date_of_birth',
+                         'learners.education_level',
+                         'learners.UNIT_INSTITUTE',
+                         'learners.digital_proficiency',
+                         'learners.DIFFRENTLY_ABLED',
+                         'learners.english_knowledge',
+                         'learners.PROGRAM_STATE',
+                         'learners.PROGRAM_DISTRICT',
+                         'learners.course_completed',
+                         'learners.first_name','learners.last_name','learners.primary_phone_number',
+                         'yhub_learners.email_address as yhub_email_address',
+                         'yhub_learners.completion_status as completion_status',
+                         DB::raw('COALESCE(et.last_event_update, learners.updated_at) as sort_updated_at')
+                     ])
+                     ->groupBy(
+                         'learners.id',
+                         'learners.UNIT_INSTITUTE',
+                         'learners.first_name',
+                         'learners.last_name',
+                         'learners.primary_phone_number',
+                         'yhub_learners.email_address',
+                         'yhub_learners.completion_status',
+                         'et.last_event_update',
+                         'learners.updated_at'
+                     )
+                     ->orderBy('sort_updated_at', 'desc')
+                     ->distinct();   // 👈 Ensures unique rows;
+ 
+                 // Debug SQL if needed
+                 // dd($query->toSql(), $query->getBindings());
+ 
+                 // Now paginate once, at the very end
+                 $learnerListArr = $query->paginate(500)
+                     ->appends($request->query());
+ 
+                 // Get job event type id
+                 $eventTypeId = DB::table('yuwaah_event_type')
+                     ->whereRaw('LOWER(name) = ?', ['job'])
+                     ->value('id');
+ 
+                     // After building the $query but before paginate()
+                     //$sql = $query->toSql();
+                     //$bindings = $query->getBindings();
+ 
+                     // dd(vsprintf(str_replace('?', '%s', $sql), collect($bindings)->map(function ($binding) {
+                     //    return is_numeric($binding) ? $binding : "'{$binding}'";
+                     // })->toArray()));
+ 
+                 //dd($learnerListArr);
+                 $learnerList =[];
+                 $eventTransactionList = $latestEvents->get();
+                 //dd($eventTransactionList);
+                 foreach($learnerListArr as $item){
+                    //dd( $item);
+                     $learnerList[$item['id']]=array(
+                         'item'=>$item,
+                         'course_completed'=>$item['course_completed'],
+                         'job_event'=> $this->checkIsJobEvent($eventTransactionList,$item['id']),
+                         'social_protection' => $this->checkEventTypeJobSocialProtection($eventTransactionList,$item['id'])
+                     );
+                 }
+
+                //dd($learnerList);
+                $jobEventCount = 0;
+                $jobEventAcceptedCount = 0;
+                $jobEventSubmittedCount = 0;
+                $jobEventOpenCount = 0;
+                $jobEventPendingCount = 0;
+                $jobEventRejectedCount = 0;
+
+                $socialEventCount = 0;
+                $socialEventAcceptedCount = 0;
+                $socialSubmittedCount = 0;
+                $socialEventOpenCount = 0;
+                $socialEventPendingCount = 0;
+                $socialEventRejectedCount = 0;
+
+                $courseCompletedCount = 0;
+       
+               //dd($learnerList);
+               foreach ($learnerList as $agentLearners) {
+                //dd($agentLearners);
+               // echo $agentLearners['item']['primary_phone_number'];
+                if(checkYhubPhoneExists($agentLearners['item']['primary_phone_number'])){
+                   $courseCompletedCount++;
+                }
+    
+                if (empty($agentLearners)) {
+                    continue;
+                }
+                    $learner = $agentLearners;
+                    // ✅ Job Event Count
+                    if (
+                        isset($learner['job_event']['is_job_event']) && $learner['job_event']['is_job_event'] === true && $learner['job_event']['is_submitted']!= "" 
+                    ) {
+                        $jobEventCount++;
+                        // ✅ Accepted Job Event Count
+                        if (isset($learner['job_event']['review_status']) && $learner['job_event']['review_status'] === 'Accepted') {
+                             $jobEventAcceptedCount++; 
+                        }
+                        if (
+                            isset($learner['job_event']['review_status']) &&
+                            $learner['job_event']['review_status'] == 'Open' &&
+                             $learner['job_event']['is_submitted']!= ''
+                        ) {
+                            $jobEventSubmittedCount++; 
+                        }
+                        if (
+                            isset($learner['job_event']['review_status']) &&
+                            $learner['job_event']['review_status'] === 'Pending' &&
+                            $learner['job_event']['is_submitted']!= ''
+                        ) {
+                            $jobEventPendingCount++;
+                        }
+
+                        if (
+                            isset($learner['job_event']['review_status']) &&
+                            $learner['job_event']['review_status'] === '' &&
+                            $learner['job_event']['is_submitted']!= ''
+                        ) {
+                            $jobEventOpenCount++;
+                        }
+
+                        if (
+                            isset($learner['job_event']['review_status']) &&
+                            $learner['job_event']['review_status'] === 'Rejected' &&
+                            $learner['job_event']['is_submitted']!= ''
+                        ) {
+                            $jobEventRejectedCount++;
+                        }
+                    }
+            
+                    // ✅ Social Protection Event Count
+                    if (
+                        isset($learner['social_protection']['is_social_event']) &&
+                        $learner['social_protection']['is_social_event'] === true
+                    ) {
+                        $socialEventCount++;
+                        if (
+                            isset($learner['social_protection']['review_status']) &&
+                            $learner['social_protection']['review_status'] === 'Accepted'
+                        ) {
+                            $socialEventAcceptedCount++;
+                        }
+                        if (
+                            isset($learner['social_protection']['review_status']) &&
+                            $learner['social_protection']['review_status'] === 'Open' &&
+                            $learner['social_protection']['is_submitted']!= ''
+                        ) {
+                            $socialEventOpenCount++;
+                        }
+                        if (
+                            isset($learner['social_protection']['review_status']) &&
+                            $learner['social_protection']['review_status'] === 'Pending' &&
+                            $learner['social_protection']['is_submitted']!= ''
+                        ) {
+                            $socialEventPendingCount++;
+                        }
+
+                        if (
+                            isset($learner['social_protection']['review_status']) &&
+                            $learner['social_protection']['review_status'] === 'Rejected' &&
+                            $learner['social_protection']['is_submitted']!= ''
+                        ) {
+                            $socialEventRejectedCount++;
+                        }
+
+                        
+                        
+                    }
+            }
+
+            return [
+                'job_total' => $jobEventCount,
+                'job_accepted' => $jobEventAcceptedCount,
+                'job_open'=>$jobEventOpenCount,
+                'job_submitted'=>$jobEventSubmittedCount,
+                'job_pending'=>$jobEventPendingCount,
+                'job_rejected'=>$jobEventRejectedCount,
+
+                'social_total' => $socialEventCount,
+                'social_accepted' => $socialEventAcceptedCount,
+                'social_open'=>$socialEventOpenCount,
+                'social_submitted'=>$socialSubmittedCount,
+                'social_pending'=>$socialEventPendingCount,
+                'social_rejected'=>$socialEventRejectedCount,
+                'course_completed'=>$courseCompletedCount
+            ];
+        }catch(DecryptException $e){
+            // Invalid encrypted string
+            Log::warning("Decrypt failed for learner link: " . $e->getMessage());
+            return "Invalid Agent Id";
+        }
+        
+    }
+
+
+
+
+
+
+
+
+
+    /**
+     * Get Details of Filed Agent
+     */
+    public function viewFieldAgent(Request $request,$id){
+        try {
+            $ys_id = decryptString($id); 
+        
+            $agentArray = YuwaahSakhi::findOrFail($ys_id);
+            $cscValue   = $agentArray->csc_id;
+        
+            /*
+            |--------------------------------------------------------------------------
+            | Base Learner Query (Reusable)
+            |--------------------------------------------------------------------------
+            */
+            $baseLearnerQuery = Learner::query()
+                ->where('learners.status', 'Active')
+                ->where('learners.UNIT_INSTITUTE', $cscValue);
+        
+            /* ---------------- Filters ---------------- */
+            $baseLearnerQuery
+                ->when($request->filled('name'), function ($q) use ($request) {
+                    $q->where(function ($sub) use ($request) {
+                        $sub->where('learners.first_name', 'like', "%{$request->name}%")
+                            ->orWhere('learners.last_name', 'like', "%{$request->name}%");
+                    });
+                })
+                ->when($request->filled('email'), fn ($q) =>
+                    $q->where('learners.email', 'like', "%{$request->email}%")
+                )
+                ->when($request->filled('phone'), fn ($q) =>
+                    $q->where('learners.primary_phone_number', 'like', "%{$request->phone}%")
+                )
+                ->when($request->filled('gender'), fn ($q) =>
+                    $q->where('learners.gender', $request->gender)
+                );
+        
+            /*
+            |--------------------------------------------------------------------------
+            | ✅ Completed / Verified Learners Count
+            |--------------------------------------------------------------------------
+            */
+            $completedLearnersCount = (clone $baseLearnerQuery)
+                ->join('yhub_learners as yl', function ($join) {
+                    $join->on('learners.normalized_mobile', '=', 'yl.normalized_mobile')
+                         ->whereNotNull('learners.normalized_mobile');
+                })
+                ->distinct('learners.id')
+                ->count('learners.id');
+
+            //dd($completedLearnersCount);
+        
+            /*
+            |--------------------------------------------------------------------------
+            | Latest Event Subquery
+            |--------------------------------------------------------------------------
+            */
+            $latestEvents = DB::table('event_transactions')
+                ->select('learner_id', 'updated_at as last_event_update')
+                ->where('ys_id', $ys_id)
+                ->orderByDesc('id');
+        
+            /*
+            |--------------------------------------------------------------------------
+            | Learner Listing Query
+            |--------------------------------------------------------------------------
+            */
+            $learnerListArr = (clone $baseLearnerQuery)
+            ->leftJoin('yhub_learners as yl', function ($join) {
+                $join->on('learners.normalized_mobile', '=', 'yl.normalized_mobile');
+            })
+            ->leftJoinSub($latestEvents, 'et', function ($join) {
+                $join->on('learners.id', '=', 'et.learner_id');
+            })
+            ->select([
+                'learners.id',
+                'learners.first_name',
+                'learners.last_name',
+                'learners.primary_phone_number',
+                'learners.date_of_birth',
+                'learners.education_level',
+                'learners.UNIT_INSTITUTE',
+                'learners.digital_proficiency',
+                'learners.DIFFRENTLY_ABLED',
+                'learners.english_knowledge',
+                'learners.PROGRAM_STATE',
+                'learners.PROGRAM_DISTRICT',
+
+                // 👇 YHub (optional)
+                'yl.email_address as yhub_email_address',
+                'yl.completion_status',
+
+                // 👇 Course completed label
+                DB::raw("
+                    CASE 
+                        WHEN yl.completion_status = 1 THEN 'Yes'
+                        ELSE 'No'
+                    END AS course_completed_status
+                "),
+
+                // 👇 Sort key
+                DB::raw('COALESCE(et.last_event_update, learners.updated_at) as sort_updated_at')
+            ])
+            ->groupBy(
+                'learners.id',
+                'yl.email_address',
+                'yl.completion_status',
+                'et.last_event_update'
+            )
+            ->orderByDesc('sort_updated_at')
+            ->paginate(2000)
+            ->appends($request->query());
+
+                //dd($learnerListArr);
+        
+            /*
+            |--------------------------------------------------------------------------
+            | Post Processing (Events Mapping)
+            |--------------------------------------------------------------------------
+            */
+            $eventTransactionList = DB::table('event_transactions')
+                ->where('ys_id', $ys_id)
+                ->get();
+        
+            $learnerList = [];
+            foreach ($learnerListArr as $item) {
+                $learnerList[$item->id] = [
+                    'item'              => $item,
+                    'job_event'         => $this->checkIsJobEvent($eventTransactionList, $item->id),
+                    'social_protection' => $this->checkEventTypeJobSocialProtection($eventTransactionList, $item->id),
+                ];
+            }
+        
+            //dd($learnerList);
+            return view('placementpartner.fieldagent.learnerList', [
+                'title'                    => 'All Learners',
+                'data'                     => $learnerList,
+                'completedLearnersCount'   => $completedLearnersCount,
+                'ppid'                     => encryptString($cscValue),
+                'agentArray'               => $agentArray
+            ]);
+        
+        } catch (DecryptException $e) {
+            Log::warning("Decrypt failed for learner link: " . $e->getMessage());
+            return redirect()->back()->with('error', 'Invalid or expired link.');
+        }
+        
+    }
+
+
+
+
+    public function exportFiledAgents(Request $request)
+    {
+        ini_set('max_execution_time', 300); 
+        return Excel::download(
+            new PlacementPartnerExportFiledAgents($request),
+            'filed_agents_' . date('Ymd_His') . '.xlsx'
+        );
+    }
+
+
+
+
+    public function exportPartnerFliendAgentLearners(Request $request,$agent_id)
+    {
+        $partner = Partner::find(getUserId());
+        $partnerId = $partner->partner_id;
+        $ys_id = decryptString($agent_id);
+        $agentArray = YuwaahSakhi::findOrFail($ys_id);
+        $cscValue   = $agentArray->sakhi_id;
+        return Excel::download(
+            new PlacementPartnerAllLearnersOfFliedAgentExport($request, getUserId(),$agent_id),
+            $partnerId.'_'.$cscValue.'_partner_all_learners_'.now()->format('Y-m-d-H-i-s-a').'.xlsx'
+        );
+    }
+
+
+
+
+    /***********End of Controller******************** */
 }

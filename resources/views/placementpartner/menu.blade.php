@@ -10,6 +10,7 @@
             {{ request()->routeIs('placementpartner.viewyuwaahsakhi') ? 'active' : '' }}" 
              href="{{route('placementpartner.viewyuwaahsakhi')}}">Field Agents</a>
             <!-- <a class="{{ request()->routeIs('partner.event') ? 'active' : '' }}"  href="{{route('partner.event')}}">Event Transactions</a> -->
+            <a class="{{ request()->routeIs('placementpartner.fieldagentevent') ? 'active' : '' }}"  href="{{route('placementpartner.fieldagentevent')}}">Field Agent's Event Transactions</a>
           </div>
         </div>
     

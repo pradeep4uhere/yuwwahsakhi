@@ -34,6 +34,14 @@ Route::middleware('auth:pp_partner')->group(function () {
     Route::get('/viewyuwaahsakhi', [PlacementPartnerAuthController::class, 'viewAllFieldCenter'])->name('placementpartner.viewyuwaahsakhi');
     Route::get('export-placement-yuwaah-sakhi', [PlacementPartnerAuthController::class, 'exportPlacementYuwaahSakhi'])->name('export.placementpartner.viewyuwaahsakhi');
     Route::get('export-placement-learner/{id}', [PlacementPartnerAuthController::class, 'exportPlacementYuwaahSakhiLearner'])->name('export.placementpartner.exportpplearner');
+
+    Route::get('placementpartner.fieldagentevent', [PlacementPartnerAuthController::class, 'fieldAgentWithEventTransactions'])->name('placementpartner.fieldagentevent');
+    Route::get('placementpartner.viewfieldagent/{id}', [PlacementPartnerAuthController::class, 'viewFieldAgent'])->name('placementpartner.viewfieldagent');
+    Route::get('/placementpartner/filed-agents/export', [PlacementPartnerAuthController::class, 'exportFiledAgents'])->name('placementpartner.filed-agents.export');
+    Route::get('/placementpartner/learners/export/{agent_id}', [PlacementPartnerAuthController::class, 'exportPartnerFliendAgentLearners'])
+    ->name('placementpartner.learners.export');
+
+    
     
     Route::get('/viewlearner/{id}', [PlacementPartnerAuthController::class, 'viewLearner'])->name('viewlearner');
     Route::get('/get-districts', [PlacementPartnerAuthController::class, 'getDistricts'])->name('get.districts');
