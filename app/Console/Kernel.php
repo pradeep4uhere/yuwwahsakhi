@@ -14,6 +14,8 @@ class Kernel extends ConsoleKernel
     {
         // $schedule->command('inspire')->hourly();
         $schedule->command('import:learner-data')->dailyAt('02:00');
+        $schedule->command('yhub:sync-coursename-learners')
+        ->dailyAt('03:00');
         $schedule->command('backup:mysql')
         ->dailyAt('02:00')
         ->withoutOverlapping()
