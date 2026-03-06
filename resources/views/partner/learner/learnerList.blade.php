@@ -92,6 +92,7 @@
                 <th nowrap="nowrap">Education Level</th>
                 <th nowrap="nowrap">Digital Proficiency</th>
                 <th nowrap="nowrap">English Knowledge</th>
+                <th nowrap="nowrap">Course Name</th>
                 <th nowrap="nowrap">Certification</th>
                 <th nowrap="nowrap">Differently Abled</th>
                 <th nowrap="nowrap">Create Date</th>
@@ -100,7 +101,7 @@
         <tbody>
         <?php $count=1; ?>
             @foreach ($data as $item)
-           
+            <?php //dd($item); ?>
             <tr>
                 <td>{{$count}}</td>
                 <td nowrap="nowrap"> {{ $item->first_name }}&nbsp;{{ $item->last_name }}</td>
@@ -112,7 +113,8 @@
                 <td nowrap="nowrap">{{ $item->education_level }}</td>
                 <td nowrap="nowrap">{{ $item->digital_proficiency }}</td>
                 <td nowrap="nowrap">{{ $item->english_knowledge }}</td>
-                @if($item->completion_status==1)
+                <td nowrap="nowrap">{{ getCourseNames($item->courses)}}</td>
+                @if($item->course_completed_status == 'Yes')
                 <td nowrap="nowrap" style="text-align:center;">
                     <div style="width:20px; height:20px; border-radius:50%; background-color:#22c55e;"></div>
                 </td>

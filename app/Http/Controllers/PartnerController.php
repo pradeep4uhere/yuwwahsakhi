@@ -1157,45 +1157,43 @@ class PartnerController extends Controller
     | Main Query
     |--------------------------------------------------------------------------
     */
-    $query = DB::table('learners as l')
-        ->leftJoinSub($latestLms, 'yl', function ($join) {
-            $join->on('l.normalized_mobile', '=', 'yl.normalized_mobile');
-        })
-        ->where('l.PROGRAM_CODE', $program_code)
-        ->whereNotNull('l.normalized_mobile')
-        ->select('l.*', 'yl.completion_status');
+    $learners = Learner::with(['courses','completedCourses'])
+    ->where('PROGRAM_CODE', $program_code)
+    ->whereNotNull('normalized_mobile')
 
     /*
     |--------------------------------------------------------------------------
     | Filters
     |--------------------------------------------------------------------------
     */
-    $query->when($request->filled('name'), function ($q) use ($request) {
-        $q->where('l.first_name', 'like', '%' . $request->name . '%');
-    });
+    ->when($request->filled('name'), function ($q) use ($request) {
+        $q->where('first_name', 'like', '%' . $request->name . '%');
+    })
 
-    $query->when($request->filled('primary_phone_number'), function ($q) use ($request) {
-        $q->where('l.primary_phone_number', $request->primary_phone_number);
-    });
+    ->when($request->filled('primary_phone_number'), function ($q) use ($request) {
+        $q->where('primary_phone_number', $request->primary_phone_number);
+    })
 
-    $query->when($request->filled('PROGRAM_STATE'), function ($q) use ($request) {
-        $q->where('l.PROGRAM_STATE', $request->PROGRAM_STATE);
-    });
+    ->when($request->filled('PROGRAM_STATE'), function ($q) use ($request) {
+        $q->where('PROGRAM_STATE', $request->PROGRAM_STATE);
+    })
 
-    $query->when($request->filled('district'), function ($q) use ($request) {
-        $q->where('l.PROGRAM_DISTRICT', $request->district);
-    });
+    ->when($request->filled('district'), function ($q) use ($request) {
+        $q->where('PROGRAM_DISTRICT', $request->district);
+    })
 
-    $query->when($request->filled('unit_institute'), function ($q) use ($request) {
-        $q->where('l.UNIT_INSTITUTE', 'like', '%' . $request->unit_institute . '%');
-    });
+    ->when($request->filled('unit_institute'), function ($q) use ($request) {
+        $q->where('UNIT_INSTITUTE', 'like', '%' . $request->unit_institute . '%');
+    })
 
     /*
     |--------------------------------------------------------------------------
     | Pagination
     |--------------------------------------------------------------------------
     */
-    $learners = $query->paginate(20)->withQueryString();
+    
+    ->paginate(20)
+    ->withQueryString();
 
     /*
     |--------------------------------------------------------------------------

@@ -11,14 +11,15 @@ class LearnerCourse extends Model
 
     protected $table = 'learner_courses';
 
+
     protected $fillable = [
         'phone_number',
         'course_name',
-        'completed_1_course',
+        'completed_course',
         'load_date'
     ];
 
-    public $timestamps = false;
+    public $timestamps = true;
 
     public function learner()
     {

@@ -194,4 +194,29 @@ class Learner extends Model
         return $this->hasMany(LearnerCourse::class, 'phone_number', 'normalized_mobile');
     }
 
+    public function getCourseCompletedStatusAttribute()
+    {
+        if ($this->courses->where('completed_course', 'Yes')->count() > 0) {
+            return 'Yes';
+        }
+
+        return 'No';
+    }
+
+
+
+    public function completedCourses()
+    {
+        return $this->hasMany(LearnerCourse::class, 'phone_number', 'normalized_mobile')
+                    ->where('completed_course', 'Yes');
+    }
+
+
+    public function getCompletedCourseNamesAttribute()
+    {
+        return $this->completedCourses
+            ->pluck('course_name')
+            ->implode(', ');
+    }
+
 }
