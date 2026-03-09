@@ -17,6 +17,7 @@ use App\Models\Learner;
 use App\Models\Partner;
 use Illuminate\Contracts\Encryption\DecryptException;
 use Carbon\Carbon;
+use Crypt;
 
 class PlacementPartnerAuthController extends Controller
 {
@@ -932,6 +933,86 @@ class PlacementPartnerAuthController extends Controller
 
 
 
+
+
+    public function allLearner(Request $request){
+
+        $partnerPlacementId = getUserId();
+
+    $learners = Learner::with(['courses','completedCourses','eventTransactions'])
+        ->whereNotNull('normalized_mobile')
+
+        /*
+        |--------------------------------------------------------------------------
+        | Partner Placement Filter
+        |--------------------------------------------------------------------------
+        */
+        ->whereIn('UNIT_INSTITUTE', function ($query) use ($partnerPlacementId) {
+            $query->select('csc_id')
+                ->from('yuwaah_sakhi')
+                ->where('partner_placement_user_id', $partnerPlacementId);
+        })
+
+        /*
+        |--------------------------------------------------------------------------
+        | Filters
+        |--------------------------------------------------------------------------
+        */
+        ->when($request->filled('name'), function ($q) use ($request) {
+            $q->where('first_name', 'like', '%' . $request->name . '%');
+        })
+
+        ->when($request->filled('primary_phone_number'), function ($q) use ($request) {
+            $q->where('primary_phone_number', $request->primary_phone_number);
+        })
+
+        ->when($request->filled('PROGRAM_STATE'), function ($q) use ($request) {
+            $q->where('PROGRAM_STATE', $request->PROGRAM_STATE);
+        })
+
+        ->when($request->filled('district'), function ($q) use ($request) {
+            $q->where('PROGRAM_DISTRICT', $request->district);
+        })
+
+        ->when($request->filled('unit_institute'), function ($q) use ($request) {
+            $q->where('UNIT_INSTITUTE', 'like', '%' . $request->unit_institute . '%');
+        })
+
+        /*
+        |--------------------------------------------------------------------------
+        | Pagination
+        |--------------------------------------------------------------------------
+        */
+        ->paginate(20)
+        ->withQueryString();
+
+        $completedLearners = DB::table('learners as l')
+        ->join('yhub_learners as yl', 'l.normalized_mobile', '=', 'yl.normalized_mobile')
+        ->whereIn('UNIT_INSTITUTE', function ($query) use ($partnerPlacementId) {
+            $query->select('csc_id')
+                ->from('yuwaah_sakhi')
+                ->where('partner_placement_user_id', $partnerPlacementId);
+        })
+        ->whereNotNull('l.normalized_mobile')
+        ->distinct('l.id')
+        ->count('l.id');
+
+        $statetdata = DB::table('yuwaah_sakhi as ys')
+        ->select('ys.state')
+        ->distinct()
+        ->orderBy('ys.state')
+        ->get();
+
+
+        return view('placementpartner.learnerAllList', [
+            'data' => $learners,
+            'totalCompletionLearner' => $completedLearners,
+            'statetdata' => $statetdata,
+            'ppid'=>Crypt::encryptString($partnerPlacementId),
+            'request' => $request
+        ]);
+       
+    }
 
     /***********End of Controller******************** */
 }

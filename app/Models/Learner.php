@@ -219,4 +219,26 @@ class Learner extends Model
             ->implode(', ');
     }
 
+
+    public function getJobsStatusAttribute()
+    {
+        $event = $this->eventTransactions
+            ->whereIn('event_type', [1,5])
+            ->sortByDesc('id')
+            ->first();
+
+        return $event ? $event->review_status : null;
+    }
+
+
+    public function getSocialProtectionStatusAttribute()
+    {
+        $event = $this->eventTransactions
+            ->whereIn('event_type', [3])
+            ->sortByDesc('id')
+            ->first();
+
+        return $event ? $event->review_status : null;
+    }
+
 }

@@ -744,6 +744,29 @@ if (!function_exists('getCourseNames')) {
 }
 
 
+function statusDot($status)
+{
+    $color = '#ffffff';
+    $border = '1px solid #000000';
+
+    if ($status == 'Pending') {
+        $color = '#f97316';
+        $border = 'none';
+    } elseif ($status == 'Open') {
+        $color = '#3b82f6';
+        $border = 'none';
+    } elseif ($status == 'Accepted') {
+        $color = '#22c55e';
+        $border = 'none';
+    } elseif ($status == 'Rejected') {
+        $color = '#ef4444';
+        $border = 'none';
+    }
+
+    return '<div style="width:20px;height:20px;border-radius:50%;background-color:'.$color.';border:'.$border.';"></div>';
+}
+
+
 
 
 
