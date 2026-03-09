@@ -30,7 +30,7 @@ Route::post('/logout', [PartnerAuthController::class, 'logout'])->name('partner.
 
 // Use the 'admin' guard instead of the default 'auth' guard
 Route::middleware('auth:pp_partner')->group(function () {
-    Route::get('/dashboard', [PlacementPartnerAuthController::class, 'viewAllFieldCenter'])->name('placementpartner.dashboard');
+    Route::get('/dashboard', [PlacementPartnerAuthController::class, 'allLearner'])->name('placementpartner.dashboard');
     Route::get('/viewyuwaahsakhi', [PlacementPartnerAuthController::class, 'viewAllFieldCenter'])->name('placementpartner.viewyuwaahsakhi');
     Route::get('export-placement-yuwaah-sakhi', [PlacementPartnerAuthController::class, 'exportPlacementYuwaahSakhi'])->name('export.placementpartner.viewyuwaahsakhi');
     Route::get('export-placement-learner/{id}', [PlacementPartnerAuthController::class, 'exportPlacementYuwaahSakhiLearner'])->name('export.placementpartner.exportpplearner');
@@ -43,6 +43,8 @@ Route::middleware('auth:pp_partner')->group(function () {
 
     
     Route::get('placementpartner.learner', [PlacementPartnerAuthController::class, 'allLearner'])->name('placementpartner.learner');
+    Route::get('placementpartner.events', [PlacementPartnerAuthController::class, 'allEvents'])->name('placementpartner.events');
+    Route::get('/placement-partner/export-learners', [PlacementPartnerAuthController::class, 'exportPlacementPlacementPartnerEvents'])->name('placementpartner.events.export');;
     
     Route::get('/viewlearner/{id}', [PlacementPartnerAuthController::class, 'viewLearner'])->name('viewlearner');
     Route::get('/get-districts', [PlacementPartnerAuthController::class, 'getDistricts'])->name('get.districts');
@@ -51,6 +53,8 @@ Route::middleware('auth:pp_partner')->group(function () {
     Route::get('/profile', [PlacementPartnerAuthController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [PlacementPartnerAuthController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [PlacementPartnerAuthController::class, 'destroy'])->name('profile.destroy');
+
+    Route::get('placement-partner/export', [PlacementPartnerAuthController::class, 'exportPlacementPartnerLearners'])->name('exportPlacementPartnerLearners');
    
     
 });

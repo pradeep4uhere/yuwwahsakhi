@@ -18,6 +18,8 @@ use App\Models\Partner;
 use Illuminate\Contracts\Encryption\DecryptException;
 use Carbon\Carbon;
 use Crypt;
+use App\Exports\PlacementPartnerLearnersExport;
+use App\Exports\PlacementPartnerLearnersEventExport;
 
 class PlacementPartnerAuthController extends Controller
 {
@@ -937,7 +939,7 @@ class PlacementPartnerAuthController extends Controller
 
     public function allLearner(Request $request){
 
-        $partnerPlacementId = getUserId();
+    $partnerPlacementId = getUserId();
 
     $learners = Learner::with(['courses','completedCourses','eventTransactions'])
         ->whereNotNull('normalized_mobile')
@@ -983,6 +985,7 @@ class PlacementPartnerAuthController extends Controller
         | Pagination
         |--------------------------------------------------------------------------
         */
+        ->orderBy('first_name','asc')
         ->paginate(20)
         ->withQueryString();
 
@@ -1014,5 +1017,53 @@ class PlacementPartnerAuthController extends Controller
        
     }
 
+
+
+    public function exportPlacementPartnerLearners(Request $request)
+    {
+        $partnerPlacementId = getUserId();
+
+        return Excel::download(
+            new PlacementPartnerLearnersExport($request, $partnerPlacementId),
+            'placement_partner_learners.xlsx'
+        );
+    }
+
+
+
+
+    public function allEvents(Request $request){
+        $partnerPlacementId = getUserId();
+        $eventList = DB::table('event_transactions as et')
+        ->leftJoin('yuwaah_sakhi as ys', 'et.ys_id', '=', 'ys.id')
+        ->leftJoin('yuwaah_event_masters as em', 'em.id', '=', 'et.event_category')
+        ->where('ys.partner_placement_user_id', $partnerPlacementId)
+        ->where('ys.csc_id','!=','Sandbox_Testing')
+        ->whereNotNull('et.review_status')
+        ->whereNotNull('et.learner_id')
+        ->whereNotNull('et.event_date_submitted')
+        ->select('et.*', 'em.event_category','ys.csc_id','ys.sakhi_id')
+        ->paginate(50);
+
+            
+        //$eventList = YuwaahEventMaster::where('status','1')->paginate(env('PAGINATION'));
+        //dd($eventList);
+        return view('placementpartner.event.list', [
+            'data' => $eventList, // Fetch authenticated partner
+        ]);
+    }
+
+
+
+
+    public function exportPlacementPlacementPartnerEvents(Request $request)
+    {
+        $partnerPlacementId = getUserId();
+
+        return Excel::download(
+            new PlacementPartnerLearnersEventExport($request, $partnerPlacementId),
+            'placement_partner_learners_events.xlsx'
+        );
+    }
     /***********End of Controller******************** */
 }

@@ -3,44 +3,81 @@
 @section('content')
 @include('placementpartner.menu')
 <div class="container">
-       <table class="table w-100">
+<table class="table w-100">
             <tr>
-                <td style="width:88%" style="padding-top:35px;" ><h1>Learner [{{$data->total()}}]</h1></td>
-                <td>
-                <table><tr>
-                <td nowrap="nowrap">
-                <span>Action Required</span>
-                </td>
-                <td>
-                <div style="width:20px; height:20px; border-radius:50%; background-color:#f97316;"></div>
-                </td>
-                <td>
-                <span class="text-[10px] text-blue-500">Submitted</span>
-                </td>
-                <td>
-                <div style="width:20px; height:20px; border-radius:50%; background-color:#3b82f6;"></div>
-                </td>
-                <td>
-                <span class="text-[10px] text-green-700">Accepted</span>
-                </td>
-                <td>
-                <div style="width:20px; height:20px; border-radius:50%; background-color:#22c55e;"></div>
-                </td>
-                <td>
-                <span class="text-[10px] text-red-700">Rejected</span>
-                </td>
-                <td>
-                    <div style="width:20px; height:20px; border-radius:50%; background-color:#ef4444;"></div>
-                </td>
-                </tr>
-                </table>
-                </td>
+                <td style="width:88%" style="padding-top:35px;" ><h1><img src="{{asset('asset/images/Profile.png')}}" hegiht="55px" width="55px">Learner [{{$data->total()}}]&nbsp;|&nbsp;<img src="{{asset('asset/images/certificate.png')}}" hegiht="25px" width="25px">&nbsp;Total Certification&nbsp;[{{$totalCompletionLearner}}]</h1></td>
+               
                 <td text-align="right" nowrap="nowrap" style="padding-top:25px;">
-                    <a href="{{route('export.placementpartner.exportpplearner',['id'=>$ppid])}}"><b><img src="{{asset('asset/images/export.jpg')}}" width="25px" height="25px">&nbsp;Export Learner</b></a>
+                <a href="{{ route('exportPlacementPartnerLearners', request()->query()) }}">
+                        <b>
+                            <img src="{{ asset('asset/images/export.jpg') }}" width="25" height="25">
+                            &nbsp;Export Learner
+                        </b>
+                    </a>
+
                 </td>
             </tr>
           
         </table>
+        <form>
+        <div>
+        <div class="mb-3">
+        @php
+                $filters = [
+                    'name' => 'Name',
+                    'primary_phone_number' => 'Mobile',
+                    'PROGRAM_STATE' => 'State',
+                    'district' => 'District',
+                    'unit_institute' => 'Unit Institute'
+                ];
+            @endphp
+                <strong>Search Result For:</strong>
+
+                @if(request()->filled('name'))
+                    <span>Name: {{ request('name') }}</span> |
+                @endif
+
+                @if(request()->filled('primary_phone_number'))
+                    <span>Mobile: {{ request('primary_phone_number') }}</span> |
+                @endif
+
+                @if(request()->filled('PROGRAM_STATE'))
+                    <span>State: {{ request('PROGRAM_STATE') }}</span> |
+                @endif
+
+                @if(request()->filled('district'))
+                    <span>District: {{ request('district') }}</span> |
+                @endif
+
+                @if(request()->filled('unit_institute'))
+                    <span>Unit Institute: {{ request('unit_institute') }}</span>
+                @endif
+            </div>
+        </div>
+        <table>
+        <tr>
+            <td style="width:10%"><input type="text" name="name" class="form-control" placeholder="Name"/></td>
+            <td style="width:10%"><input type="text" name="primary_phone_number" class="form-control" placeholder="Mobile Number"/></td>
+            <td style="width:10%"><input type="text" name="unit_institute" class="form-control" placeholder="Unit Institute Name"/></td>
+            <td style="width:10%">
+            <select name="PROGRAM_STATE" class="form-control" id="state">
+            <option value="">--Choose State--</option>
+            @foreach($statetdata as $item)
+                <option value="{{ $item->state }}">
+                    {{ $item->state }}
+                </option>
+            @endforeach
+            </select>
+        </td>
+        <td style="width:10%">
+            <select name="district" id="district"  class="form-control">
+                <option value="">--Choose District--</option>
+            </select>
+        </td>
+            <td style="width:10%"><input type="submit" name="submit" class="form-control bg-primary font-white" Value="Search"/></td>
+            </tr>
+        </table>
+        </form>
         <div class="table-responsive">
         <table class="table table-striped table-bordered">
         <thead class="table-dark">
@@ -57,7 +94,7 @@
                 <th nowrap="nowrap">Course Name</th>
                 <th nowrap="nowrap">Certification</th>
                 <th nowrap="nowrap">Diffrently Abled</th>
-                <th nowrap="nowrap">Created Date</th>
+                <th nowrap="nowrap">Registration Date</th>
                 
             </tr>
         </thead>
@@ -75,7 +112,7 @@
                 <td nowrap="nowrap">{{ $item->education_level }}</td>
                 <td nowrap="nowrap">{{ $item->digital_proficiency }}</td>
                 <td nowrap="nowrap">{{ $item->english_knowledge }}</td>
-                <td>{{$item->completed_course_names}}</item>
+                <td nowrap="nowrap">{{$item->completed_course_names}}</item>
                 @if($item->completedCourses->isNotEmpty())
                 <td nowrap="nowrap" style="text-align:center;">
                     <div style="width:20px; height:20px; border-radius:50%; background-color:#22c55e;"></div>
@@ -87,6 +124,9 @@
                 @endif
                 <td nowrap="nowrap">
                     {{ in_array($item->DIFFRENTLY_ABLED, [0, '0', 'No', null], true) ? 'No' : 'Yes' }}
+                </td>
+                <td nowrap="nowrap">
+                    {{ $item->create_date }}
                 </td>
             </tr>
             <?php $count++; ?>

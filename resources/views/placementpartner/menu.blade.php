@@ -4,14 +4,14 @@
         <div class="header-left">
           <img src="{{asset('asset/images/YuwaahLogocolo.png')}}" alt="LogoImage" class="logoimageclass" width="100px" height="70px">
           <div class="nav">
-            <a class="{{ request()->routeIs('placementpartner.dashboard') ? 'active' : '' }}"   href="{{route('placementpartner.dashboard')}}">Dashboard</a>
-            <a class="{{ request()->routeIs('placementpartner.learner') ? 'active' : '' }}"  href="{{route('placementpartner.learner')}}">Learner</a>
-            <a class="
+            <a class="{{ request()->routeIs('placementpartner.dashboard') ? 'active' : '' }}"   href="{{route('placementpartner.dashboard')}}">Learner</a>
+            <!-- <a class="
             {{ request()->routeIs('placementpartner.viewyuwaahsakhi') ? 'active' : '' }}
             {{ request()->routeIs('placementpartner.viewyuwaahsakhi') ? 'active' : '' }}" 
-             href="{{route('placementpartner.viewyuwaahsakhi')}}">Field Agents</a>
+             href="{{route('placementpartner.viewyuwaahsakhi')}}">Field Agents</a> -->
            
-            <a class="{{ request()->routeIs('placementpartner.fieldagentevent') ? 'active' : '' }}"  href="{{route('placementpartner.fieldagentevent')}}">Field Agent's Event Transactions</a>
+            <a class="{{ request()->routeIs('placementpartner.fieldagentevent') ? 'active' : '' }}"  href="{{route('placementpartner.fieldagentevent')}}">Field Agent</a>
+            <a class="{{ request()->routeIs('placementpartner.events') ? 'active' : '' }}"  href="{{route('placementpartner.events')}}">Event</a>
           </div>
         </div>
     
