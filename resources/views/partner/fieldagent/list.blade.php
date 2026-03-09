@@ -115,7 +115,7 @@
             <thead class="table-dark">
                 <tr>
                     <th>SN</th>
-                    <th>Programe Code</th>
+                    <th>Unit Institute</th>
                     <th nowrap="nowrap">Agent ID</th>
                     <th>Name</th>
                     <th>Contact Number</th>

@@ -28,7 +28,7 @@ class PartnerAllLearnersExport implements FromQuery, WithHeadings
         $partneerID = $partner['partner_id'];
         //dd($partneerID);
         $query = DB::table('learners as l')
-            ->leftJoin('yhub_learners as yl', 'l.normalized_mobile', '=', 'yl.normalized_mobile')
+            ->leftJoin('learner_courses as yl', 'l.normalized_mobile', '=', 'yl.phone_number')
             ->where('l.PROGRAM_CODE', $partneerID)
             ->whereNotNull('l.normalized_mobile')
             ->select(
@@ -41,13 +41,8 @@ class PartnerAllLearnersExport implements FromQuery, WithHeadings
                 'l.education_level',
                 'l.english_knowledge',
                 'l.digital_proficiency',
-                // ✅ Completion status: 100 → Yes, else No
-                DB::raw("
-                    CASE 
-                        WHEN MAX(yl.completion_status) = 1 THEN 'Yes'
-                        ELSE 'No'
-                    END AS completion_status
-                "),
+                DB::raw("GROUP_CONCAT(yl.course_name SEPARATOR ', ') as course_names"),
+                DB::raw("MAX(yl.completed_course) as completed_course"),
                 // ✅ Differently abled: 1 → Yes, else No
                     DB::raw("
                     CASE 
@@ -95,9 +90,10 @@ class PartnerAllLearnersExport implements FromQuery, WithHeadings
                 'Education Level',
                 'Digital Proficiency',
                 'English Knowledge',
+                'Course Name',
                 'Certification',
                 'Differently Abled',
-                'Created Date'
+                'Registration Date'
             ];
         }
     /**

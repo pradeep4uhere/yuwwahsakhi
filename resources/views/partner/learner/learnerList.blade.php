@@ -95,7 +95,7 @@
                 <th nowrap="nowrap">Course Name</th>
                 <th nowrap="nowrap">Certification</th>
                 <th nowrap="nowrap">Differently Abled</th>
-                <th nowrap="nowrap">Create Date</th>
+                <th nowrap="nowrap">Registration Date</th>
             </tr>
         </thead>
         <tbody>
