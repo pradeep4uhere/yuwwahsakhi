@@ -1210,6 +1210,7 @@ class PartnerController extends Controller
         ->join('yhub_learners as yl', 'l.normalized_mobile', '=', 'yl.normalized_mobile')
         ->where('l.PROGRAM_CODE', $program_code)
         ->whereNotNull('l.normalized_mobile')
+        ->whereNotNull('UNIT_INSTITUTE')
         ->distinct('l.id')
         ->count('l.id');
 
