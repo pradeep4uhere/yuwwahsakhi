@@ -1135,9 +1135,10 @@ class PartnerController extends Controller
     /**
      * All Learner List
      */
-    public function learnerList(Request $request)
-{
-    $program_code = Auth::user()->partner_id;
+    public function learnerList(Request $request){
+
+    $program_code = config('constants.partners.'.Auth::user()->partner_id);
+    
 
     /*
     |--------------------------------------------------------------------------
@@ -1194,7 +1195,6 @@ class PartnerController extends Controller
     
     ->paginate(20)
     ->withQueryString();
-
     /*
     |--------------------------------------------------------------------------
     | Total Completed Learners Count
