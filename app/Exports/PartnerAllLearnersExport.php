@@ -8,6 +8,7 @@ use App\Models\Partner;
 use Maatwebsite\Excel\Concerns\FromQuery;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Illuminate\Http\Request;
+use Auth;
 
 class PartnerAllLearnersExport implements FromQuery, WithHeadings
 {
@@ -24,13 +25,14 @@ class PartnerAllLearnersExport implements FromQuery, WithHeadings
 
     public function query()
     {
-        $partner = Partner::find(getUserId());
-        $partneerID = $partner['partner_id'];
+        $partneerID = config('constants.partners.'.Auth::user()->partner_id);   
+      
         //dd($partneerID);
         $query = DB::table('learners as l')
             ->leftJoin('learner_courses as yl', 'l.normalized_mobile', '=', 'yl.phone_number')
             ->where('l.PROGRAM_CODE', $partneerID)
             ->whereNotNull('l.normalized_mobile')
+            ->whereNotNull('l.UNIT_INSTITUTE')
             ->select(
                 'l.first_name',
                 'l.date_of_birth',
