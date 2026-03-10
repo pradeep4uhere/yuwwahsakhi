@@ -1137,7 +1137,10 @@ class PartnerController extends Controller
      */
     public function learnerList(Request $request){
 
-    $program_code = config('constants.partners.'.Auth::user()->partner_id);
+    //dd(config('constants.partners'));
+    //echo Auth::user()->partner_id;
+    //echo 'constants.partners.'.Auth::user()->partner_id;
+    $program_code = config('constants.partners.'.Auth::user()->partner_id); 
     
 
     /*
@@ -1160,6 +1163,7 @@ class PartnerController extends Controller
     */
     $learners = Learner::with(['courses','completedCourses'])
     ->where('PROGRAM_CODE', $program_code)
+    ->whereNotNull('UNIT_INSTITUTE')
     ->whereNotNull('normalized_mobile')
 
     /*
@@ -1195,6 +1199,8 @@ class PartnerController extends Controller
     
     ->paginate(20)
     ->withQueryString();
+
+    //dd($learners);
     /*
     |--------------------------------------------------------------------------
     | Total Completed Learners Count
