@@ -35,6 +35,7 @@ use App\Exports\PartnerAllLearnersExport;
 use App\Exports\EventTransactionsWithCommentsExport;
 use App\Exports\PartnerExportFiledAgents;
 use App\Exports\PartnerAllLearnersOfFliedAgentExport;
+use App\Exports\PartnerEventExport;
 
 
 
@@ -1299,5 +1300,13 @@ class PartnerController extends Controller
     }
 
 
+
+
+    public function exportPartnerEvents()
+    {
+        $partnerId = auth()->user()->id;
+
+        return Excel::download(new PartnerEventExport($partnerId), 'partner_events.xlsx');
+    }
 
 }

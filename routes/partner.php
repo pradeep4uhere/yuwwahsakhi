@@ -79,6 +79,8 @@ Route::middleware('auth:partner')->group(function () {
     Route::get('/download-document/{file}', [PartnerController::class, 'download'])
     ->name('document.download');
 
+    Route::get('/partner-events-export', [PartnerController::class, 'exportPartnerEvents'])->name('partner-events-export');
+
 
     
 });

@@ -9,7 +9,7 @@ class EventTransactionsWithCommentsExport implements WithMultipleSheets
 {
     public function sheets(): array
     {
-        $partnerId = auth()->guard('partner')->user()->id;
+        $partnerId = auth()->guard('partner')->user()->id; 
 
         $eventList = DB::table('event_transactions as et')
             ->join('yuwaah_sakhi as ys', 'et.ys_id', '=', 'ys.id')
@@ -29,13 +29,12 @@ class EventTransactionsWithCommentsExport implements WithMultipleSheets
                 'et.event_value', // example fields
                 'et.review_status',
                 'et.created_at',
-                'et.event_date_submitted',
-              
-                
+                'et.event_date_submitted'
             )
             ->get();
-
         $sheets = [];
+
+        //dd($eventList);
 
         // First sheet: all events
         $sheets[] = new EventTransactionsSheet($eventList);
@@ -52,7 +51,7 @@ class EventTransactionsWithCommentsExport implements WithMultipleSheets
 
             $sheets[] = new EventCommentsSheet($event->event_name ?? 'Event-'.$event->id, $comments);
         }
-
+        //dd($sheets);
         return $sheets;
     }
 }
