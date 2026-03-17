@@ -1291,6 +1291,7 @@ public function allLearnerList(Request $request){
 
         // Execute the query and return paginated results
         $response =  $query->paginate($perPage);
+        //dd($response );
         return view('admin.learner.list', [
             'response'=>$response,
             'title' => 'All Learner',

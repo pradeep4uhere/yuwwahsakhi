@@ -41,6 +41,7 @@
                                 <th>Photo</th>
                                 <th nowrap="nowrap">First Name</th>
                                 <th nowrap="nowrap">Last Name</th>
+                                <th>Unit Institute</th>
                                 <th>Contact</th>
                                 <th nowrap="nowrap">Date Of Birth</th>
                                 <th>Email</th>
@@ -102,7 +103,8 @@
                                 </td>
                                 <td>{{$item['first_name']}}</td>
                                 <td>{{$item['last_name']}}</td>
-                                <td>{{$item['primary_phone_number']}}</td>
+                                <td>{{$item['last_name']}}</td>
+                                <td>{{$item['UNIT_INSTITUTE']}}</td>
                                 <td nowrap="nowrap">{{getdateformate($item['date_of_birth'])}}</td>
                                 <td>{{$item['email']}}</td>
                                 <td>{{$item['gender']}}</td>
