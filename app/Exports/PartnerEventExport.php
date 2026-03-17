@@ -50,7 +50,7 @@ class PartnerEventExport implements FromCollection, WithHeadings
             'l.english_knowledge',
             DB::raw("CASE WHEN l.interested_in_opportunities = 1 THEN 'Yes' ELSE 'No' END as interested_in_opportunities"),
             'et.event_date_submitted',
-            'l.MONTHLY_FAMILY_INCOME_RANGE',
+            'et.event_value',
             'l.current_job_title'
             
         )
