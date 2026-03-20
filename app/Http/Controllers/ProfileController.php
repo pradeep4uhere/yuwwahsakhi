@@ -313,6 +313,7 @@ class ProfileController extends Controller
     $latestEvents = DB::table('event_transactions')
     ->select('*', 'updated_at as last_event_update')
     ->where('ys_id', $ys_id)
+    ->where('event_transactions.status','1')
     ->orderBy('id', 'DESC');
 
 
