@@ -33,7 +33,9 @@
                 <th nowrap="nowrap">Interested Opportunities</th>
                 <th nowrap="nowrap">Function Type</th>
                 <th nowrap="nowrap">Industry Type</th>
-            
+                <th nowrap="nowrap">Age Group</th>
+                <th nowrap="nowrap">State</th>
+                <th nowrap="nowrap">District</th>
                 <th nowrap="nowrap">Comment</th>
                 <th nowrap="nowrap">Updated</th>
             </tr>
@@ -77,6 +79,9 @@
                 <th nowrap="nowrap">{{$item->interested_in_opportunities}}</th>
                 <th nowrap="nowrap">{{$item->field_type}}</th>
                 <th nowrap="nowrap">{{$item->industry_type}}</th>
+                <th nowrap="nowrap">{{$item->age_group}}</th>
+                <th nowrap="nowrap">{{$item->PROGRAM_STATE}}</th>
+                <th nowrap="nowrap">{{$item->PROGRAM_DISTRICT}}</th>
                 <!-- <td nowrap="nowrap">
                 @if(!empty($document))
                      @foreach ($document as $doc)

@@ -471,7 +471,19 @@ class PartnerController extends Controller
         'l.english_knowledge',
         DB::raw("CASE WHEN l.interested_in_opportunities = 1 THEN 'Yes' ELSE 'No' END as interested_in_opportunities"),
         'lc.course_name',
-        'em.event_category','ys.csc_id','ys.sakhi_id')
+        'em.event_category','ys.csc_id','ys.sakhi_id',
+        'l.PROGRAM_STATE',
+        'l.PROGRAM_DISTRICT',
+        DB::raw("
+            CASE
+                WHEN l.date_of_birth IS NULL THEN ''
+                WHEN TIMESTAMPDIFF(YEAR, l.date_of_birth, CURDATE()) < 18 THEN 'Less than 18 years'
+                WHEN TIMESTAMPDIFF(YEAR, l.date_of_birth, CURDATE()) BETWEEN 18 AND 20 THEN '18-20 years'
+                WHEN TIMESTAMPDIFF(YEAR, l.date_of_birth, CURDATE()) BETWEEN 21 AND 25 THEN '21-25 years'
+                WHEN TIMESTAMPDIFF(YEAR, l.date_of_birth, CURDATE()) > 25 THEN 'Above 25 years'
+                ELSE ''
+            END as age_group
+        "))
         ->paginate(50);
 
             
