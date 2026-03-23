@@ -1010,8 +1010,8 @@ class PartnerController extends Controller
             |--------------------------------------------------------------------------
             */
             $learnerListArr = (clone $baseLearnerQuery)
-            ->leftJoin('yhub_learners as yl', function ($join) {
-                $join->on('learners.normalized_mobile', '=', 'yl.normalized_mobile');
+            ->leftJoin('learner_courses as yl', function ($join) {
+                $join->on('learners.normalized_mobile', '=', 'yl.phone_number');
             })
             ->leftJoinSub($latestEvents, 'et', function ($join) {
                 $join->on('learners.id', '=', 'et.learner_id');
@@ -1031,31 +1031,22 @@ class PartnerController extends Controller
                 'learners.PROGRAM_DISTRICT',
 
                 // 👇 YHub (optional)
-                'yl.email_address as yhub_email_address',
-                'yl.completion_status',
-
-                // 👇 Course completed label
-                DB::raw("
-                    CASE 
-                        WHEN yl.completion_status = 1 THEN 'Yes'
-                        ELSE 'No'
-                    END AS course_completed_status
-                "),
-
-                // 👇 Sort key
+                'yl.phone_number as yhub_email_address',
+                'yl.completed_course',
+               // 👇 Sort key
                 DB::raw('COALESCE(et.last_event_update, learners.updated_at) as sort_updated_at')
             ])
             ->groupBy(
                 'learners.id',
-                'yl.email_address',
-                'yl.completion_status',
+                'yl.phone_number',
+                'yl.completed_course',
                 'et.last_event_update'
             )
             ->orderByDesc('sort_updated_at')
-            ->paginate(2000)
+            ->paginate(200)
             ->appends($request->query());
 
-                //dd($learnerListArr);
+            //dd($learnerListArr);
         
             /*
             |--------------------------------------------------------------------------
