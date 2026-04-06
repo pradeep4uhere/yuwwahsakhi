@@ -309,6 +309,8 @@ class ProfileController extends Controller
     if ($request->filled('gender')) {
         $query->where('learners.gender', $request->gender);
     }
+
+    
     // Add latest events join
     $latestEvents = DB::table('event_transactions')
     ->select('*', 'updated_at as last_event_update')

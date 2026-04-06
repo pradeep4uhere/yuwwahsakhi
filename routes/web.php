@@ -4,6 +4,12 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LanguageController;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
+
+Route::get('/test-log', function () {
+    Log::info('Laravel log test working');
+    return 'done';
+});
 
 /*
 |--------------------------------------------------------------------------
