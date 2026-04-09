@@ -53,7 +53,8 @@ class Learner extends Model
         'EARN_AT_MY_OWN_TIME',
         'RELOCATE_FOR_JOB',
         'WHEN_CAN_USER_START',
-        'USER_NEED_HELP_WITH'
+        'USER_NEED_HELP_WITH',
+        'yuth_hub_dob'
     ];
 
     protected $casts = [
