@@ -34,7 +34,7 @@ class PlacementPartnerLearnersEventExport implements FromCollection, WithHeading
                 'ys.csc_id',
                 'ys.sakhi_id',
                 'et.event_name',
-                'em.event_category',
+                'et.event_category',
                 'et.beneficiary_name',
                 'et.beneficiary_phone_number',
                 'et.review_status',
