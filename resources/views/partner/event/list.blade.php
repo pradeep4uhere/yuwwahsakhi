@@ -6,10 +6,41 @@
 <table width="100%">
     <tr>
         <td style="text-align: left; font-size:24px"><b>Event Transactions List&nbsp;[{{$data->total()}}]</b></td>
-        <td style="text-align: right; font-size:14px;font-weight:bold"><a href="{{ route('partner-events-export') }}"><img src="{{ asset('asset/images/download.png') }}" alt="Download" style="height:16px; vertical-align:middle;"> Export Event Transactions</a></td>
+        <td style="text-align: right; font-size:14px;font-weight:bold"> <a href="{{ route('partner-events-export', request()->query()) }}"><img src="{{ asset('asset/images/download.png') }}" alt="Download" style="height:16px; vertical-align:middle;"> Export Event Transactions</a></td>
     </tr>
 </table>
+
     <div class="table-responsive">
+     <form action="" method="get">
+      <table>
+        <tr>
+            <td style="width:10%"><input type="text" name="name" class="form-control" placeholder="Name"/></td>
+            <td style="width:10%"><input type="text" name="primary_phone_number" class="form-control" placeholder="Mobile Number"/></td>
+            <td style="width:10%"><input type="text" name="unit_institute" class="form-control" placeholder="Unit Institute Name"/></td>
+            <td style="width:10%">
+            <select name="PROGRAM_STATE" class="form-control" id="state">
+            <option value="">--Choose State--</option>
+            @foreach($statetdata as $item)
+                <option value="{{ $item->state }}">
+                    {{ $item->state }}
+                </option>
+            @endforeach
+            </select>
+        </td>
+        <td style="width:10%">
+            <select name="district" id="district"  class="form-control">
+                <option value="">--Choose District--</option>
+            </select>
+        </td>
+            <td style="width:10%"><input type="submit" name="submit" class="form-control bg-primary font-white" Value="Search"/></td>
+            </tr>
+        </table>
+        </form>
+        <div class="table-responsive">
+       
+       
+      
+    </table>
         <table class="table table-striped table-bordered">
         <thead class="table-dark">
             <tr>

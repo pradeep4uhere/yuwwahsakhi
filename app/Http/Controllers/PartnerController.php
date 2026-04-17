@@ -44,6 +44,7 @@ use App\Exports\PartnerEventExport;
 
 
 
+
 class PartnerController extends Controller
 {
 
@@ -452,45 +453,99 @@ class PartnerController extends Controller
 
         $partnerId = Auth::guard('partner')->user()->id; // example
 
-        $eventList = DB::table('event_transactions as et')
-        ->leftJoin('yuwaah_sakhi as ys', 'et.ys_id', '=', 'ys.id')
-        ->leftJoin('learners as l', 'et.learner_id', '=', 'l.id')
-        ->leftJoin('learner_courses as lc', 'lc.phone_number', '=', 'et.beneficiary_phone_number')
-        ->leftJoin('yuwaah_event_masters as em', 'em.id', '=', 'et.event_category')
-        ->where('ys.partner_id', $partnerId)
-        ->where('ys.csc_id','!=','Sandbox_Testing')
-        ->whereNotNull('et.review_status')
-        ->whereNotNull('et.learner_id')
-        ->whereNotNull('et.event_date_submitted')
-        ->select('et.*',
-        DB::raw("CASE WHEN l.DIFFRENTLY_ABLED = 1 THEN 'Yes' ELSE 'No' END as DIFFRENTLY_ABLED"),
-        'l.USER_MARIAL_STATUS',
-        'l.RELIGION',
-        'l.education_level',
-        'l.digital_proficiency',
-        'l.english_knowledge',
-        DB::raw("CASE WHEN l.interested_in_opportunities = 1 THEN 'Yes' ELSE 'No' END as interested_in_opportunities"),
-        'lc.course_name',
-        'em.event_category','ys.csc_id','ys.sakhi_id',
-        'l.PROGRAM_STATE',
-        'l.PROGRAM_DISTRICT',
-        DB::raw("
-            CASE
-                WHEN l.date_of_birth IS NULL THEN ''
-                WHEN TIMESTAMPDIFF(YEAR, l.date_of_birth, CURDATE()) < 18 THEN 'Less than 18 years'
-                WHEN TIMESTAMPDIFF(YEAR, l.date_of_birth, CURDATE()) BETWEEN 18 AND 20 THEN '18-20 years'
-                WHEN TIMESTAMPDIFF(YEAR, l.date_of_birth, CURDATE()) BETWEEN 21 AND 25 THEN '21-25 years'
-                WHEN TIMESTAMPDIFF(YEAR, l.date_of_birth, CURDATE()) > 25 THEN 'Above 25 years'
-                ELSE ''
-            END as age_group
-        "))
-        ->paginate(50);
 
-            
+        $statetdata = DB::table('yuwaah_sakhi as ys')
+        ->select('ys.state')        
+        ->distinct()
+        ->orderBy('ys.state')
+        ->get();
+
+        if ($request->isMethod('get')) {
+
+            $eventList = DB::table('event_transactions as et')
+                ->leftJoin('yuwaah_sakhi as ys', 'et.ys_id', '=', 'ys.id')
+                ->leftJoin('learners as l', 'et.learner_id', '=', 'l.id')
+                ->leftJoin('learner_courses as lc', 'lc.phone_number', '=', 'et.beneficiary_phone_number')
+                ->leftJoin('yuwaah_event_masters as em', 'em.id', '=', 'et.event_category')
+                ->where('ys.partner_id', $partnerId)
+                ->where('ys.csc_id', '!=', 'Sandbox_Testing')
+                ->whereNotNull('et.review_status')
+                ->whereNotNull('et.learner_id')
+                ->whereNotNull('et.event_date_submitted')
+        
+                ->when($request->filled('name'), function ($query) use ($request) {
+                    $name = trim($request->name);
+                    $query->where(function ($q) use ($name) {
+                        $q->where('et.beneficiary_name', 'like', "%{$name}%")
+                          ->orWhere('l.first_name', 'like', "%{$name}%")
+                          ->orWhere('l.last_name', 'like', "%{$name}%")
+                          ->orWhere(DB::raw("CONCAT(COALESCE(l.first_name,''), ' ', COALESCE(l.last_name,''))"), 'like', "%{$name}%");
+                    });
+                })
+        
+                ->when($request->filled('primary_phone_number'), function ($query) use ($request) {
+                    $phone = trim($request->primary_phone_number);
+                    $query->where(function ($q) use ($phone) {
+                        $q->where('et.beneficiary_phone_number', 'like', "%{$phone}%")
+                          ->orWhere('l.primary_phone_number', 'like', "%{$phone}%")
+                          ->orWhere('lc.phone_number', 'like', "%{$phone}%");
+                    });
+                })
+        
+                ->when($request->filled('unit_institute'), function ($query) use ($request) {
+                    $unitInstitute = trim($request->unit_institute);
+                    $query->where('l.UNIT_INSTITUTE', 'like', "%{$unitInstitute}%");
+                })
+        
+                ->when($request->filled('PROGRAM_STATE'), function ($query) use ($request) {
+                    $state = trim($request->PROGRAM_STATE);
+                    $query->where('l.PROGRAM_STATE', 'like', "%{$state}%");
+                })
+        
+                ->when($request->filled('district'), function ($query) use ($request) {
+                    $district = trim($request->district);
+                    $query->where('l.PROGRAM_DISTRICT', 'like', "%{$district}%");
+                })
+        
+                ->select(
+                    'et.*',
+                    DB::raw("CASE WHEN l.DIFFRENTLY_ABLED = 1 THEN 'Yes' ELSE 'No' END as DIFFRENTLY_ABLED"),
+                    'l.USER_MARIAL_STATUS',
+                    'l.RELIGION',
+                    'l.education_level',
+                    'l.digital_proficiency',
+                    'l.english_knowledge',
+                    DB::raw("CASE WHEN l.interested_in_opportunities = 1 THEN 'Yes' ELSE 'No' END as interested_in_opportunities"),
+                    'lc.course_name',
+                    'em.event_category',
+                    'ys.csc_id',
+                    'ys.sakhi_id',
+                    'l.PROGRAM_STATE',
+                    'l.PROGRAM_DISTRICT',
+                    'l.UNIT_INSTITUTE',
+                    'l.first_name',
+                    'l.last_name',
+                    'l.primary_phone_number',
+                    DB::raw("
+                        CASE
+                            WHEN l.date_of_birth IS NULL THEN ''
+                            WHEN TIMESTAMPDIFF(YEAR, l.date_of_birth, CURDATE()) < 18 THEN 'Less than 18 years'
+                            WHEN TIMESTAMPDIFF(YEAR, l.date_of_birth, CURDATE()) BETWEEN 18 AND 20 THEN '18-20 years'
+                            WHEN TIMESTAMPDIFF(YEAR, l.date_of_birth, CURDATE()) BETWEEN 21 AND 25 THEN '21-25 years'
+                            WHEN TIMESTAMPDIFF(YEAR, l.date_of_birth, CURDATE()) > 25 THEN 'Above 25 years'
+                            ELSE ''
+                        END as age_group
+                    ")
+                )
+                ->paginate(50)
+                ->appends($request->all());
+
+        }   
         //$eventList = YuwaahEventMaster::where('status','1')->paginate(env('PAGINATION'));
         //dd($eventList);
         return view($this->dir.'.event.list', [
             'data' => $eventList, // Fetch authenticated partner
+            'statetdata'=>$statetdata
         ]);
 
     }
@@ -715,6 +770,8 @@ class PartnerController extends Controller
     public function getAllLearnerList($request, $agent_id){
         try {
              $ys_id = $agent_id; 
+
+
              $agentArray= YuwaahSakhi::where('id', $ys_id)->first();
              $cscValue = $agentArray['csc_id'];
              // Base query
@@ -1305,11 +1362,13 @@ class PartnerController extends Controller
 
 
 
-    public function exportPartnerEvents()
+    public function exportPartnerEvents(Request $request)
     {
         $partnerId = auth()->user()->id;
 
-        return Excel::download(new PartnerEventExport($partnerId), 'partner_events.xlsx');
+        return Excel::download(
+            new PartnerEventExport($partnerId, $request->all()),
+             'partner_events.xlsx');
     }
 
 }

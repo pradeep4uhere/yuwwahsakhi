@@ -10,15 +10,24 @@ use Maatwebsite\Excel\Concerns\WithMapping;
 class PartnerEventExport implements FromCollection, WithHeadings, WithMapping
 {
     protected $partnerId;
+    protected $filters;
     protected $eventList;
 
-    public function __construct($partnerId)
+    public function __construct($partnerId, $filters = [])
     {
         $this->partnerId = $partnerId;
+        $this->filters = $filters;
     }
+
 
     public function collection()
     {
+        $name = !empty($this->filters['name']) ? trim(preg_replace('/\s+/', ' ', $this->filters['name'])) : null;
+        $phone = !empty($this->filters['primary_phone_number']) ? trim(preg_replace('/\s+/', '', $this->filters['primary_phone_number'])) : null;
+        $unitInstitute = !empty($this->filters['unit_institute']) ? trim(preg_replace('/\s+/', ' ', $this->filters['unit_institute'])) : null;
+        $state = !empty($this->filters['PROGRAM_STATE']) ? trim(preg_replace('/\s+/', ' ', $this->filters['PROGRAM_STATE'])) : null;
+        $district = !empty($this->filters['district']) ? trim(preg_replace('/\s+/', ' ', $this->filters['district'])) : null;
+
         $eventList = DB::table('event_transactions as et')
             ->leftJoin('yuwaah_sakhi as ys', 'et.ys_id', '=', 'ys.id')
             ->leftJoin('learners as l', 'et.learner_id', '=', 'l.id')
@@ -29,6 +38,36 @@ class PartnerEventExport implements FromCollection, WithHeadings, WithMapping
             ->whereNotNull('et.review_status')
             ->whereNotNull('et.learner_id')
             ->whereNotNull('et.event_date_submitted')
+
+            ->when(!empty($name), function ($query) use ($name) {
+                $query->where(function ($q) use ($name) {
+                    $q->where('et.beneficiary_name', 'like', "%{$name}%")
+                      ->orWhere('l.first_name', 'like', "%{$name}%")
+                      ->orWhere('l.last_name', 'like', "%{$name}%")
+                      ->orWhere(DB::raw("CONCAT(COALESCE(l.first_name,''), ' ', COALESCE(l.last_name,''))"), 'like', "%{$name}%");
+                });
+            })
+
+            ->when(!empty($phone), function ($query) use ($phone) {
+                $query->where(function ($q) use ($phone) {
+                    $q->where('et.beneficiary_phone_number', 'like', "%{$phone}%")
+                      ->orWhere('l.primary_phone_number', 'like', "%{$phone}%")
+                      ->orWhere('lc.phone_number', 'like', "%{$phone}%");
+                });
+            })
+
+            ->when(!empty($unitInstitute), function ($query) use ($unitInstitute) {
+                $query->where('l.UNIT_INSTITUTE', 'like', "%{$unitInstitute}%");
+            })
+
+            ->when(!empty($state), function ($query) use ($state) {
+                $query->where('l.PROGRAM_STATE', 'like', "%{$state}%");
+            })
+
+            ->when(!empty($district), function ($query) use ($district) {
+                $query->where('l.PROGRAM_DISTRICT', 'like', "%{$district}%");
+            })
+
             ->select(
                 'et.id',
                 'ys.csc_id',
@@ -53,6 +92,10 @@ class PartnerEventExport implements FromCollection, WithHeadings, WithMapping
                 'l.current_job_title',
                 'l.PROGRAM_STATE',
                 'l.PROGRAM_DISTRICT',
+                'l.UNIT_INSTITUTE',
+                'l.first_name',
+                'l.last_name',
+                'l.primary_phone_number',
                 DB::raw("
                     CASE
                         WHEN l.date_of_birth IS NULL THEN ''
@@ -91,10 +134,8 @@ class PartnerEventExport implements FromCollection, WithHeadings, WithMapping
 
         $this->eventList = $eventList->map(function ($event) use ($comments) {
             $comment = $comments[$event->id] ?? null;
-
             $event->latest_comment = $comment->comment ?? '';
             $event->comment_date = $comment->created_at ?? '';
-
             return $event;
         });
 
