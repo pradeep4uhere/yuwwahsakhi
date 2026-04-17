@@ -359,7 +359,7 @@ class ProfileController extends Controller
     // dd($query->toSql(), $query->getBindings());
 
     // Now paginate once, at the very end
-    $learnerListArr = $query->paginate(200)
+    $learnerListArr = $query->paginate(2000)
         ->appends($request->query());
 
     // Get job event type id
