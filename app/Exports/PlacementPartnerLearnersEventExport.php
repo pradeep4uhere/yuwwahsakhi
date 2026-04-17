@@ -96,7 +96,7 @@ class PlacementPartnerLearnersEventExport implements FromCollection, WithHeading
             $row->csc_id,
             $row->sakhi_id,
             $row->event_name,
-            $row->event_category,
+            $row->event_category_name,
             $row->beneficiary_name,
             $row->beneficiary_phone_number,
             $row->review_status,
