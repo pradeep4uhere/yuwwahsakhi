@@ -2,134 +2,389 @@
 @section('title', 'Dashboard')
 @section('content')
 <style>
-  .swal2-popup {
-    width: 380px !important;
-    font-size: 14px;
+  .mobile-app-shell {
+    width: 100%;
+    max-width: 430px;
+    margin: 0 auto;
+    min-height: 100vh;
+    background: linear-gradient(180deg, #f8fbff 0%, #edf3fa 100%);
+    box-shadow: 0 12px 40px rgba(15, 23, 42, 0.10);
+    position: relative;
+    overflow: visible;
+}
+
+.app-body {
+    padding: 16px 14px 110px;
+}
+
+.page-section {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.page-heading-card {
+    background: linear-gradient(135deg, #ffffff 0%, #eef4ff 100%);
+    border: 1px solid #dbe7ff;
+    border-radius: 22px;
+    padding: 18px 16px;
+    box-shadow: 0 10px 30px rgba(15, 23, 42, 0.06);
+}
+
+.page-heading-card h1 {
+    margin: 0 0 6px;
+    font-size: 18px;
+    font-weight: 800;
+    color: #111827;
+}
+
+.page-heading-card p {
+    margin: 0;
+    font-size: 12px;
+    line-height: 1.6;
+    color: #667085;
+}
+
+.premium-form-card {
+    background: #ffffff;
+    border-radius: 24px;
+    padding: 18px 16px;
+    box-shadow: 0 14px 34px rgba(15, 23, 42, 0.08);
+    border: 1px solid #e8eef8;
+}
+
+.form-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.form-group label {
+    font-size: 13px;
+    font-weight: 700;
+    color: #1f2937;
+}
+
+.form-group-relative {
+    position: relative;
+}
+
+.app-input,
+.app-select {
+    width: 100%;
+    min-height: 48px;
+    border: 1px solid #dbe4f0;
+    border-radius: 14px;
+    padding: 12px 14px;
+    font-size: 13px;
+    color: #111827;
+    background: #f9fbff;
+    outline: none;
+    transition: 0.2s ease;
+}
+
+.app-input:focus,
+.app-select:focus {
+    border-color: #2563eb;
+    background: #fff;
+    box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.10);
+}
+
+.app-input::placeholder {
+    color: #9ca3af;
+}
+
+.dynamic-documents-wrap {
+    margin-top: 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.document-upload-card {
+    background: #f8fbff;
+    border: 1px solid #dbe7ff;
+    border-radius: 16px;
+    padding: 14px;
+}
+
+.document-upload-card label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 13px;
+    font-weight: 700;
+    color: #1f2937;
+}
+
+.document-upload-card input[type="file"] {
+    width: 100%;
+    border: 1px dashed #b8c8e8;
+    border-radius: 14px;
+    padding: 12px;
+    background: #fff;
+    font-size: 12px;
+}
+
+.form-action-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.primary-solid-btn,
+.primary-outline-btn {
+    border: none;
+    min-height: 48px;
+    border-radius: 16px;
+    font-size: 13px;
+    font-weight: 800;
+    cursor: pointer;
+    transition: 0.25s ease;
+    padding: 12px 10px;
+}
+
+.primary-solid-btn {
+    background: linear-gradient(135deg, #28388f 0%, #3b82f6 100%);
+    color: #fff;
+    box-shadow: 0 12px 24px rgba(40, 56, 143, 0.22);
+}
+
+.primary-outline-btn {
+    background: #eef4ff;
+    color: #28388f;
+    border: 1px solid #c9d8ff;
+}
+
+.primary-solid-btn:hover,
+.primary-outline-btn:hover {
+    transform: translateY(-1px);
+}
+
+.app-alert {
+    border-radius: 16px;
+    padding: 14px 15px;
+    font-size: 13px;
+    font-weight: 600;
+    line-height: 1.6;
+}
+
+.alert-success {
+    background: #ecfdf3;
+    color: #027a48;
+    border: 1px solid #abefc6;
+}
+
+.alert-info {
+    background: #eff8ff;
+    color: #175cd3;
+    border: 1px solid #b2ddff;
+}
+
+.alert-default {
+    background: #f8fafc;
+    color: #334155;
+    border: 1px solid #e2e8f0;
+}
+
+.alert-error {
+    background: #fff1f2;
+    color: #be123c;
+    border: 1px solid #fecdd3;
+}
+
+.error-list {
+    margin: 0;
+    padding-left: 18px;
+}
+
+.beneficiary-suggestions {
+    position: absolute;
+    top: calc(100% + 6px);
+    left: 0;
+    width: 100%;
+    background: #ffffff;
+    border: 1px solid #dbe4f0;
+    border-radius: 16px;
+    box-shadow: 0 16px 40px rgba(15, 23, 42, 0.10);
+    z-index: 80;
+    overflow: hidden;
+}
+
+.beneficiary-suggestions.hidden {
+    display: none;
+}
+
+.beneficiary-suggestions div {
+    padding: 12px 14px;
+    font-size: 13px;
+    cursor: pointer;
+    border-bottom: 1px solid #eef2f7;
+}
+
+.beneficiary-suggestions div:last-child {
+    border-bottom: 0;
+}
+
+.beneficiary-suggestions div:hover {
+    background: #eef4ff;
+}
+
+@media (max-width: 380px) {
+    .app-body {
+        padding: 14px 12px 110px;
+    }
+
+    .premium-form-card {
+        padding: 16px 14px;
+    }
+
+    .form-action-row {
+        grid-template-columns: 1fr;
+    }
 }
 </style>
-<div id="screen7" class="max-w-[26rem] mx-auto  bg-white shadow-md rounded-lg relative min-h-[100vh] h-auto">
+<div id="screen7" class="mobile-app-shell">
     @include('user.header')
-    <div id="screen12" class="max-w-sm mx-auto p-4 bg-white  rounded-lg">
-      <div class="mt-2 text-sm">
-        <h1 class="font-[500] text-[14px] leading-[17.07px] text-[#000000] ml-8 mt-3">
-        {{__('messages.event')}}
-        </h1>
-      </div>
-    <div class="mt-10">
-    {{-- To show success or failure --}}
 
-    @if (session('success'))
-        @php
-            $type = session('type');
+    <div class="app-body">
+        <section class="page-section">
+            <div class="page-heading-card">
+                <h1>{{ __('messages.event') }}</h1>
+                <p>Create and submit a new event with beneficiary details and documents.</p>
+            </div>
 
-            $classes = match ($type) {
-                'success' => 'bg-green-100 text-green-700',
-                'info'    => 'bg-blue-100 text-blue-700',
-                default   => 'bg-gray-100 text-gray-700',
-            };
-        @endphp
+            {{-- Alerts --}}
+            @if (session('success'))
+                @php
+                    $type = session('type');
+                    $classes = match ($type) {
+                        'success' => 'alert-success',
+                        'info'    => 'alert-info',
+                        default   => 'alert-default',
+                    };
+                @endphp
 
-        <div class="{{ $classes }} p-4 rounded mb-4 mt-5">
-            {{ session('success') }}
-        </div>
-    @endif
+                <div class="app-alert {{ $classes }}">
+                    {{ session('success') }}
+                </div>
+            @endif
 
+            @if (session('error'))
+                <div class="app-alert alert-error">
+                    {{ session('error') }}
+                </div>
+            @endif
 
-   
+            @if ($errors->any())
+                <div class="app-alert alert-error">
+                    <ul class="error-list">
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
 
-    @if (session('error'))
-        <div class="bg-red-100 text-red-700 p-4 rounded mb-4">
-            {{ session('error') }}
-        </div>
-    @endif
-      @if ($errors->any())
-              <div class="bg-red-100 text-red-700 p-4 rounded mb-4">
-                  <ul class="list-disc list-inside text-sm">
-                      @foreach ($errors->all() as $error)
-                          <li>{{ $error }}</li>
-                      @endforeach
-                  </ul>
-              </div>
-          @endif
+            <form class="premium-form-card" action="{{ route('storeeventtransaction') }}" method="post" enctype="multipart/form-data">
+                @csrf
+
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="event_type">{{ __('messages.event_type') }}</label>
+                        <select name="event_type" id="event_type" class="app-input app-select">
+                            <option value="">{{ __('messages.choose_event_type') }}</option>
+                            @foreach($eventList as $item)
+                                <option value="{{ $item['id'] }}" {{ old('event_type') == $item['id'] ? 'selected' : '' }}>
+                                    {{ $item['name'] }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="event_category">{{ __('messages.choose_event_category') }}</label>
+                        <select name="event_category" id="event_category" class="app-input app-select">
+                            <option value="">{{ __('messages.choose_event_category') }}</option>
+                            @foreach($eventCategoryList as $category)
+                                <option value="{{ $category['id'] }}"
+                                    {{ old('event_category', $model->event_category ?? '') == $category['id'] ? 'selected' : '' }}>
+                                    {{ $category['event_category'] }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+
+                    <div class="form-group form-group-relative">
+                        <label for="beneficiary_name">{{ __('messages.choose_beneficiary_name') }}</label>
+                        <input id="beneficiary_name"
+                               type="text"
+                               name="beneficiary_name"
+                               placeholder="Please type beneficiary name and choose"
+                               class="app-input"
+                               autocomplete="off"
+                               value="{{ old('beneficiary_name') }}">
+
+                        <div id="suggestions" class="beneficiary-suggestions hidden"></div>
+                        <input id="learner_id" type="hidden" name="learner_id">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="beneficiary_number">{{ __('messages.beneficiary_phone_number') }}</label>
+                        <input id="beneficiary_number"
+                               type="text"
+                               name="beneficiary_phone_number"
+                               placeholder="Please enter phone number"
+                               class="app-input"
+                               value="{{ old('beneficiary_phone_number') }}"
+                               readonly>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="event_value">{{ __('messages.monthly_salary') }}</label>
+                        <input id="event_value"
+                               name="event_value"
+                               type="text"
+                               placeholder="Please enter income value"
+                               class="app-input"
+                               value="{{ old('event_value') }}">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="comment">{{ __('messages.comment') }}</label>
+                        <input id="comment"
+                               name="comment"
+                               type="text"
+                               placeholder="Write a short comment"
+                               class="app-input"
+                               value="{{ old('comment') }}">
+                    </div>
+                </div>
+
+                <div id="documentInputsContainer" class="dynamic-documents-wrap">
+                    <!-- dynamic input fields -->
+                </div>
+
+                <div class="form-action-row">
+                    <button name="action" type="submit" value="save" class="primary-outline-btn">
+                        {{ __('messages.save') }} {{ __('messages.event') }}
+                    </button>
+
+                    <button name="action" type="submit" value="submit" class="primary-solid-btn">
+                        {{ __('messages.submit') }} {{ __('messages.event') }}
+                    </button>
+                </div>
+            </form>
+        </section>
     </div>
-      <form class="space-y-4 mt-6" action="{{route('storeeventtransaction')}}" method="post" enctype='multipart/form-data'>
-        @csrf
-        <div class="space-y-1">
-          <label for="opportunity" class="font-[400] text-[12px] leading-[14.63px] text-[#000000]">{{__('messages.event_type')}}</label>
-        <div class="space-y-1">
-        <select name="event_type" id="event_type" 
-                  class="font-[400] text-[12px] leading-[14.63px] text-[#000000]" 
-                  style="width:100%; padding:10px; border:solid 1px #ccc">
 
-              <option value="">{{ __('messages.choose_event_type') }}</option>
-
-              @foreach($eventList as $item)
-                  <option value="{{ $item['id'] }}" 
-                      {{ old('event_type') == $item['id'] ? 'selected' : '' }}>
-                      {{ $item['name'] }}
-                  </option>
-              @endforeach
-          </select>
-        </div>
-        <div class="space-y-1">
-          <label for="event_category" class="font-[400] text-[12px] leading-[14.63px] text-[#000000]">{{__('messages.choose_event_category')}}</label>
-          <select name="event_category" id="event_category" 
-                class="font-[400] text-[12px] leading-[14.63px] text-[#000000]" 
-                style="width:100%; padding:10px; border:solid 1px #ccc">
-            <option value="">{{ __('messages.choose_event_category') }}</option>
-            @foreach($eventCategoryList as $category)
-                <option value="{{ $category['id'] }}" 
-                    {{ old('event_category', $model->event_category ?? '') == $category['id'] ? 'selected' : '' }}>
-                    {{ $category['event_category'] }}
-                </option>
-            @endforeach
-        </select>
-        </div>
-        <!-- <div class="space-y-1">
-          <label for="opportunity" class="font-[400] text-[12px] leading-[14.63px] text-[#000000]">{{__('messages.event_name')}}</label>
-          <input id="event_name" type="text" name="event_name" placeholder="Please Enter Event Name" class="text-xs w-full border rounded px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 placeholder:font-[400] placeholder:text-[10px] placeholder:leading-[12.19px] placeholder:text-[#A7A7A7] rounded-[10px] placeholder:border-[1px]"  value="{{ old('event_name') }}">
-        </div> -->
-        
-        <div class="space-y-1 relative">
-        <label for="opportunity" class="font-[400] text-[12px] leading-[14.63px] text-[#000000]">{{__('messages.choose_beneficiary_name')}}</label>
-        <input id="beneficiary_name" type="text" name="beneficiary_name"
-          placeholder="Please Type beneficiary name and choose"
-          class="text-xs w-full border rounded px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 placeholder:font-[400] placeholder:text-[10px] placeholder:leading-[12.19px] placeholder:text-[#A7A7A7] rounded-[10px] placeholder:border-[1px]"
-          autocomplete="off" value="{{ old('beneficiary_name') }}">
-
-        <!-- Suggestions container -->
-        <div id="suggestions" class="absolute z-10 bg-white border w-full mt-1 rounded shadow-md hidden"></div>
-        <input id="learner_id" type="hidden" name="learner_id">
-      </div>
-        <div class="space-y-1">
-          <label for="opportunity" class="font-[400] text-[12px] leading-[14.63px] text-[#000000]">{{__('messages.beneficiary_phone_number')}}</label>
-          <input id="beneficiary_number" type="text" name="beneficiary_phone_number" placeholder="Please Enter  phone number" class="text-xs w-full border rounded px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 placeholder:font-[400] placeholder:text-[10px] placeholder:leading-[12.19px] placeholder:text-[#A7A7A7] rounded-[10px] placeholder:border-[1px]"  value="{{ old('beneficiary_phone_number') }}" readonly="readonly">
-        </div>
-      
-       
-        <div class="space-y-1 mt-2">
-          <label for="potential" class="font-[400] text-[12px] leading-[14.63px] text-[#000000]">{{__('messages.monthly_salary')}}</label>
-          <input id="event_value" name="event_value" type="text" placeholder="Please enter income value" class="text-xs w-full border rounded px-3 py-2 text-sm  placeholder:font-[400] placeholder:text-[10px] placeholder:leading-[12.19px] placeholder:text-[#A7A7A7] rounded-[10px] placeholder:border-[1px]"  value="{{ old('event_value') }}">
-        </div>
-        <div class="space-y-1 mt-2">
-          <label for="potential" class="font-[400] text-[12px] leading-[14.63px] text-[#000000]">{{__('messages.comment')}}</label>
-          <input id="comment" name="comment" type="text"  class="text-xs w-full border rounded px-3 py-2 text-sm  placeholder:font-[400] placeholder:text-[10px] placeholder:leading-[12.19px] placeholder:text-[#A7A7A7] rounded-[10px] placeholder:border-[1px]"   value="{{ old('comment') }}">
-        </div>
-        <div id="documentInputsContainer" class="space-y-1 mt-2">
-          <!-- Dynamic input fields will be appended here -->
-        </div>
-        </div>
-        <div class="flex justify-center ">
-          <button name="action" type="submit" value="save" class="w-[250px] h-[40px] rounded-[1px] mt-[1rem] mr-[1rem] mb-[8rem] bg-[#1677ff] text-[#FFFFFF]  py-1 pb-[6px] text-[14px] font-[600]">
-          {{__('messages.save')}} {{__('messages.event')}}
-          </button>
-          <button name="action" type="submit" value="submit" class="w-[250px] h-[40px] rounded-[1px] mt-[1rem] mb-[8rem] bg-[#28388F] text-[#FFFFFF]  py-1 pb-[6px] text-[14px] font-[600]">
-          {{__('messages.submit')}} {{__('messages.event')}}
-          </button>
-        </div>
-      </form>
-
-    </div>
+    @include('user.bottom_menu')
 </div>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -211,15 +466,12 @@ $('#event_type').on('change', function () {
 
                   // Dynamically create input fields
                   $.each(response.document, function (index, value) {
-                      let inputHTML = `
-                      <div class="space-y-1 mt-2">
-                        <label for="document_${index+1}" class="font-[400] text-[12px] leading-[14.63px] text-[#000000]">
-                          Upload Document ${value}
-                        </label>
-                        <input id="document_${index+1}" name="document_${index+1}" type="file"
-                          class="text-xs w-full border rounded px-3 py-2 text-sm placeholder:font-[400] placeholder:text-[10px] placeholder:leading-[12.19px] placeholder:text-[#A7A7A7] rounded-[10px] placeholder:border-[1px]">
+                    let inputHTML = `
+                      <div class="document-upload-card">
+                          <label for="document_${index+1}">Upload Document ${value}</label>
+                          <input id="document_${index+1}" name="document_${index+1}" type="file">
                       </div>`;
-                      
+                        
                       $('#documentInputsContainer').append(inputHTML);
                   });
 
@@ -259,13 +511,10 @@ $('#event_category').on('change', function () {
                   $.each(response.document, function (index, value) {
                     if (value) {
                       let inputHTML = `
-                      <div class="space-y-1 mt-2">
-                        <label for="document_${index+1}" class="font-[400] text-[12px] leading-[14.63px] text-[#000000]">
-                          Upload Document ${value}
-                        </label>
-                        <input type="hidden" name="document_fields[]" value="document_${index+1}"/>
-                        <input id="document_${index+1}" name="document_${index+1}" type="file"
-                          class="text-xs w-full border rounded px-3 py-2 text-sm placeholder:font-[400] placeholder:text-[10px] placeholder:leading-[12.19px] placeholder:text-[#A7A7A7] rounded-[10px] placeholder:border-[1px]">
+                      <div class="document-upload-card">
+                          <label for="document_${index+1}">Upload Document ${value}</label>
+                          <input type="hidden" name="document_fields[]" value="document_${index+1}"/>
+                          <input id="document_${index+1}" name="document_${index+1}" type="file">
                       </div>`;
                       
                       $('#documentInputsContainer').append(inputHTML);
@@ -414,5 +663,4 @@ $('#event_category').on('change', function () {
 });
 </script>
 
-@include('user.bottom_menu')
 @endsection

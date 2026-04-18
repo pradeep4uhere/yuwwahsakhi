@@ -1,140 +1,131 @@
 @extends('layouts.user')
 @section('title', 'Dashboard')
 @section('content')
-<div id="screen7" class="max-w-[26rem] mx-auto  bg-white shadow-md rounded-lg relative min-h-[95vh] h-auto">
+
+<div class="mobile-app-shell">
     @include('user.header')
-    <div class="">
-      <img src="{{asset('asset/images/file-textcopy.png')}}" alt="engLogo" class="w-[20px] h-[20px] absolute top-[104px] left-[34px]">
-      <p class="w-[85px] h-[17px] absolute top-[106px] left-[65px] font-Montserrat font-[500] text-[14px] leading-[17.07px]">
-        {{__('messages.event')}}
-      </p>
-      <div class="w-[340px] h-[50px] absolute top-[140px] left-[37px] bg-[#FFFFFF]" 
-      style="box-shadow: 0px 3px 10px 0px #0000001A;"
-      >
-        <div class="flex justify-between items-center">
-          <a href="{{route('user.allevents')}}">
-            <div class="w-[104px] h-[17px] absolute top-[18px] left-[17px] font-Montserrat font-[500] text-[14px] leading-[17.07px] text-center text-[#000000]"> {{__('messages.all_events')}}</div>
-            <div class="w-[27px] h-[34px] absolute top-[10px] left-[285px] font-Montserrat font-[600] text-[18px] leading-[34.13px] text-center text-[#05A7D1]">{{$allEventCount}}/{{$allsubmittedEventCount}}</div>
-          </a>
-        </div>
-      </div>
-    </div>
-    <div class="">
-      <img src="{{asset('asset/images/star-textcopy.png')}}" alt="engLogo" class="w-[20px] h-[20px] absolute top-[214px] left-[34px]">
-      <p class="w-[100px] h-[17px] absolute top-[216px] left-[65px] font-Montserrat font-[500] text-[14px] leading-[17.07px]">
-          {{__('messages.opportunities')}}
-        
-      </p>
-      <div class="w-[340px] h-[50px] absolute top-[250px] left-[37px] bg-[#FFFFFF]"
-        style="box-shadow: 0px 3px 10px 0px #0000001A;"
-      > <a href="{{ route('opportunities', ['filter' => 'desc', 'order_by' => 'id']) }}">
-        <div class="flex justify-between items-center mt-2">
-          <div class="w-[163px] h-[266px] absolute top-[18px] left-[1px] font-Montserrat font-[500] text-[14px] leading-[17.07px] text-center text-[#000000] px-2">{{__('messages.open_opportunities')}}</div>
-          <div class="w-[36px] h-[34px] absolute top-[10px] left-[280px] font-Montserrat font-[600] text-[18px] leading-[34.13px] text-center text-[#05A7D1]">{{$totalOpportunites}}</div>
-        </div>
-      </a>
-      </div>
-    </div>
 
-    <div class="grid grid-cols-1 gap-4 ">
-      <p class="w-[106px] h-[12px] absolute top-[320px] left-[34px] font-Montserrat font-[500] text-[14px] leading-[12.19px] text-[#000000]">
-         {{__('messages.opportunities')}}
-      </p>
-      @if($opportunites['data']->count()==0)
-      <div class="w-[340px] h-[40px] absolute top-[340px] left-[37px] bg-red-100 text-red-700 p-3 rounded mb-4 text-[12px]">No Opportunity Found</div>
-      @else
-      <?php if(isset($opportunites['data'])){ $count=1; ?>
-      @foreach($opportunites['data'] as $key=>$item)
-      @php
-        $top = 340 + ($loop->index * 150);
-      @endphp
-      @if($count<=2)
-      <div class="w-[340px] h-[140px] absolute top-[{{$top}}px] left-[37px] bg-[#FFFFFF] cursor-pointer"
-        style="box-shadow: 0px 3px 10px 0px #28388F33;"
-        onclick="window.location.href='{{route('opportunitiesLearner',['id'=>encryptString($item['id'])])}}';"
-        >
-          <h1 class="w-[310px] h-[15px] ml-[10px] mt-[6px] font-Montserrat font-[500] text-[12px] leading-[14.63px] text-[#000000]">{{$item['opportunities_title']}}</h1>
-          <div class="flex justify-between">
-            <div class="">
-              <div class="flex mb-[3px]">
-                <img src="{{asset('asset/images/file.png')}}" alt="engLogo" class="w-[14px] h-[14px] ml-[10px] mt-[8px] text-[#28388F0D]">
-                <a href="" class="w-[151px] h-[12px] mt-[9px] ml-[8px] font-Montserrat font-[500] text-[10px] leading-[12.19px] text-[#28388F] text-left underline underline-offset-auto decoration-solid decoration-skip-ink-none">View Specification Document
-                </a>
-                <img src="{{asset('asset/images/Group.png')}}" alt="engLogo" class="w-[20px] h-[20px] mt-[6px] ml-[10px] text-[#28388F0D]">
-              </div>
-                
-              <div class="flex mb-[6px]">
-                <img src="{{asset('asset/images/Rupee Icon.png')}}" alt="engLogo" class="w-[9px] h-[12px] ml-[12px]  text-[#28388F0D]">
-                <p class="w-[61px] h-[12px]  ml-[10px] font-Montserrat font-[600] text-[10px] leading-[12.19px] text-[#28388F]">
-                {{$item['payout_monthly']}}/Month
-                </p>
-              </div>
-              
-              <div class="flex mb-[6px]">
-                <img src="{{asset('asset/images/calendar.png')}}" alt="engLogo" class="w-[14px] h-[14px] ml-[10px]  text-[#28388F0D]">
-                <p class="w-[100px] h-[12px] ml-[6px] mt-[1px] font-[500] text-[10px] leading-[12.19px] text-[#000000]">
-                {{__('messages.start')}}  - {{getdateformate($item['start_date'])}}
-                </p>
-              </div>
-              
-              <div class="flex mb-[6px]">
-                <img src="{{asset('asset/images/calendar.png')}}" alt="engLogo" class="w-[14px] h-[14px] ml-[10px]  text-[#28388F0D]">
-                <p class="w-[100px] h-[12px] ml-[6px] mt-[1px] font-[500] text-[10px] leading-[12.19px] text-[#000000]">
-                {{__('messages.end')}} - {{getdateformate($item['end_date'])}}
-                </p>
-              </div>
-              
-              <div class="flex mb-[6px]">
-                <img src="{{asset('asset/images/user.png')}}" alt="engLogo" class="w-[14px] h-[14px] ml-[10px]  text-[#28388F0D]">
-                <p class="min-w-[63px] w-auto h-[12px] ml-[6px] mt-[1px]  font-Montserrat font-[500] text-[10px] leading-[12.19px] text-[#000000]">
-                {{$item['number_of_openings']}} {{__('messages.job_oppening')}}
-                </p>
-              </div>
-              
+    <div class="app-body">
+
+        <!-- Event Section -->
+        <section class="dashboard-section">
+            <div class="section-heading">
+                <div class="section-icon">
+                    <img src="{{ asset('asset/images/file-textcopy.png') }}" alt="Event">
+                </div>
+                <h3>{{ __('messages.event') }}</h3>
             </div>
-            <div>
-              <p class="w-[60px] h-[22px] mt-[22px] mr-[20px]  font-Montserrat font-[500] text-[9px] leading-[10.97px] text-center text-[#000000]">
-              {{__('messages.incentive')}} 
-              </p>
-              <div class="w-[60px] h-[35px] absolute top-[70px] left-[260px] bg-[#28388F] ">
-                <p class="w-[60px] h-[30px] mt-[2px] font-Montserrat font-[700] text-[10px] leading-[14.63px] text-center text-[#FFFFFF]">            
-                  {{$item['incentive']}}/ {{__('messages.learner')}} 
-                  <img src="{{asset('asset/images/rupeeIcon.png')}}" alt="engLogo" class="w-[8px] h-[10px] mt-[-27px] ml-[5px]">
-                </p>
-              </div>
-              <!-- <p>
-                AGAN Enterprices
-              </p> -->
+
+            <a href="{{ route('user.allevents') }}" class="summary-card">
+                <div>
+                    <p class="summary-label">{{ __('messages.all_events') }}</p>
+                </div>
+                <div class="summary-value">
+                    {{ $allEventCount }}/{{ $allsubmittedEventCount }}
+                </div>
+            </a>
+        </section>
+
+        <!-- Opportunities Section -->
+        <section class="dashboard-section">
+            <div class="section-heading">
+                <div class="section-icon">
+                    <img src="{{ asset('asset/images/star-textcopy.png') }}" alt="Opportunities">
+                </div>
+                <h3>{{ __('messages.opportunities') }}</h3>
             </div>
-          </div>
-      </div>
-      @endif
-      <?php $count++; ?>
-      @endforeach
-      <?php }else{ ?>
-      <?php } ?>
-      @endif
-    </div>
-    <div class="">
-      <img src="{{asset('asset/images/usersCopy.png')}}" alt="engLogo" class="w-[20px] h-[20px] absolute top-[652px] left-[34px]">
-      <p class="w-[62px] h-[17px] absolute top-[655px] left-[65px] font-Montserrat font-[500] text-[14px] leading-[17.07px] text-[#000000]">
-      {{__('messages.learners')}}
-      </p>
-      <div class="w-[350px] h-[50px] absolute top-[690px] left-[37px] bg-[#FFFFFF]" 
-      style="box-shadow: 0px 3px 10px 0px #0000001A;"
-      >
-        <div class="flex justify-between items-center mt-2">
-          <a href="{{route('learner')}}">
-           <div class="w-[104px] h-[17px] absolute top-[18px] left-[17px] font-Montserrat font-[500] text-[14px] leading-[17.07px] text-center text-[#000000]">  {{__('messages.total_learners')}}</div>
-           <div class="w-[27px] h-[34px] absolute top-[10px] left-[245px] font-Montserrat font-[600] text-[18px] leading-[34.13px] text-center text-[#05A7D1]">{{$learnerCount}}</div>
-          </a>
-        </div>
-      </div>
-    </div>
-    
 
-     
+            <a href="{{ route('opportunities', ['filter' => 'desc', 'order_by' => 'id']) }}" class="summary-card">
+                <div>
+                    <p class="summary-label">{{ __('messages.open_opportunities') }}</p>
+                </div>
+                <div class="summary-value">
+                    {{ $totalOpportunites }}
+                </div>
+            </a>
 
-  </div>
-@include('user.bottom_menu')
+            <div class="sub-section-title">
+                {{ __('messages.opportunities') }}
+            </div>
+
+            @if($opportunites['data']->count() == 0)
+                <div class="empty-state">
+                    No Opportunity Found
+                </div>
+            @else
+                @foreach($opportunites['data'] as $key => $item)
+                    @if($loop->index < 2)
+                        <div class="opportunity-card"
+                             onclick="window.location.href='{{ route('opportunitiesLearner', ['id' => encryptString($item['id'])]) }}';">
+
+                            <div class="opportunity-top">
+                                <h4>{{ $item['opportunities_title'] }}</h4>
+                                <span class="badge-soft">{{ __('messages.incentive') }}</span>
+                            </div>
+
+                            <div class="opportunity-doc-row">
+                                <div class="doc-link-wrap">
+                                    <img src="{{ asset('asset/images/file.png') }}" alt="file">
+                                    <a href="javascript:void(0)">View Specification Document</a>
+                                </div>
+                                <img src="{{ asset('asset/images/Group.png') }}" alt="share" class="share-icon">
+                            </div>
+
+                            <div class="opportunity-content">
+                                <div class="opportunity-meta">
+                                    <div class="meta-item price-item">
+                                        <img src="{{ asset('asset/images/Rupee Icon.png') }}" alt="rupee">
+                                        <span>{{ $item['payout_monthly'] }}/Month</span>
+                                    </div>
+
+                                    <div class="meta-item">
+                                        <img src="{{ asset('asset/images/calendar.png') }}" alt="start">
+                                        <span>{{ __('messages.start') }} - {{ getdateformate($item['start_date']) }}</span>
+                                    </div>
+
+                                    <div class="meta-item">
+                                        <img src="{{ asset('asset/images/calendar.png') }}" alt="end">
+                                        <span>{{ __('messages.end') }} - {{ getdateformate($item['end_date']) }}</span>
+                                    </div>
+
+                                    <div class="meta-item">
+                                        <img src="{{ asset('asset/images/user.png') }}" alt="openings">
+                                        <span>{{ $item['number_of_openings'] }} {{ __('messages.job_oppening') }}</span>
+                                    </div>
+                                </div>
+
+                                <div class="incentive-box">
+                                    <small>{{ __('messages.incentive') }}</small>
+                                    <strong>₹{{ $item['incentive'] }}</strong>
+                                    <span>/ {{ __('messages.learner') }}</span>
+                                </div>
+                            </div>
+                        </div>
+                    @endif
+                @endforeach
+            @endif
+        </section>
+
+        <!-- Learners Section -->
+        <section class="dashboard-section">
+            <div class="section-heading">
+                <div class="section-icon">
+                    <img src="{{ asset('asset/images/usersCopy.png') }}" alt="Learners">
+                </div>
+                <h3>{{ __('messages.learners') }}</h3>
+            </div>
+
+            <a href="{{ route('learner') }}" class="summary-card">
+                <div>
+                    <p class="summary-label">{{ __('messages.total_learners') }}</p>
+                </div>
+                <div class="summary-value">
+                    {{ $learnerCount }}
+                </div>
+            </a>
+        </section>
+    </div>
+
+    @include('user.bottom_menu')
+    </div>
 @endsection

@@ -1,217 +1,505 @@
 @extends('layouts.user')
 @section('title', 'Dashboard')
 @section('content')
-<div id="screen7" class="max-w-[26rem] mx-auto p-4 bg-[#FFFFFF] shadow-md" style="min-height:1024px">
+<style>
+  .mobile-app-shell {
+    width: 100%;
+    max-width: 430px;
+    margin: 0 auto;
+    min-height: 100vh;
+    background: linear-gradient(180deg, #f8fbff 0%, #edf3fa 100%);
+    box-shadow: 0 12px 40px rgba(15, 23, 42, 0.10);
+    position: relative;
+    overflow: visible;
+}
 
+.app-body {
+    padding: 16px 14px 110px;
+}
+
+.page-section {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.page-toolbar-card {
+    background: #ffffff;
+    border-radius: 20px;
+    padding: 16px;
+    box-shadow: 0 10px 28px rgba(15, 23, 42, 0.06);
+    border: 1px solid #e5edf8;
+}
+
+.page-toolbar-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+}
+
+.page-title {
+    font-size: 16px;
+    font-weight: 800;
+    color: #111827;
+    margin: 0;
+}
+
+.page-count {
+    color: #2563eb;
+}
+
+.action-btn {
+    border: none;
+    border-radius: 14px;
+    min-height: 38px;
+    padding: 9px 14px;
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: 0.25s ease;
+}
+
+.action-btn-soft {
+    background: #eef4ff;
+    color: #28388f;
+    border: 1px solid #cdddff;
+}
+
+.info-strip {
+    background: #fffaf0;
+    border: 1px solid #fde7c7;
+    border-radius: 16px;
+    padding: 12px 14px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px 14px;
+    align-items: center;
+    box-shadow: 0 6px 20px rgba(15, 23, 42, 0.04);
+}
+
+.info-strip-secondary {
+    background: #ffffff;
+    border: 1px solid #e5edf8;
+    justify-content: space-between;
+    font-size: 11px;
+    font-weight: 600;
+    color: #344054;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.legend-label {
+    font-size: 11px;
+    font-weight: 700;
+}
+
+.legend-label.warning { color: #b45309; }
+.legend-label.submitted { color: #2563eb; }
+.legend-label.accepted { color: #15803d; }
+.legend-label.rejected { color: #b91c1c; }
+
+.dot {
+    display: inline-block;
+    border-radius: 999px;
+}
+
+.dot.large {
+    width: 18px;
+    height: 18px;
+}
+
+.dot.blue { background: #3b82f6; }
+.dot.green { background: #22c55e; }
+.dot.red { background: #ef4444; }
+.dot.orange { background: #f59e0b; }
+.dot.empty {
+    background: #fff;
+    border: 1px solid #111827;
+}
+
+.learner-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.learner-card {
+    background: #ffffff;
+    border-radius: 18px;
+    padding: 14px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 14px;
+    text-decoration: none;
+    box-shadow: 0 10px 28px rgba(15, 23, 42, 0.07);
+    border: 1px solid #e5edf8;
+    transition: 0.25s ease;
+}
+
+.learner-card:hover {
+    transform: translateY(-2px);
+}
+
+.learner-card-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-width: 0;
+}
+
+.learner-avatar {
+    width: 46px;
+    height: 46px;
+    border-radius: 14px;
+    overflow: hidden;
+    flex-shrink: 0;
+    background: #f3f4f6;
+}
+
+.learner-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.learner-meta {
+    min-width: 0;
+}
+
+.learner-meta h3 {
+    margin: 0 0 6px;
+    font-size: 13px;
+    font-weight: 700;
+    color: #111827;
+    line-height: 1.4;
+}
+
+.learner-phone {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.learner-phone img {
+    width: 12px;
+    height: 12px;
+}
+
+.learner-phone span {
+    font-size: 11px;
+    font-weight: 600;
+    color: #374151;
+}
+
+.learner-status-dots {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-shrink: 0;
+}
+
+.app-modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(15, 23, 42, 0.45);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 999;
+    padding: 18px;
+}
+
+.app-modal-overlay.hidden {
+    display: none;
+}
+
+.app-modal-card {
+    width: 100%;
+    max-width: 360px;
+    background: #fff;
+    border-radius: 24px;
+    padding: 20px 18px;
+    box-shadow: 0 24px 60px rgba(15, 23, 42, 0.22);
+}
+
+.app-modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 14px;
+}
+
+.app-modal-header h3 {
+    margin: 0;
+    font-size: 17px;
+    font-weight: 700;
+    color: #111827;
+}
+
+.app-modal-close {
+    border: none;
+    background: #f3f4f6;
+    width: 34px;
+    height: 34px;
+    border-radius: 10px;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+.filter-form {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.form-group label {
+    font-size: 12px;
+    font-weight: 700;
+    color: #1f2937;
+}
+
+.app-input,
+.app-select {
+    width: 100%;
+    min-height: 46px;
+    border: 1px solid #dbe4f0;
+    border-radius: 14px;
+    padding: 12px 14px;
+    font-size: 13px;
+    color: #111827;
+    background: #f9fbff;
+    outline: none;
+}
+
+.app-input:focus,
+.app-select:focus {
+    border-color: #2563eb;
+    background: #fff;
+    box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.10);
+}
+
+.primary-solid-btn {
+    background: linear-gradient(135deg, #28388f 0%, #3b82f6 100%);
+    color: #fff;
+    border: none;
+    min-height: 48px;
+    border-radius: 16px;
+    font-size: 13px;
+    font-weight: 800;
+    cursor: pointer;
+    box-shadow: 0 12px 24px rgba(40, 56, 143, 0.22);
+}
+
+.full-btn {
+    width: 100%;
+}
+
+@media (max-width: 380px) {
+    .app-body {
+        padding: 14px 12px 110px;
+    }
+
+    .page-toolbar-top {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .info-strip-secondary {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .learner-card {
+        padding: 12px;
+    }
+
+    .learner-status-dots {
+        gap: 6px;
+    }
+
+    .dot.large {
+        width: 16px;
+        height: 16px;
+    }
+}
+</style>
+<div id="screen7" class="mobile-app-shell">
     @include('user.header')
-    <!-- Language Form Pop up -->
-    <div id="screen11" class="max-w-sm mx-auto p-4 bg-white rounded-lg absolute left-[6px] top-[-1px]">
-      <div class="mt-2 flex justify-between items-center">
-        <h1
-          class="w-[262px] h-[17px] absolute top-[106px] left-[32px] font-[500] text-[14px] leading-[17.07px] text-[#000000]">
-          {{__('messages.Learner_Search_Filter')}} [{{$total}}]
-        </h1>
-        <button class="w-[60px] h-[30px] absolute top-[100px] left-[310px] rounded-[10px] bg-[#28388F1A]"
-          onclick="toggleFilterForm()">
-          <p
-            class="w-[27px] h-[12px] absolute top-[10px] left-[17px] font-Montserrat font-[500]  text-[10px] leading-[12.19px] text-[#28388F]">
-            {{__('messages.filters')}}</p>
-        </button>
-      </div>
 
-      <div id="toggleSortPopUp()" class="mt-6 hidden fixed inset-0 flex items-center justify-center z-50">
-        <div class="bg-white p-5 w-[340px] h-[429px] absolute top-[240px] border-[1px]"
-          style="box-shadow: 0px 3px 10px 3px #00000026;">
-          <div class="flex justify-between items-center mb-4">
-            <h1
-              class="w-[160px] h-[17px] font-Montserrat font-[600] text-[14px] leading-[17.07px] text-center text-[#000000]">
-              {{__('messages.Learner_Search_Filter')}}</h1>
-            <button class="w-[20px] h-[20px] text-[#1F2937] hover:text-gray-700 text-4xl mt-[-16px]"
-              onclick="toggleFilterForm()">
-              &times;
-            </button>
-          </div>
+    <div class="app-body">
+        <section class="page-section">
 
-          <form class="space-y-[2px]" action="{{route('user.search.learner')}}" method="post">
-            @csrf
-            <div class="">
-              <label
-                class="w-[38px] h-[12px] font-[400] text-[10px] leading-[12.19px] text-center text-[#000000]"> {{__('messages.Enter_Learner_Name')}}</label>
-              <input type="text" name="name"
-                class="w-[270px] h-[40px] border-[1px] rounded-[10px] bg-[#FFFFFF] border-[#28388F0D] text-[10px] text-[#A7A7A7] focus:ring-1 focus:ring-blue-500">
-            </div>
-           
-            <div class="">
-              <label
-                class="w-[38px] h-[12px] font-[400] text-[10px] leading-[12.19px] text-center text-[#000000]">{{__('messages.Primary_Phone_Number')}}</label>
-              <input type="text" name="phone"
-                class="w-[270px] h-[40px] border-[1px] rounded-[10px] bg-[#FFFFFF] border-[#28388F0D] text-[10px] text-[#A7A7A7] focus:ring-1 focus:ring-blue-500">
-            </div>
-            <div class="">
-              <label
-                class="w-[38px] h-[12px] font-[400] text-[10px] leading-[12.19px] text-center text-[#000000]">{{__('messages.email')}}</label>
-              <input type="text" name="email"
-                class="w-[270px] h-[40px] border-[1px] rounded-[10px] bg-[#FFFFFF] border-[#28388F0D] text-[10px] text-[#A7A7A7] focus:ring-1 focus:ring-blue-500">
-            </div>
-           
+            <div class="page-toolbar-card">
+                <div class="page-toolbar-top">
+                    <div>
+                        <h1 class="page-title">
+                            {{ __('messages.Learner_Search_Filter') }}
+                            <span class="page-count">[{{ $total }}]</span>
+                        </h1>
+                    </div>
 
-            
-
-           
-
-          
-
-          
-
-
-            <div class="">
-              <label
-                class="w-[148px] h-[12px] font-[400] text-[10px] leading-[12.19px] text-center text-[#000000]">Gender</label>
-              <select name="gender"
-                class="w-[270px] h-[40px] border-[1px] rounded-[10px] bg-[#FFFFFF] border-[#28388F0D] text-[10px] text-[#A7A7A7] focus:ring-1 focus:ring-blue-500">
-                <option value="" disabled selected
-                  class="w-[106px] h-[12px] font-[400] text-[10px] leading-[12.19px]  text-[#000000]">Please choose Gender
-                </option>
-                <option value="Male" class="w-[106px] h-[12px] font-[400] text-[10px] leading-[12.19px]  text-[#000000]">
-                  Male</option>
-                <option value="Female" class="w-[106px] h-[12px] font-[400] text-[10px] leading-[12.19px]  text-[#000000]">
-                  Female</option>
-              </select>
+                    <button type="button" class="action-btn action-btn-soft" onclick="toggleFilterForm()">
+                        {{ __('messages.filters') }}
+                    </button>
+                </div>
             </div>
 
+            <!-- Filter Modal -->
+            <div id="toggleSortPopUp()" class="app-modal-overlay hidden">
+                <div class="app-modal-card">
+                    <div class="app-modal-header">
+                        <h3>{{ __('messages.Learner_Search_Filter') }}</h3>
+                        <button type="button" class="app-modal-close" onclick="toggleFilterForm()">&times;</button>
+                    </div>
 
-           
+                    <form class="filter-form" action="{{ route('user.search.learner') }}" method="post">
+                        @csrf
 
-            <div class="flex justify-center">
-              <button class="w-[250px] h-[40px] bg-[#28388F] rounded-[10px] mt-[25px]" type="submit">
-                <p class="text-center font-[600] text-[14px] leading-[17.07px] text-[#FFFFFF]">Apply</p>
-              </button>
+                        <div class="form-group">
+                            <label>{{ __('messages.Enter_Learner_Name') }}</label>
+                            <input type="text" name="name" class="app-input">
+                        </div>
+
+                        <div class="form-group">
+                            <label>{{ __('messages.Primary_Phone_Number') }}</label>
+                            <input type="text" name="phone" class="app-input">
+                        </div>
+
+                        <div class="form-group">
+                            <label>{{ __('messages.email') }}</label>
+                            <input type="text" name="email" class="app-input">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Gender</label>
+                            <select name="gender" class="app-input app-select">
+                                <option value="">Please choose Gender</option>
+                                <option value="Male">Male</option>
+                                <option value="Female">Female</option>
+                            </select>
+                        </div>
+
+                        <button class="primary-solid-btn full-btn" type="submit">
+                            Apply
+                        </button>
+                    </form>
+                </div>
             </div>
-          </form>
-        </div>
-      </div>
-      <div class="grid grid-cols-1 gap-4 px-6">
-      
-      <div class="w-[375px] h-[30px] absolute top-[160px] mb-2 p-2  left-[14px] bg-[#fff5f5] flex gap-2 items-left justify-left " style="box-shadow: 0px 4px 10px 0px #00000026;">
 
+            <!-- Legend 1 -->
+            <div class="info-strip">
+                <div class="legend-item">
+                    <span class="legend-label warning">Action Required</span>
+                    <div class="w-3 h-3 rounded-full bg-orange-500"></div>
+                   
+                </div>
 
-      <span class="text-[10px] text-orange-700">Action Required</span>
-      <div class="w-3 h-3 rounded-full bg-orange-500"></div>
+                <div class="legend-item">
+                    <span class="legend-label submitted">Submitted</span>
+                    <div class="w-3 h-3 rounded-full bg-blue-500"></div>
+                </div>
 
-      <span class="text-[10px] text-blue-500">Submitted</span>
-      <div class="w-3 h-3 rounded-full bg-blue-500"></div>
+                <div class="legend-item">
+                    <span class="legend-label accepted">Accepted</span>
+                    <div class="w-3 h-3 rounded-full bg-green-500"></div>
+                </div>
 
-
-      <span class="text-[10px] text-green-700">Accepted</span>
-      <div class="w-3 h-3 rounded-full bg-green-500"></div>
-
-      <span class="text-[10px] text-red-700">Rejected</span>
-      <div class="w-3 h-3 rounded-full bg-red-500"></div>
-
-      </div>
-
-      <div class="w-[375px] h-[30px] absolute top-[200px] mb-2 p-2  left-[14px] bg-[#fff5f5] flex gap-2 items-center justify-between " style="box-shadow: 0px 4px 10px 0px #00000026;">
-
-      <span class="text-[10px] text-black-700">First Circle - Skills</span>
-
-      <span class="text-[10px] text-black-700">Second Circle - Social Protection</span>
-
-      <span class="text-[10px] text-black-700">Third Circle - Job</span>
-
-      </div>
-<?php //dd($leanerList); ?>
-      @foreach($leanerList as $item)
-      @php
-        $top =240 + ($loop->index * 80);
-      @endphp
-      <!-- <div class="mt-6 flex gap-2 items-center justify-between"> -->
-      <a href="{{route('learner.details',['id'=>encryptString($item['item']['id'])])}}"
-        class="w-[375px] h-[70px] absolute top-[{{$top}}px]  left-[14px] rounded-[10px] bg-[#FFFFFF] flex gap-2 items-center justify-between cursor-pointer"
-        style="box-shadow: 0px 4px 10px 0px #00000026;">
-        <div class="flex justify-center gap-2 items-center">
-          <div class="w-[40px] h-[40px] ml-2">
-            <!-- <i class='fas fa-address-book'></i> -->
-            <img src="{{asset('asset/images/user.jpg')}}" alt="">
-            
-          </div>
-
-          <div class="flex flex-col items-center gap-1.5">
-            <div
-              class="w-[200px] h-[17px] ml-[5px] font-Montserrat font-[500] text-[12px] leading-[17.07px] text-[#000000]">
-             {{ \Illuminate\Support\Str::limit($item['item']['first_name'], 20) }}<br/>
-             <div class="flex gap-1.5 ">
-              <span>
-                <img src="{{asset('asset/images/phone.png')}}" class="w-[10px] h-[10px]" alt="">
-              </span>
-              <span class="min-w-[64px] min-h-[12px] w-auto h-auto font-[500] text-[10px] leading-[12.19px] text-[#000000]">
-              {{$item['item']['primary_phone_number']}}
-              </span>
+                <div class="legend-item">
+                    <span class="legend-label rejected">Rejected</span>
+                    <div class="w-3 h-3 rounded-full bg-red-500"></div>
+                </div>
             </div>
-            </div>
-          </div>
-          <!-- <div class="flex gap-1.5">
-           <?php if($_SERVER['REMOTE_ADDR']=='106.221.235.248'){  //dd($item); 
-             } ?>
-            
-          </div> -->
-          <div class="flex gap-2.5">
-            <!--  -->
-            <?php //dd($item);
-            //die;
-            ?>
-            @if($item['item']['completion_status']==1) 
-            <div class="w-5 h-5 rounded-full bg-green-500"></div>
-            @else
-            <div class="w-5 h-5 rounded-full bg-white border border-black"></div>
-            @endif
-           
-           
-         
-          <?php if($item['social_protection']['is_social_event']){ ?>
-                  <?php if($item['social_protection']['is_submitted']!='' &&  $item['social_protection']['review_status']==''){ ?>
-                    <div class="w-5 h-5 rounded-full bg-blue-500"></div>
-                  <?php }elseif($item['social_protection']['is_submitted']!='' &&  $item['social_protection']['review_status']=='Rejected'){ ?>
-                    <div class="w-5 h-5 rounded-full bg-red-500"></div>
-                  <?php }elseif($item['social_protection']['is_submitted']!='' &&  $item['social_protection']['review_status']=='Accepted'){ ?>
-                    <div class="w-5 h-5 rounded-full bg-green-500"></div>
-                  <?php }elseif($item['social_protection']['is_submitted']=='' &&  $item['social_protection']['review_status']==''){ ?>
-                    <div class="w-5 h-5 rounded-full bg-blue-500"></div>
-                  <?php }elseif($item['social_protection']['is_submitted']!='' &&  $item['social_protection']['review_status']!='Accepted'){ ?>
-                    <div class="w-5 h-5 rounded-full bg-orange-500"></div>
-                 <?php }else{ ?>
-                    <div class="w-5 h-5 rounded-full bg-white border border-black"></div>
-                  <?php } ?>
-          <?php }else{?>
-            <div class="w-5 h-5 rounded-full bg-white border border-black"></div>
-          <?php } ?>
-            
-          
-          
-          <?php if($item['job_event']['is_job_event']){ ?>
-                  <?php if($item['job_event']['is_submitted']!='' &&  $item['job_event']['review_status']==''){ ?>
-                    <div class="w-5 h-5 rounded-full bg-blue-500"></div>
-                  <?php }elseif($item['job_event']['is_submitted']!='' &&  $item['job_event']['review_status']=='Rejected'){ ?>
-                    <div class="w-5 h-5 rounded-full bg-red-500"></div>
-                  <?php }elseif($item['job_event']['is_submitted']!='' &&  $item['job_event']['review_status']=='Accepted'){ ?>
-                    <div class="w-5 h-5 rounded-full bg-green-500"></div>
-                  <?php }elseif($item['job_event']['is_submitted']!='' &&  $item['job_event']['review_status']!='Accepted'){ ?>
-                    <div class="w-5 h-5 rounded-full bg-orange-500"></div>
-                  <?php }else{ ?>
-                    <div class="w-5 h-5 rounded-full bg-white border border-black"></div>
-                  <?php } ?>
-          <?php }else{?>
-            <div class="w-5 h-5 rounded-full bg-white border border-black"></div>
-          <?php } ?>
 
-  
-          </div>
-        </div>
-          <!-- Event Transactions: Only if present -->
-      </a>
-      @endforeach
+            <!-- Legend 2 -->
+            <div class="info-strip info-strip-secondary">
+                <span>First Circle - Skills</span>
+                <span>Second Circle - Social Protection</span>
+                <span>Third Circle - Job</span>
+            </div>
+
+            <!-- Learner List -->
+            <div class="learner-list">
+                @foreach($leanerList as $row)
+                    <a href="{{ route('learner.details', ['id' => encryptString($row['item']['id'])]) }}" class="learner-card">
+                        <div class="learner-card-left">
+                            <div class="learner-avatar">
+                                <img src="{{ asset('asset/images/user.jpg') }}" alt="user">
+                            </div>
+
+                            <div class="learner-meta">
+                                <h3>{{ \Illuminate\Support\Str::limit($row['item']['first_name'], 20) }}</h3>
+
+                                <div class="learner-phone">
+                                    <img src="{{ asset('asset/images/phone.png') }}" alt="phone">
+                                    <span>{{ $row['item']['primary_phone_number'] }}</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="learner-status-dots">
+                            {{-- Skills Circle --}}
+                            @if($row['item']['completion_status'] == 1)
+                                <span class="dot large green"></span>
+                            @else
+                                <span class="dot large empty"></span>
+                            @endif
+
+                            {{-- Social Protection Circle --}}
+                            @if($row['social_protection']['is_social_event'])
+                                @if($row['social_protection']['is_submitted'] != '' && $row['social_protection']['review_status'] == '')
+                                    <span class="dot large blue"></span>
+                                @elseif($row['social_protection']['is_submitted'] != '' && $row['social_protection']['review_status'] == 'Rejected')
+                                    <span class="dot large red"></span>
+                                @elseif($row['social_protection']['is_submitted'] != '' && $row['social_protection']['review_status'] == 'Accepted')
+                                    <span class="dot large green"></span>
+                                @elseif($row['social_protection']['is_submitted'] == '' && $row['social_protection']['review_status'] == '')
+                                    <span class="dot large blue"></span>
+                                @elseif($row['social_protection']['is_submitted'] != '' && $row['social_protection']['review_status'] != 'Accepted')
+                                    <span class="dot large orange"></span>
+                                @else
+                                    <span class="dot large empty"></span>
+                                @endif
+                            @else
+                                <span class="dot large empty"></span>
+                            @endif
+
+                            {{-- Job Circle --}}
+                            @if($row['job_event']['is_job_event'])
+                                @if($row['job_event']['is_submitted'] != '' && $row['job_event']['review_status'] == '')
+                                    <span class="dot large blue"></span>
+                                @elseif($row['job_event']['is_submitted'] != '' && $row['job_event']['review_status'] == 'Rejected')
+                                    <span class="dot large red"></span>
+                                @elseif($row['job_event']['is_submitted'] != '' && $row['job_event']['review_status'] == 'Accepted')
+                                    <span class="dot large green"></span>
+                                @elseif($row['job_event']['is_submitted'] != '' && $row['job_event']['review_status'] != 'Accepted')
+                                    <span class="dot large orange"></span>
+                                @else
+                                    <span class="dot large empty"></span>
+                                @endif
+                            @else
+                                <span class="dot large empty"></span>
+                            @endif
+                        </div>
+                    </a>
+                @endforeach
+            </div>
+
+        </section>
     </div>
-    </div>
-  </div>
-  @include('user.bottom_menu')
+
+    @include('user.bottom_menu')
+</div>
  
 @endsection

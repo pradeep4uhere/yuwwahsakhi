@@ -142,6 +142,8 @@
       <?php } ?>
       @endif
     </div>
+    @include('user.bottom_menu')
+
   </div>
 
   <script>
@@ -156,5 +158,4 @@
 
 
 
-  @include('user.bottom_menu')
 @endsection

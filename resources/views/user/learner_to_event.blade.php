@@ -2,187 +2,533 @@
 @section('title', 'Dashboard')
 @section('content')
 <style>
-  .swal2-popup {
-    width: 380px !important;
-    font-size: 14px;
+  .mobile-app-shell {
+    width: 100%;
+    max-width: 430px;
+    margin: 0 auto;
+    min-height: 100vh;
+    background: linear-gradient(180deg, #f8fbff 0%, #edf3fa 100%);
+    box-shadow: 0 12px 40px rgba(15, 23, 42, 0.10);
+    position: relative;
+    overflow: visible;
 }
+
+.app-body {
+    padding: 16px 14px 110px;
+}
+
+.page-section {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.page-heading-card {
+    background: linear-gradient(135deg, #ffffff 0%, #eef4ff 100%);
+    border: 1px solid #dbe7ff;
+    border-radius: 22px;
+    padding: 18px 16px;
+    box-shadow: 0 10px 30px rgba(15, 23, 42, 0.06);
+}
+
+.page-heading-card h1 {
+    margin: 0 0 6px;
+    font-size: 18px;
+    font-weight: 800;
+    color: #111827;
+}
+
+.page-heading-card p {
+    margin: 0;
+    font-size: 12px;
+    line-height: 1.6;
+    color: #667085;
+}
+
+.premium-form-card {
+    background: #ffffff;
+    border-radius: 24px;
+    padding: 18px 16px;
+    box-shadow: 0 14px 34px rgba(15, 23, 42, 0.08);
+    border: 1px solid #e8eef8;
+}
+
+.form-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.form-group label {
+    font-size: 13px;
+    font-weight: 700;
+    color: #1f2937;
+}
+
+.form-group-relative {
+    position: relative;
+}
+
+.app-input,
+.app-select {
+    width: 100%;
+    min-height: 48px;
+    border: 1px solid #dbe4f0;
+    border-radius: 14px;
+    padding: 12px 14px;
+    font-size: 13px;
+    color: #111827;
+    background: #f9fbff;
+    outline: none;
+    transition: 0.2s ease;
+}
+
+.app-input:focus,
+.app-select:focus {
+    border-color: #2563eb;
+    background: #fff;
+    box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.10);
+}
+
+.dynamic-documents-wrap {
+    margin-top: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.document-upload-card {
+    background: #f8fbff;
+    border: 1px solid #dbe7ff;
+    border-radius: 16px;
+    padding: 14px;
+}
+
+.document-upload-card label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 13px;
+    font-weight: 700;
+    color: #1f2937;
+}
+
+.document-upload-card input[type="file"] {
+    width: 100%;
+    border: 1px dashed #b8c8e8;
+    border-radius: 14px;
+    padding: 12px;
+    background: #fff;
+    font-size: 12px;
+}
+
+.existing-doc-preview {
+    margin-bottom: 10px;
+}
+
+.doc-preview-image {
+    width: 90px;
+    height: 90px;
+    object-fit: cover;
+    border-radius: 10px;
+    border: 1px solid #dbe4f0;
+}
+
+.doc-preview-link {
+    font-size: 12px;
+    font-weight: 600;
+    color: #2563eb;
+    text-decoration: underline;
+}
+
+.review-comments-card {
+    margin-top: 18px;
+    background: #ffffff;
+    border: 1px solid #e5edf8;
+    border-radius: 20px;
+    padding: 16px;
+    box-shadow: 0 10px 28px rgba(15, 23, 42, 0.05);
+}
+
+.review-comments-card h3 {
+    margin: 0 0 14px;
+    font-size: 14px;
+    font-weight: 800;
+    color: #111827;
+}
+
+.review-comment-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.review-comment-item {
+    border: 1px solid #e5edf8;
+    background: #f9fbff;
+    border-radius: 14px;
+    padding: 12px;
+}
+
+.review-comment-date {
+    font-size: 11px;
+    font-weight: 700;
+    color: #2563eb;
+    margin-bottom: 6px;
+}
+
+.review-comment-text {
+    font-size: 13px;
+    line-height: 1.6;
+    color: #374151;
+}
+
+.empty-note {
+    font-size: 13px;
+    color: #6b7280;
+}
+
+.form-action-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.primary-solid-btn,
+.primary-outline-btn {
+    border: none;
+    min-height: 48px;
+    border-radius: 16px;
+    font-size: 13px;
+    font-weight: 800;
+    cursor: pointer;
+    transition: 0.25s ease;
+    padding: 12px 10px;
+}
+
+.primary-solid-btn {
+    background: linear-gradient(135deg, #28388f 0%, #3b82f6 100%);
+    color: #fff;
+    box-shadow: 0 12px 24px rgba(40, 56, 143, 0.22);
+}
+
+.primary-outline-btn {
+    background: #eef4ff;
+    color: #28388f;
+    border: 1px solid #c9d8ff;
+}
+
+.app-alert {
+    border-radius: 16px;
+    padding: 14px 15px;
+    font-size: 13px;
+    font-weight: 600;
+    line-height: 1.6;
+}
+
+.alert-success {
+    background: #ecfdf3;
+    color: #027a48;
+    border: 1px solid #abefc6;
+}
+
+.alert-info {
+    background: #eff8ff;
+    color: #175cd3;
+    border: 1px solid #b2ddff;
+}
+
+.alert-default {
+    background: #f8fafc;
+    color: #334155;
+    border: 1px solid #e2e8f0;
+}
+
+.alert-error {
+    background: #fff1f2;
+    color: #be123c;
+    border: 1px solid #fecdd3;
+}
+
+.error-list {
+    margin: 0;
+    padding-left: 18px;
+}
+
+.beneficiary-suggestions {
+    position: absolute;
+    top: calc(100% + 6px);
+    left: 0;
+    width: 100%;
+    background: #ffffff;
+    border: 1px solid #dbe4f0;
+    border-radius: 16px;
+    box-shadow: 0 16px 40px rgba(15, 23, 42, 0.10);
+    z-index: 80;
+    overflow: hidden;
+}
+
+.beneficiary-suggestions.hidden {
+    display: none;
+}
+
+.beneficiary-suggestions div {
+    padding: 12px 14px;
+    font-size: 13px;
+    cursor: pointer;
+    border-bottom: 1px solid #eef2f7;
+}
+
+.beneficiary-suggestions div:last-child {
+    border-bottom: 0;
+}
+
+.beneficiary-suggestions div:hover {
+    background: #eef4ff;
+}
+
+.mt-14 {
+    margin-top: 14px;
+}
+
+@media (max-width: 380px) {
+    .app-body {
+        padding: 14px 12px 110px;
+    }
+
+    .premium-form-card {
+        padding: 16px 14px;
+    }
+
+    .form-action-row {
+        grid-template-columns: 1fr;
+    }
+
+    .swal2-popup {
+        width: 92% !important;
+    }
+}
+</style>  
+<style>
+    .swal2-popup {
+        width: 380px !important;
+        font-size: 14px;
+        border-radius: 20px !important;
+    }
 </style>
-<div id="screen7" class="max-w-[26rem] mx-auto  bg-white shadow-md rounded-lg relative min-h-[100vh] h-auto">
+
+<div id="screen7" class="mobile-app-shell">
     @include('user.header')
-    <div id="screen12" class="max-w-sm mx-auto p-4 bg-white  rounded-lg">
-      <div class="mt-2 text-sm">
-        <h1 class="font-[500] text-[14px] leading-[17.07px] text-[#000000] ml-8 mt-3">
-        {{__('messages.event')}}
-        </h1>
-      </div>
-    <div class="mt-10">
-    {{-- To show success or failure --}}
 
-    @if (session('success'))
-        @php
-            $type = session('type');
-
-            $classes = match ($type) {
-                'success' => 'bg-green-100 text-green-700',
-                'info'    => 'bg-blue-100 text-blue-700',
-                default   => 'bg-gray-100 text-gray-700',
-            };
-        @endphp
-
-        <div class="{{ $classes }} p-4 rounded mb-4 mt-5">
-            {{ session('success') }}
-        </div>
-    @endif
-
-   
-
-    @if (session('error'))
-        <div class="bg-red-100 text-red-700 p-4 rounded mb-4">
-            {{ session('error') }}
-        </div>
-    @endif
-      @if ($errors->any())
-              <div class="bg-red-100 text-red-700 p-4 rounded mb-4">
-                  <ul class="list-disc list-inside text-sm">
-                      @foreach ($errors->all() as $error)
-                          <li>{{ $error }}</li>
-                      @endforeach
-                  </ul>
-              </div>
-          @endif
-    </div>
-      <form class="space-y-4 mt-6" action="{{route('storeeventtransaction')}}" method="post" enctype='multipart/form-data'>
-        @csrf
-     
-        <div class="space-y-1">
-          <label for="opportunity" class="font-[400] text-[12px] leading-[14.63px] text-[#000000]">{{__('messages.event_type')}}</label>
-        <div class="space-y-1">
-          <select name="event_type" id="event_type" class="font-[400] text-[12px] leading-[14.63px] text-[#000000]" style="width:100%; padding:10px; border:solid 1px #ccc" onchange="fetchEventDocuments()">
-            <option value="">{{__('messages.choose_event_type')}}</option>
-            @foreach($eventList as $itemsVal)
-            <option value="{{$itemsVal['id']}}" <?php if($item['event_type']==$itemsVal['id']){ ?> selected="selected" <?php } ?> >{{$itemsVal['name']}}</option>
-            @endforeach
-          </select>
-        </div>
-        <div class="space-y-1">
-          <label for="event_category" class="font-[400] text-[12px] leading-[14.63px] text-[#000000]"> {{__('messages.choose_event_category')}}</label>
-          <select name="event_category" id="event_category" class="font-[400] text-[12px] leading-[14.63px] text-[#000000]" style="width:100%; padding:10px; border:solid 1px #ccc">
-            @foreach($eventCategoryList as $itemNew)
-            @php
-                $selectedCategory = is_array($item ?? null) && isset($item['event_category']) ? $item['event_category'] : null;
-            @endphp
-            <option value="{{ $itemNew['id'] }}" {{ $selectedCategory == $itemNew['id'] ? 'selected' : '' }}>
-                {{ $itemNew['event_category'] }}
-            </option>
-          @endforeach
-          </select>
-        </div>
-        <div class="space-y-1">
-          <label for="opportunity" class="font-[400] text-[12px] leading-[14.63px] text-[#000000]">{{__('messages.event_name')}}</label>
-          <input value="{{$item['event_name']}}" id="event_name" type="text" name="event_name" placeholder="Please Enter Event Name" class="text-xs w-full border rounded px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 placeholder:font-[400] placeholder:text-[10px] placeholder:leading-[12.19px] placeholder:text-[#A7A7A7] rounded-[10px] placeholder:border-[1px]">
-          <input value="{{$item['id']}}" type="hidden" name="id" id="evid"  >
-        </div>
-        
-        <div class="space-y-1 relative">
-        <label for="opportunity" class="font-[400] text-[12px] leading-[14.63px] text-[#000000]">{{__('messages.beneficiary')}} {{__('messages.name')}}</label>
-        <input value="{{$item['beneficiary_name']}}" id="beneficiary_name" type="text" name="beneficiary_name"
-          placeholder="Please Enter beneficiary name"
-          class="text-xs w-full border rounded px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 placeholder:font-[400] placeholder:text-[10px] placeholder:leading-[12.19px] placeholder:text-[#A7A7A7] rounded-[10px] placeholder:border-[1px]"
-          autocomplete="off">
-
-        <!-- Suggestions container -->
-        <div id="suggestions" class="absolute z-10 bg-white border w-full mt-1 rounded shadow-md hidden"></div>
-      </div>
-        <div class="space-y-1">
-          <label for="opportunity" class="font-[400] text-[12px] leading-[14.63px] text-[#000000]">{{__('messages.beneficiary_phone_number')}}</label>
-          <input value="{{$item['beneficiary_phone_number']}}" id="beneficiary_number" type="text" name="beneficiary_phone_number" placeholder="Please Enter  phone number" class="text-xs w-full border rounded px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 placeholder:font-[400] placeholder:text-[10px] placeholder:leading-[12.19px] placeholder:text-[#A7A7A7] rounded-[10px] placeholder:border-[1px]" >
-        </div>
-       
-        <div class="space-y-1 mt-2">
-          <label for="potential" class="font-[400] text-[12px] leading-[14.63px] text-[#000000]">{{__('messages.monthly_salary')}}</label>
-          <input value="{{$item['event_value']}}" id="event_value" name="event_value" type="text" placeholder="Please enter event value" class="text-xs w-full border rounded px-3 py-2 text-sm  placeholder:font-[400] placeholder:text-[10px] placeholder:leading-[12.19px] placeholder:text-[#A7A7A7] rounded-[10px] placeholder:border-[1px]"  value="{{ old('event_value') }}">
-        </div>
-        
-        <div class="space-y-1 mt-2">
-          <label for="potential" class="font-[400] text-[12px] leading-[14.63px] text-[#000000]">{{__('messages.comment')}}</label>
-          <input value="{{$item['comment']}}" id="comment" name="comment" type="text"  class="text-xs w-full border rounded px-3 py-2 text-sm  placeholder:font-[400] placeholder:text-[10px] placeholder:leading-[12.19px] placeholder:text-[#A7A7A7] rounded-[10px] placeholder:border-[1px]" >
-        </div>
-       
-        <div id="documentInputsContainer" class="space-y-1 mt-2">
-          @foreach($documentArr as $key=>$itemVal)
-          <div class="space-y-1 mt-2">
-              <label for="document_${index+1}" class="font-[400] text-[12px] leading-[14.63px] text-[#000000]">
-                Upload Document {{$itemVal['doc_name']}}
-              </label>
-            <?php $extension = strtolower(pathinfo($itemVal['document'], PATHINFO_EXTENSION)); 
-              if (in_array($extension, ['jpg', 'jpeg', 'png'])) { ?>
-                <img src="{{asset('storage/'.$itemVal['document'])}}" height="100" width="100">
-               <?php }else{ ?>
-                <a href="{{asset('storage/'.$itemVal['document'])}}" style="font-size:11px">View File</a>
-               <?php } ?>
-              
-              <input id="{{$key}}" name="document_doc_{{$key+1}}" type="file"
-                class="text-xs w-full border rounded px-3 py-2 text-sm placeholder:font-[400] placeholder:text-[10px] placeholder:leading-[12.19px] placeholder:text-[#A7A7A7] rounded-[10px] placeholder:border-[1px]">
+    <div class="app-body">
+        <section class="page-section">
+            <div class="page-heading-card">
+                <h1>{{ __('messages.event') }}</h1>
+                <p>Update event details, beneficiary info, documents, and reviewer comments.</p>
             </div>
-          @endforeach
-          <!-- Dynamic input fields will be appended here -->
-        </div>
-        </div>
-        <div>
-          <hr/>
-        <div class="space-y-1 mt-2">
-        <label for="document_${index+1}" class="font-[800] text-[12px] leading-[14.63px] text-[#000000]">
-          {{__('messages.Comments_By_Reviwer')}}
-        </label>
-        @php
-            $comments = getEventComment($item['id'], false);
-        @endphp
-        @if ($comments->isNotEmpty())
-        <table class="min-w-full border border-gray-200 shadow-md rounded-lg overflow-hidden text-sm p-4">
-          <thead class="bg-blue-100 text-gray-700 text-left">
-            <tr>
-              <th class="px-4 py-2 font-semibold"> {{__('messages.date')}}</th>
-              <th class="px-4 py-2 font-semibold"> {{__('messages.all_comment')}}</th>
-            </tr>
-          </thead>
-          <tbody class="divide-y divide-gray-200 bg-white ">
-            @foreach ($comments as $comment)
-            <tr>
-              <td class="px-1 py-1 overflow-x-auto whitespace-nowrap max-w-xs"><div class="font-[400] text-[12px] leading-[14.63px] text-[#000000] mb-1">{{getdateformate($comment->created_at)}}</div></td>
-              <td><div class="font-[400] text-[12px] leading-[14.63px] text-[#000000] mb-1">
-                    {{ $comment->comment ?? 'N/A' }}
+
+            @if (session('success'))
+                @php
+                    $type = session('type');
+                    $classes = match ($type) {
+                        'success' => 'alert-success',
+                        'info'    => 'alert-info',
+                        default   => 'alert-default',
+                    };
+                @endphp
+                <div class="app-alert {{ $classes }}">
+                    {{ session('success') }}
                 </div>
-              </td>
-              </tr>
-            @endforeach
-            <tr>
-              <td colspan="2">
-              <div class="space-y-1 mt-2">
-                <input placeholder="Enter New comment"  id="external_comment" name="external_comment" type="text"  class="text-xs w-full border rounded px-3 py-2 text-sm  placeholder:font-[400] placeholder:text-[10px] placeholder:leading-[12.19px] placeholder:text-[#A7A7A7] rounded-[10px] placeholder:border-[1px]" >
-              </div>
-       
-              </td>
-            </tr>
-            </tbody>
-            </table>
-        @else
-            <div class="font-[400] text-[12px] leading-[14.63px] text-[#000000]">
-                N/A
-            </div>
-        @endif
-        </div>
-        </div>
-        <div class="flex justify-center ">
-          <button name="action" type="submit" value="save" class="w-[250px] h-[40px] rounded-[1px] mt-[1rem] mr-[1rem] mb-[8rem] bg-[#1677ff] text-[#FFFFFF]  py-1 pb-[6px] text-[14px] font-[600]">
-          {{__('messages.save')}} {{__('messages.event')}}
-          </button>
-          <button name="action" type="submit" value="submit" class="w-[250px] h-[40px] rounded-[1px] mt-[1rem] mb-[8rem] bg-[#28388F] text-[#FFFFFF]  py-1 pb-[6px] text-[14px] font-[600]">
-          {{__('messages.submit')}} {{__('messages.event')}}
-          </button>
-        </div>
-      </form>
+            @endif
 
+            @if (session('error'))
+                <div class="app-alert alert-error">
+                    {{ session('error') }}
+                </div>
+            @endif
+
+            @if ($errors->any())
+                <div class="app-alert alert-error">
+                    <ul class="error-list">
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
+
+            <form class="premium-form-card" action="{{ route('storeeventtransaction') }}" method="post" enctype="multipart/form-data">
+                @csrf
+
+                <input type="hidden" name="id" id="evid" value="{{ $item['id'] }}">
+                <input type="hidden" name="learner_id" id="learner_id" value="{{ $item['learner_id'] ?? '' }}">
+
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="event_type">{{ __('messages.event_type') }}</label>
+                        <select name="event_type" id="event_type" class="app-input app-select">
+                            <option value="">{{ __('messages.choose_event_type') }}</option>
+                            @foreach($eventList as $eventType)
+                              <option value="{{ $eventType['id'] }}" {{ $item['event_type'] == $eventType['id'] ? 'selected' : '' }}>
+                                    {{ $eventType['name'] }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="event_category">{{ __('messages.choose_event_category') }}</label>
+                        <select name="event_category" id="event_category" class="app-input app-select">
+                            <option value="">{{ __('messages.choose_event_category') }}</option>
+                            @foreach($eventCategoryList as $category)
+                                <option value="{{ $category['id'] }}" {{ ($item['event_category'] ?? '') == $category['id'] ? 'selected' : '' }}>
+                                    {{ $category['event_category'] }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="event_name">{{ __('messages.event_name') }}</label>
+                        <input
+                            id="event_name"
+                            type="text"
+                            name="event_name"
+                            placeholder="Please Enter Event Name"
+                            class="app-input"
+                            value="{{ old('event_name', $item['event_name']) }}"
+                        >
+                    </div>
+
+                    <div class="form-group form-group-relative">
+                        <label for="beneficiary_name">{{ __('messages.beneficiary') }} {{ __('messages.name') }}</label>
+                        <input
+                            id="beneficiary_name"
+                            type="text"
+                            name="beneficiary_name"
+                            placeholder="Please Enter beneficiary name"
+                            class="app-input"
+                            autocomplete="off"
+                            value="{{ old('beneficiary_name', $item['beneficiary_name']) }}"
+                        >
+                        <div id="suggestions" class="beneficiary-suggestions hidden"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="beneficiary_number">{{ __('messages.beneficiary_phone_number') }}</label>
+                        <input
+                            id="beneficiary_number"
+                            type="text"
+                            name="beneficiary_phone_number"
+                            placeholder="Please Enter phone number"
+                            class="app-input"
+                            value="{{ old('beneficiary_phone_number', $item['beneficiary_phone_number']) }}"
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="event_value">{{ __('messages.monthly_salary') }}</label>
+                        <input
+                            id="event_value"
+                            name="event_value"
+                            type="text"
+                            placeholder="Please enter event value"
+                            class="app-input"
+                            value="{{ old('event_value', $item['event_value']) }}"
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="comment">{{ __('messages.comment') }}</label>
+                        <input
+                            id="comment"
+                            name="comment"
+                            type="text"
+                            class="app-input"
+                            value="{{ old('comment', $item['comment']) }}"
+                        >
+                    </div>
+                </div>
+
+                <div id="documentInputsContainer" class="dynamic-documents-wrap">
+                    @foreach($documentArr as $key => $doc)
+                        <div class="document-upload-card">
+                            <label for="document_{{ $key + 1 }}">
+                                Upload Document {{ $doc['doc_name'] }}
+                            </label>
+
+                            @php
+                                $extension = strtolower(pathinfo($doc['document'], PATHINFO_EXTENSION));
+                            @endphp
+
+                            <div class="existing-doc-preview">
+                                @if(in_array($extension, ['jpg', 'jpeg', 'png']))
+                                    <img src="{{ asset('storage/' . $doc['document']) }}" alt="document preview" class="doc-preview-image">
+                                @else
+                                    <a href="{{ asset('storage/' . $doc['document']) }}" target="_blank" class="doc-preview-link">View File</a>
+                                @endif
+                            </div>
+
+                            <input id="document_{{ $key + 1 }}" name="document_doc_{{ $key + 1 }}" type="file">
+                        </div>
+                    @endforeach
+                </div>
+
+                <div class="review-comments-card">
+                    <h3>{{ __('messages.Comments_By_Reviwer') }}</h3>
+
+                    @php
+                        $comments = getEventComment($item['id'], false);
+                    @endphp
+
+                    @if ($comments->isNotEmpty())
+                        <div class="review-comment-list">
+                            @foreach ($comments as $comment)
+                                <div class="review-comment-item">
+                                    <div class="review-comment-date">
+                                        {{ getdateformate($comment->created_at) }}
+                                    </div>
+                                    <div class="review-comment-text">
+                                        {{ $comment->comment ?? 'N/A' }}
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
+
+                        <div class="form-group mt-14">
+                            <input
+                                placeholder="Enter New comment"
+                                id="external_comment"
+                                name="external_comment"
+                                type="text"
+                                class="app-input"
+                            >
+                        </div>
+                    @else
+                        <div class="empty-note">N/A</div>
+                    @endif
+                </div>
+
+                <div class="form-action-row">
+                    <button name="action" type="submit" value="save" class="primary-outline-btn">
+                        {{ __('messages.save') }} {{ __('messages.event') }}
+                    </button>
+
+                    <button name="action" type="submit" value="submit" class="primary-solid-btn">
+                        {{ __('messages.submit') }} {{ __('messages.event') }}
+                    </button>
+                </div>
+            </form>
+        </section>
     </div>
+
+    @include('user.bottom_menu')
 </div>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -441,6 +787,4 @@ $('#event_type').on('change', function () {
     });
 });
 </script>
-
-@include('user.bottom_menu')
 @endsection

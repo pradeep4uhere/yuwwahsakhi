@@ -214,7 +214,10 @@ return [
       'Save_Opportunity'=>'Submit Opportunity',
       'all_comment'=>'All Comment',
       'date'=>'Date',
-      'monthly_incentive'=>'Incentive'
+      'monthly_incentive'=>'Incentive',
+      'profile'=>'Profile Setting',
+      'logout'=>'Log Out',
+      'dashboard'=>'Dashboard'
 
      
 
