@@ -303,6 +303,35 @@
         align-items: flex-start;
     }
 }
+
+.alert-success {
+    color: #155724;
+}
+
+.alert-danger {
+    color: #721c24;
+}
+
+.alert-orange {
+    color: #8a4b00;
+}
+
+.alert-light-red {
+    color: #cc0000;
+}
+
+.alert-secondary {
+    color: #383d41;
+}
+
+.event-status-badge {
+    padding: 5px 10px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+
 </style>
 <div id="screen7" class="mobile-app-shell">
     @include('user.header')
@@ -372,8 +401,19 @@
                         $isAccepted = $item['review_status'] == 'Accepted' && $item['event_date_submitted'] != '';
                         $statusClass = $isAccepted ? 'status-accepted' : 'status-rejected';
                     @endphp
+                    @php
+                        $status = $item['review_status'] ?? 'Pending';
 
-                    <div class="event-card {{ $statusClass }}" onclick="toggleButtons(event)">
+                        $statusClassNew = match($status) {
+                            'Accepted' => 'alert-success',
+                            'Rejected' => 'alert-danger',
+                            'Open'     => 'alert-orange',
+                            'Return'   => 'alert-light-red',
+                            default    => 'alert-secondary',
+                        };
+                    @endphp
+
+                    <div class="event-card {{ $statusClass }} {{ $statusClassNew }}"  <?php if($item['review_status']!='Rejected'){ ?> onclick="toggleButtons(event)" <?php } ?>>
                         <div class="event-card-header">
                             <div>
                                 <p class="event-beneficiary">
@@ -382,7 +422,11 @@
                                 </p>
                             </div>
 
-                            <span class="event-status-badge">
+                            <span class="
+                                {{ ($item['review_status'] == 'Accepted' && !empty($item['event_date_submitted'])) ? 'status-accepted' : 
+                                ($item['review_status'] == 'Rejected' ? 'status-rejected' : 
+                                ($item['review_status'] == 'Open' ? 'status-orange' : 
+                                ($item['review_status'] == 'Return' ? 'status-light-red' : 'status-secondary'))) }}">
                                 {{ $item['review_status'] ?? 'Pending' }}
                             </span>
                         </div>
