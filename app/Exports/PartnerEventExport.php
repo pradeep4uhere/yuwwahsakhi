@@ -21,126 +21,147 @@ class PartnerEventExport implements FromCollection, WithHeadings, WithMapping
 
 
     public function collection()
-    {
-        $name = !empty($this->filters['name']) ? trim(preg_replace('/\s+/', ' ', $this->filters['name'])) : null;
-        $phone = !empty($this->filters['primary_phone_number']) ? trim(preg_replace('/\s+/', '', $this->filters['primary_phone_number'])) : null;
-        $unitInstitute = !empty($this->filters['unit_institute']) ? trim(preg_replace('/\s+/', ' ', $this->filters['unit_institute'])) : null;
-        $state = !empty($this->filters['PROGRAM_STATE']) ? trim(preg_replace('/\s+/', ' ', $this->filters['PROGRAM_STATE'])) : null;
-        $district = !empty($this->filters['district']) ? trim(preg_replace('/\s+/', ' ', $this->filters['district'])) : null;
+{
+    $name = !empty($this->filters['name']) ? trim(preg_replace('/\s+/', ' ', $this->filters['name'])) : null;
+    $phone = !empty($this->filters['primary_phone_number']) ? trim(preg_replace('/\s+/', '', $this->filters['primary_phone_number'])) : null;
+    $unitInstitute = !empty($this->filters['unit_institute']) ? trim(preg_replace('/\s+/', ' ', $this->filters['unit_institute'])) : null;
+    $state = !empty($this->filters['PROGRAM_STATE']) ? trim(preg_replace('/\s+/', ' ', $this->filters['PROGRAM_STATE'])) : null;
+    $district = !empty($this->filters['district']) ? trim(preg_replace('/\s+/', ' ', $this->filters['district'])) : null;
 
-        $eventList = DB::table('event_transactions as et')
-            ->leftJoin('yuwaah_sakhi as ys', 'et.ys_id', '=', 'ys.id')
-            ->leftJoin('learners as l', 'et.learner_id', '=', 'l.id')
-            ->leftJoin('learner_courses as lc', 'lc.phone_number', '=', 'et.beneficiary_phone_number')
-            ->leftJoin('yuwaah_event_masters as em', 'em.id', '=', 'et.event_category')
-            ->where('ys.partner_id', $this->partnerId)
-            ->where('ys.csc_id', '!=', 'Sandbox_Testing')
-            ->whereNotNull('et.review_status')
-            ->whereNotNull('et.learner_id')
-            ->whereNotNull('et.event_date_submitted')
+    // ✅ FIX: Aggregate learner_courses
+    $learnerCourses = DB::table('learner_courses')
+        ->select('phone_number', DB::raw('MAX(course_name) as course_name'))
+        ->groupBy('phone_number');
 
-            ->when(!empty($name), function ($query) use ($name) {
-                $query->where(function ($q) use ($name) {
-                    $q->where('et.beneficiary_name', 'like', "%{$name}%")
-                      ->orWhere('l.first_name', 'like', "%{$name}%")
-                      ->orWhere('l.last_name', 'like', "%{$name}%")
-                      ->orWhere(DB::raw("CONCAT(COALESCE(l.first_name,''), ' ', COALESCE(l.last_name,''))"), 'like', "%{$name}%");
-                });
-            })
+    $eventList = DB::table('event_transactions as et')
+        ->leftJoin('yuwaah_sakhi as ys', 'et.ys_id', '=', 'ys.id')
+        ->leftJoin('learners as l', 'et.learner_id', '=', 'l.id')
+        ->leftJoin('partner_placement_users as pp', 'ys.partner_placement_user_id', '=', 'pp.id')
 
-            ->when(!empty($phone), function ($query) use ($phone) {
-                $query->where(function ($q) use ($phone) {
-                    $q->where('et.beneficiary_phone_number', 'like', "%{$phone}%")
-                      ->orWhere('l.primary_phone_number', 'like', "%{$phone}%")
-                      ->orWhere('lc.phone_number', 'like', "%{$phone}%");
-                });
-            })
+        // ✅ FIXED JOIN (no duplicates)
+        ->leftJoinSub($learnerCourses, 'lc', function ($join) {
+            $join->on('lc.phone_number', '=', 'et.beneficiary_phone_number');
+        })
 
-            ->when(!empty($unitInstitute), function ($query) use ($unitInstitute) {
-                $query->where('l.UNIT_INSTITUTE', 'like', "%{$unitInstitute}%");
-            })
+        ->leftJoin('yuwaah_event_masters as em', 'em.id', '=', 'et.event_category')
 
-            ->when(!empty($state), function ($query) use ($state) {
-                $query->where('l.PROGRAM_STATE', 'like', "%{$state}%");
-            })
+        ->where('ys.partner_id', $this->partnerId)
+        ->where('ys.csc_id', '!=', 'Sandbox_Testing')
+        ->whereNotNull('et.review_status')
+        ->whereNotNull('et.learner_id')
+        ->whereNotNull('et.event_date_submitted')
 
-            ->when(!empty($district), function ($query) use ($district) {
-                $query->where('l.PROGRAM_DISTRICT', 'like', "%{$district}%");
-            })
+        // 🔍 Filters
+        ->when(!empty($name), function ($query) use ($name) {
+            $query->where(function ($q) use ($name) {
+                $q->where('et.beneficiary_name', 'like', "%{$name}%")
+                  ->orWhere('l.first_name', 'like', "%{$name}%")
+                  ->orWhere('l.last_name', 'like', "%{$name}%")
+                  ->orWhere(DB::raw("CONCAT(COALESCE(l.first_name,''), ' ', COALESCE(l.last_name,''))"), 'like', "%{$name}%");
+            });
+        })
 
-            ->select(
-                'et.id',
-                'ys.csc_id',
-                'ys.sakhi_id',
-                'et.event_name',
-                'em.event_category',
-                'et.beneficiary_name',
-                'et.beneficiary_phone_number',
-                'et.review_status',
-                'et.field_type',
-                'et.industry_type',
-                'lc.course_name',
-                DB::raw("CASE WHEN l.DIFFRENTLY_ABLED = 1 THEN 'Yes' ELSE 'No' END as differently_abled"),
-                'l.USER_MARIAL_STATUS',
-                'l.RELIGION',
-                'l.education_level',
-                'l.digital_proficiency',
-                'l.english_knowledge',
-                DB::raw("CASE WHEN l.interested_in_opportunities = 1 THEN 'Yes' ELSE 'No' END as interested_in_opportunities"),
-                'et.event_date_submitted',
-                'et.event_value',
-                'l.current_job_title',
-                'l.PROGRAM_STATE',
-                'l.PROGRAM_DISTRICT',
-                'l.UNIT_INSTITUTE',
-                'l.first_name',
-                'l.last_name',
-                'l.primary_phone_number',
-                DB::raw("
-                    CASE
-                        WHEN l.date_of_birth IS NULL THEN ''
-                        WHEN TIMESTAMPDIFF(YEAR, l.date_of_birth, CURDATE()) < 18 THEN 'Less than 18 years'
-                        WHEN TIMESTAMPDIFF(YEAR, l.date_of_birth, CURDATE()) BETWEEN 18 AND 20 THEN '18-20 years'
-                        WHEN TIMESTAMPDIFF(YEAR, l.date_of_birth, CURDATE()) BETWEEN 21 AND 25 THEN '21-25 years'
-                        WHEN TIMESTAMPDIFF(YEAR, l.date_of_birth, CURDATE()) > 25 THEN 'Above 25 years'
-                        ELSE ''
-                    END as age_group
-                ")
-            )
-            ->get();
+        ->when(!empty($phone), function ($query) use ($phone) {
+            $query->where(function ($q) use ($phone) {
+                $q->where('et.beneficiary_phone_number', 'like', "%{$phone}%")
+                  ->orWhere('l.primary_phone_number', 'like', "%{$phone}%")
+                  ->orWhere('lc.phone_number', 'like', "%{$phone}%");
+            });
+        })
 
-        $eventIds = $eventList->pluck('id')->toArray();
+        ->when(!empty($unitInstitute), function ($query) use ($unitInstitute) {
+            $query->where('l.UNIT_INSTITUTE', 'like', "%{$unitInstitute}%");
+        })
 
-        $comments = DB::connection('mysql2')
-            ->table('event_transaction_comments as etc1')
-            ->join(
-                DB::raw('(
-                    SELECT event_transaction_id, MAX(id) as max_id
-                    FROM event_transaction_comments
-                    GROUP BY event_transaction_id
-                ) as etc2'),
-                'etc1.id',
-                '=',
-                'etc2.max_id'
-            )
-            ->whereIn('etc1.event_transaction_id', $eventIds)
-            ->select(
-                'etc1.event_transaction_id',
-                'etc1.comment',
-                'etc1.created_at'
-            )
-            ->get()
-            ->keyBy('event_transaction_id');
+        ->when(!empty($state), function ($query) use ($state) {
+            $query->where('l.PROGRAM_STATE', 'like', "%{$state}%");
+        })
 
-        $this->eventList = $eventList->map(function ($event) use ($comments) {
-            $comment = $comments[$event->id] ?? null;
-            $event->latest_comment = $comment->comment ?? '';
-            $event->comment_date = $comment->created_at ?? '';
-            return $event;
-        });
+        ->when(!empty($district), function ($query) use ($district) {
+            $query->where('l.PROGRAM_DISTRICT', 'like', "%{$district}%");
+        })
 
-        return $this->eventList;
-    }
+        ->select(
+            'et.id',
+            'ys.csc_id',
+            'pp.name as pp_name',
+            'ys.sakhi_id',
+            'et.event_name',
+            'em.event_category',
+            'et.beneficiary_name',
+            'et.beneficiary_phone_number',
+            'et.review_status',
+            'et.field_type',
+            'et.industry_type',
+
+            'lc.course_name', // now safe ✅
+
+            DB::raw("CASE WHEN l.DIFFRENTLY_ABLED = 1 THEN 'Yes' ELSE 'No' END as differently_abled"),
+            'l.USER_MARIAL_STATUS',
+            'l.RELIGION',
+            'l.education_level',
+            'l.digital_proficiency',
+            'l.english_knowledge',
+
+            DB::raw("CASE WHEN l.interested_in_opportunities = 1 THEN 'Yes' ELSE 'No' END as interested_in_opportunities"),
+
+            'et.event_date_submitted',
+            'et.event_value',
+            'l.current_job_title',
+            'l.PROGRAM_STATE',
+            'l.PROGRAM_DISTRICT',
+            'l.UNIT_INSTITUTE',
+            'l.first_name',
+            'l.last_name',
+            'l.primary_phone_number',
+
+            DB::raw("
+                CASE
+                    WHEN l.date_of_birth IS NULL THEN ''
+                    WHEN TIMESTAMPDIFF(YEAR, l.date_of_birth, CURDATE()) < 18 THEN 'Less than 18 years'
+                    WHEN TIMESTAMPDIFF(YEAR, l.date_of_birth, CURDATE()) BETWEEN 18 AND 20 THEN '18-20 years'
+                    WHEN TIMESTAMPDIFF(YEAR, l.date_of_birth, CURDATE()) BETWEEN 21 AND 25 THEN '21-25 years'
+                    WHEN TIMESTAMPDIFF(YEAR, l.date_of_birth, CURDATE()) > 25 THEN 'Above 25 years'
+                    ELSE ''
+                END as age_group
+            ")
+        )
+        ->orderByDesc('et.id')
+        ->get();
+
+    // ✅ Latest comments logic (same as before)
+    $eventIds = $eventList->pluck('id')->toArray();
+
+    $comments = DB::connection('mysql2')
+        ->table('event_transaction_comments as etc1')
+        ->join(
+            DB::raw('(
+                SELECT event_transaction_id, MAX(id) as max_id
+                FROM event_transaction_comments
+                GROUP BY event_transaction_id
+            ) as etc2'),
+            'etc1.id',
+            '=',
+            'etc2.max_id'
+        )
+        ->whereIn('etc1.event_transaction_id', $eventIds)
+        ->select(
+            'etc1.event_transaction_id',
+            'etc1.comment',
+            'etc1.created_at'
+        )
+        ->get()
+        ->keyBy('event_transaction_id');
+
+    $this->eventList = $eventList->map(function ($event) use ($comments) {
+        $comment = $comments[$event->id] ?? null;
+        $event->latest_comment = $comment->comment ?? '';
+        $event->comment_date = $comment->created_at ?? '';
+        return $event;
+    });
+
+    return $this->eventList;
+}
 
     public function map($event): array
     {
@@ -148,6 +169,7 @@ class PartnerEventExport implements FromCollection, WithHeadings, WithMapping
             $event->id,
             $event->csc_id,
             $event->sakhi_id,
+            $event->pp_name,
             $event->event_name,
             $event->event_category,
             $event->beneficiary_name,
@@ -180,6 +202,7 @@ class PartnerEventExport implements FromCollection, WithHeadings, WithMapping
             'Event ID',
             'CSC ID',
             'Sakhi ID',
+            'Placement Partner Name',
             'Event Name',
             'Event Category',
             'Beneficiary Name',
