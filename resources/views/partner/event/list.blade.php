@@ -44,10 +44,10 @@
         <table class="table table-striped table-bordered">
         <thead class="table-dark">
             <tr>
-                <th>SN</th>
+                <th>Event ID</th>
                 <th>Agent ID</th>
                 <th>Unit Institute</th>
-                <th>PP Name</th>
+              
                 <th>Event Name</th>
                 <th nowrap="nowrap">Event Category</th>
                 <th nowrap="nowrap">Beneficiary Name</th>
@@ -84,7 +84,7 @@
                 <td>{{ $item->id }}</td>
                 <td nowrap="nowrap">{{ $item->sakhi_id }}</td>
                 <td nowrap="nowrap">{{ $item->csc_id }}</td>
-                <td nowrap="nowrap">{{ $item->pp_name }}</td>
+              
                 <td nowrap="nowrap">{{ $item->event_name }}</td>
                 <td nowrap="nowrap">{{ $item->event_category }}</td>
                 <td nowrap="nowrap">{{ $item->beneficiary_name }}</td>

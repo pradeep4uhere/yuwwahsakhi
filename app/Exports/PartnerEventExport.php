@@ -169,7 +169,7 @@ class PartnerEventExport implements FromCollection, WithHeadings, WithMapping
             $event->id,
             $event->csc_id,
             $event->sakhi_id,
-            $event->pp_name,
+        
             $event->event_name,
             $event->event_category,
             $event->beneficiary_name,
@@ -202,7 +202,7 @@ class PartnerEventExport implements FromCollection, WithHeadings, WithMapping
             'Event ID',
             'CSC ID',
             'Sakhi ID',
-            'Placement Partner Name',
+           
             'Event Name',
             'Event Category',
             'Beneficiary Name',
