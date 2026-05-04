@@ -425,8 +425,8 @@
             <!-- Legend 2 -->
             <div class="info-strip info-strip-secondary">
                 <span>First Circle - Skills</span>
-                <span>Second Circle - Social Protection</span>
-                <span>Third Circle - Job</span>
+                <span>Second Circle - Job</span>
+                <span>Third Circle - Social Protection</span>
             </div>
 
             <!-- Learner List -->
