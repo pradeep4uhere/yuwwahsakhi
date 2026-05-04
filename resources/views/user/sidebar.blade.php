@@ -9,7 +9,7 @@
             <div class="sidebar-brand">
                 <img src="{{ asset('asset/images/Yuwaahlogo.png') }}" alt="YuWaah Logo">
                 <div>
-                    <h3>Yuthhubpartner</h3>
+                    <h3>Youthhubpartner</h3>
                     <p>Partner App</p>
                 </div>
             </div>
