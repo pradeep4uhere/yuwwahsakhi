@@ -455,6 +455,22 @@
                             @else
                                 <span class="dot large empty"></span>
                             @endif
+                            {{-- Job Circle --}}
+                            @if($row['job_event']['is_job_event'])
+                                @if($row['job_event']['is_submitted'] != '' && $row['job_event']['review_status'] == '')
+                                    <span class="dot large blue"></span>
+                                @elseif($row['job_event']['is_submitted'] != '' && $row['job_event']['review_status'] == 'Rejected')
+                                    <span class="dot large red"></span>
+                                @elseif($row['job_event']['is_submitted'] != '' && $row['job_event']['review_status'] == 'Accepted')
+                                    <span class="dot large green"></span>
+                                @elseif($row['job_event']['is_submitted'] != '' && $row['job_event']['review_status'] != 'Accepted')
+                                    <span class="dot large orange"></span>
+                                @else
+                                    <span class="dot large empty"></span>
+                                @endif
+                            @else
+                                <span class="dot large empty"></span>
+                            @endif
 
                             {{-- Social Protection Circle --}}
                             @if($row['social_protection']['is_social_event'])
@@ -475,22 +491,7 @@
                                 <span class="dot large empty"></span>
                             @endif
 
-                            {{-- Job Circle --}}
-                            @if($row['job_event']['is_job_event'])
-                                @if($row['job_event']['is_submitted'] != '' && $row['job_event']['review_status'] == '')
-                                    <span class="dot large blue"></span>
-                                @elseif($row['job_event']['is_submitted'] != '' && $row['job_event']['review_status'] == 'Rejected')
-                                    <span class="dot large red"></span>
-                                @elseif($row['job_event']['is_submitted'] != '' && $row['job_event']['review_status'] == 'Accepted')
-                                    <span class="dot large green"></span>
-                                @elseif($row['job_event']['is_submitted'] != '' && $row['job_event']['review_status'] != 'Accepted')
-                                    <span class="dot large orange"></span>
-                                @else
-                                    <span class="dot large empty"></span>
-                                @endif
-                            @else
-                                <span class="dot large empty"></span>
-                            @endif
+                          
                         </div>
                     </a>
                 @endforeach
