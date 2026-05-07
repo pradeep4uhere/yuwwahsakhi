@@ -326,8 +326,8 @@ class ProfileController extends Controller
     //        return is_numeric($binding) ? $binding : "'{$binding}'";
     //     })->toArray()));
 
-    $query->leftJoin('yhub_learners', function ($join) {
-            $join->on('learners.normalized_mobile', '=', 'yhub_learners.normalized_mobile');
+    $query->leftJoin('learner_courses', function ($join) {
+            $join->on('learners.normalized_mobile', '=', 'learner_courses.phone_number');
         })
         ->leftJoinSub($latestEvents, 'et', function ($join) {
             $join->on('learners.id', '=', 'et.learner_id');
@@ -347,8 +347,8 @@ class ProfileController extends Controller
             'learners.first_name',
             'learners.last_name',
             'learners.primary_phone_number',
-            'yhub_learners.email_address',
-            'yhub_learners.completion_status',
+            'learner_courses.phone_number as email_address',
+            'learner_courses.completed_course as completion_status',
             'et.last_event_update',
             'learners.updated_at'
         )

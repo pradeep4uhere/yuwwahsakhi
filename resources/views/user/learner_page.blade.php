@@ -450,7 +450,7 @@
 
                         <div class="learner-status-dots">
                             {{-- Skills Circle --}}
-                            @if($row['item']['completion_status'] == 1)
+                            @if($row['item']['completion_status'] == 'Yes')
                                 <span class="dot large green"></span>
                             @else
                                 <span class="dot large empty"></span>
