@@ -729,13 +729,16 @@ private function checkEventTypeJobSocialProtection($eventTransactionList, $learn
                 'event_value.required' => 'The monthly value field is required.',
                 'event_value.numeric'  => 'The monthly value must be a number.',
                 'event_value.min'      => 'The monthly value must be greater than or equal to 0.',
+                '*.max'                => 'Document size must not exceed 3 MB.',
+                '*.mimes'              => 'Only PDF, JPG, JPEG, PNG, DOC, and DOCX files are allowed.',
+                '*.uploaded'           => 'The document failed to upload. Please try again.',
             ];
 
             // Step 3: Add document rules
             foreach ($documentFields as $field) {
             $others = array_diff($documentFields, [$field]);
             $rules[$field] = 'required_without_all:' . implode(',', $others) 
-                        . '|file|mimes:pdf,jpg,jpeg,png,doc,docx|max:10240';
+                        . '|file|mimes:pdf,jpg,jpeg,png,doc,docx|max:3072';
             }
 
             // Step 4: Custom messages
