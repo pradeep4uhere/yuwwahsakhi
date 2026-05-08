@@ -5,8 +5,7 @@ namespace App\Console\Commands;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\File;
 use Spatie\ImageOptimizer\OptimizerChainFactory;
-use Intervention\Image\ImageManager;
-use Intervention\Image\Drivers\Gd\Driver;
+use Intervention\Image\ImageManagerStatic as Image;
 
 class OptimizeStorageFiles extends Command
 {
@@ -69,12 +68,15 @@ class OptimizeStorageFiles extends Command
                 $this->info("Optimizing: " . $file->getRelativePathname());
 
                 // Resize if huge
-                $manager = new ImageManager(new Driver());
-                $image = $manager->read($fullPath);
+                $image = Image::make($fullPath);
 
                 if ($image->width() > 2000) {
-                    $image->scale(width: 2000);
-                    $image->save($fullPath, quality: 75);
+                    $image->resize(2000, null, function ($constraint) {
+                        $constraint->aspectRatio();
+                        $constraint->upsize();
+                    });
+                    
+                    $image->save($fullPath, 75);
                 }
 
                 // Extra compression
