@@ -27,6 +27,7 @@ class Kernel extends ConsoleKernel
         ->runInBackground();
 
 
+        //optimized Images
         $schedule->command('storage:optimize-images')
         ->dailyAt('04:00')
         ->withoutOverlapping()

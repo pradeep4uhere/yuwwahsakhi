@@ -114,6 +114,8 @@ class OptimizeStorageFiles extends Command
 
         $this->info($logMessage);
         Log::info($logMessage);
+
+        
         
     }
 }
