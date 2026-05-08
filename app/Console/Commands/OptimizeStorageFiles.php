@@ -5,7 +5,8 @@ namespace App\Console\Commands;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\File;
 use Spatie\ImageOptimizer\OptimizerChainFactory;
-use Intervention\Image\Laravel\Facades\Image;
+use Intervention\Image\ImageManager;
+use Intervention\Image\Drivers\Gd\Driver;
 
 class OptimizeStorageFiles extends Command
 {
@@ -68,7 +69,8 @@ class OptimizeStorageFiles extends Command
                 $this->info("Optimizing: " . $file->getRelativePathname());
 
                 // Resize if huge
-                $image = Image::read($fullPath);
+                $manager = new ImageManager(new Driver());
+                $image = $manager->read($fullPath);
 
                 if ($image->width() > 2000) {
                     $image->scale(width: 2000);
