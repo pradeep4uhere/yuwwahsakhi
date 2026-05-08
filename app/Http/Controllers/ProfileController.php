@@ -337,8 +337,8 @@ class ProfileController extends Controller
             'learners.UNIT_INSTITUTE',
             'learners.course_completed',
             'learners.first_name','learners.last_name','learners.primary_phone_number',
-            'yhub_learners.email_address as yhub_email_address',
-            'yhub_learners.completion_status as completion_status',
+            'learner_courses.phone_number as yhub_email_address',
+            'learner_courses.completed_course as completion_status',
             DB::raw('COALESCE(et.last_event_update, learners.updated_at) as sort_updated_at')
         ])
         ->groupBy(
