@@ -347,8 +347,8 @@ class ProfileController extends Controller
             'learners.first_name',
             'learners.last_name',
             'learners.primary_phone_number',
-            'learner_courses.phone_number as email_address',
-            'learner_courses.completed_course as completion_status',
+            'learner_courses.phone_number',
+            'learner_courses.completed_course',
             'et.last_event_update',
             'learners.updated_at'
         )
