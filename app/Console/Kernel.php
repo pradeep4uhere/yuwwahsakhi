@@ -15,18 +15,32 @@ class Kernel extends ConsoleKernel
         // $schedule->command('inspire')->hourly();
         $schedule->command('import:learner-data')->dailyAt('02:00');
         
-        $schedule->command('backup:mysql')
-        ->dailyAt('02:00')
-        ->withoutOverlapping()
-        ->appendOutputTo(storage_path('logs/mysql-backup.log'));
+        // $schedule->command('backup:mysql')
+        // ->dailyAt('02:00')
+        // ->withoutOverlapping()
+        // ->appendOutputTo(storage_path('logs/mysql-backup.log'));
 
-        $schedule->call(function () {
-            $logPath = storage_path('logs');
+        //Optimized all the pdf files 
+        $schedule->command('storage:optimize-pdfs --quality=ebook --backup')
+        ->dailyAt('03:00')
+        ->withoutOverlapping()
+        ->runInBackground();
+
+
+        $schedule->command('storage:optimize-images')
+        ->dailyAt('04:00')
+        ->withoutOverlapping()
+        ->runInBackground();
+
+       
+
+        // $schedule->call(function () {
+        //     $logPath = storage_path('logs');
     
-            foreach (glob($logPath . '/*.log') as $file) {
-                file_put_contents($file, '');
-            }
-        })->weeklyOn(6, '03:00');
+        //     foreach (glob($logPath . '/*.log') as $file) {
+        //         file_put_contents($file, '');
+        //     }
+        // })->weeklyOn(6, '03:00');
     }
 
     /**

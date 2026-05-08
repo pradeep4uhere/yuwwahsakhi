@@ -6,6 +6,7 @@ use Illuminate\Console\Command;
 use Illuminate\Support\Facades\File;
 use Spatie\ImageOptimizer\OptimizerChainFactory;
 use Intervention\Image\Facades\Image;
+use Illuminate\Support\Facades\Log;
 
 class OptimizeStorageFiles extends Command
 {
@@ -102,5 +103,17 @@ class OptimizeStorageFiles extends Command
         $this->info("Optimized: {$totalOptimized}");
         $this->info("Skipped: {$totalSkipped}");
         $this->info("=================================");
+
+        $logMessage = "
+        =================================
+        Optimization Completed
+        Optimized: {$totalOptimized}
+        Skipped: {$totalSkipped}
+        =================================
+        ";
+
+        $this->info($logMessage);
+        Log::info($logMessage);
+        
     }
 }

@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Log;
 
 class OptimizePdfFiles extends Command
 {
@@ -146,6 +147,21 @@ class OptimizePdfFiles extends Command
         $this->info("Failed: {$totalFailed}");
         $this->info("Total Saved: " . $this->formatBytes($savedBytes));
         $this->info('=================================');
+
+        $logMessage = "
+        =================================
+        PDF Optimization Completed
+        Optimized: {$totalOptimized}
+        Skipped: {$totalSkipped}
+        Failed: {$totalFailed}
+        Total Saved: " . $this->formatBytes($savedBytes) . "
+        =================================
+        ";
+
+        $this->newLine();
+        $this->info($logMessage);
+
+        Log::info($logMessage);
 
         return Command::SUCCESS;
     }
