@@ -162,6 +162,7 @@ class OptimizePdfFiles extends Command
         $this->info($logMessage);
 
         Log::info($logMessage);
+        
 
         return Command::SUCCESS;
     }
