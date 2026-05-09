@@ -20,19 +20,18 @@ class Kernel extends ConsoleKernel
         // ->withoutOverlapping()
         // ->appendOutputTo(storage_path('logs/mysql-backup.log'));
 
-        //Optimized all the pdf files 
+       // Optimize all PDF files every Saturday at 3 AM
         $schedule->command('storage:optimize-pdfs --quality=ebook --backup')
-        ->dailyAt('03:00')
+        ->weeklyOn(6, '03:00')
         ->withoutOverlapping()
         ->runInBackground();
 
 
-        //optimized Images
+        // Optimize Images every Saturday at 4 AM
         $schedule->command('storage:optimize-images')
-        ->dailyAt('04:00')
+        ->weeklyOn(6, '04:00')
         ->withoutOverlapping()
         ->runInBackground();
-
        
 
         // $schedule->call(function () {
