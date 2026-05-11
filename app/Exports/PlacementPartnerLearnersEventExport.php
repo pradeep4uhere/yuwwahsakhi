@@ -18,7 +18,6 @@ class PlacementPartnerLearnersEventExport implements FromCollection, WithHeading
 
     public function collection()
     {
-        // 👉 Main Data
         $eventList = DB::table('event_transactions as et')
             ->leftJoin('yuwaah_sakhi as ys', 'et.ys_id', '=', 'ys.id')
             ->leftJoin('learners as l', 'et.learner_id', '=', 'l.id')
@@ -40,7 +39,9 @@ class PlacementPartnerLearnersEventExport implements FromCollection, WithHeading
                 'et.review_status',
                 'et.field_type',
                 'et.industry_type',
-                'lc.course_name',
+
+                DB::raw("GROUP_CONCAT(DISTINCT lc.course_name ORDER BY lc.course_name SEPARATOR ', ') as course_name"),
+
                 DB::raw("CASE WHEN l.DIFFRENTLY_ABLED = 1 THEN 'Yes' ELSE 'No' END as differently_abled"),
                 'l.USER_MARIAL_STATUS',
                 'l.RELIGION',
@@ -52,38 +53,65 @@ class PlacementPartnerLearnersEventExport implements FromCollection, WithHeading
                 'et.event_value',
                 'l.current_job_title'
             )
+            ->groupBy(
+                'et.id',
+                'ys.csc_id',
+                'ys.sakhi_id',
+                'et.event_name',
+                'em.event_category',
+                'et.beneficiary_name',
+                'et.beneficiary_phone_number',
+                'et.review_status',
+                'et.field_type',
+                'et.industry_type',
+                'l.DIFFRENTLY_ABLED',
+                'l.USER_MARIAL_STATUS',
+                'l.RELIGION',
+                'l.education_level',
+                'l.digital_proficiency',
+                'l.english_knowledge',
+                'l.interested_in_opportunities',
+                'et.event_date_submitted',
+                'et.event_value',
+                'l.current_job_title'
+            )
+            ->orderBy('et.id', 'desc')
             ->get();
 
-        // 👉 Get IDs
         $eventIds = $eventList->pluck('id')->toArray();
 
-        // 👉 Latest Comments
-        $comments = DB::connection('mysql2')
-            ->table('event_transaction_comments as etc1')
-            ->join(
-                DB::raw('(SELECT event_transaction_id, MAX(id) as max_id 
-                        FROM event_transaction_comments 
-                        GROUP BY event_transaction_id) as etc2'),
-                'etc1.id',
-                '=',
-                'etc2.max_id'
-            )
-            ->whereIn('etc1.event_transaction_id', $eventIds)
-            ->select(
-                'etc1.event_transaction_id',
-                'etc1.comment',
-                'etc1.created_at'
-            )
-            ->get()
-            ->keyBy('event_transaction_id');
+        $comments = collect();
 
-        // 👉 Merge comments into main data
+        if (!empty($eventIds)) {
+            $comments = DB::connection('mysql2')
+                ->table('event_transaction_comments as etc1')
+                ->join(
+                    DB::raw('
+                        (
+                            SELECT event_transaction_id, MAX(id) as max_id
+                            FROM event_transaction_comments
+                            GROUP BY event_transaction_id
+                        ) as etc2
+                    '),
+                    'etc1.id',
+                    '=',
+                    'etc2.max_id'
+                )
+                ->whereIn('etc1.event_transaction_id', $eventIds)
+                ->select(
+                    'etc1.event_transaction_id',
+                    'etc1.comment',
+                    'etc1.created_at'
+                )
+                ->get()
+                ->keyBy('event_transaction_id');
+        }
+
         return $eventList->map(function ($event) use ($comments) {
-
-            $comment = $comments[$event->id] ?? null;
+            $comment = $comments->get($event->id);
 
             $event->latest_comment = $comment->comment ?? '';
-            $event->comment_date   = $comment->created_at ?? '';
+            $event->comment_date = $comment->created_at ?? '';
 
             return $event;
         });
@@ -114,7 +142,7 @@ class PlacementPartnerLearnersEventExport implements FromCollection, WithHeading
             $row->event_value,
             $row->current_job_title,
             $row->latest_comment,
-            $row->comment_date
+            $row->comment_date,
         ];
     }
 
