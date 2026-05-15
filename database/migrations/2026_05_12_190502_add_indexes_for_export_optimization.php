@@ -44,7 +44,7 @@ return new class extends Migration
 
         Schema::table('yuwaah_backend.event_transaction_comments', function (Blueprint $table) {
             if (!$this->indexExists('yuwaah_backend.event_transaction_comments', 'idx_event_transaction_id')) {
-                $indexes = collect(DB::select("SHOW INDEX FROM event_transaction_comments"))
+                $indexes = collect(DB::select("SHOW INDEX FROM yuwaah_backend.event_transaction_comments"))
                 ->pluck('Key_name')
                 ->toArray();
             
