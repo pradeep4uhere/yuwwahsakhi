@@ -199,6 +199,17 @@
             }
         }
     </style>
+    <style>
+.yuwaah-app-section ul{
+    list-style: disc;
+    padding-left: 20px;
+    margin-top: 15px;
+}
+
+.yuwaah-app-section ul li{
+    margin-bottom: 10px;
+}
+</style>
 </head>
 
 <body>
@@ -223,8 +234,58 @@
                 </h2>
 
                 <div class="yuwaah-content-box">
-                    <div class="yuwaah-description prose prose-sm max-w-none">
-                        {!! $YuwaahSakhiSetting['description'] !!}
+                    <div class="yuwaah-description  max-w-none">
+                    <section class="yuwaah-app-section">
+                    <div class="container">
+
+                        <h2>YuWaah Partner App</h2>
+
+                        <p>
+                            The <strong>YuWaah Partner App</strong> is the official platform for field and implementation partners of the 
+                            <strong>Digital Girls Hub</strong> initiative, developed by <strong>UNICEF YuWaah</strong> to accelerate 
+                            skilling, employment, and social protection outcomes for young women (18–29 years) across India.
+                        </p>
+
+                        <p>
+                            Designed for CSCs, VLEs, and implementation partners, the app enables seamless mobilisation, learner onboarding, 
+                            progress tracking, placement coordination, and verification through the YouthHub ecosystem.
+                        </p>
+
+                        <h3>Key Features of the YuWaah Partner App</h3>
+
+                        <ul>
+                            <li>
+                                Information on learners mobilised and onboarded via YouthHub pathways
+                            </li>
+
+                            <li>
+                                Create and manage skilling and outreach events
+                            </li>
+
+                            <li>
+                                Track learner progress, course completion, and certification
+                            </li>
+
+                            <li>
+                                Support job matching, interviews, and placement workflows
+                            </li>
+
+                            <li>
+                                Upload and manage verification and social protection documents
+                            </li>
+
+                            <li>
+                                Monitor real-time status of learner applications and outcomes
+                            </li>
+                        </ul>
+
+                        <p>
+                            By connecting last-mile partners to a unified digital system, the YuWaah Partner App ensures every girl reached 
+                            is tracked, supported, and connected to opportunities.
+                        </p>
+
+                    </div>
+                </section>
                     </div>
                 </div>
 

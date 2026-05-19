@@ -326,7 +326,7 @@
                         <input id="beneficiary_name"
                                type="text"
                                name="beneficiary_name"
-                               placeholder="Please type beneficiary name and choose"
+                               placeholder="Please select beneficiary name"
                                class="app-input"
                                autocomplete="off"
                                value="{{ old('beneficiary_name') }}">

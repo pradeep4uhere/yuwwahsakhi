@@ -454,7 +454,7 @@
                                 <i class="fa-regular fa-calendar-days"></i>
                                 <p>
                                     <strong>{{ __('messages.event_value') }}:</strong>
-                                    {{ $item['event_value'] ?? '' }}
+                                    {{ number_format($item['event_value'],2) ?? '' }}
                                 </p>
                             </div>
 
