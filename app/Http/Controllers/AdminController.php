@@ -35,6 +35,9 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Validator;
 use App\Exports\YhubLearnersExport;
 use App\Exports\PartnerPlacementUserExport;
+use App\Models\ImportHistory;
+use App\Jobs\ImportLearnersJob;
+
 
 
 
@@ -1484,7 +1487,7 @@ public function importLearnerForm(Request $request){
     ]);
 }
 
-public function importLearners(Request $request)
+public function importLearnersOLD(Request $request)
 {
     $request->validate([
         'file' => 'required|mimes:csv,txt|max:2048',
@@ -2156,6 +2159,333 @@ public function importEventTransaction(Request $request)
     }
 
 
+    public function importLearners(Request $request)
+    {
 
+        ini_set('max_execution_time', 0);
+        set_time_limit(0);
+        ini_set('memory_limit', '1024M');
+
+
+        $request->validate([
+            'file' => 'required|mimes:csv,txt|max:10240',
+        ]);
+    
+        $file = $request->file('file');
+    
+        return response()->stream(function () use ($file) {
+    
+            while (ob_get_level() > 0) {
+                ob_end_flush();
+            }
+    
+            ob_implicit_flush(true);
+    
+            echo "
+            <pre style='
+                background:black;
+                color:lime;
+                padding:20px;
+                font-size:14px;
+                min-height:100vh;
+            '>
+            ";
+    
+            flush();
+    
+            $handle = fopen($file->getRealPath(), 'r');
+    
+            if (!$handle) {
+    
+                echo "Cannot open CSV file\n";
+    
+                flush();
+    
+                return;
+            }
+    
+            // Detect delimiter
+            $firstLine = fgets($handle);
+    
+            $delimiter =
+                substr_count($firstLine, ';') >
+                substr_count($firstLine, ',')
+                    ? ';'
+                    : ',';
+    
+            rewind($handle);
+    
+            // Header
+            $header = fgetcsv($handle, 0, $delimiter);
+    
+            $count = 0;
+            $updated = 0;
+            $inserted = 0;
+            $skipped = 0;
+    
+            while (($row = fgetcsv($handle, 0, $delimiter)) !== false) {
+
+                try {
+            
+                    if (count($row) != count($header)) {
+            
+                        echo "[SKIPPED] Invalid column count\n";
+            
+                        $skipped++;
+            
+                        flush();
+            
+                        continue;
+                    }
+            
+                    $data = array_combine($header, $row);
+            
+                    // Clean phone
+                    $phone = $data['primary_phone_number'];
+            
+                    if (!$phone) {
+            
+                        echo "[SKIPPED] Empty phone number\n";
+            
+                        $skipped++;
+            
+                        flush();
+            
+                        continue;
+                    }
+            
+                    // DOB
+                    try {
+            
+                        $dob =
+                            (!empty($data['date_of_birth']) &&
+                            strtolower($data['date_of_birth']) !== 'undefined')
+            
+                            ? \Carbon\Carbon::createFromFormat(
+                                'd/m/y',
+                                $data['date_of_birth']
+                            )->format('Y-m-d')
+            
+                            : null;
+            
+                    } catch (\Exception $e) {
+            
+                        $dob = null;
+                    }
+            
+                    // Gender
+                    $validGenders = ['Male', 'Female', 'Other'];
+            
+                    $gender = ucfirst(
+                        strtolower(
+                            trim($data['gender'] ?? '')
+                        )
+                    );
+            
+                    $gender = in_array($gender, $validGenders)
+                        ? $gender
+                        : 'Male';
+            
+                    // UTF clean
+                    $firstName = isset($data['first_name'])
+                        ? iconv(
+                            'Windows-1252',
+                            'UTF-8//IGNORE',
+                            $data['first_name']
+                        )
+                        : null;
+            
+                    $lastName = isset($data['last_name'])
+                        ? iconv(
+                            'Windows-1252',
+                            'UTF-8//IGNORE',
+                            $data['last_name']
+                        )
+                        : null;
+            
+                    $unitInstitute = isset($data['UNIT_INSTITUTE'])
+                        ? iconv(
+                            'Windows-1252',
+                            'UTF-8//IGNORE',
+                            $data['UNIT_INSTITUTE']
+                        )
+                        : null;
+            
+                    // Full payload
+                    $payload = [
+            
+                        'first_name' => $firstName,
+            
+                        'last_name' => $lastName,
+            
+                        'email' => $data['email'] ?? 'NA',
+            
+                        'primary_phone_number' => $phone,
+            
+                        'gender' => $gender,
+            
+                        'date_of_birth' => $dob,
+            
+                        'education_level' =>
+                            $data['education_level'] ?? null,
+            
+                        'digital_proficiency' =>
+                            $data['digital_proficiency'] ?? null,
+            
+                        'MONTHLY_FAMILY_INCOME_RANGE' =>
+                            $data['MONTHLY_FAMILY_INCOME_RANGE'] ?? null,
+            
+                        'USER_EMAIL' =>
+                            $data['USER_EMAIL'] ?? null,
+            
+                        'DISTRICT_CITY' =>
+                            $data['DISTRICT_CITY'] ?? null,
+            
+                        'STATE' =>
+                            $data['STATE'] ?? null,
+            
+                        'PIN_CODE' =>
+                            $data['PIN_CODE'] ?? null,
+            
+                        'PROGRAM_CODE' =>
+                            $data['PROGRAM_CODE'] ?? null,
+            
+                        'PROGRAM_STATE' =>
+                            $data['PROGRAM_STATE'] ?? null,
+            
+                        'PROGRAM_DISTRICT' =>
+                            $data['PROGRAM_DISTRICT'] ?? null,
+            
+                        'UNIT_INSTITUTE' =>
+                            $unitInstitute,
+            
+                        'SOCIAL_CATEGORY' =>
+                            $data['SOCIAL_CATEGORY'] ?? null,
+            
+                        'RELIGION' =>
+                            $data['RELIGION'] ?? null,
+            
+                        'USER_MARIAL_STATUS' =>
+                            $data['USER_MARIAL_STATUS'] ?? null,
+            
+                        'DIFFRENTLY_ABLED' =>
+                            $data['DIFFRENTLY_ABLED'] ?? null,
+            
+                        'english_knowledge' =>
+                            $data['english_knowledge'] ?? null,
+            
+                        'IDENTITY_DOCUMENTS' =>
+                            $data['IDENTITY_DOCUMENTS'] ?? null,
+            
+                        'REASON_FOR_LEARNING_NEW_SKILLS' =>
+                            $data['REASON_FOR_LEARNING_NEW_SKILLS'] ?? null,
+            
+                        'EARN_AT_MY_OWN_TIME' =>
+                            $data['EARN_AT_MY_OWN_TIME'] ?? null,
+            
+                        'work_hours_per_day' =>
+                            is_numeric($data['work_hours_per_day'] ?? null)
+                                ? $data['work_hours_per_day']
+                                : 0,
+            
+                        'work_kind' =>
+                            $data['work_kind'] ?? null,
+            
+                        'preferred_skill1' =>
+                            $data['preferred_skill1'] ?? null,
+            
+                        'RELOCATE_FOR_JOB' =>
+                            $data['RELOCATE_FOR_JOB'] ?? null,
+            
+                        'job_qualifications' =>
+                            $data['job_qualifications'] ?? null,
+            
+                        'WHEN_CAN_USER_START' =>
+                            $data['WHEN_CAN_USER_START'] ?? null,
+            
+                        'experiance' =>
+                            $data['experience_years'] ?? 0,
+            
+                        'interested_in_opportunities' =>
+                            !empty($data['interested_in_opportunities'])
+                                ? 1
+                                : 0,
+            
+                        'business_status' =>
+                            $data['business_status'] ?? null,
+            
+                        'USER_NEED_HELP_WITH' =>
+                            $data['USER_NEED_HELP_WITH'] ?? null,
+            
+                        'updated_at' => now(),
+                    ];
+            
+                    // Find learner
+                    $learner = \App\Models\Learner::where(
+                        'primary_phone_number',
+                        $phone
+                    )->first();
+            
+                    if ($learner) {
+            
+                        $learner->update($payload);
+            
+                        $updated++;
+            
+                        echo "[{$count}] UPDATED => {$phone} | {$firstName}\n";
+            
+                    } else {
+            
+                        $payload['created_at'] = now();
+            
+                        \App\Models\Learner::create($payload);
+            
+                        $inserted++;
+            
+                        echo "[{$count}] INSERTED => {$phone} | {$firstName}\n";
+                    }
+            
+                    $count++;
+            
+                    flush();
+            
+                } catch (\Exception $e) {
+            
+                    $skipped++;
+            
+                    echo "[ERROR] " . $e->getMessage() . "\n";
+            
+                    flush();
+                }
+            }
+            fclose($handle);
+    
+            echo "\n=====================================\n";
+    
+            echo "IMPORT COMPLETED\n";
+    
+            echo "TOTAL PROCESSED : {$count}\n";
+    
+            echo "UPDATED ROWS    : {$updated}\n";
+    
+            echo "INSERTED ROWS   : {$inserted}\n";
+    
+            echo "SKIPPED ROWS    : {$skipped}\n";
+    
+            echo "=====================================\n";
+    
+            echo "</pre>";
+    
+            flush();
+    
+        }, 200, [
+    
+            'Content-Type' => 'text/html',
+    
+            'Cache-Control' => 'no-cache',
+    
+            'X-Accel-Buffering' => 'no',
+        ]);
+    }
 
 }

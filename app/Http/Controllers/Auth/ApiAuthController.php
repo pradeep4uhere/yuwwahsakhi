@@ -24,6 +24,7 @@ use Illuminate\Support\Facades\Http;
 use Log;
 use DB;
 use Illuminate\Validation\Rule;
+use App\Models\ImportHistory;
 
 class ApiAuthController extends Controller
 {
@@ -2434,6 +2435,13 @@ public function updatePlacementPartner(Request $request, $partnerId)
     }
 }
 
+
+
+
+    public function importStatus($id)
+    {
+        return ImportHistory::findOrFail($id);
+    }
 
 
 

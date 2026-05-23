@@ -48,6 +48,10 @@ Route::middleware(['powerbi.auth', 'throttle:30,1'])->get('/fetch-field-center',
 Route::post('/admin/login', [ApiAuthController::class, 'login']);
 // API route for deleting a partner with authentication
 Route::middleware('set.language','auth:sanctum')->group(function () {
+
+    Route::get('/import-status/{id}', [ApiAuthController::class, 'importStatus']);
+
+
     Route::delete('/deletepartner/{id}', [ApiAuthController::class, 'deletePartner'])->name('api.partner.delete');
     Route::get('/getpartnerlist', [ApiAuthController::class, 'getPartnerList']);
     Route::post('/addpartner', [ApiAuthController::class, 'addNewPartner']);
