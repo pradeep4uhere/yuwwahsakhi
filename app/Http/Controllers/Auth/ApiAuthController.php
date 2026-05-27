@@ -1751,7 +1751,13 @@ public function fetchLearners(Request $request)
                     'EARN_AT_MY_OWN_TIME'=>$item->EARN_AT_MY_OWN_TIME == 1 ? 'Yes' : 'No',
                     'RELOCATE_FOR_JOB'=>$item->RELOCATE_FOR_JOB,
                     'WHEN_CAN_USER_START'=>$item->WHEN_CAN_USER_START,
-                    'USER_NEED_HELP_WITH'=>$item->USER_NEED_HELP_WITH
+                    'USER_NEED_HELP_WITH'=>$item->USER_NEED_HELP_WITH,
+                    'no_of_pathway_completed'=>$item->no_of_pathway_completed,
+                    'no_of_pathway_enrolled'=>$item->no_of_pathway_enrolled,
+                    'no_of_applied_jobs'=>$item->no_of_applied_jobs,
+                    'no_of_applied_courses'=>$item->no_of_applied_courses,
+                    'partner_wise_course_counts'=>$item->partner_wise_course_counts,
+                    'partner_wise_job_counts'=>$item->partner_wise_job_counts
                 ];
             });
         
