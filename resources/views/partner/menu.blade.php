@@ -4,7 +4,7 @@
         <div class="header-left">
           <img src="{{asset('asset/images/YuwaahLogocolo.png')}}" alt="LogoImage" class="logoimageclass" width="100px" height="70px">
           <div class="nav">
-            <a class="{{ request()->routeIs('partner.dashboard') ? 'active' : '' }}"   href="{{route('partner.dashboard')}}">Performance</a>
+            <a class="{{ request()->routeIs('partner.dashboard') ? 'active' : '' }}"   href="{{route('partner.dashboard')}}">Home</a>
             <!-- <a class="
             {{ request()->routeIs('partner.partnercenter') ? 'active' : '' }}
             {{ request()->routeIs('partner.partnercenter.viewyuwaahsakhi') ? 'active' : '' }}" 
