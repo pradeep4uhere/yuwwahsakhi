@@ -1307,10 +1307,10 @@ class PartnerController extends Controller
     | State Data
     |--------------------------------------------------------------------------
     */
-    $statetdata = DB::table('yuwaah_sakhi as ys')
-        ->select('ys.state')
+    $statetdata = DB::table('learners as l')->where('l.PROGRAM_STATE','!=',"")
+        ->select('l.PROGRAM_STATE')
         ->distinct()
-        ->orderBy('ys.state')
+        ->orderBy('l.PROGRAM_STATE')
         ->get();
 
     $partner_id = getUserId();

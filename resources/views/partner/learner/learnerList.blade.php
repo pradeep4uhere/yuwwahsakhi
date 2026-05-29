@@ -63,8 +63,8 @@
             <select name="PROGRAM_STATE" class="form-control" id="state">
             <option value="">--Choose State--</option>
             @foreach($statetdata as $item)
-                <option value="{{ $item->state }}">
-                    {{ $item->state }}
+                <option value="{{ $item->PROGRAM_STATE }}">
+                    {{ $item->PROGRAM_STATE }}
                 </option>
             @endforeach
             </select>
