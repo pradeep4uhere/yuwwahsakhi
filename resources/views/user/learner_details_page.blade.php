@@ -86,8 +86,8 @@
           </div>
 
           <div class="flex gap-[67px] mt-1.5">
-            <p class="w-[100px] h-[12px] font-[600] text-[10px] leading-[12.19px] text-[#000000]">{{__('messages.English_Knowledge')}}</p>
-            <p class="w-[195px] h-[12px] font-[400] text-[10px] leading-[12.19px] text-[#000000]">{{$learnerDetails['english_knowledge']}}</p>
+            <p class="w-[240px] h-[12px] font-[600] text-[10px] leading-[12.19px] text-[#000000]">{{__('messages.English_Knowledge')}}</p>
+            <p class="w-[245px] h-[12px] font-[400] text-[10px] leading-[12.19px] text-[#000000]">{{$learnerDetails['english_knowledge']}}</p>
           </div>
 
           <div class="flex gap-[16px] mt-1.5">
@@ -123,7 +123,7 @@
           </div>
 
           <div class="flex gap-[66px] mt-1.5">
-            <p class="w-[101px] h-[12px] font-[600] text-[10px] leading-[12.19px] text-[#000000]">{{__('messages.Years of experience')}}
+            <p class="w-[101px] h-[12px] font-[600] text-[10px] leading-[12.19px] text-[#000000]">{{__('messages.Years_of_experience')}}
             </p>
             <p class="w-[35px] h-[12px] font-[400] text-[10px] leading-[12.19px] text-[#000000]">{{$learnerDetails['experience_years']}}</p>
           </div>
@@ -220,7 +220,7 @@
 
             <div class="flex mb-[6px]">
               <img src="{{asset('asset/images/Rupee Icon.png')}}" alt="engLogo" class="w-[9px] h-[12px] ml-[12px]  text-[#28388F0D]">
-              <p class="w-[61px] h-[12px]  ml-[10px] font-Montserrat font-[500] text-[10px] leading-[12.19px]">
+              <p class="w-[71px] h-[12px]  ml-[10px] font-Montserrat font-[500] text-[10px] leading-[12.19px]">
               {{$item['payout_monthly']}}/ {{__('messages.month')}}
               </p>
             </div>

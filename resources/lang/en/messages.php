@@ -216,7 +216,8 @@ return [
       'monthly_incentive'=>'Incentive',
       'profile'=>'Profile Setting',
       'logout'=>'Log Out',
-      'dashboard'=>'Dashboard'
+      'dashboard'=>'Dashboard',
+      'month'=>'Month'
 
      
 
