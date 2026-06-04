@@ -1756,8 +1756,8 @@ public function fetchLearners(Request $request)
                     'no_of_pathway_enrolled'=>$item->no_of_pathway_enrolled,
                     'no_of_applied_jobs'=>$item->no_of_applied_jobs,
                     'no_of_applied_courses'=>$item->no_of_applied_courses,
-                    'partner_wise_course_counts'=>$item->partner_wise_course_counts,
-                    'partner_wise_job_counts'=>$item->partner_wise_job_counts
+                    'partner_wise_course_counts'=>json_decode($item->partner_wise_course_counts),
+                    'partner_wise_job_counts'=>json_decode($item->partner_wise_job_counts)
                 ];
             });
         
