@@ -686,12 +686,18 @@ private function checkEventTypeJobSocialProtection($eventTransactionList, $learn
     }
 
 
+    
     public function getEventDocuments(Request $request)
     {
+        $partner_id = Auth::user()->partner_id; 
         $eventTypeId = $request->input('event_type_id');
         $categoryList = YuwaahEventMaster::where('event_type_id',$eventTypeId)->get();
         foreach($categoryList as $item){
-            $categoryArr[$item['id']] = $item['event_category'];    
+            if($partner_id == 4 && $item['id'] == 10){
+                continue;
+            }else{
+                $categoryArr[$item['id']] = $item['event_category'];  
+            }  
         }
         $documentsArr = [
             'document' =>  [],
