@@ -962,7 +962,7 @@ private function checkEventTypeJobSocialProtection($eventTransactionList, $learn
             // If partial match is needed: ->where('event_type', 'like', '%' . $request->event_type . '%');
         }
         // Order and paginate
-        $eventList = $query->orderBy($orderBy, $filter)->paginate();
+        $eventList = $query->orderBy($orderBy, $filter)->paginate(10);
        //dd($eventList );
 
        //dd($allEventCount);

@@ -14,7 +14,7 @@
 }
 
 .app-body {
-    padding: 16px 14px 90px;
+    padding: 16px 14px 20px;
 }
 
 .page-section {
@@ -330,8 +330,80 @@
     font-size: 12px;
     font-weight: 600;
 }
+.custom-pagination-wrapper{
+    margin:30px 0 10px;
+    text-align:center;
+}
 
+.pagination-info{
+    font-size:14px;
+    color:#666;
+    margin-bottom:15px;
+    font-weight:500;
+}
 
+.custom-pagination{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    gap:8px;
+    flex-wrap:wrap;
+}
+
+.page-btn{
+    min-width:42px;
+    height:42px;
+    padding:0 12px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:12px;
+    text-decoration:none;
+    background:#fff;
+    color:#2d3748;
+    font-weight:600;
+    border:1px solid #e5e7eb;
+    box-shadow:0 2px 8px rgba(0,0,0,.08);
+    transition:.3s;
+}
+
+.page-btn:hover{
+    transform:translateY(-2px);
+    background:#2563eb;
+    color:#fff;
+}
+
+.page-btn.active{
+    background:#2563eb;
+    color:#fff;
+    border-color:#2563eb;
+    box-shadow:0 8px 20px rgba(37,99,235,.3);
+}
+
+.page-btn.disabled{
+    opacity:.4;
+    pointer-events:none;
+}
+
+@media(max-width:576px){
+
+    .custom-pagination{
+        gap:6px;
+    }
+
+    .page-btn{
+        min-width:38px;
+        height:38px;
+        border-radius:10px;
+        font-size:14px;
+    }
+
+    .pagination-info{
+        font-size:13px;
+        line-height:1.5;
+        padding:0 15px;
+    }
+}
 </style>
 <div id="screen7" class="mobile-app-shell">
     @include('user.header')
@@ -490,6 +562,46 @@
                         @endif
                     </div>
                 @endforeach
+                @if ($eventList->hasPages())
+<div class="custom-pagination-wrapper">
+    <div class="pagination-info">
+        Showing {{ $eventList->firstItem() }} - {{ $eventList->lastItem() }}
+        of {{ $eventList->total() }} Events
+    </div>
+
+    <div class="custom-pagination">
+        {{-- Previous --}}
+        @if ($eventList->onFirstPage())
+            <span class="page-btn disabled">
+                <i class="fas fa-chevron-left"></i>
+            </span>
+        @else
+            <a href="{{ $eventList->previousPageUrl() }}" class="page-btn">
+                <i class="fas fa-chevron-left"></i>
+            </a>
+        @endif
+
+        {{-- Pages --}}
+        @foreach ($eventList->getUrlRange(1, $eventList->lastPage()) as $page => $url)
+            <a href="{{ $url }}"
+               class="page-btn {{ $page == $eventList->currentPage() ? 'active' : '' }}">
+                {{ $page }}
+            </a>
+        @endforeach
+
+        {{-- Next --}}
+        @if ($eventList->hasMorePages())
+            <a href="{{ $eventList->nextPageUrl() }}" class="page-btn">
+                <i class="fas fa-chevron-right"></i>
+            </a>
+        @else
+            <span class="page-btn disabled">
+                <i class="fas fa-chevron-right"></i>
+            </span>
+        @endif
+    </div>
+</div>
+@endif
             @else
                 <div class="empty-alert">
                     {{ __('messages.no_event_found') }}
