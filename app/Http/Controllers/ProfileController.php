@@ -359,7 +359,7 @@ class ProfileController extends Controller
     // dd($query->toSql(), $query->getBindings());
 
     // Now paginate once, at the very end
-    $learnerListArr = $query->paginate(2000)
+    $learnerListArr = $query->paginate(20)
         ->appends($request->query());
 
     // Get job event type id
@@ -380,19 +380,24 @@ class ProfileController extends Controller
     $eventTransactionList = $latestEvents->get();
     //dd($eventTransactionList);
     foreach($learnerListArr as $item){
-        $learnerList[$item['id']]=array(
+        $learnerList[]=array(
             'item'=>$item,
             'job_event'=> $this->checkIsJobEvent($eventTransactionList,$item['id']),
             'social_protection' => $this->checkEventTypeJobSocialProtection($eventTransactionList,$item['id'])
         );
     }
     
-
+    // dd([
+    //     'pagination_total' => $learnerListArr->total(),
+    //     'current_page_count' => $learnerListArr->count(),
+    //     'rendered_count' => count($learnerList),
+    // ]);
     //Log::debug('Learner ',json_encode($learnerList));
    //dd($learnerList);
     return view($this->dir . '.learner_page', [
         'leanerList' => $learnerList,
-        'total'=>count($learnerList),
+        'learnerPaginator' => $learnerListArr,
+        'total'=>$learnerListArr->total(),
         'jobEventId'=> $eventTypeId
     ]);
 }

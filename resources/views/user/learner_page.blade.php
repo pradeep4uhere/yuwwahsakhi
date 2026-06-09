@@ -335,6 +335,130 @@
     }
 }
 </style>
+<style>
+    .premium-pagination {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 18px;
+    margin: 25px 0;
+    flex-wrap: wrap;
+}
+
+.page-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 10px 18px;
+    background: #fff;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    text-decoration: none;
+    color: #374151;
+    font-size: 14px;
+    font-weight: 600;
+    transition: all .25s ease;
+    box-shadow: 0 2px 10px rgba(0,0,0,.05);
+}
+
+.page-btn:hover {
+    background: #4f46e5;
+    color: #fff;
+    border-color: #4f46e5;
+    transform: translateY(-1px);
+}
+
+.page-btn.disabled {
+    opacity: .45;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+.page-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: #fff;
+    padding: 10px 18px;
+    border-radius: 12px;
+    border: 1px solid #e5e7eb;
+    box-shadow: 0 2px 10px rgba(0,0,0,.05);
+    font-size: 14px;
+    font-weight: 600;
+    color: #4b5563;
+}
+
+.page-info select {
+    min-width: 70px;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    padding: 6px 12px;
+    font-weight: 600;
+    cursor: pointer;
+    outline: none;
+}
+
+.page-info select:focus {
+    border-color: #4f46e5;
+}
+
+@media (max-width: 576px) {
+    .premium-pagination {
+        gap: 10px;
+    }
+
+    .page-btn {
+        padding: 8px 14px;
+        font-size: 13px;
+    }
+
+    .page-info {
+        padding: 8px 14px;
+        font-size: 13px;
+    }
+
+    .page-info select {
+        min-width: 60px;
+    }
+}
+
+.simple-pagination {
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:12px;
+    margin:20px 0;
+    flex-wrap:wrap;
+}
+
+.simple-pagination a,
+.simple-pagination .disabled-btn {
+    padding:8px 14px;
+    border:1px solid #dbe3f5;
+    border-radius:10px;
+    background:#fff;
+    text-decoration:none;
+    color:#2c3e50;
+    font-weight:600;
+}
+
+.simple-pagination .page-selector {
+    display:flex;
+    align-items:center;
+    gap:8px;
+    padding:8px 12px;
+    background:#fff;
+    border:1px solid #dbe3f5;
+    border-radius:10px;
+}
+
+.simple-pagination select {
+    border:none;
+    outline:none;
+    background:transparent;
+    font-weight:600;
+}
+</style>
 <div id="screen7" class="mobile-app-shell">
     @include('user.header')
 
@@ -495,6 +619,41 @@
                         </div>
                     </a>
                 @endforeach
+                
+                <div class="simple-pagination">
+
+@if($learnerPaginator->onFirstPage())
+    <span class="disabled-btn">← Previous</span>
+@else
+    <a href="{{ $learnerPaginator->previousPageUrl() }}">← Previous</a>
+@endif
+
+<div class="page-selector">
+    <span>Page</span>
+
+    <select onchange="window.location.href=this.value">
+        @for($i = 1; $i <= $learnerPaginator->lastPage(); $i++)
+            <option
+                value="{{ $learnerPaginator->url($i) }}"
+                {{ $learnerPaginator->currentPage() == $i ? 'selected' : '' }}>
+                {{ $i }}
+            </option>
+        @endfor
+    </select>
+
+    <span>of {{ $learnerPaginator->lastPage() }}</span>
+</div>
+
+@if($learnerPaginator->hasMorePages())
+    <a href="{{ $learnerPaginator->nextPageUrl() }}">Next →</a>
+@else
+    <span class="disabled-btn">Next →</span>
+@endif
+
+</div>
+
+
+
             </div>
 
         </section>
