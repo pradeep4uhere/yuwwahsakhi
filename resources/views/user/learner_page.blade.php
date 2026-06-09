@@ -14,7 +14,7 @@
 }
 
 .app-body {
-    padding: 16px 14px 110px;
+    padding: 16px 14px 10px;
 }
 
 .page-section {
