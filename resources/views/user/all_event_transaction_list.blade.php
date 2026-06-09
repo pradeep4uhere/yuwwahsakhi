@@ -385,24 +385,46 @@
     pointer-events:none;
 }
 
-@media(max-width:576px){
+.simple-pagination{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:12px;
+    margin:25px 0 10px;
+    flex-wrap:wrap;
+}
 
-    .custom-pagination{
-        gap:6px;
-    }
+.simple-pagination a,
+.simple-pagination .disabled-btn{
+    padding:10px 14px;
+    border-radius:12px;
+    background:#fff;
+    text-decoration:none;
+    color:#333;
+    font-weight:600;
+    box-shadow:0 2px 8px rgba(0,0,0,.08);
+}
 
-    .page-btn{
-        min-width:38px;
-        height:38px;
-        border-radius:10px;
-        font-size:14px;
-    }
+.disabled-btn{
+    opacity:.5;
+    pointer-events:none;
+}
 
-    .pagination-info{
-        font-size:13px;
-        line-height:1.5;
-        padding:0 15px;
-    }
+.page-selector{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    font-weight:600;
+}
+
+.page-selector select{
+    border:none;
+    background:#fff;
+    padding:10px 12px;
+    border-radius:12px;
+    box-shadow:0 2px 8px rgba(0,0,0,.08);
+    font-weight:600;
+    cursor:pointer;
 }
 </style>
 <div id="screen7" class="mobile-app-shell">
@@ -562,46 +584,40 @@
                         @endif
                     </div>
                 @endforeach
-                @if ($eventList->hasPages())
-<div class="custom-pagination-wrapper">
-    <div class="pagination-info">
-        Showing {{ $eventList->firstItem() }} - {{ $eventList->lastItem() }}
-        of {{ $eventList->total() }} Events
+
+<div class="simple-pagination">
+    {{-- Previous --}}
+    @if($eventList->onFirstPage())
+        <span class="disabled-btn">← Previous</span>
+    @else
+        <a href="{{ $eventList->previousPageUrl() }}">← Previous</a>
+    @endif
+
+    {{-- Page Dropdown --}}
+    <div class="page-selector">
+        <span>Page</span>
+
+        <select onchange="window.location.href=this.value">
+            @for($i = 1; $i <= $eventList->lastPage(); $i++)
+                <option
+                    value="{{ $eventList->url($i) }}"
+                    {{ $eventList->currentPage() == $i ? 'selected' : '' }}>
+                    {{ $i }}
+                </option>
+            @endfor
+        </select>
+
+        <span>of {{ $eventList->lastPage() }}</span>
     </div>
 
-    <div class="custom-pagination">
-        {{-- Previous --}}
-        @if ($eventList->onFirstPage())
-            <span class="page-btn disabled">
-                <i class="fas fa-chevron-left"></i>
-            </span>
-        @else
-            <a href="{{ $eventList->previousPageUrl() }}" class="page-btn">
-                <i class="fas fa-chevron-left"></i>
-            </a>
-        @endif
+    {{-- Next --}}
+    @if($eventList->hasMorePages())
+        <a href="{{ $eventList->nextPageUrl() }}">Next →</a>
+    @else
+        <span class="disabled-btn">Next →</span>
+    @endif
 
-        {{-- Pages --}}
-        @foreach ($eventList->getUrlRange(1, $eventList->lastPage()) as $page => $url)
-            <a href="{{ $url }}"
-               class="page-btn {{ $page == $eventList->currentPage() ? 'active' : '' }}">
-                {{ $page }}
-            </a>
-        @endforeach
-
-        {{-- Next --}}
-        @if ($eventList->hasMorePages())
-            <a href="{{ $eventList->nextPageUrl() }}" class="page-btn">
-                <i class="fas fa-chevron-right"></i>
-            </a>
-        @else
-            <span class="page-btn disabled">
-                <i class="fas fa-chevron-right"></i>
-            </span>
-        @endif
-    </div>
 </div>
-@endif
             @else
                 <div class="empty-alert">
                     {{ __('messages.no_event_found') }}
