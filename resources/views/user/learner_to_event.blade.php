@@ -508,7 +508,9 @@
 
                             <div class="existing-doc-preview">
                                 @if(in_array($extension, ['jpg', 'jpeg', 'png']))
+                                <a href="{{ asset('storage/' . $documentFileArray[$keyIndex]) }}" target="_blank" class="doc-preview-link">
                                     <img src="{{ asset('storage/' . $documentFileArray[$keyIndex]) }}" alt="document preview" class="doc-preview-image">
+                                </a>
                                 @else
                                     <a href="{{ asset('storage/' . $documentFileArray[$keyIndex]) }}" target="_blank" class="doc-preview-link">View File</a>
                                 @endif
