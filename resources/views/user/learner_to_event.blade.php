@@ -457,6 +457,45 @@
                 </div>
 
                 <div id="documentInputsContainer" class="dynamic-documents-wrap">
+                <!-- @foreach($mergedDocuments as $documentType => $documentPath)
+                    <div class="document-upload-card">
+
+                        <label>
+                            {{ $documentType }}
+                        </label>
+
+                        @php
+                            $extension = strtolower(pathinfo($documentPath, PATHINFO_EXTENSION));
+                        @endphp
+
+                        <div class="existing-doc-preview">
+                            @if(in_array($extension, ['jpg', 'jpeg', 'png', 'gif', 'webp']))
+                             <a
+                                    href="{{ asset('storage/'.$documentPath) }}"
+                                    target="_blank"
+                                    class="doc-preview-link">
+                                <img
+                                    src="{{ asset('storage/'.$documentPath) }}"
+                                    alt="{{ $documentType }}"
+                                    class="doc-preview-image">
+                                </a>
+                            @else
+                                <a
+                                    href="{{ asset('storage/'.$documentPath) }}"
+                                    target="_blank"
+                                    class="doc-preview-link">
+                                    View {{ $documentType }}
+                                </a>
+                            @endif
+                        </div>
+
+                        <input
+                            type="file"
+                            name="documents[{{ $documentType }}]"
+                            id="document_{{ \Illuminate\Support\Str::slug($documentType) }}">
+                    </div>
+                @endforeach -->
+                    <?php $keyIndex=0; ?>
                     @foreach($documentArr as $key => $doc)
                         <div class="document-upload-card">
                             <label for="document_{{ $key + 1 }}">
@@ -464,19 +503,20 @@
                             </label>
 
                             @php
-                                $extension = strtolower(pathinfo($doc['document'], PATHINFO_EXTENSION));
+                                $extension = strtolower(pathinfo( $documentFileArray[$keyIndex], PATHINFO_EXTENSION));
                             @endphp
 
                             <div class="existing-doc-preview">
                                 @if(in_array($extension, ['jpg', 'jpeg', 'png']))
-                                    <img src="{{ asset('storage/' . $doc['document']) }}" alt="document preview" class="doc-preview-image">
+                                    <img src="{{ asset('storage/' . $documentFileArray[$keyIndex]) }}" alt="document preview" class="doc-preview-image">
                                 @else
-                                    <a href="{{ asset('storage/' . $doc['document']) }}" target="_blank" class="doc-preview-link">View File</a>
+                                    <a href="{{ asset('storage/' . $documentFileArray[$keyIndex]) }}" target="_blank" class="doc-preview-link">View File</a>
                                 @endif
                             </div>
 
                             <input id="document_{{ $key + 1 }}" name="document_doc_{{ $key + 1 }}" type="file">
                         </div>
+                   <?php $keyIndex++; ?>
                     @endforeach
                 </div>
 

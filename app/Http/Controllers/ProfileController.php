@@ -1458,7 +1458,15 @@ As a catalytic multi-stakeholder partnership, YuWaah is dedicated to transformin
         $documentTypeArr[] = $eventCategoryList[0]['document_2'];
         $documentTypeArr[] = $eventCategoryList[0]['document_3'];
 
+
+        $documentFileArray = [];
+        $documentFileArr = json_decode($eventTransactionDetails['uploaded_doc_links'],true);
+        foreach($documentFileArr as $val){
+            $documentFileArray[] = $val;
+        }
        //dd();
+       //echo "<pre>";
+       //print_r($documentFileArray);
        //dd( $documentTypeArr);
        $count =0;
        $documentNewArr = [];
@@ -1470,11 +1478,18 @@ As a catalytic multi-stakeholder partnership, YuWaah is dedicated to transformin
             ];
             $count++;
         }
+
+
         //dd($eventCategoryList);
-        //dd($documentNewArr);
-       
+        //dd($documentTypeArr);
 
        
+        //dd($eventTransactionDetails['uploaded_doc_links']);
+
+        //$documentFileArr = [];
+       
+        //dd($documentFileArr );
+        $mergedDocuments = [];
         return view($this->dir.'.learner_to_event',[
             'item'=>$eventTransactionDetails,
             'ysid'=>encryptString(getUserId()),
@@ -1482,6 +1497,8 @@ As a catalytic multi-stakeholder partnership, YuWaah is dedicated to transformin
             'eventCategoryList'=>$eventCategoryList,
             'documentArr'=>$documentNewArr,
             'documentTypeArr'=>$documentTypeArr,
+            'mergedDocuments'=>$mergedDocuments,
+            'documentFileArray'=>$documentFileArray,
             'opid'=>$id,
         ]);
 
