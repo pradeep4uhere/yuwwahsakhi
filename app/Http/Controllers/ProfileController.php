@@ -1489,6 +1489,13 @@ As a catalytic multi-stakeholder partnership, YuWaah is dedicated to transformin
         //$documentFileArr = [];
        
         //dd($documentFileArr );
+
+        // dd([
+        //     'documentArr' => count($documentNewArr),
+        //     'documentFileArray' => count($documentFileArray),
+        //     'documentFileArrayData' => $documentFileArray
+        // ]);
+
         $mergedDocuments = [];
         return view($this->dir.'.learner_to_event',[
             'item'=>$eventTransactionDetails,

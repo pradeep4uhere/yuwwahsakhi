@@ -503,17 +503,35 @@
                             </label>
 
                             @php
-                                $extension = strtolower(pathinfo( $documentFileArray[$keyIndex], PATHINFO_EXTENSION));
+                                $filePath = $documentFileArray[$keyIndex] ?? null;
+                                $extension = '';
+                                if ($filePath) {
+                                    $extension = strtolower(pathinfo($filePath, PATHINFO_EXTENSION));
+                                }
                             @endphp
 
                             <div class="existing-doc-preview">
-                                @if(in_array($extension, ['jpg', 'jpeg', 'png']))
-                                <a href="{{ asset('storage/' . $documentFileArray[$keyIndex]) }}" target="_blank" class="doc-preview-link">
-                                    <img src="{{ asset('storage/' . $documentFileArray[$keyIndex]) }}" alt="document preview" class="doc-preview-image">
-                                </a>
+
+                                @if($filePath)
+
+                                    @if(in_array($extension, ['jpg', 'jpeg', 'png']))
+                                        <a href="{{ asset('storage/' . $filePath) }}" target="_blank">
+                                            <img src="{{ asset('storage/' . $filePath) }}"
+                                                alt="document preview"
+                                                class="doc-preview-image">
+                                        </a>
+                                    @else
+                                        <a href="{{ asset('storage/' . $filePath) }}"
+                                        target="_blank"
+                                        class="doc-preview-link">
+                                            View File
+                                        </a>
+                                    @endif
+
                                 @else
-                                    <a href="{{ asset('storage/' . $documentFileArray[$keyIndex]) }}" target="_blank" class="doc-preview-link">View File</a>
+                                    <span class="text-muted">No document uploaded</span>
                                 @endif
+
                             </div>
 
                             <input id="document_{{ $key + 1 }}" name="document_doc_{{ $key + 1 }}" type="file">
