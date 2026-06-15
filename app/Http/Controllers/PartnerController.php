@@ -1228,6 +1228,7 @@ class PartnerController extends Controller
     //dd(config('constants.partners'));
     //echo Auth::user()->partner_id;
     //echo 'constants.partners.'.Auth::user()->partner_id;
+    //dd(Auth::user());
     $program_code = config('constants.partners.'.Auth::user()->partner_id); 
     
 
