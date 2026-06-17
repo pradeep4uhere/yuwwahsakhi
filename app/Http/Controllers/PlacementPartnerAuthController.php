@@ -1039,6 +1039,10 @@ class PlacementPartnerAuthController extends Controller
         ->leftJoin('yuwaah_event_masters as em', 'em.id', '=', 'et.event_category')
         ->where('ys.partner_placement_user_id', $partnerPlacementId)
         ->where('ys.csc_id','!=','Sandbox_Testing')
+        // Special condition for Partner ID 13
+        ->when($partnerPlacementId == 13, function ($query) {
+            $query->where('et.created_at', '>', '2026-06-15 00:00:00');
+        })
         ->whereNotNull('et.review_status')
         ->whereNotNull('et.learner_id')
         ->whereNotNull('et.event_date_submitted')
