@@ -369,42 +369,54 @@ class PlacementPartnerAuthController extends Controller
 
     public function fieldAgentWithEventTransactions(Request $request){
         $totalYuwwahSakhi = YuwaahSakhi::where('partner_placement_user_id',getUserId()) ->where('csc_id','!=' ,'Sandbox_Testing')->count();
-        
+        $partnerPlacementId = getUserId();
+        $eventFilter = function ($q) use ($partnerPlacementId) {
+            if ($partnerPlacementId == 13) {
+                $q->whereDate('created_at', '>', '2026-06-15');
+            }
+        };
         // Start query builder
         $query = YuwaahSakhi::with(['Partner', 'PartnerCenter'])
         ->where('partner_placement_user_id', getUserId())
         ->where('csc_id','!=' ,'Sandbox_Testing')
         ->withCount([
             // Total event transactions
-            'eventTransactions',
+            'eventTransactions' => function ($q) use ($eventFilter) {
+                    $eventFilter($q);
+                },
 
             // All Job Event Transactions Count
             'eventTransactions as job_transactions_count' => function ($q) {
                 $q->whereIn('event_type', [1,5]);
+                $eventFilter($q);
             },
 
            // Submitted Job Event Transactions Count
             'eventTransactions as open_job_event__transactions_count' => function ($q) {
                 $q->where('review_status', 'Open')
                 ->whereIn('event_type', [1, 5]);
+                $eventFilter($q);
             },
 
             // Pending Job Event Transactions Count
             'eventTransactions as pending_job_event__transactions_count' => function ($q) {
                 $q->where('review_status', 'Pending')
                 ->whereIn('event_type', [1, 5]);
+                $eventFilter($q);
             },
 
             // Accepted Job Event Transactions Count
             'eventTransactions as accepted_job_event__transactions_count' => function ($q) {
                 $q->where('review_status', 'Accepted')
                 ->whereIn('event_type', [1, 5]);
+                $eventFilter($q);
             },
 
             // Rejected Job  Event Transactions Count
             'eventTransactions as rejected_job_event_transactions_count' => function ($q) {
                 $q->where('review_status', 'Rejected')
                 ->whereIn('event_type', [1, 5]);
+                $eventFilter($q);
             },
 
             
@@ -412,6 +424,7 @@ class PlacementPartnerAuthController extends Controller
             // All SocialProtecion Event Transactions Count
             'eventTransactions as socialprotection_transactions_count' => function ($q) {
                 $q->whereIn('event_type', [3]);
+                $eventFilter($q);
             },
 
           
@@ -419,24 +432,28 @@ class PlacementPartnerAuthController extends Controller
             'eventTransactions as open_social_protection_event_transactions_count' => function ($q) {
                 $q->where('review_status', 'Open')
                 ->whereIn('event_type', [3]);
+                $eventFilter($q);
             },
 
             // Pending Job Event Transactions Count
             'eventTransactions as pending_social_protection_transactions_count' => function ($q) {
                 $q->where('review_status', 'Pending')
                 ->whereIn('event_type', [3]);
+                $eventFilter($q);
             },
 
             // Accepted Job Event Transactions Count
             'eventTransactions as accepted_social_protection_transactions_count' => function ($q) {
                 $q->where('review_status', 'Accepted')
                 ->whereIn('event_type', [3]);
+                $eventFilter($q);
             },
 
             // Rejected Job  Event Transactions Count
             'eventTransactions as rejected_social_protection_transactions_count' => function ($q) {
                 $q->where('review_status', 'Rejected')
                 ->whereIn('event_type', [3]);
+                $eventFilter($q);
             },
             'learners as learner_count' => function ($q) {
                 $q->whereColumn('learners.UNIT_INSTITUTE', 'yuwaah_sakhi.csc_id');
