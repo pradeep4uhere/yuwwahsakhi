@@ -20,35 +20,49 @@ class PlacementPartnerExportFiledAgents implements FromQuery, WithHeadings, With
 
     public function query()
     {
+
+        $partnerPlacementId = getUserId();
+        $eventFilter = function ($q) use ($partnerPlacementId) {
+            if ($partnerPlacementId == 13) {
+                $q->whereDate('created_at', '>', '2026-06-15');
+            }
+        };
+
         $query = YuwaahSakhi::where('partner_placement_user_id', getUserId())
         ->where('csc_id','!=','Sandbox_Testing')
         ->withCount([
             // Total event transactions
-            'eventTransactions',
-
-            // Pending event transactions count
-              'eventTransactions as job_transactions_count' => function ($q) {
+            'eventTransactions' => function ($q) use ($eventFilter)  {
+                    $eventFilter($q);
+                },
+             // All Job Event Transactions Count
+             'eventTransactions as job_transactions_count' => function ($q) use ($eventFilter) {
                 $q->whereIn('event_type', [1,5]);
+                $eventFilter($q);
             },
 
             // Open event transactions count
-            'eventTransactions as open_transactions_count' => function ($q) {
+            'eventTransactions as open_transactions_count' => function ($q) use ($eventFilter) {
                 $q->where('review_status', 'Open');
+                $eventFilter($q);
             },
 
             // Pending event transactions count
-            'eventTransactions as pending_transactions_count' => function ($q) {
+            'eventTransactions as pending_transactions_count' => function ($q) use ($eventFilter) {
                 $q->where('review_status', 'Pending');
+                $eventFilter($q);
             },
 
             // Pending event transactions count
-            'eventTransactions as accepted_transactions_count' => function ($q) {
+            'eventTransactions as accepted_transactions_count' => function ($q) use ($eventFilter) {
                 $q->where('review_status', 'Accepted');
+                $eventFilter($q);
             },
 
             // Pending event transactions count
-            'eventTransactions as rejected_transactions_count' => function ($q) {
+            'eventTransactions as rejected_transactions_count' => function ($q) use ($eventFilter) {
                 $q->where('review_status', 'Rejected');
+                $eventFilter($q);
             },
 
             //  // All Job Event Transactions Count
@@ -57,57 +71,66 @@ class PlacementPartnerExportFiledAgents implements FromQuery, WithHeadings, With
             // },
 
            // Submitted Job Event Transactions Count
-            'eventTransactions as open_job_event_transactions_count' => function ($q) {
+            'eventTransactions as open_job_event_transactions_count' => function ($q) use ($eventFilter) {
                 $q->where('review_status', 'Open')
                 ->whereIn('event_type', [1, 5]);
+                $eventFilter($q);
             },
 
             // Pending Job Event Transactions Count
-            'eventTransactions as pending_job_event_transactions_count' => function ($q) {
+            'eventTransactions as pending_job_event_transactions_count' => function ($q) use ($eventFilter) {
                 $q->where('review_status', 'Pending')
                 ->whereIn('event_type', [1, 5]);
+                $eventFilter($q);
             },
 
             // Accepted Job Event Transactions Count
-            'eventTransactions as accepted_job_event_transactions_count' => function ($q) {
+            'eventTransactions as accepted_job_event_transactions_count' => function ($q) use ($eventFilter) {
                 $q->where('review_status', 'Accepted')
                 ->whereIn('event_type', [1, 5]);
+                $eventFilter($q);
             },
 
             // Rejected Job  Event Transactions Count
-            'eventTransactions as rejected_job_event_transactions_count' => function ($q) {
+            'eventTransactions as rejected_job_event_transactions_count' => function ($q) use ($eventFilter) {
                 $q->where('review_status', 'Rejected')
                 ->whereIn('event_type', [1, 5]);
+                $eventFilter($q);
             },
 
           
 
             // All SocialProtecion Event Transactions Count
-            'eventTransactions as socialprotection_transactions_count' => function ($q) {
+            'eventTransactions as socialprotection_transactions_count' => function ($q) use ($eventFilter) {
                 $q->whereIn('event_type', [3]);
+                $eventFilter($q);
             },
             // All Submitted SocialProtecion Event Transactions Count
-            'eventTransactions as open_social_protection_event_transactions_count' => function ($q) {
+            'eventTransactions as open_social_protection_event_transactions_count' => function ($q) use ($eventFilter) {
                 $q->where('review_status', 'Open')
                 ->whereIn('event_type', [3]);
+                $eventFilter($q);
             },
 
             // Pending Job Event Transactions Count
-            'eventTransactions as pending_social_protection_transactions_count' => function ($q) {
+            'eventTransactions as pending_social_protection_transactions_count' => function ($q) use ($eventFilter) {
                 $q->where('review_status', 'Pending')
                 ->whereIn('event_type', [3]);
+                $eventFilter($q);
             },
 
             // Accepted Job Event Transactions Count
-            'eventTransactions as accepted_social_protection_transactions_count' => function ($q) {
+            'eventTransactions as accepted_social_protection_transactions_count' => function ($q) use ($eventFilter) {
                 $q->where('review_status', 'Accepted')
                 ->whereIn('event_type', [3]);
+                $eventFilter($q);
             },
 
             // Rejected Job  Event Transactions Count
-            'eventTransactions as rejected_social_protection_transactions_count' => function ($q) {
+            'eventTransactions as rejected_social_protection_transactions_count' => function ($q) use ($eventFilter) {
                 $q->where('review_status', 'Rejected')
                 ->whereIn('event_type', [3]);
+                $eventFilter($q);
             },
 
           
