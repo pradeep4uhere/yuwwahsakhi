@@ -409,26 +409,7 @@ td {
                 
             </div>
         </div>
-        <!-- Stats -->
-        <div class="stats">
-                <div class="stat-card">
-                    <div class="stat-label">Total Active Partner Center <span class="stat-value1">0</span></div>
-                    <!-- <div class="stat-value">6</div> -->
-                </div>
-                 <div class="stat-card">
-                    <div class="stat-label">Total Opportunities <span class="stat-value1">0</span></div>
-                    <!-- <div class="stat-value">6</div> -->
-                </div>
-                <div class="stat-card">
-                    <div class="stat-label"> Promotions <span class="stat-value2">0</span></div>
-                    <!-- <div class="stat-value">12</div> -->
-                </div>
-                <div class="stat-card">
-                    <div class="stat-label">Total Events <span class="stat-value1">0</span></div>
-                    <!-- <div class="stat-value">6</div> -->
-                </div>
-            </div>
-
+      
         <!-- Tabs -->
         <div class="tabss">
         {{-- Success Message --}}
