@@ -28,9 +28,9 @@
             <img src="{{asset('asset/images/Profile.png')}}" alt="" id="profilePic" class="profile-pic">
             <div id="menu" class="menu">
               <ul >
-                  <li class="info-item"><a href="{{route('partner.setting')}}">View Profile</a></li>
-                  <li class="info-item"><a href="{{route('partner.setting')}}">Settings</a></li>
-                  <li class="info-item"><form method="POST" action="{{ route('partner.logout') }}">
+                  <li class="info-item"><a href="{{route('placementpartner.setting')}}">View Profile</a></li>
+                  <li class="info-item"><a href="{{route('placementpartner.setting')}}">Settings</a></li>
+                  <li class="info-item"><form method="POST" action="{{ route('placementpartner.logout') }}">
                     @csrf
                     <a href="route('admin.logout')"
                                     onclick="event.preventDefault();

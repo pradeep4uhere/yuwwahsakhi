@@ -1,5 +1,5 @@
 @extends('layouts.list')
-@section('title', 'Partner Setting Page')
+@section('title', 'Placement Partner Setting Page')
 @section('content')
 @include('partner.menu')
 <!-- In your layouts.app head section -->
@@ -396,11 +396,11 @@ td {
                 </div>
                 <div class="info-item">
                     <span>Contact Number</span>
-                    <span class="info-value">{{$partner['contact_number']}}</span>
+                    <span class="info-value">{{$partner['phone']}}</span>
                 </div>
                 <div class="info-item">
                     <span>Onboarded On</span>
-                    <span class="info-value">{{$partner['onboard_date']}}</span>
+                    <span class="info-value">{{$partner['created_at']}}</span>
                 </div>
                 <div class="info-item">
                     <span>Status</span>
@@ -451,7 +451,7 @@ td {
         <div class="card-body">
         
         {{-- Form Start --}}
-        <form action="{{ route('partner.password.change') }}" method="POST">
+        <form action="{{ route('placementpartner.password.change') }}" method="POST">
             @csrf
 
             <div class="mb-3 ">

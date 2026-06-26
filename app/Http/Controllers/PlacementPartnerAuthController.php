@@ -17,9 +17,11 @@ use App\Models\Learner;
 use App\Models\Partner;
 use Illuminate\Contracts\Encryption\DecryptException;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Hash;
 use Crypt;
 use App\Exports\PlacementPartnerLearnersExport;
 use App\Exports\PlacementPartnerLearnersEventExport;
+
 
 class PlacementPartnerAuthController extends Controller
 {
@@ -1087,4 +1089,42 @@ class PlacementPartnerAuthController extends Controller
         );
     }
     /***********End of Controller******************** */
+
+
+
+
+    public function settingProfile(Request $request){
+        $partner = Auth::user();
+       
+        return view('placementpartner.setting', [
+            'partner' => $partner, // Fetch authenticated partner
+        ]);
+    }
+
+
+
+
+    public function changePassword(Request $request)
+    {
+        $request->validate([
+            'current_password' => ['required'],
+            'new_password' => ['required', 'string', 'min:8', 'confirmed'],
+        ]);
+
+        $partner = Auth::guard('pp_partner')->user(); // Corrected for partner guard
+
+        if (!$partner) {
+            return redirect()->route('pppartner.login')->withErrors(['error' => 'Unauthorized access.']);
+        }
+
+        if (!Hash::check($request->current_password, $partner->password)) {
+            return back()->withErrors(['current_password' => 'Current password is incorrect.']);
+        }
+
+        $partner->password = Hash::make($request->new_password);
+        $partner->save();
+
+        return back()->with('success', 'Password changed successfully.');
+    }
+
 }

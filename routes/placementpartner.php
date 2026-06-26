@@ -19,7 +19,7 @@ use App\Exports\EventTransactionsExport;
 
 // Admin login route
 Route::middleware('pp_partner.guest')->group(function () {
-    Route::post('/logout', [PlacementPartnerAuthController::class, 'logout'])->name('pppartner.logout');
+   
     Route::get('/login', [PlacementPartnerAuthController::class, 'loginForm'])->name('pppartner.login.get');
     Route::post('/login', [PlacementPartnerAuthController::class, 'login'])->name('pppartner.login');
 });
@@ -30,6 +30,7 @@ Route::post('/logout', [PartnerAuthController::class, 'logout'])->name('partner.
 
 // Use the 'admin' guard instead of the default 'auth' guard
 Route::middleware('auth:pp_partner')->group(function () {
+    Route::post('/logout', [PlacementPartnerAuthController::class, 'logout'])->name('placementpartner.logout');
     Route::get('/dashboard', [PlacementPartnerAuthController::class, 'allLearner'])->name('placementpartner.dashboard');
     Route::get('/viewyuwaahsakhi', [PlacementPartnerAuthController::class, 'viewAllFieldCenter'])->name('placementpartner.viewyuwaahsakhi');
     Route::get('export-placement-yuwaah-sakhi', [PlacementPartnerAuthController::class, 'exportPlacementYuwaahSakhi'])->name('export.placementpartner.viewyuwaahsakhi');
@@ -55,6 +56,9 @@ Route::middleware('auth:pp_partner')->group(function () {
     Route::delete('/profile', [PlacementPartnerAuthController::class, 'destroy'])->name('profile.destroy');
 
     Route::get('placement-partner/export', [PlacementPartnerAuthController::class, 'exportPlacementPartnerLearners'])->name('exportPlacementPartnerLearners');
+
+    Route::get('setting', [PlacementPartnerAuthController::class, 'settingProfile'])->name('placementpartner.setting');
+    Route::post('partner_password', [PlacementPartnerAuthController::class, 'changePassword'])->name('placementpartner.password.change');
    
     
 });
