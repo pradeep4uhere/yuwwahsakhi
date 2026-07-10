@@ -37,7 +37,7 @@ use App\Exports\YhubLearnersExport;
 use App\Exports\PartnerPlacementUserExport;
 use App\Models\ImportHistory;
 use App\Jobs\ImportLearnersJob;
-
+use DB;
 
 
 
@@ -45,6 +45,32 @@ use App\Jobs\ImportLearnersJob;
 class AdminController extends Controller
 {
     
+
+    protected function formatDate($date)
+{
+    if (empty($date)) {
+        return null;
+    }
+
+    try {
+        $date = trim($date);
+
+        // Try automatic parsing
+        return Carbon::parse($date)->format('Y-m-d');
+    } catch (\Exception $e) {
+
+        // Try common formats
+        foreach (['d-m-Y', 'd/m/Y', 'Y-m-d', 'm/d/Y'] as $format) {
+            try {
+                return Carbon::createFromFormat($format, $date)->format('Y-m-d');
+            } catch (\Exception $e) {
+                // Try next format
+            }
+        }
+
+        return null;
+    }
+} 
       /**
      * Display the user's profile form.
      */
@@ -1947,55 +1973,109 @@ public function importEventTransactionForm(Request $request){
 }
 
 
-
 public function importEventTransaction(Request $request)
 {
+
+    
     $request->validate([
         'partner_id'        => 'required',
         'partner_center_id' => 'required',
-        'file'              => 'required|mimes:csv,txt'
+        'file'              => 'required|mimes:csv,txt',
     ]);
 
     $path = $request->file('file')->getRealPath();
     $file = fopen($path, 'r');
-    $header = fgetcsv($file); // skip header row
 
-    //dd($request->all());
+    // Read Header
+    $header = fgetcsv($file);
+    $header[0] = preg_replace('/^\xEF\xBB\xBF/', '', $header[0]);
 
-    while (($row = fgetcsv($file, 1000, ',')) !== FALSE) {
-          // Convert all columns to UTF-8
-    $row = array_map(function ($field) {
-        return mb_convert_encoding($field, 'UTF-8', 'ISO-8859-1');
-    }, $row);
-    $eventValue = preg_replace('/[^0-9.\-]/', '', $row[1]); 
+    $inserted = 0;
+    $failed = 0;
+    $failedRows = [];
 
-    
-    // If it's empty or not numeric, set it to 0
-    if ($eventValue === '' || !is_numeric($eventValue)) {
-        $eventValue = 0;
-    }
-    
-    EventTransaction::create([
-            'beneficiary_phone_number'  => $row[0],  // reuse hashed password
-            'event_value'               => $eventValue,
-            'event_id'                  => $row[7], //Event Type Id
-            'event_type'                => $row[7], //Event Type Id
-            'event_category'            => $row[8], // Event Master Value id
-            'event_name'                => $row[11],
-            'review_status'             => $row[9],
-            'event_date_created'        => now(),
-            'event_date_submitted'      => now(),
-            'ys_id'                     => $row[10],
-            'event_category_name'       => $row[6],
+    DB::beginTransaction();
+
+    try {
+
+        $rowNumber = 1; // Header row
+
+        while (($row = fgetcsv($file, 0, ',')) !== false) {
+
+            $rowNumber++;
+
+            // Skip empty rows
+            if (count(array_filter($row)) == 0) {
+                continue;
+            }
+
+            try {
+
+                $data = array_combine($header, $row);
+
+                $learner = Learner::where(
+                    'primary_phone_number',
+                    $data['beneficiary_phone_number']
+                )->first();
+
+                EventTransaction::create([
+                    'learner_id'               => optional($learner)->id,
+                    'beneficiary_phone_number' => $data['beneficiary_phone_number'] ?: null,
+                    'beneficiary_name'         => $data['beneficiary_name'] ?: null,
+                    'review_status'           => 'Accepted',
+                    'event_id'                => $this->blankToNull($data['event_id']),
+                    'event_type'              => $this->blankToNull($data['event_type']),
+                    'event_category_name'     => $this->blankToNull($data['event_category_name']),
+                    'event_category'          => $this->blankToNull($data['event_category']),
+                    'event_name'              => $this->blankToNull($data['event_name']),
+                    'event_date_created'      => $this->formatDate($data['event_date_created']),
+                    'event_date_submitted'    => $this->formatDate($data['event_date_submitted']),
+                    'event_value'             => is_numeric($data['event_value']) ? $data['event_value'] : 0,
+                    'field_type'              => $this->blankToNull($data['field_type']),
+                    'industry_type'           => $this->blankToNull($data['industry_type']),
+                    'ys_id'                   => 0,
+                    'uploaded_doc_links'      => $this->blankToNull($data['uploaded_doc_links']),
+                    'document_type'           => $this->blankToNull($data['document_type']),
+                    'comment'                 => $this->blankToNull($data['comment']),
+                ]);
+
+                $inserted++;
+
+            } catch (\Exception $e) {
+
+                $failed++;
+
+                $failedRows[] = [
+                    'row' => $rowNumber,
+                    'error' => $e->getMessage(),
+                ];
+
+                // Continue importing remaining rows
+                continue;
+            }
+        }
+
+        fclose($file);
+
+        DB::commit();
+
+        return back()->with([
+            'success' => "Import completed. Inserted: {$inserted}, Failed: {$failed}",
+            'inserted_count' => $inserted,
+            'failed_count' => $failed,
+            'failed_rows' => $failedRows,
         ]);
-       
+
+    } catch (\Exception $e) {
+
+        DB::rollBack();
+
+        return back()->with(
+            'error',
+            'Import failed: ' . $e->getMessage()
+        );
     }
-
-    fclose($file);
-
-    return back()->with('success', 'CSV Imported Successfully!');
 }
-
 
 
 
@@ -2157,6 +2237,13 @@ public function importEventTransaction(Request $request)
     {
         return Excel::download(new PartnerPlacementUserExport, 'partner_users.xlsx');
     }
+
+
+
+    protected function blankToNull($value)
+{
+    return trim((string) $value) === '' ? null : trim($value);
+}
 
 
     public function importLearners(Request $request)

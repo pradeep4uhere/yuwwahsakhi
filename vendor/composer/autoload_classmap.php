@@ -7,6 +7,7 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'App\\Console\\Commands\\CompressImages' => $baseDir . '/app/Console/Commands/CompressImages.php',
+    'App\\Console\\Commands\\GenerateFieldAgentSummary' => $baseDir . '/app/Console/Commands/GenerateFieldAgentSummary.php',
     'App\\Console\\Commands\\ImportLearnerData' => $baseDir . '/app/Console/Commands/ImportLearnerData.php',
     'App\\Console\\Commands\\MysqlBackup' => $baseDir . '/app/Console/Commands/MysqlBackup.php',
     'App\\Console\\Commands\\OptimizePdfFiles' => $baseDir . '/app/Console/Commands/OptimizePdfFiles.php',
@@ -127,6 +128,7 @@ return array(
     'App\\Providers\\EventServiceProvider' => $baseDir . '/app/Providers/EventServiceProvider.php',
     'App\\Providers\\RouteServiceProvider' => $baseDir . '/app/Providers/RouteServiceProvider.php',
     'App\\Providers\\TelescopeServiceProvider' => $baseDir . '/app/Providers/TelescopeServiceProvider.php',
+    'App\\Services\\FieldAgentSummaryService' => $baseDir . '/app/Services/FieldAgentSummaryService.php',
     'App\\Services\\SMSService' => $baseDir . '/app/Services/SMSService.php',
     'App\\Utilities\\CustomCarbon' => $baseDir . '/app/Utilities/CustomCarbon.php',
     'App\\View\\Components\\AppLayout' => $baseDir . '/app/View/Components/AppLayout.php',

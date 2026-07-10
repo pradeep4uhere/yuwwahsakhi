@@ -152,38 +152,6 @@ $(document).ready(function() {
 <div id="logs"></div>
 
 <script>
-
-let importId = 1;
-
-setInterval(() => {
-
-    fetch(`/api/import-status/${importId}`)
-        .then(res => res.json())
-        .then(data => {
-
-            document.getElementById('logs').innerHTML = '';
-
-            data.logs.forEach(log => {
-
-                document.getElementById('logs').innerHTML += `
-                    <div>
-                        ${log.type.toUpperCase()}
-                        :
-                        ${log.name}
-                        (${log.phone})
-                    </div>
-                `;
-            });
-
-            console.log(
-                'Processed:',
-                data.processed_rows
-            );
-
-        });
-
-}, 2000);
-
 </script>
     </body>
 </html>

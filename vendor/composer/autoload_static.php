@@ -713,6 +713,7 @@ class ComposerStaticInit9c491b8531eec05ba41a11d9276a5749
 
     public static $classMap = array (
         'App\\Console\\Commands\\CompressImages' => __DIR__ . '/../..' . '/app/Console/Commands/CompressImages.php',
+        'App\\Console\\Commands\\GenerateFieldAgentSummary' => __DIR__ . '/../..' . '/app/Console/Commands/GenerateFieldAgentSummary.php',
         'App\\Console\\Commands\\ImportLearnerData' => __DIR__ . '/../..' . '/app/Console/Commands/ImportLearnerData.php',
         'App\\Console\\Commands\\MysqlBackup' => __DIR__ . '/../..' . '/app/Console/Commands/MysqlBackup.php',
         'App\\Console\\Commands\\OptimizePdfFiles' => __DIR__ . '/../..' . '/app/Console/Commands/OptimizePdfFiles.php',
@@ -833,6 +834,7 @@ class ComposerStaticInit9c491b8531eec05ba41a11d9276a5749
         'App\\Providers\\EventServiceProvider' => __DIR__ . '/../..' . '/app/Providers/EventServiceProvider.php',
         'App\\Providers\\RouteServiceProvider' => __DIR__ . '/../..' . '/app/Providers/RouteServiceProvider.php',
         'App\\Providers\\TelescopeServiceProvider' => __DIR__ . '/../..' . '/app/Providers/TelescopeServiceProvider.php',
+        'App\\Services\\FieldAgentSummaryService' => __DIR__ . '/../..' . '/app/Services/FieldAgentSummaryService.php',
         'App\\Services\\SMSService' => __DIR__ . '/../..' . '/app/Services/SMSService.php',
         'App\\Utilities\\CustomCarbon' => __DIR__ . '/../..' . '/app/Utilities/CustomCarbon.php',
         'App\\View\\Components\\AppLayout' => __DIR__ . '/../..' . '/app/View/Components/AppLayout.php',
