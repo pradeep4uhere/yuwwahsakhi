@@ -2505,6 +2505,9 @@ public function importEventTransaction(Request $request)
                             $data['USER_NEED_HELP_WITH'] ?? null,
             
                         'updated_at' => now(),
+
+                        'create_date' =>
+                        $data['create_date'] ?? null,
                     ];
             
                     // Find learner

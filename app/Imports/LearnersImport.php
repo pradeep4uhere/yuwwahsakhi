@@ -60,8 +60,8 @@ class LearnersImport implements ToModel, WithChunkReading
             'yuwaah_resume_update_date'=>$this->parseDate($row['create_date']),
             'last_month_salary' => $row['last_month_salary'],
             'created_at' => $this->parseDate(date('Y-m-d h:i:s')),
-            'updated_at' => $this->parseDate(date('Y-m-d h:i:s')),
-            'create_date'=> $this->parseDate(date('Y-m-d h:i:s')),
+            'updated_at' => $this->parseDate(date('Y-m-d h:i:s'))
+            
             
         ]);
 
