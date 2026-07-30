@@ -9,7 +9,8 @@ return [
         'TIF'  => 'Times Employ India Foundation',
         'CD' => 'Computer Didi',
         'AISC'=> 'AISECT',
-        'SRT'=> 'Skills Root'
+        'SRT'=> 'Skills Root',
+        'JSDMS' => 'JSDMS'
     ],
 
 ];
