@@ -142,6 +142,12 @@ Route::middleware('auth:admin')->group(function () {
         abort(404);
     })->name('download.duplicate');
 
+
+    Route::get(
+        '/update-event-transaction-learner-ys',
+        [AdminController::class, 'updateEventTransactionLearnerAndYsId']
+    )->name('admin.updateEventTransactionLearnerAndYsId');
+
     
 
 });

@@ -2759,4 +2759,48 @@ public function importEventTransactionOld(Request $request)
         ]);
     }
 
+
+
+
+
+
+
+//Event Transaction Learner Id Update
+public function updateEventTransactionLearnerAndYsId()
+{
+    try {
+
+        set_time_limit(0);
+        ini_set('memory_limit', '1024M');
+
+        $updated = DB::update("
+            UPDATE event_transactions et
+            INNER JOIN learners l
+                ON et.beneficiary_phone_number = l.normalized_mobile
+            LEFT JOIN yuwaah_sakhi ys
+                ON l.UNIT_INSTITUTE = ys.csc_id
+            SET
+                et.learner_id = l.id,
+                et.ys_id = ys.id
+            WHERE
+                et.beneficiary_phone_number IS NOT NULL
+                AND et.beneficiary_phone_number <> ''
+        ");
+
+        return back()->with(
+            'success',
+            "Successfully updated {$updated} Event Transactions."
+        );
+
+    } catch (\Exception $e) {
+
+        return back()->with(
+            'error',
+            'Update failed: ' . $e->getMessage()
+        );
+    }
+}
+
+
+
 }
