@@ -2784,6 +2784,7 @@ public function updateEventTransactionLearnerAndYsId()
                 et.ys_id = ys.id
             WHERE
                 et.beneficiary_phone_number IS NOT NULL
+                AND et.learner_id = 0
                 AND et.beneficiary_phone_number <> ''
         ");
 
