@@ -1983,7 +1983,7 @@ public function importEventTransaction(Request $request)
     $request->validate([
         'partner_id'        => 'required',
         'partner_center_id' => 'required',
-        'file'              => 'required|mimes:csv,txt',
+        'file'              => 'required|mimes:csv',
     ]);
 
     $path = $request->file('file')->getRealPath();
@@ -2088,7 +2088,7 @@ public function importEventTransaction(Request $request)
 
                         EventTransaction::upsert(
                             $batch,
-                            ['beneficiary_phone_number','event_id','event_category','ys_id','review_status'],
+                            ['beneficiary_phone_number'],
                             [
                                 'review_status',
                                 'beneficiary_name',

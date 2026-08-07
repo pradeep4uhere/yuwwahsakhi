@@ -3,11 +3,55 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>YuWaah Sakhi</title>
-
     <script src="https://cdn.tailwindcss.com"></script>
 
     <meta name="fast2sms" content="s2p0Ya8eRcLPPJV4vw5tVm1IlkP1e90N">
+
+    <title>YuWaah Partner App | UNICEF YuWaah Digital Girls Hub</title>
+
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="title" content="YuWaah Partner App | UNICEF YuWaah Digital Girls Hub">
+    <meta name="description" content="The YuWaah Partner App is the official platform for field and implementation partners of the Digital Girls Hub initiative, developed by UNICEF YuWaah to accelerate skilling, employment, and social protection outcomes for young women (18–29 years) across India.">
+    <meta name="keywords" content="YuWaah Partner App, UNICEF YuWaah, Digital Girls Hub, Youth Hub, Skill Development, Women Empowerment, Employment, Social Protection, India, Partner Portal, Digital Skills, Young Women">
+    <meta name="author" content="UNICEF YuWaah">
+    <meta name="robots" content="index, follow">
+    <meta name="language" content="English">
+    <meta name="theme-color" content="#005EB8">
+
+    <!-- Canonical -->
+    <link rel="canonical" href="https://youthhubpartner.org/">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="YuWaah Partner App">
+    <meta property="og:title" content="YuWaah Partner App | UNICEF YuWaah Digital Girls Hub">
+    <meta property="og:description" content="The official platform for field and implementation partners of the Digital Girls Hub initiative by UNICEF YuWaah, empowering young women across India through skilling, employment, and social protection.">
+    <meta property="og:url" content="https://youthhubpartner.org/">
+    <meta property="og:image" content="https://youthhubpartner.org/asset/images/Yuwaahlogo.png">
+    <meta property="og:image:secure_url" content="https://youthhubpartner.org/asset/images/Yuwaahlogo.png">
+    <meta property="og:image:type" content="image/png">
+    <meta property="og:image:width" content="512">
+    <meta property="og:image:height" content="512">
+    <meta property="og:image:alt" content="YuWaah Partner App Logo">
+    <meta property="og:locale" content="en_IN">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="YuWaah Partner App | UNICEF YuWaah Digital Girls Hub">
+    <meta name="twitter:description" content="Official platform for Digital Girls Hub implementation partners by UNICEF YuWaah.">
+    <meta name="twitter:image" content="https://youthhubpartner.org/asset/images/Yuwaahlogo.png">
+
+    <!-- Apple -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="YuWaah Partner App">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="https://youthhubpartner.org/asset/images/Yuwaahlogo.png">
+    <link rel="apple-touch-icon" href="https://youthhubpartner.org/asset/images/Yuwaahlogo.png">
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css" />
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
