@@ -2025,6 +2025,237 @@ public function importEventTransaction(Request $request)
                     'UTF-8//IGNORE',
                     $data['beneficiary_name']
                 );
+
+                $eventName = trim($data['event_name']);
+                if (!mb_check_encoding($eventName, 'UTF-8')) {
+                    echo "Invalid UTF8 at row {$rowNumber}<br>";
+                    continue;
+                }
+                $eventName = mb_convert_encoding($eventName, 'UTF-8', 'UTF-8');
+
+
+                $event_value = trim($data['event_value']);
+                if (!mb_check_encoding($event_value, 'UTF-8')) {
+                    echo "Invalid UTF8 at row {$rowNumber}<br>";
+                    continue;
+                }
+
+                $comment = trim($data['comment']);
+                if (!mb_check_encoding($comment, 'UTF-8')) {
+                    echo "Invalid UTF8 at row {$rowNumber}<br>";
+                    continue;
+                }
+                $comment = mb_convert_encoding($comment, 'UTF-8', 'UTF-8');
+
+                $ysId = trim($data['ys_id']);
+
+                if (
+                    $ysId === '' ||
+                    strtoupper($ysId) === 'NULL' ||
+                    !is_numeric($ysId)
+                ) {
+                    $ysId = null;
+                } else {
+                    $ysId = (int) $ysId;
+                }
+                //dd($data);
+                $phone = preg_replace('/\D+/', '', trim($data['beneficiary_phone_number']));
+                $batch[] = [
+                    'beneficiary_phone_number' => $phone,
+                    'review_status'            => $this->blankToNull($data['review_status']),
+                    'beneficiary_name'         => $this->blankToNull($name),
+                    'learner_id'               => $this->blankToNull($data['learner_id']),
+                    'event_id'                 => $this->blankToNull($data['event_id']),
+                    'event_type'               => $this->blankToNull($data['event_type']),
+                    'event_category'           => $this->blankToNull($data['event_category']),
+                    'event_name'               => $eventName,
+                    'event_date_created'       => $this->formatDate($data['event_date_created']),
+                    'event_date_submitted'     => $this->formatDate($data['event_date_submitted']),
+                    'event_value'              => $event_value,
+                    'field_type'               => $this->blankToNull($data['field_type']),
+                    'industry_type'            => $this->blankToNull($data['industry_type']),
+                    'ys_id'                    => $ysId,
+                    'uploaded_doc_links'       => $this->blankToNull($data['uploaded_doc_links']),
+                    'document_type'            => $this->blankToNull($data['document_type']),
+                    'comment'                  => $comment,
+                    'created_at'               => $this->blankToNull($data['created_at']),
+                    'updated_at'               => $this->blankToNull($data['updated_at']),
+                ];
+
+                if (count($batch) >= $batchSize) {
+
+                    DB::transaction(function () use (&$batch) {
+
+                        EventTransaction::upsert(
+                            $batch,
+                            ['beneficiary_phone_number','event_id','event_category','ys_id','review_status'],
+                            [
+                                'review_status',
+                                'beneficiary_name',
+                                'learner_id',
+                                'event_id',
+                                'event_type',
+                                'event_category',
+                                'event_name',
+                                'event_date_created',
+                                'event_date_submitted',
+                                'event_value',
+                                'field_type',
+                                'industry_type',
+                                'ys_id',
+                                'uploaded_doc_links',
+                                'document_type',
+                                'created_at',
+                                'updated_at'
+                            ]
+                        );
+
+                    });
+
+                    $processed += count($batch);
+
+                    echo "<span style='color:green'>";
+                    echo "✔ Processed {$processed} records...";
+                    echo "</span><br>";
+
+                    if (ob_get_level()) {
+                        ob_flush();
+                    }
+
+                    flush();
+
+                    $batch = [];
+                }
+
+            } catch (\Exception $e) {
+
+                $failed++;
+
+                echo "<span style='color:red'>";
+                echo "✘ Row {$rowNumber} Failed : ".$e->getMessage();
+                echo "</span><br>";
+
+                echo "<pre>";
+                echo $e->getMessage().PHP_EOL;
+                print_r($batch[count($batch)-1]);
+                echo "</pre>";
+
+                if (ob_get_level()) {
+                    ob_flush();
+                }
+
+                flush();
+            }
+        }
+
+        // Insert remaining rows
+        if (!empty($batch)) {
+
+            DB::transaction(function () use (&$batch) {
+
+                EventTransaction::upsert(
+                    $batch,
+                    ['beneficiary_phone_number'],
+                    [
+                       
+                        'beneficiary_name',
+                        'review_status',
+                        'learner_id',
+                        'event_id',
+                        'event_type',
+                        'event_category',
+                        'event_name',
+                        'event_date_created',
+                        'event_date_submitted',
+                        'event_value',
+                        'field_type',
+                        'industry_type',
+                        'ys_id',
+                        'uploaded_doc_links',
+                        'document_type',
+                        'created_at',
+                        'updated_at'
+                    ]
+                );
+
+            });
+
+            $processed += count($batch);
+
+            echo "<span style='color:green'>";
+            echo "✔ Processed {$processed} records...";
+            echo "</span><br>";
+        }
+
+        fclose($file);
+
+        echo "<hr>";
+        echo "<b>Import Completed</b><br>";
+        echo "Processed : {$processed}<br>";
+        echo "Failed : {$failed}<br>";
+        echo "</pre>";
+
+    }, 200, [
+        'Content-Type'      => 'text/html',
+        'Cache-Control'     => 'no-cache',
+        'X-Accel-Buffering' => 'no',
+    ]);
+}
+
+
+
+
+public function bkp_importEventTransaction(Request $request)
+{
+    set_time_limit(0);
+    ini_set('max_execution_time', 0);
+    ini_set('memory_limit', '1024M');
+
+    $request->validate([
+        'partner_id'        => 'required',
+        'partner_center_id' => 'required',
+        'file'              => 'required|mimes:csv,txt',
+    ]);
+
+    $path = $request->file('file')->getRealPath();
+
+    return response()->stream(function () use ($path) {
+
+        ob_implicit_flush(true);
+
+        $file = fopen($path, 'r');
+
+        $header = fgetcsv($file);
+        $header[0] = preg_replace('/^\xEF\xBB\xBF/', '', $header[0]);
+
+        $batch = [];
+        $batchSize = 1000;
+
+        $rowNumber = 1;
+        $processed = 0;
+        $failed = 0;
+
+        echo "<pre>";
+        echo "=========================================\n";
+        echo "Import Started...\n";
+        echo "=========================================\n\n";
+
+        while (($row = fgetcsv($file, 0, ',')) !== false) {
+
+            $rowNumber++;
+
+            try {
+
+                if (count(array_filter($row)) == 0) {
+                    continue;
+                }
+
+                $data = array_combine($header, $row);
+                $name = iconv(
+                    'Windows-1252',
+                    'UTF-8//IGNORE',
+                    $data['beneficiary_name']
+                );
                 $batch[] = [
                     'beneficiary_phone_number' => $this->blankToNull($data['beneficiary_phone_number']),
                     'learner_id'               => 0,
