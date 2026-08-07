@@ -19,8 +19,8 @@ Route::middleware('ip.whitelist','admin.guest')->group(function () {
     Route::get('/login', [AdminAuthController::class, 'loginForm'])->name('admin.login.get');
     Route::post('/login', [AdminAuthController::class, 'login'])->name('admin.login');
     // Admin registration route
-    Route::get('/register', [AdminAuthController::class, 'registerForm'])->name('admin.register.get');
-    Route::post('/register', [AdminAuthController::class, 'register'])->name('admin.register');
+    //Route::get('/register', [AdminAuthController::class, 'registerForm'])->name('admin.register.get');
+    //Route::post('/register', [AdminAuthController::class, 'register'])->name('admin.register');
 });
 
 // Admin logout route
