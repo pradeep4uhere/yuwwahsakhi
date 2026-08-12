@@ -38,6 +38,7 @@ use App\Exports\PartnerPlacementUserExport;
 use App\Models\ImportHistory;
 use App\Jobs\ImportLearnersJob;
 use DB;
+use Illuminate\Support\Facades\Log;
 
 
 
@@ -45,32 +46,53 @@ use DB;
 class AdminController extends Controller 
 {
      
-
     protected function formatDate($date)
-{
-    if (empty($date)) {
-        return null;
-    }
-
-    try {
-        $date = trim($date);
-
-        // Try automatic parsing
-        return Carbon::parse($date)->format('Y-m-d');
-    } catch (\Exception $e) {
-
-        // Try common formats
-        foreach (['d-m-Y', 'd/m/Y', 'Y-m-d', 'm/d/Y'] as $format) {
+    {
+        if ($date === null || trim((string) $date) === '') {
+            return null;
+        }
+    
+        $date = trim((string) $date);
+    
+        /*
+        |--------------------------------------------------------------------------
+        | Supported formats
+        |--------------------------------------------------------------------------
+        */
+    
+        $formats = [
+            'Y-m-d',
+            'd-m-Y',
+            'd/m/Y',
+            'm/d/Y',
+        ];
+    
+        foreach ($formats as $format) {
             try {
-                return Carbon::createFromFormat($format, $date)->format('Y-m-d');
-            } catch (\Exception $e) {
+                $parsed = Carbon::createFromFormat('!' . $format, $date);
+    
+                // Make sure Carbon did not silently correct the date
+                if ($parsed && $parsed->format($format) === $date) {
+                    return $parsed->format('Y-m-d');
+                }
+    
+            } catch (\Throwable $e) {
                 // Try next format
             }
         }
-
+    
+        /*
+        |--------------------------------------------------------------------------
+        | Invalid date - don't guess
+        |--------------------------------------------------------------------------
+        */
+    
+        Log::warning('Invalid CSV Date', [
+            'original_value' => $date,
+        ]);
+    
         return null;
     }
-} 
       /**
      * Display the user's profile form.
      */
@@ -1974,6 +1996,7 @@ public function importEventTransactionForm(Request $request){
 
 
 
+
 public function importEventTransaction(Request $request)
 {
     set_time_limit(0);
@@ -2059,25 +2082,12 @@ public function importEventTransaction(Request $request)
                     $ysId = (int) $ysId;
                 }
                 //dd($data);
+                
                 $phone = preg_replace('/\D+/', '', trim($data['beneficiary_phone_number']));
                 $batch[] = [
                     'beneficiary_phone_number' => $phone,
-                    'review_status'            => $this->blankToNull($data['review_status']),
-                    'beneficiary_name'         => $this->blankToNull($name),
-                    'learner_id'               => $this->blankToNull($data['learner_id']),
-                    'event_id'                 => $this->blankToNull($data['event_id']),
-                    'event_type'               => $this->blankToNull($data['event_type']),
-                    'event_category'           => $this->blankToNull($data['event_category']),
-                    'event_name'               => $eventName,
                     'event_date_created'       => $this->formatDate($data['event_date_created']),
                     'event_date_submitted'     => $this->formatDate($data['event_date_submitted']),
-                    'event_value'              => $event_value,
-                    'field_type'               => $this->blankToNull($data['field_type']),
-                    'industry_type'            => $this->blankToNull($data['industry_type']),
-                    'ys_id'                    => $ysId,
-                    'uploaded_doc_links'       => $this->blankToNull($data['uploaded_doc_links']),
-                    'document_type'            => $this->blankToNull($data['document_type']),
-                    'comment'                  => $comment,
                     'created_at'               => $this->blankToNull($data['created_at']),
                     'updated_at'               => $this->blankToNull($data['updated_at']),
                 ];
@@ -2090,8 +2100,8 @@ public function importEventTransaction(Request $request)
                             $batch,
                             ['beneficiary_phone_number'],
                             [
-                                'review_status',
                                 'beneficiary_name',
+                                'review_status',
                                 'learner_id',
                                 'event_id',
                                 'event_type',
@@ -2157,7 +2167,6 @@ public function importEventTransaction(Request $request)
                     $batch,
                     ['beneficiary_phone_number'],
                     [
-                       
                         'beneficiary_name',
                         'review_status',
                         'learner_id',
