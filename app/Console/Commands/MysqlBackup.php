@@ -106,6 +106,7 @@ class MysqlBackup extends Command
                 $process = new Process([
                     'mysqldump',
                     "--defaults-extra-file={$tempConfig}",
+                    '--no-tablespaces',
                     '--single-transaction',
                     '--routines',
                     '--triggers',
