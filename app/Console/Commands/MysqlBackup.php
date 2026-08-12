@@ -8,24 +8,50 @@ use Symfony\Component\Process\Process;
 
 class MysqlBackup extends Command
 {
+    /**
+     * The name and signature of the console command.
+     */
     protected $signature = 'backup:mysql';
 
-    protected $description = 'Create MySQL backups for primary and secondary databases';
+    /**
+     * The console command description.
+     */
+    protected $description = 'Create MySQL backups for configured databases';
 
+    /**
+     * Execute the console command.
+     */
     public function handle()
     {
         set_time_limit(0);
 
+        /*
+        |--------------------------------------------------------------------------
+        | Backup directory
+        |--------------------------------------------------------------------------
+        */
+
         $backupDir = storage_path('app/backups');
 
         if (!is_dir($backupDir)) {
-            mkdir($backupDir, 0755, true);
+
+            if (!mkdir($backupDir, 0755, true) && !is_dir($backupDir)) {
+
+                $this->error(
+                    "Unable to create backup directory: {$backupDir}"
+                );
+
+                return self::FAILURE;
+            }
         }
 
         /*
         |--------------------------------------------------------------------------
-        | Get databases from Laravel database connections
+        | Laravel database connections
         |--------------------------------------------------------------------------
+        |
+        | These are the connection names configured in config/database.php.
+        |
         */
 
         $connections = [
@@ -33,15 +59,49 @@ class MysqlBackup extends Command
             'mysql2',
         ];
 
+        $totalSuccess = 0;
+        $totalFailed = 0;
+
+        /*
+        |--------------------------------------------------------------------------
+        | Start backup
+        |--------------------------------------------------------------------------
+        */
+
         foreach ($connections as $connectionName) {
 
-            $config = config("database.connections.{$connectionName}");
+            /*
+            |--------------------------------------------------------------------------
+            | Get connection configuration
+            |--------------------------------------------------------------------------
+            */
 
-            $dbHost = $config['host'];
+            $config = config(
+                "database.connections.{$connectionName}"
+            );
+
+            if (!$config) {
+
+                $this->error(
+                    "Database connection not found: {$connectionName}"
+                );
+
+                $totalFailed++;
+
+                continue;
+            }
+
+            $dbHost = $config['host'] ?? '127.0.0.1';
             $dbPort = $config['port'] ?? 3306;
-            $dbName = $config['database'];
-            $dbUser = $config['username'];
-            $dbPass = $config['password'];
+            $dbName = $config['database'] ?? null;
+            $dbUser = $config['username'] ?? null;
+            $dbPass = $config['password'] ?? null;
+
+            /*
+            |--------------------------------------------------------------------------
+            | Validate configuration
+            |--------------------------------------------------------------------------
+            */
 
             if (empty($dbName)) {
 
@@ -49,15 +109,53 @@ class MysqlBackup extends Command
                     "Database name is missing for connection: {$connectionName}"
                 );
 
+                $totalFailed++;
+
                 continue;
             }
 
+            if (empty($dbUser)) {
+
+                $this->error(
+                    "Database username is missing for connection: {$connectionName}"
+                );
+
+                $totalFailed++;
+
+                continue;
+            }
+
+            /*
+            |--------------------------------------------------------------------------
+            | Display backup information
+            |--------------------------------------------------------------------------
+            */
+
             $this->newLine();
 
-            $this->info('==========================================');
-            $this->info("Starting backup: {$dbName}");
-            $this->info("Connection: {$connectionName}");
-            $this->info('==========================================');
+            $this->info(
+                '=========================================='
+            );
+
+            $this->info(
+                "Starting backup: {$dbName}"
+            );
+
+            $this->info(
+                "Connection: {$connectionName}"
+            );
+
+            $this->info(
+                "Host: {$dbHost}:{$dbPort}"
+            );
+
+            $this->info(
+                "User: {$dbUser}"
+            );
+
+            $this->info(
+                '=========================================='
+            );
 
             /*
             |--------------------------------------------------------------------------
@@ -65,185 +163,138 @@ class MysqlBackup extends Command
             |--------------------------------------------------------------------------
             */
 
-            $filename = 'bkp_' .
+            $filename =
+                'bkp_' .
                 date('dMY_His') .
                 '_' .
                 $dbName .
                 '.sql';
 
-            $path = $backupDir . '/' . $filename;
+            $path = $backupDir . DIRECTORY_SEPARATOR . $filename;
 
             /*
             |--------------------------------------------------------------------------
-            | Temporary MySQL credentials file
+            | Create mysqldump process
+            |--------------------------------------------------------------------------
+            |
+            | --no-tablespaces is required because the backup users do not
+            | have the PROCESS privilege.
+            |
+            */
+
+            $process = new Process([
+                'mysqldump',
+
+                '--no-tablespaces',
+
+                '--single-transaction',
+
+                '--routines',
+
+                '--triggers',
+
+                '--events',
+
+                '-h',
+                $dbHost,
+
+                '-P',
+                (string) $dbPort,
+
+                '-u',
+                $dbUser,
+
+                $dbName,
+            ]);
+
+            /*
+            |--------------------------------------------------------------------------
+            | Unlimited timeout
+            |--------------------------------------------------------------------------
+            |
+            | Your database is large (2.6GB+), so don't use the default
+            | Symfony Process timeout.
+            |
+            */
+
+            $process->setTimeout(null);
+
+            /*
+            |--------------------------------------------------------------------------
+            | Pass MySQL password through environment
+            |--------------------------------------------------------------------------
+            |
+            | This avoids putting the password directly in the command.
+            |
+            */
+
+            $process->setEnv([
+                'MYSQL_PWD' => $dbPass ?? '',
+            ]);
+
+            /*
+            |--------------------------------------------------------------------------
+            | Open backup file
             |--------------------------------------------------------------------------
             */
 
-            $tempConfig = tempnam(
-                sys_get_temp_dir(),
-                'mysql_backup_'
-            );
+            $outputFile = fopen($path, 'wb');
 
-            file_put_contents(
-                $tempConfig,
-                "[client]\n" .
-                "host={$dbHost}\n" .
-                "port={$dbPort}\n" .
-                "user={$dbUser}\n" .
-                "password={$dbPass}\n"
-            );
+            if ($outputFile === false) {
 
-            chmod($tempConfig, 0600);
+                $this->error(
+                    "Unable to create backup file: {$path}"
+                );
+
+                Log::channel('db_backup')->error(
+                    'Unable to create backup file',
+                    [
+                        'connection' => $connectionName,
+                        'database' => $dbName,
+                        'path' => $path,
+                        'time' => now()->toDateTimeString(),
+                    ]
+                );
+
+                $totalFailed++;
+
+                continue;
+            }
+
+            /*
+            |--------------------------------------------------------------------------
+            | Run mysqldump
+            |--------------------------------------------------------------------------
+            */
 
             try {
-
-                /*
-                |--------------------------------------------------------------------------
-                | Run mysqldump
-                |--------------------------------------------------------------------------
-                */
-
-                $process = new Process([
-                    'mysqldump',
-                    "--defaults-extra-file={$tempConfig}",
-                    '--no-tablespaces',
-                    '--single-transaction',
-                    '--routines',
-                    '--triggers',
-                    '--events',
-                    $dbName,
-                ]);
-
-                $process->setTimeout(null);
-
-                $outputFile = fopen($path, 'w');
-
-                if (!$outputFile) {
-
-                    $this->error(
-                        "Unable to create backup file: {$path}"
-                    );
-
-                    unlink($tempConfig);
-
-                    continue;
-                }
-
-                /*
-                |--------------------------------------------------------------------------
-                | Execute
-                |--------------------------------------------------------------------------
-                */
 
                 $process->run(
                     function ($type, $buffer) use ($outputFile) {
 
                         if ($type === Process::OUT) {
-                            fwrite($outputFile, $buffer);
+
+                            fwrite(
+                                $outputFile,
+                                $buffer
+                            );
+
                         } else {
+
+                            /*
+                            |--------------------------------------------------------------------------
+                            | Error output
+                            |--------------------------------------------------------------------------
+                            */
+
                             echo $buffer;
                         }
-
                     }
-                );
-
-                fclose($outputFile);
-
-                /*
-                |--------------------------------------------------------------------------
-                | Check result
-                |--------------------------------------------------------------------------
-                */
-
-                if (!$process->isSuccessful()) {
-
-                    $error = $process->getErrorOutput();
-
-                    if (file_exists($path)) {
-                        unlink($path);
-                    }
-
-                    Log::channel('db_backup')->error(
-                        'Database backup failed',
-                        [
-                            'connection' => $connectionName,
-                            'database' => $dbName,
-                            'error' => $error,
-                            'exit_code' => $process->getExitCode(),
-                        ]
-                    );
-
-                    $this->error(
-                        "✘ Backup FAILED: {$dbName}"
-                    );
-
-                    $this->error($error);
-
-                    unlink($tempConfig);
-
-                    continue;
-                }
-
-                /*
-                |--------------------------------------------------------------------------
-                | Verify backup
-                |--------------------------------------------------------------------------
-                */
-
-                if (!file_exists($path) || filesize($path) === 0) {
-
-                    $this->error(
-                        "✘ Backup file is empty: {$filename}"
-                    );
-
-                    unlink($tempConfig);
-
-                    continue;
-                }
-
-                $size = filesize($path);
-
-                /*
-                |--------------------------------------------------------------------------
-                | Log
-                |--------------------------------------------------------------------------
-                */
-
-                Log::channel('db_backup')->info(
-                    'Database backup completed successfully',
-                    [
-                        'connection' => $connectionName,
-                        'database' => $dbName,
-                        'file' => $filename,
-                        'path' => $path,
-                        'size_bytes' => $size,
-                        'size_mb' => round(
-                            $size / 1024 / 1024,
-                            2
-                        ),
-                        'time' => now()->toDateTimeString(),
-                    ]
-                );
-
-                $this->info(
-                    "✓ Backup completed: {$dbName}"
-                );
-
-                $this->info(
-                    "  File: {$filename}"
-                );
-
-                $this->info(
-                    '  Size: ' .
-                    round($size / 1024 / 1024, 2) .
-                    ' MB'
                 );
 
             } catch (\Throwable $e) {
 
-                if (isset($outputFile) && is_resource($outputFile)) {
-                    fclose($outputFile);
-                }
+                fclose($outputFile);
 
                 if (file_exists($path)) {
                     unlink($path);
@@ -255,37 +306,216 @@ class MysqlBackup extends Command
                         'connection' => $connectionName,
                         'database' => $dbName,
                         'error' => $e->getMessage(),
+                        'time' => now()->toDateTimeString(),
                     ]
                 );
 
                 $this->error(
-                    "✘ Backup failed: {$dbName}"
+                    "✘ Backup exception: {$dbName}"
                 );
 
                 $this->error(
                     $e->getMessage()
                 );
 
-            } finally {
+                $totalFailed++;
+
+                continue;
+            }
+
+            /*
+            |--------------------------------------------------------------------------
+            | Close output file
+            |--------------------------------------------------------------------------
+            */
+
+            fclose($outputFile);
+
+            /*
+            |--------------------------------------------------------------------------
+            | Check mysqldump result
+            |--------------------------------------------------------------------------
+            */
+
+            if (!$process->isSuccessful()) {
+
+                $error = trim(
+                    $process->getErrorOutput()
+                );
 
                 /*
                 |--------------------------------------------------------------------------
-                | Remove temporary credentials
+                | Delete incomplete backup
                 |--------------------------------------------------------------------------
                 */
 
-                if (file_exists($tempConfig)) {
-                    unlink($tempConfig);
+                if (file_exists($path)) {
+
+                    unlink($path);
                 }
+
+                Log::channel('db_backup')->error(
+                    'Database backup failed',
+                    [
+                        'connection' => $connectionName,
+                        'database' => $dbName,
+                        'error' => $error,
+                        'exit_code' => $process->getExitCode(),
+                        'time' => now()->toDateTimeString(),
+                    ]
+                );
+
+                $this->error(
+                    "✘ Backup FAILED: {$dbName}"
+                );
+
+                if (!empty($error)) {
+
+                    $this->error(
+                        $error
+                    );
+                }
+
+                $totalFailed++;
+
+                continue;
             }
+
+            /*
+            |--------------------------------------------------------------------------
+            | Verify backup file
+            |--------------------------------------------------------------------------
+            */
+
+            if (
+                !file_exists($path) ||
+                filesize($path) === 0
+            ) {
+
+                $this->error(
+                    "✘ Backup file is empty: {$filename}"
+                );
+
+                if (file_exists($path)) {
+                    unlink($path);
+                }
+
+                Log::channel('db_backup')->error(
+                    'Backup file is empty',
+                    [
+                        'connection' => $connectionName,
+                        'database' => $dbName,
+                        'file' => $filename,
+                        'time' => now()->toDateTimeString(),
+                    ]
+                );
+
+                $totalFailed++;
+
+                continue;
+            }
+
+            /*
+            |--------------------------------------------------------------------------
+            | Backup successful
+            |--------------------------------------------------------------------------
+            */
+
+            $sizeBytes = filesize($path);
+
+            $sizeMB = round(
+                $sizeBytes / 1024 / 1024,
+                2
+            );
+
+            $sizeGB = round(
+                $sizeBytes / 1024 / 1024 / 1024,
+                2
+            );
+
+            Log::channel('db_backup')->info(
+                'Database backup completed successfully',
+                [
+                    'connection' => $connectionName,
+                    'database' => $dbName,
+                    'file' => $filename,
+                    'path' => $path,
+                    'size_bytes' => $sizeBytes,
+                    'size_mb' => $sizeMB,
+                    'size_gb' => $sizeGB,
+                    'time' => now()->toDateTimeString(),
+                ]
+            );
+
+            /*
+            |--------------------------------------------------------------------------
+            | Console output
+            |--------------------------------------------------------------------------
+            */
+
+            $this->info(
+                "✓ Backup completed: {$dbName}"
+            );
+
+            $this->info(
+                "  File: {$filename}"
+            );
+
+            $this->info(
+                "  Size: {$sizeMB} MB ({$sizeGB} GB)"
+            );
+
+            $this->info(
+                "  Location: {$path}"
+            );
+
+            $totalSuccess++;
         }
+
+        /*
+        |--------------------------------------------------------------------------
+        | Final summary
+        |--------------------------------------------------------------------------
+        */
 
         $this->newLine();
 
-        $this->info('==========================================');
-        $this->info('All Database Backups Completed');
-        $this->info('==========================================');
+        $this->info(
+            '=========================================='
+        );
 
-        return self::SUCCESS;
+        $this->info(
+            'Database Backup Summary'
+        );
+
+        $this->info(
+            '=========================================='
+        );
+
+        $this->info(
+            "Successful: {$totalSuccess}"
+        );
+
+        $this->info(
+            "Failed: {$totalFailed}"
+        );
+
+        $this->info(
+            "Backup directory: {$backupDir}"
+        );
+
+        $this->info(
+            '=========================================='
+        );
+
+        /*
+        |--------------------------------------------------------------------------
+        | Return status
+        |--------------------------------------------------------------------------
+        */
+
+        return $totalFailed > 0
+            ? self::FAILURE
+            : self::SUCCESS;
     }
 }
