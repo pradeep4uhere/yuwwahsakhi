@@ -15,6 +15,7 @@ return [
         'BABLEOLD'=> 'B-ABLE Foundation Old',
         'GVIFOLD' => 'Good Vision India Foundation Old',
         'HHHOLD' => 'Head Held High Old',
+        'HHH' => 'Head Held High',
         'NIITFOLD' => 'NIIT Foundation Old',
         'SROLD' => 'Skills Root Old'
 

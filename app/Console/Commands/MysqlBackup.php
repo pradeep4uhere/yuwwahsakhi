@@ -5,6 +5,8 @@ namespace App\Console\Commands;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Log;
 use Symfony\Component\Process\Process;
+use Illuminate\Support\Facades\Storage;
+use App\Services\Backup\S3BackupService;
 
 class MysqlBackup extends Command
 {
@@ -24,6 +26,8 @@ class MysqlBackup extends Command
     public function handle()
     {
         set_time_limit(0);
+
+        $s3BackupService = app(S3BackupService::class);
 
         /*
         |--------------------------------------------------------------------------
@@ -468,6 +472,192 @@ class MysqlBackup extends Command
             $this->info(
                 "  Location: {$path}"
             );
+
+            /*
+            |--------------------------------------------------------------------------
+            | Compress SQL backup
+            |--------------------------------------------------------------------------
+            */
+
+            $gzipPath = $path . '.gz';
+
+            $this->info(
+                "  Compressing backup..."
+            );
+
+            $gzipProcess = new Process([
+                'gzip',
+                '-c',
+                $path,
+            ]);
+
+            $gzipProcess->setTimeout(null);
+
+            $gzipOutput = fopen($gzipPath, 'wb');
+
+            if ($gzipOutput === false) {
+
+                $this->error(
+                    "✘ Unable to create compressed backup: {$gzipPath}"
+                );
+
+                Log::channel('db_backup')->error(
+                    'Unable to create compressed backup',
+                    [
+                        'connection' => $connectionName,
+                        'database' => $dbName,
+                        'path' => $gzipPath,
+                        'time' => now()->toDateTimeString(),
+                    ]
+                );
+
+                $totalFailed++;
+
+                continue;
+            }
+
+            try {
+
+                $gzipProcess->run(
+                    function ($type, $buffer) use ($gzipOutput) {
+
+                        if ($type === Process::OUT) {
+
+                            fwrite(
+                                $gzipOutput,
+                                $buffer
+                            );
+
+                        } else {
+
+                            echo $buffer;
+                        }
+                    }
+                );
+
+            } catch (\Throwable $e) {
+
+                fclose($gzipOutput);
+
+                if (file_exists($gzipPath)) {
+                    unlink($gzipPath);
+                }
+
+                $this->error(
+                    "✘ Compression exception: {$dbName}"
+                );
+
+                $this->error(
+                    $e->getMessage()
+                );
+
+                $totalFailed++;
+
+                continue;
+            }
+
+            fclose($gzipOutput);
+
+            /*
+            |--------------------------------------------------------------------------
+            | Verify gzip
+            |--------------------------------------------------------------------------
+            */
+
+            if (
+                !$gzipProcess->isSuccessful() ||
+                !file_exists($gzipPath) ||
+                filesize($gzipPath) === 0
+            ) {
+
+                $error = trim(
+                    $gzipProcess->getErrorOutput()
+                );
+
+                $this->error(
+                    "✘ Compression FAILED: {$dbName}"
+                );
+
+                if (!empty($error)) {
+                    $this->error($error);
+                }
+
+                if (file_exists($gzipPath)) {
+                    unlink($gzipPath);
+                }
+
+                $totalFailed++;
+
+                continue;
+            }
+
+            /*
+            |--------------------------------------------------------------------------
+            | Upload compressed backup to S3
+            |--------------------------------------------------------------------------
+            */
+
+            try {
+
+                $s3Path = $s3BackupService->upload(
+                    $gzipPath
+                );
+
+                $this->info(
+                    "✓ Uploaded to S3: {$s3Path}"
+                );
+
+            } catch (\Throwable $e) {
+
+                /*
+                |--------------------------------------------------------------------------
+                | IMPORTANT:
+                | Keep local backup if S3 upload fails.
+                |--------------------------------------------------------------------------
+                */
+
+                $this->error(
+                    "✘ S3 upload FAILED: {$dbName}"
+                );
+
+                $this->error(
+                    $e->getMessage()
+                );
+
+                Log::channel('db_backup')->error(
+                    'S3 upload failed',
+                    [
+                        'connection' => $connectionName,
+                        'database' => $dbName,
+                        'file' => $gzipPath,
+                        'error' => $e->getMessage(),
+                        'time' => now()->toDateTimeString(),
+                    ]
+                );
+
+                $totalFailed++;
+
+                continue;
+            }
+
+            /*
+            |--------------------------------------------------------------------------
+            | Delete local files AFTER successful S3 upload
+            |--------------------------------------------------------------------------
+            */
+
+            $s3BackupService->deleteLocal(
+                $gzipPath
+            );
+
+            $s3BackupService->deleteLocal(
+                $path
+            );
+
+            $this->info(
+                "✓ Local backup cleaned up"
+            );
+
 
             $totalSuccess++;
         }
