@@ -1400,7 +1400,8 @@ As a catalytic multi-stakeholder partnership, YuWaah is dedicated to transformin
             ->when($query, function ($q) use ($query) {
                 $q->where(function ($inner) use ($query) {
                     $inner->where('first_name', 'like', "%{$query}%")
-                        ->orWhere('last_name', 'like', "%{$query}%");
+                        ->orWhere('last_name', 'like', "%{$query}%")
+                        ->orWhere('normalized_mobile', 'like', "%{$query}%");
                 });
             })
             ->select('id', 'first_name', 'primary_phone_number')
