@@ -1131,7 +1131,7 @@ class PartnerController extends Controller
             ->paginate(200)
             ->appends($request->query());
 
-            dd($learnerListArr);
+            //dd($learnerListArr);
         
             /*
             |--------------------------------------------------------------------------
