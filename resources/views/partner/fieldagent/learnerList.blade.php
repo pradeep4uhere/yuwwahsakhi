@@ -5,7 +5,7 @@
 <div class="container">
        <table class="table w-100">
             <tr>
-                <td style="width:88%" style="padding-top:35px;" ><h1 style="font-size:17px">Learner [{{count($data)}}]&nbsp;|&nbsp;{{$agentArray['name']}}&nbsp;[{{$agentArray['sakhi_id']}}]&nbsp;&nbsp;|&nbsp;&nbsp;Certification Completed&nbsp;[{{$completedLearnersCount}}]</h1></td>
+                <td style="width:88%" style="padding-top:35px;" ><h1 style="font-size:17px">Learner With Event [{{count($data)}}]&nbsp;|&nbsp;{{$agentArray['name']}}&nbsp;[{{$agentArray['sakhi_id']}}]&nbsp;&nbsp;|&nbsp;&nbsp;Certification Completed&nbsp;[{{$completedLearnersCount}}]</h1></td>
                 <td>
                 <table><tr>
                 <td nowrap="nowrap">
