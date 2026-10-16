@@ -1131,7 +1131,7 @@ class PartnerController extends Controller
             ->paginate(200)
             ->appends($request->query());
 
-            //dd($learnerListArr);
+            dd($learnerListArr);
         
             /*
             |--------------------------------------------------------------------------
@@ -1315,6 +1315,7 @@ class PartnerController extends Controller
         ->get();
 
     $partner_id = getUserId();
+    //dd($data);
 
     return view($this->dir . '.learner.learnerList', [
         'data' => $learners,
