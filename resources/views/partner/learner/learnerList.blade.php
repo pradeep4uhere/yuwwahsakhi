@@ -5,7 +5,8 @@
 <div class="container">
        <table class="table w-100">
             <tr>
-                <td style="width:88%" style="padding-top:35px;" ><h1><img src="{{asset('asset/images/Profile.png')}}" hegiht="55px" width="55px">Learner [{{$data->total()}}]&nbsp;|&nbsp;<img src="{{asset('asset/images/certificate.png')}}" hegiht="25px" width="25px">&nbsp;Total Certification&nbsp;[{{$totalCompletionLearner}}]</h1></td>
+                <td style="width:88%" style="padding-top:35px;" ><h1><img src="{{asset('asset/images/Profile.png')}}" hegiht="55px" width="55px">
+                Learner with Event [{{$data->total()}}]&nbsp;|&nbsp;<img src="{{asset('asset/images/certificate.png')}}" hegiht="25px" width="25px">&nbsp;Total Certification&nbsp;[{{$totalCompletionLearner}}]</h1></td>
                
                 <td text-align="right" nowrap="nowrap" style="padding-top:25px;">
                 <a href="{{ route('export.partner.exportlearner', request()->query()) }}">
