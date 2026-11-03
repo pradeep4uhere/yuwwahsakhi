@@ -18,7 +18,7 @@ return [
         'HHH' => 'Head Held High',
         'NIITFOLD' => 'NIIT Foundation Old',
         'SROLD' => 'Skills Root Old',
-        'STML' => 'Spectrum Talent Management Ltd'
+        'STML' => 'Spectrum Talent Management Ltd.'
 
     ],
 
