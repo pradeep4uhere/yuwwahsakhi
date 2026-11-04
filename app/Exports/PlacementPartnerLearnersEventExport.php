@@ -11,9 +11,10 @@ class PlacementPartnerLearnersEventExport implements FromCollection, WithHeading
 {
     protected $partnerId;
 
-    public function __construct()
+        
+    public function __construct($partnerId)
     {
-        $this->partnerId = getUserId();
+        $this->partnerId = $partnerId;
     }
 
     public function collection()

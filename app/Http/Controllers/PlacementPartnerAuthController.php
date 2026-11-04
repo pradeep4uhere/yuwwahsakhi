@@ -1090,7 +1090,7 @@ class PlacementPartnerAuthController extends Controller
         $partnerPlacementId = getUserId();
 
         return Excel::download(
-            new PlacementPartnerLearnersEventExport($request, $partnerPlacementId),
+            new PlacementPartnerLearnersEventExport($partnerPlacementId),
             'placement_partner_learners_events.xlsx'
         );
     }
