@@ -50,7 +50,7 @@ Route::middleware('auth:pp_partner')->group(function () {
     
     Route::get('placementpartner.learner', [PlacementPartnerAuthController::class, 'allLearner'])->name('placementpartner.learner');
     Route::get('placementpartner.events', [PlacementPartnerAuthController::class, 'allEvents'])->name('placementpartner.events');
-    Route::get('/placement-partner/export-learners', [PlacementPartnerAuthController::class, 'exportPlacementPlacementPartnerEvents'])->name('placementpartner.events.export');;
+    //Route::get('/placement-partner/export-learners', [PlacementPartnerAuthController::class, 'exportPlacementPlacementPartnerEvents'])->name('placementpartner.events.export');;
     
     Route::get('/viewlearner/{id}', [PlacementPartnerAuthController::class, 'viewLearner'])->name('viewlearner');
     Route::get('/get-districts', [PlacementPartnerAuthController::class, 'getDistricts'])->name('get.districts');
