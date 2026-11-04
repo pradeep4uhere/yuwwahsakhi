@@ -1640,7 +1640,7 @@ public function importLearnersOLD(Request $request)
 
     public function importLearnerssssss(Request $request)
     {
-        ini_set('memory_limit', '512M');
+        ini_set('memory_limit', '2G');
         set_time_limit(600); 
         $request->validate([
             'file' => 'required|mimes:csv,xlsx'
