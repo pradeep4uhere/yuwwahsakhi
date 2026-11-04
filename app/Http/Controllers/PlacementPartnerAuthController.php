@@ -45,6 +45,8 @@ class PlacementPartnerAuthController extends Controller
         return back()->with('error', 'Invalid credentials');
     }
 
+
+    
     public function logout()
     {
         Auth::guard('pp_partner')->logout();
