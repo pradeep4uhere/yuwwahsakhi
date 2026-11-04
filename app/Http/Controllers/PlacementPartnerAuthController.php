@@ -48,7 +48,11 @@ class PlacementPartnerAuthController extends Controller
     public function logout()
     {
         Auth::guard('pp_partner')->logout();
-        return redirect()->route('placementpartner.login');
+
+        request()->session()->invalidate();
+        request()->session()->regenerateToken();
+
+        return redirect('/placementpartner/login');
     }
 
 
