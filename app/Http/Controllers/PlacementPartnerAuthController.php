@@ -1093,6 +1093,8 @@ class PlacementPartnerAuthController extends Controller
         );
     }
 
+
+    /**New  */
     public function exportPlacementPlacementPartnerEvents(Request $request, $partner_id)
     {
         try {
