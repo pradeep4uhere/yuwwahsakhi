@@ -54,7 +54,7 @@ class PlacementPartnerAuthController extends Controller
         request()->session()->invalidate();
         request()->session()->regenerateToken();
 
-        return redirect('/placementpartner/login');
+        return redirect()->route('pppartner.login.get');
     }
 
 
