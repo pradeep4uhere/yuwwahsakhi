@@ -1104,6 +1104,13 @@ class PlacementPartnerAuthController extends Controller
     /**New  dsdsd*/
     public function exportPlacementPlacementPartnerEvents(Request $request, $partner_id)
     {
+
+        dd([
+                'php_version' => PHP_VERSION,
+                'memory_limit' => ini_get('memory_limit'),
+                'memory_usage' => memory_get_usage(true),
+                'memory_peak' => memory_get_peak_usage(true),
+            ]);
         return Excel::download(
             new PlacementPartnerLearnersEventExport($partner_id),
             'placement_partner_learners_events.xlsx'
