@@ -1097,24 +1097,10 @@ class PlacementPartnerAuthController extends Controller
     /**New  */
     public function exportPlacementPlacementPartnerEvents(Request $request, $partner_id)
     {
-        try {
-            $export = new PlacementPartnerLearnersEventExport($partner_id);
-
-            $data = $export->collection();
-
-            dd([
-                'partner_id' => $partner_id,
-                'total_records' => $data->count(),
-                'first_record' => $data->first(),
-            ]);
-
-        } catch (\Throwable $e) {
-            dd([
-                'error' => $e->getMessage(),
-                'file' => $e->getFile(),
-                'line' => $e->getLine(),
-            ]);
-        }
+        return Excel::download(
+            new PlacementPartnerLearnersEventExport($partner_id),
+            'placement_partner_learners_events.xlsx'
+        );
     }
     /***********End of Controller******************** */
 
