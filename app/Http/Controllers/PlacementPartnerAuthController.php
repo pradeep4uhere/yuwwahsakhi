@@ -935,7 +935,7 @@ class PlacementPartnerAuthController extends Controller
 
     public function exportFiledAgents(Request $request)
     {
-        ini_set('max_execution_time', 300); 
+        ini_set('max_execution_time', 0); 
         return Excel::download(
             new PlacementPartnerExportFiledAgents($request),
             'filed_agents_' . date('Ymd_His') . '.xlsx'
@@ -1087,6 +1087,13 @@ class PlacementPartnerAuthController extends Controller
 
     public function _exportPlacementPlacementPartnerEvents(Request $request, $partner_id)
     {
+
+        dd([
+            'php_version' => PHP_VERSION,
+            'memory_limit' => ini_get('memory_limit'),
+            'memory_usage' => memory_get_usage(true),
+            'memory_peak' => memory_get_peak_usage(true),
+        ]);
         return Excel::download(
             new PlacementPartnerLearnersEventExport($partner_id),
             'placement_partner_learners_events.xlsx'
