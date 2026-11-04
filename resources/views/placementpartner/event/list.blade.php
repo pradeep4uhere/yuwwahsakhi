@@ -6,7 +6,9 @@
 <table width="100%">
     <tr>
         <td style="text-align: left; font-size:24px"><b>Event Transactions List&nbsp;[{{$data->total()}}]</b></td>
-        <td style="text-align: right; font-size:14px;font-weight:bold"><a href="{{ route('placementpartner.events.export') }}"><img src="{{ asset('asset/images/download.png') }}" alt="Download" style="height:16px; vertical-align:middle;"> Export Event Transactions</a></td>
+        <td style="text-align: right; font-size:14px;font-weight:bold">
+            <a href="{{ route('placementpartner.events.export', ['partner_id' => getUserId()]) }}"
+   class="btn btn-primary"><img src="{{ asset('asset/images/download.png') }}" alt="Download" style="height:16px; vertical-align:middle;"> Export Event Transactions</a></td>
     </tr>
 </table>
         <div class="table-container">
