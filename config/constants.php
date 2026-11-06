@@ -20,7 +20,6 @@ return [
         'SROLD' => 'Skills Root Old',
         'STML' => 'Spectrum Talent Management Ltd.',
         'RSLDC'=>'RSLDC DGH'
-
     ],
 
 ];
