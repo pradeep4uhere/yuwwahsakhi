@@ -19,7 +19,7 @@ return [
         'NIITFOLD' => 'NIIT Foundation Old',
         'SROLD' => 'Skills Root Old',
         'STML' => 'Spectrum Talent Management Ltd.',
-        'RSLDC DGH'=>'RSLDC DGH'
+        'RSLDC'=>'RSLDC DGH'
 
     ],
 
