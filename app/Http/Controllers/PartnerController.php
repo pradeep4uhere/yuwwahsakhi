@@ -1128,7 +1128,7 @@ class PartnerController extends Controller
                 'et.last_event_update'
             )
             ->orderByDesc('sort_updated_at')
-            ->paginate(900)
+            ->paginate(2900)
             ->appends($request->query());
 
             //dd($learnerListArr);
